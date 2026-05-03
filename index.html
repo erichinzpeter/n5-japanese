@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日本語 N5 — Karteikarten</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SCREEN: HOME -->
+  <div id="screen-home" class="screen active">
+    <header class="home-header">
+      <div class="home-logo">日本語</div>
+      <div class="home-subtitle">JLPT N5 — Karteikarten</div>
+    </header>
+
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="flashcard">Karteikarten</button>
+      <button class="mode-btn" data-mode="mc">Multiple Choice</button>
+    </div>
+
+    <div class="direction-toggle">
+      <button class="dir-btn active" data-dir="jp-de">JP → DE</button>
+      <button class="dir-btn" data-dir="de-jp">DE → JP</button>
+      <button class="dir-btn" data-dir="both">Beide</button>
+    </div>
+
+    <div class="deck-grid">
+      <button class="deck-card" data-deck="kanji">
+        <div class="deck-kanji-preview">漢</div>
+        <div class="deck-name">Kanji</div>
+        <div class="deck-stats">
+          <span class="due-count" id="due-kanji">—</span>
+          <span class="deck-total" id="total-kanji">/ 100</span>
+        </div>
+        <div class="deck-due-label">heute fällig</div>
+      </button>
+
+      <button class="deck-card" data-deck="vocab">
+        <div class="deck-kanji-preview">語</div>
+        <div class="deck-name">Vokabeln</div>
+        <div class="deck-stats">
+          <span class="due-count" id="due-vocab">—</span>
+          <span class="deck-total" id="total-vocab">/ 270</span>
+        </div>
+        <div class="deck-due-label">heute fällig</div>
+      </button>
+
+      <button class="deck-card" data-deck="grammar">
+        <div class="deck-kanji-preview">文</div>
+        <div class="deck-name">Grammatik</div>
+        <div class="deck-stats">
+          <span class="due-count" id="due-grammar">—</span>
+          <span class="deck-total" id="total-grammar">/ 45</span>
+        </div>
+        <div class="deck-due-label">heute fällig</div>
+      </button>
+
+      <button class="deck-card deck-card--all" data-deck="all">
+        <div class="deck-kanji-preview">全</div>
+        <div class="deck-name">Alles</div>
+        <div class="deck-stats">
+          <span class="due-count" id="due-all">—</span>
+          <span class="deck-total" id="total-all"></span>
+        </div>
+        <div class="deck-due-label">heute fällig</div>
+      </button>
+    </div>
+
+    <div class="home-footer">
+      <button id="reset-btn" class="reset-btn">Fortschritt zurücksetzen</button>
+      <div class="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1–4 = bewerten</div>
+    </div>
+  </div>
+
+  <!-- SCREEN: SESSION -->
+  <div id="screen-session" class="screen">
+    <div class="session-topbar">
+      <button id="back-btn" class="back-btn">← Decks</button>
+      <div class="session-info">
+        <span id="session-deck-label" class="session-deck-label"></span>
+        <span id="session-progress" class="session-progress"></span>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div id="progress-bar" class="progress-bar"></div>
+    </div>
+
+    <div class="card-wrap" id="card-wrap">
+      <div class="card" id="flashcard">
+        <div class="card-inner" id="card-inner">
+          <div class="card-front" id="card-front">
+            <!-- filled by JS -->
+          </div>
+          <div class="card-back" id="card-back">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-controls">
+      <button class="flip-btn" id="flip-btn">Karte umdrehen</button>
+    </div>
+
+    <div id="mc-choices" class="mc-choices" style="display:none">
+      <!-- filled by JS in MC mode -->
+    </div>
+
+    <div class="rating-wrap" id="rating-wrap" style="display:none">
+      <div class="rating-hint">Wie gut wusstest du es?</div>
+      <div class="rating-buttons">
+        <button class="rating-btn rating-nochmal" data-rating="1">
+          <span class="rating-label">Nochmal</span>
+          <span class="rating-interval" id="int-1"></span>
+        </button>
+        <button class="rating-btn rating-schwer" data-rating="2">
+          <span class="rating-label">Schwer</span>
+          <span class="rating-interval" id="int-2"></span>
+        </button>
+        <button class="rating-btn rating-gut" data-rating="3">
+          <span class="rating-label">Gut</span>
+          <span class="rating-interval" id="int-3"></span>
+        </button>
+        <button class="rating-btn rating-einfach" data-rating="4">
+          <span class="rating-label">Einfach</span>
+          <span class="rating-interval" id="int-4"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN: DONE -->
+  <div id="screen-done" class="screen">
+    <div class="done-wrap">
+      <div class="done-kanji">完</div>
+      <h2 class="done-title">Session abgeschlossen</h2>
+      <div class="done-stats" id="done-stats">
+        <!-- filled by JS -->
+      </div>
+      <div class="done-actions">
+        <button id="done-again-btn" class="done-btn done-btn--primary">Nochmal</button>
+        <button id="done-home-btn" class="done-btn">Zurück zu Decks</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data files first, then app logic -->
+  <script src="data/kanji.js"></script>
+  <script src="data/vocab.js"></script>
+  <script src="data/grammar.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
