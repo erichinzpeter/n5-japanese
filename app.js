@@ -467,9 +467,9 @@ function generateChoices(card) {
     }
   }
 
-  const shuffled = shuffleArray([...pool]).slice(0, 3);
+  const shuffled = shuffle([...pool]).slice(0, 3);
   const distractors = shuffled.map(getLabel);
-  const choices = shuffleArray([correct, ...distractors]);
+  const choices = shuffle([correct, ...distractors]);
   return { choices, correct };
 }
 
