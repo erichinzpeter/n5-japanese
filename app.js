@@ -76,6 +76,7 @@ function allItems(deck) {
   if (deck === 'kanji'   || deck === 'all') KANJI.forEach(k => items.push({ item: k, type: 'kanji' }));
   if (deck === 'vocab'   || deck === 'all') VOCAB.forEach(v => items.push({ item: v, type: 'vocab' }));
   if (deck === 'grammar' || deck === 'all') GRAMMAR.forEach(g => items.push({ item: g, type: 'grammar' }));
+  if (deck === 'basics'  || deck === 'all') BASICS.forEach(b => items.push({ item: b, type: 'vocab' }));
   return items;
 }
 
@@ -120,7 +121,7 @@ function showScreen(name) {
 function renderHome() {
   showScreen('home');
 
-  const decks = ['kanji', 'vocab', 'grammar', 'all'];
+  const decks = ['kanji', 'vocab', 'grammar', 'basics', 'all'];
   decks.forEach(deck => {
     const due = countDue(deck, state.direction);
     const el = document.getElementById(`due-${deck}`);
@@ -131,6 +132,7 @@ function renderHome() {
   document.getElementById('total-kanji').textContent   = `/ ${KANJI.length}`;
   document.getElementById('total-vocab').textContent    = `/ ${VOCAB.length}`;
   document.getElementById('total-grammar').textContent  = `/ ${GRAMMAR.length}`;
+  document.getElementById('total-basics').textContent   = `/ ${BASICS.length}`;
   document.getElementById('total-all').textContent      = '';
 }
 
@@ -149,7 +151,7 @@ function startSession(deck, direction) {
   state.stats = { nochmal: 0, schwer: 0, gut: 0, einfach: 0 };
   state.lastDeck = deck;
 
-  const deckLabels = { kanji: 'KANJI', vocab: 'VOKABELN', grammar: 'GRAMMATIK', all: 'ALLES' };
+  const deckLabels = { kanji: 'KANJI', vocab: 'VOKABELN', grammar: 'GRAMMATIK', basics: 'ALLTAG', all: 'ALLES' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
@@ -447,7 +449,9 @@ function generateChoices(card) {
       getLabel = k => k.char;
     }
   } else if (type === 'vocab') {
-    pool = VOCAB.filter(v => v.id !== item.id);
+    // Pool includes BASICS items too so distractors come from the same broad vocab space
+    const vocabPool = [...VOCAB, ...BASICS].filter(v => v.id !== item.id);
+    pool = vocabPool;
     if (dir === 'fwd') {
       correct = item.meaning;
       getLabel = v => v.meaning;
