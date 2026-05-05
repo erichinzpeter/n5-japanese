@@ -626,6 +626,23 @@ function renderDone() {
   showScreen('done');
 }
 
+// ===== TEXT-TO-SPEECH =====
+function getJapaneseText(card) {
+  const { item, type } = card;
+  if (type === 'kanji')   return item.char;
+  if (type === 'grammar') return item.pattern;
+  return item.reading || item.word;   // vocab + basics
+}
+
+function speakJapanese(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP';
+  utt.rate = 0.9;
+  window.speechSynthesis.speak(utt);
+}
+
 // ===== UTILS =====
 function escHtml(str) {
   return String(str)
@@ -678,8 +695,15 @@ function initEvents() {
     });
   });
 
+  // Speaker button
+  document.getElementById('speak-btn').addEventListener('click', () => {
+    const card = state.session[state.sessionIdx];
+    if (card) speakJapanese(getJapaneseText(card));
+  });
+
   // Back button
   document.getElementById('back-btn').addEventListener('click', () => {
+    window.speechSynthesis && window.speechSynthesis.cancel();
     renderHome();
   });
 
@@ -739,3 +763,9 @@ function init() {
 }
 
 init();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}

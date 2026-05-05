@@ -353,6 +353,21 @@ body::before {
   gap: 12px;
 }
 
+.speak-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity var(--transition), transform var(--transition);
+  padding: 4px 6px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.speak-btn:hover { opacity: 1; }
+.speak-btn:active { transform: scale(0.9); opacity: 1; }
+
 .session-deck-label {
   font-size: 13px;
   letter-spacing: 0.1em;

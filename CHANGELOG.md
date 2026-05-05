@@ -4,6 +4,25 @@
 
 ---
 
+## [1.3.0] — 2026-05-05
+
+### Neu
+
+- **Sprachausgabe (TTS)** — 🔊-Button in der Session-Topbar liest das japanische Wort/Zeichen/Muster vor
+  - Nutzt Web Speech API (kein Account, kein API-Key, keine Kosten)
+  - Sprachrate 0.9× für bessere Lernbarkeit
+  - Funktioniert in allen modernen Browsern; iOS Safari + Android Chrome haben gute JP-Stimmen eingebaut
+  - Liest immer die japanische Seite vor — egal ob JP→DE oder DE→JP-Modus aktiv ist
+- **PWA (Progressive Web App)** — App ist jetzt auf iPhone und Android installierbar
+  - `manifest.json` mit App-Name, Icons, Dark-Theme-Farbe
+  - Service Worker (`sw.js`) cacht alle Assets → App funktioniert vollständig offline
+  - Apple-Touch-Icon und Meta-Tags für iOS Home-Screen-Installation
+  - GitHub Pages Hosting: `https://erichinzpeter.github.io/n5-japanese/`
+  - Installation iOS: Safari → Teilen → „Zum Home-Bildschirm"
+  - Installation Android: Chrome → Menü → „App installieren"
+
+---
+
 ## [1.2.0] — 2026-05-05
 
 ### Neu
