@@ -8,7 +8,7 @@ const state = {
   session: [],
   sessionIdx: 0,
   flipped: false,
-  stats: { nochmal: 0, schwer: 0, gut: 0, einfach: 0 },
+  stats: { nochmal: 0, richtig: 0 },
   srs: {},
   lastDeck: null,
 };
@@ -148,7 +148,7 @@ function startSession(deck, direction) {
   state.session = cards;
   state.sessionIdx = 0;
   state.flipped = false;
-  state.stats = { nochmal: 0, schwer: 0, gut: 0, einfach: 0 };
+  state.stats = { nochmal: 0, richtig: 0 };
   state.lastDeck = deck;
 
   const deckLabels = { kanji: 'KANJI', vocab: 'VOKABELN', grammar: 'GRAMMATIK', basics: 'ALLTAG', all: 'ALLES' };
@@ -564,7 +564,7 @@ function flipCard() {
   const ratingWrap = document.getElementById('rating-wrap');
   ratingWrap.style.display = '';
 
-  [1, 2, 3, 4].forEach(r => {
+  [1, 3].forEach(r => {
     const el = document.getElementById(`int-${r}`);
     if (el) el.textContent = intervalLabel(card.srsCard, r);
   });
@@ -578,7 +578,7 @@ function rateCard(rating) {
   state.srs[card.id] = next;
   saveSRS();
 
-  const key = ['', 'nochmal', 'schwer', 'gut', 'einfach'][rating];
+  const key = rating === 1 ? 'nochmal' : 'richtig';
   if (key) state.stats[key]++;
 
   // If "Nochmal", re-queue the card near the end
@@ -602,26 +602,17 @@ function rateCard(rating) {
 // ===== DONE SCREEN =====
 function renderDone() {
   const s = state.stats;
-  const total = s.nochmal + s.schwer + s.gut + s.einfach;
 
   const statsEl = document.getElementById('done-stats');
   statsEl.innerHTML = `
-    <div class="done-stat">
-      <span class="done-stat-num" style="color:var(--btn-nochmal)">${s.nochmal}</span>
-      <span class="done-stat-label">Nochmal</span>
-    </div>
-    <div class="done-stat">
-      <span class="done-stat-num" style="color:var(--btn-schwer)">${s.schwer}</span>
-      <span class="done-stat-label">Schwer</span>
-    </div>
-    <div class="done-stat">
-      <span class="done-stat-num" style="color:var(--btn-gut)">${s.gut}</span>
-      <span class="done-stat-label">Gut</span>
-    </div>
-    <div class="done-stat">
-      <span class="done-stat-num" style="color:var(--btn-einfach)">${s.einfach}</span>
-      <span class="done-stat-label">Einfach</span>
-    </div>`;
+  <div class="done-stat">
+    <span class="done-stat-num" style="color:var(--btn-nochmal)">${s.nochmal}</span>
+    <span class="done-stat-label">Nochmal</span>
+  </div>
+  <div class="done-stat">
+    <span class="done-stat-num" style="color:var(--btn-gut)">${s.richtig}</span>
+    <span class="done-stat-label">Richtig</span>
+  </div>`;
 
   showScreen('done');
 }
@@ -745,9 +736,7 @@ function initEvents() {
         }
         if (state.flipped) {
           if (e.key === '1') rateCard(1);
-          if (e.key === '2') rateCard(2);
           if (e.key === '3') rateCard(3);
-          if (e.key === '4') rateCard(4);
         }
       }
       if (e.key === 'Escape') renderHome();
