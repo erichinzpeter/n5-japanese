@@ -635,6 +635,33 @@ body::before {
   color: var(--text-muted);
 }
 
+.back-audio-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.back-speak-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  padding: 10px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.04em;
+}
+
+.back-speak-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* Card Controls */
 .card-controls {
   padding: 0 24px 16px;

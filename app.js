@@ -197,6 +197,12 @@ function renderCard() {
     renderGrammarCard(card, front, back, dirLabel);
   }
 
+  back.innerHTML += audioButtonHtml();
+  document.getElementById('back-speak-btn').addEventListener('click', () => {
+    const card = state.session[state.sessionIdx];
+    if (card) speakJapanese(getJapaneseText(card));
+  });
+
   // Show flip button, hide ratings
   document.getElementById('flip-btn').style.display = '';
   const ratingWrap = document.getElementById('rating-wrap');
@@ -542,6 +548,11 @@ function handleMCAnswer(clickedBtn, correct) {
     }
   });
 
+  if (isCorrect) {
+    const currentCard = state.session[state.sessionIdx];
+    if (currentCard) speakJapanese(getJapaneseText(currentCard));
+  }
+
   const rating = isCorrect ? 3 : 1;  // Gut or Nochmal
   const delay  = isCorrect ? 1200 : 1600;
 
@@ -558,6 +569,9 @@ function flipCard() {
 
   document.getElementById('card-inner').classList.add('flipped');
   document.getElementById('flip-btn').style.display = 'none';
+
+  const currentCard = state.session[state.sessionIdx];
+  if (currentCard) speakJapanese(getJapaneseText(currentCard));
 
   // Show rating buttons with interval previews
   const card = state.session[state.sessionIdx];
@@ -643,6 +657,10 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function audioButtonHtml() {
+  return `<div class="back-audio-wrap"><button class="back-speak-btn" id="back-speak-btn" title="Nochmal vorlesen">🔊 Nochmal hören</button></div>`;
+}
+
 // ===== EVENTS =====
 function initEvents() {
   // Mode toggle
@@ -684,12 +702,6 @@ function initEvents() {
     btn.addEventListener('click', () => {
       rateCard(parseInt(btn.dataset.rating));
     });
-  });
-
-  // Speaker button
-  document.getElementById('speak-btn').addEventListener('click', () => {
-    const card = state.session[state.sessionIdx];
-    if (card) speakJapanese(getJapaneseText(card));
   });
 
   // Back button
