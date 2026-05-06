@@ -242,7 +242,7 @@ body::before {
 
 .deck-name {
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -549,7 +549,7 @@ body::before {
 }
 
 .back-readings {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--accent);
   font-family: var(--font-display);
   letter-spacing: 0.06em;
@@ -557,7 +557,7 @@ body::before {
 
 .back-meanings {
   font-family: var(--font-ui);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 400;
   color: var(--text);
   line-height: 1.4;
@@ -579,7 +579,7 @@ body::before {
 
 .back-example-jp {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--text);
   line-height: 1.5;
   margin-bottom: 4px;
@@ -587,14 +587,14 @@ body::before {
 
 .back-example-de {
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: 17px;
   font-style: italic;
   color: var(--text-muted);
 }
 
 .back-explanation {
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: 17px;
   color: var(--text-muted);
   line-height: 1.6;
 }
@@ -622,7 +622,7 @@ body::before {
 
 .dialogue-jp {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 17px;
   color: var(--text);
   line-height: 1.5;
   margin-bottom: 2px;
@@ -630,7 +630,7 @@ body::before {
 
 .dialogue-de {
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
   color: var(--text-muted);
 }
@@ -726,13 +726,13 @@ body::before {
 }
 
 .rating-label {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.04em;
 }
 
 .rating-interval {
-  font-size: 11px;
+  font-size: 12px;
   opacity: 0.75;
 }
 
