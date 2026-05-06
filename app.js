@@ -249,12 +249,11 @@ function renderKanjiCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Sätze</span>
-        <div class="dialogue-box">${k.sentences.map(s => `
+        ${collapsibleDialogue('Sätze anzeigen', `<div class="dialogue-box">${k.sentences.map(s => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(s.jp)}</div>
             <div class="dialogue-de">${escHtml(s.de)}</div>
-          </div>`).join('')}
-        </div>
+          </div>`).join('')}</div>`)}
       </div>` : ''}`;
   } else {
     // DE → JP: front = German meaning
@@ -287,12 +286,11 @@ function renderKanjiCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Sätze</span>
-        <div class="dialogue-box">${k.sentences.map(s => `
+        ${collapsibleDialogue('Sätze anzeigen', `<div class="dialogue-box">${k.sentences.map(s => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(s.jp)}</div>
             <div class="dialogue-de">${escHtml(s.de)}</div>
-          </div>`).join('')}
-        </div>
+          </div>`).join('')}</div>`)}
       </div>` : ''}`;
   }
 }
@@ -325,12 +323,11 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Beispiele</span>
-        <div class="dialogue-box">${v.examples.map(ex => `
+        ${collapsibleDialogue('Beispiele anzeigen', `<div class="dialogue-box">${v.examples.map(ex => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(ex.jp)}</div>
             <div class="dialogue-de">${escHtml(ex.de)}</div>
-          </div>`).join('')}
-        </div>
+          </div>`).join('')}</div>`)}
       </div>` : ''}`;
   } else {
     // DE → JP: front = German meaning
@@ -354,12 +351,11 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Beispiele</span>
-        <div class="dialogue-box">${v.examples.map(ex => `
+        ${collapsibleDialogue('Beispiele anzeigen', `<div class="dialogue-box">${v.examples.map(ex => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(ex.jp)}</div>
             <div class="dialogue-de">${escHtml(ex.de)}</div>
-          </div>`).join('')}
-        </div>
+          </div>`).join('')}</div>`)}
       </div>` : ''}`;
   }
 }
@@ -394,12 +390,11 @@ function renderGrammarCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Dialog</span>
-        <div class="dialogue-box">${g.dialogue.map(l => `
+        ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(l.jp)}</div>
             <div class="dialogue-de">${escHtml(l.de)}</div>
-          </div>`).join('')}
-        </div>
+          </div>`).join('')}</div>`)}
       </div>` : ''}`;
   } else {
     // DE → JP: front = German explanation
@@ -428,12 +423,11 @@ function renderGrammarCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Dialog</span>
-        <div class="dialogue-box">${g.dialogue.map(l => `
+        ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(l.jp)}</div>
             <div class="dialogue-de">${escHtml(l.de)}</div>
-          </div>`).join('')}
-        </div>
+          </div>`).join('')}</div>`)}
       </div>` : ''}`;
   }
 }
@@ -659,6 +653,23 @@ function escHtml(str) {
 
 function audioButtonHtml() {
   return `<div class="back-audio-wrap"><button class="back-speak-btn" id="back-speak-btn" title="Nochmal vorlesen">🔊 Nochmal hören</button></div>`;
+}
+
+function collapsibleDialogue(label, innerHtml) {
+  const id = `dlg-${Math.random().toString(36).slice(2, 7)}`;
+  return `
+    <button class="dialogue-toggle" onclick="
+      const c = document.getElementById('${id}');
+      const a = this.querySelector('.dialogue-toggle-arrow');
+      c.classList.toggle('expanded');
+      a.style.transform = c.classList.contains('expanded') ? 'rotate(90deg)' : '';
+    ">
+      <span class="dialogue-toggle-arrow">▶</span>
+      ${escHtml(label)}
+    </button>
+    <div class="dialogue-collapsible" id="${id}">
+      ${innerHtml}
+    </div>`;
 }
 
 // ===== EVENTS =====

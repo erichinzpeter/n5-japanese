@@ -635,6 +635,41 @@ body::before {
   color: var(--text-muted);
 }
 
+.dialogue-toggle {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-bottom: 4px;
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dialogue-toggle:hover {
+  color: var(--text-muted);
+}
+
+.dialogue-toggle-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.dialogue-collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.dialogue-collapsible.expanded {
+  max-height: 600px;
+}
+
 .back-audio-wrap {
   width: 100%;
   display: flex;
