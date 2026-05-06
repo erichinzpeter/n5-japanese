@@ -12,9 +12,7 @@
   --accent-glow:  rgba(212, 168, 83, 0.15);
 
   --btn-nochmal:  #c44b3b;
-  --btn-schwer:   #d4873a;
   --btn-gut:      #5a9e5a;
-  --btn-einfach:  #4a7fb5;
 
   --font-display: 'Shippori Mincho B1', 'Noto Serif JP', serif;
   --font-ui:      'Crimson Pro', Georgia, serif;
@@ -352,21 +350,6 @@ body::before {
   align-items: center;
   gap: 12px;
 }
-
-.speak-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0.45;
-  transition: opacity var(--transition), transform var(--transition);
-  padding: 4px 6px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.speak-btn:hover { opacity: 1; }
-.speak-btn:active { transform: scale(0.9); opacity: 1; }
 
 .session-deck-label {
   font-size: 13px;
@@ -776,15 +759,6 @@ body::before {
 
 .rating-richtig { color: var(--btn-gut); border-color: rgba(90, 158, 90, 0.3); }
 .rating-richtig:hover { background: rgba(90, 158, 90, 0.12); border-color: var(--btn-gut); }
-
-.rating-schwer  { color: var(--btn-schwer);  border-color: rgba(212, 135, 58, 0.3); }
-.rating-schwer:hover  { background: rgba(212, 135, 58, 0.12); border-color: var(--btn-schwer); }
-
-.rating-gut     { color: var(--btn-gut);     border-color: rgba(90, 158, 90, 0.3); }
-.rating-gut:hover     { background: rgba(90, 158, 90, 0.12); border-color: var(--btn-gut); }
-
-.rating-einfach { color: var(--btn-einfach); border-color: rgba(74, 127, 181, 0.3); }
-.rating-einfach:hover { background: rgba(74, 127, 181, 0.12); border-color: var(--btn-einfach); }
 
 /* ===== DONE SCREEN ===== */
 #screen-done {
