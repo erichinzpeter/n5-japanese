@@ -39,7 +39,7 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.5;
   overflow-x: hidden;
 }
@@ -398,7 +398,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px 20px 8px;
   perspective: 1200px;
 }
 
@@ -406,7 +406,7 @@ body {
   width: 100%;
   max-width: 520px;
   cursor: pointer;
-  height: clamp(360px, 55vh, 520px);
+  height: clamp(320px, 48vh, 480px);
 }
 
 .card-inner {
@@ -553,7 +553,7 @@ body {
 
 .back-meanings {
   font-family: var(--font-ui);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 400;
   color: var(--text);
   line-height: 1.4;
@@ -574,7 +574,7 @@ body {
 
 .back-example-jp {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--text);
   line-height: 1.5;
   margin-bottom: 4px;
@@ -582,13 +582,13 @@ body {
 
 .back-example-de {
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text-muted);
 }
 
 .back-explanation {
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text-muted);
   line-height: 1.6;
 }
@@ -616,7 +616,7 @@ body {
 
 .dialogue-jp {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 18px;
   color: var(--text);
   line-height: 1.5;
   margin-bottom: 2px;
@@ -624,7 +624,7 @@ body {
 
 .dialogue-de {
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-muted);
 }
 
@@ -750,7 +750,7 @@ body {
 
 /* Rating Buttons */
 .rating-wrap {
-  padding: 0 20px 32px;
+  padding: 0 20px 24px;
 }
 
 .rating-hint {
@@ -1085,9 +1085,24 @@ body {
 .list-row-summary {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 20px;
+  gap: 12px;
+  padding: 12px 20px;
   transition: background var(--transition);
+}
+
+.list-row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.list-jp-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .list-row:hover .list-row-summary {
@@ -1112,12 +1127,7 @@ body {
   font-family: var(--font-ui);
   font-size: 13px;
   color: var(--text-muted);
-  margin-left: auto;
-  text-align: right;
-  max-width: 160px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  line-height: 1.4;
 }
 
 .list-chevron {
@@ -1142,9 +1152,16 @@ body {
   display: block;
 }
 
+.list-detail-reading {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
 .list-detail-text {
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--accent);
   line-height: 1.6;
   margin-bottom: 10px;
@@ -1161,13 +1178,13 @@ body {
 
 .list-detail-jp {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text);
 }
 
 .list-detail-de {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-muted);
 }
 

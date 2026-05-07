@@ -721,12 +721,14 @@ function renderListDetail(item, tab) {
     </div>`;
     return `<div class="list-detail-text">${escHtml(item.explanation)}</div>${exHtml}`;
   }
+  const readingHtml = item.reading && item.reading !== item.word
+    ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
   const ex = item.examples && item.examples[0];
   const exHtml = ex ? `<div class="list-detail-example">
     <div class="list-detail-jp">${escHtml(ex.jp)}</div>
     <div class="list-detail-de">${escHtml(ex.de)}</div>
   </div>` : '';
-  return `<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}`;
+  return `${readingHtml}<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}`;
 }
 
 function renderListTab(tab) {
@@ -748,9 +750,13 @@ function renderListTab(tab) {
     const de = item.meaning || (item.explanation ? item.explanation.split('.')[0] : '');
     return `<div class="list-row" onclick="toggleListRow(this)">
       <div class="list-row-summary">
-        <span class="list-jp">${escHtml(jp)}</span>
-        ${showReading ? `<span class="list-reading">${escHtml(item.reading)}</span>` : ''}
-        <span class="list-de">${escHtml(de)}</span>
+        <div class="list-row-main">
+          <div class="list-jp-line">
+            <span class="list-jp">${escHtml(jp)}</span>
+            ${showReading ? `<span class="list-reading">${escHtml(item.reading)}</span>` : ''}
+          </div>
+          <div class="list-de">${escHtml(de)}</div>
+        </div>
         <span class="list-chevron">▼</span>
       </div>
       <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
