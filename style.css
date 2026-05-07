@@ -89,6 +89,14 @@ body {
   animation: fadeDown 0.6s 0.1s ease both;
 }
 
+.app-version {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
 /* Direction Toggle */
 /* Mode Toggle */
 .mode-toggle {
