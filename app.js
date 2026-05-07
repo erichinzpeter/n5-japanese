@@ -699,11 +699,7 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 
 // ===== LIST MODE =====
 function isAltag(item) {
-  return item.pos && (
-    item.pos.startsWith('Adjektiv') ||
-    item.pos === 'Adverb' ||
-    item.pos.includes('Adjektiv')
-  );
+  return item.pos && (item.pos.includes('Adjektiv') || item.pos.includes('Adverb'));
 }
 function isNutzwort(item) {
   return item.pos && (
@@ -735,12 +731,10 @@ function renderListTab(tab) {
   let items;
   if (tab === 'grammar') {
     items = GRAMMAR;
-  } else if (tab === 'alltag') {
-    items = BASICS.filter(isAltag);
+  } else if (tab === 'adjektive') {
+    items = [...BASICS, ...VOCAB].filter(isAltag);
   } else {
-    // Nutzwörter: particles, conjunctions, plus anything not in alltag
-    items = BASICS.filter(isNutzwort);
-    if (items.length === 0) items = BASICS.filter(b => !isAltag(b));
+    items = [...BASICS, ...VOCAB].filter(isNutzwort);
   }
 
   const listContent = document.getElementById('list-content');
