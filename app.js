@@ -197,11 +197,14 @@ function renderCard() {
     renderGrammarCard(card, front, back, dirLabel);
   }
 
-  back.innerHTML += audioButtonHtml();
-  document.getElementById('back-speak-btn').addEventListener('click', () => {
-    const card = state.session[state.sessionIdx];
-    if (card) speakJapanese(getJapaneseText(card));
-  });
+  const currentSessionCard = state.session[state.sessionIdx];
+  if (currentSessionCard && currentSessionCard.type !== 'grammar') {
+    back.innerHTML += audioButtonHtml();
+    document.getElementById('back-speak-btn').addEventListener('click', () => {
+      const c = state.session[state.sessionIdx];
+      if (c) speakJapanese(getJapaneseText(c));
+    });
+  }
 
   // Show flip button, hide ratings
   document.getElementById('flip-btn').style.display = '';
@@ -394,7 +397,7 @@ function renderGrammarCard(card, front, back, dirLabel) {
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(l.jp)}</div>
             <div class="dialogue-de">${escHtml(l.de)}</div>
-          </div>`).join('')}</div>`)}
+          </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
       </div>` : ''}`;
   } else {
     // DE → JP: front = German explanation
@@ -427,7 +430,7 @@ function renderGrammarCard(card, front, back, dirLabel) {
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(l.jp)}</div>
             <div class="dialogue-de">${escHtml(l.de)}</div>
-          </div>`).join('')}</div>`)}
+          </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
       </div>` : ''}`;
   }
 }
@@ -456,6 +459,7 @@ function generateChoices(card) {
       correct = item.meaning;
       getLabel = v => v.meaning;
     } else {
+      // DE→JP: show reading below word in choices so kanji are readable
       correct = item.word;
       getLabel = v => v.word;
     }
@@ -474,7 +478,17 @@ function generateChoices(card) {
   const shuffled = shuffle([...pool]).slice(0, 3);
   const distractors = shuffled.map(getLabel);
   const choices = shuffle([correct, ...distractors]);
-  return { choices, correct };
+
+  // For vocab/basics DE→JP: attach readings so MC buttons can show furigana
+  let readings = null;
+  if (type === 'vocab' && dir === 'rev') {
+    const allItems = [item, ...shuffled];
+    const readingMap = {};
+    allItems.forEach(v => { readingMap[v.word] = v.reading !== v.word ? v.reading : ''; });
+    readings = choices.map(c => readingMap[c] || '');
+  }
+
+  return { choices, correct, readings };
 }
 
 function renderMCCard() {
@@ -514,14 +528,19 @@ function renderMCCard() {
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
 
-  const { choices, correct } = generateChoices(card);
+  const { choices, correct, readings } = generateChoices(card);
   const mcEl = document.getElementById('mc-choices');
   mcEl.style.display = '';
-  mcEl.innerHTML = choices.map((c, i) => `
-    <button class="mc-btn" data-choice="${escHtml(c)}" data-correct="${escHtml(correct)}">
+  mcEl.innerHTML = choices.map((c, i) => {
+    const reading = readings ? readings[i] : '';
+    return `<button class="mc-btn" data-choice="${escHtml(c)}" data-correct="${escHtml(correct)}">
       <span class="mc-num">${i + 1}</span>
-      <span class="mc-text">${escHtml(c)}</span>
-    </button>`).join('');
+      <span class="mc-text">
+        <span class="mc-word">${escHtml(c)}</span>
+        ${reading ? `<span class="mc-reading">${escHtml(reading)}</span>` : ''}
+      </span>
+    </button>`;
+  }).join('');
 
   mcEl.querySelectorAll('.mc-btn').forEach(btn => {
     btn.addEventListener('click', () => handleMCAnswer(btn, correct));
@@ -544,7 +563,7 @@ function handleMCAnswer(clickedBtn, correct) {
 
   if (isCorrect) {
     const currentCard = state.session[state.sessionIdx];
-    if (currentCard) speakJapanese(getJapaneseText(currentCard));
+    if (currentCard && currentCard.type !== 'grammar') speakJapanese(getJapaneseText(currentCard));
   }
 
   const rating = isCorrect ? 3 : 1;  // Gut or Nochmal
@@ -565,7 +584,7 @@ function flipCard() {
   document.getElementById('flip-btn').style.display = 'none';
 
   const currentCard = state.session[state.sessionIdx];
-  if (currentCard) speakJapanese(getJapaneseText(currentCard));
+  if (currentCard && currentCard.type !== 'grammar') speakJapanese(getJapaneseText(currentCard));
 
   // Show rating buttons with interval previews
   const card = state.session[state.sessionIdx];
@@ -655,21 +674,103 @@ function audioButtonHtml() {
   return `<div class="back-audio-wrap"><button class="back-speak-btn" id="back-speak-btn" title="Nochmal vorlesen">🔊 Nochmal hören</button></div>`;
 }
 
-function collapsibleDialogue(label, innerHtml) {
+function collapsibleDialogue(label, innerHtml, speakText) {
   const id = `dlg-${Math.random().toString(36).slice(2, 7)}`;
+  const speakBtn = speakText
+    ? `<button class="btn-speak-dialogue" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊 Anhören</button>`
+    : '';
   return `
-    <button class="dialogue-toggle" onclick="
-      const c = document.getElementById('${id}');
-      const a = this.querySelector('.dialogue-toggle-arrow');
-      c.classList.toggle('expanded');
-      a.style.transform = c.classList.contains('expanded') ? 'rotate(90deg)' : '';
-    ">
-      <span class="dialogue-toggle-arrow">▶</span>
-      ${escHtml(label)}
-    </button>
+    <div class="dialogue-header">
+      <button class="dialogue-toggle" onclick="
+        const c = document.getElementById('${id}');
+        const a = this.querySelector('.dialogue-toggle-arrow');
+        c.classList.toggle('expanded');
+        a.style.transform = c.classList.contains('expanded') ? 'rotate(90deg)' : '';
+      ">
+        <span class="dialogue-toggle-arrow">▶</span>
+        ${escHtml(label)}
+      </button>
+      ${speakBtn}
+    </div>
     <div class="dialogue-collapsible" id="${id}">
       ${innerHtml}
     </div>`;
+}
+
+// ===== LIST MODE =====
+function isAltag(item) {
+  return item.pos && (
+    item.pos.startsWith('Adjektiv') ||
+    item.pos === 'Adverb' ||
+    item.pos.includes('Adjektiv')
+  );
+}
+function isNutzwort(item) {
+  return item.pos && (
+    item.pos.startsWith('Partikel') ||
+    item.pos.startsWith('Konjunktion') ||
+    item.pos === 'Ausdruck'
+  );
+}
+
+function renderListDetail(item, tab) {
+  if (tab === 'grammar') {
+    const exHtml = `<div class="list-detail-example">
+      <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
+      <div class="list-detail-de">${escHtml(item.example_de)}</div>
+    </div>`;
+    return `<div class="list-detail-text">${escHtml(item.explanation)}</div>${exHtml}`;
+  }
+  const ex = item.examples && item.examples[0];
+  const exHtml = ex ? `<div class="list-detail-example">
+    <div class="list-detail-jp">${escHtml(ex.jp)}</div>
+    <div class="list-detail-de">${escHtml(ex.de)}</div>
+  </div>` : '';
+  return `<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}`;
+}
+
+function renderListTab(tab) {
+  let items;
+  if (tab === 'grammar') {
+    items = GRAMMAR;
+  } else if (tab === 'alltag') {
+    items = BASICS.filter(isAltag);
+  } else {
+    // Nutzwörter: particles, conjunctions, plus anything not in alltag
+    items = BASICS.filter(isNutzwort);
+    if (items.length === 0) items = BASICS.filter(b => !isAltag(b));
+  }
+
+  const listContent = document.getElementById('list-content');
+  listContent.innerHTML = items.map((item, i) => {
+    const jp = item.word || item.pattern || '';
+    const showReading = item.reading && item.reading !== item.word;
+    const de = item.meaning || (item.explanation ? item.explanation.split('.')[0] : '');
+    return `<div class="list-row" onclick="toggleListRow(this)">
+      <div class="list-row-summary">
+        <span class="list-jp">${escHtml(jp)}</span>
+        ${showReading ? `<span class="list-reading">${escHtml(item.reading)}</span>` : ''}
+        <span class="list-de">${escHtml(de)}</span>
+        <span class="list-chevron">▼</span>
+      </div>
+      <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
+        ${renderListDetail(item, tab)}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleListRow(el) {
+  const detail = el.querySelector('.list-row-detail');
+  const chevron = el.querySelector('.list-chevron');
+  detail.classList.toggle('visible');
+  chevron.classList.toggle('open');
+}
+
+function showListScreen() {
+  showScreen('list');
+  const activeTab = document.querySelector('.list-tab.active');
+  renderListTab(activeTab ? activeTab.dataset.listTab : 'grammar');
 }
 
 // ===== EVENTS =====
@@ -729,6 +830,21 @@ function initEvents() {
   document.getElementById('done-again-btn').addEventListener('click', () => {
     if (state.lastDeck) startSession(state.lastDeck, state.direction);
     else renderHome();
+  });
+
+  // Liste button
+  document.getElementById('liste-btn').addEventListener('click', showListScreen);
+
+  // List back button
+  document.getElementById('list-back-btn').addEventListener('click', () => renderHome());
+
+  // List tabs
+  document.querySelectorAll('.list-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.list-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderListTab(tab.dataset.listTab);
+    });
   });
 
   // Reset button

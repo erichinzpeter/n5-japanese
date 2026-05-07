@@ -15,7 +15,7 @@
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -90,6 +90,8 @@
       </button>
     </div>
 
+    <button id="liste-btn" class="liste-btn">☰ Liste anzeigen</button>
+
     <div class="home-footer">
       <button id="reset-btn" class="reset-btn">Fortschritt zurücksetzen</button>
       <div class="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1 = Nochmal &nbsp;·&nbsp; 3 = Richtig</div>
@@ -159,6 +161,21 @@
         <button id="done-home-btn" class="done-btn">Zurück zu Decks</button>
       </div>
     </div>
+  </div>
+
+  <!-- SCREEN: LIST -->
+  <div id="screen-list" class="screen">
+    <div class="list-header">
+      <button id="list-back-btn" class="list-back-btn">←</button>
+      <h2 class="list-title">Liste</h2>
+    </div>
+    <div class="list-tabs">
+      <button class="list-tab active" data-list-tab="grammar">Grammatik</button>
+      <button class="list-tab" data-list-tab="alltag">Alltag</button>
+      <button class="list-tab" data-list-tab="nutzwoerter">Nutzwörter</button>
+    </div>
+    <div class="list-divider"></div>
+    <div id="list-content" class="list-content"></div>
   </div>
 
   <!-- Data files first, then app logic -->
