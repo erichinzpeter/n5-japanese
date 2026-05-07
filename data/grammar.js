@@ -358,6 +358,7 @@ const GRAMMAR = [
   {
     id: "g032",
     pattern: "〜に行きます / 来ます / 帰ります",
+    reading: "〜にいきます / きます / かえります",
     explanation: "Zweck einer Bewegung ausdrücken: Verbstamm + に + 行く/来る/帰る.",
     example_jp: "ご飯を食べに行きます。",
     example_de: "Ich gehe Essen (um zu essen).",
@@ -395,6 +396,7 @@ const GRAMMAR = [
   {
     id: "g035",
     pattern: "〜前に (bevor / vor)",
+    reading: "〜まえに",
     explanation: "Zeitliche Abfolge: 'vor X'. Verb im Wörterbuch-Form + 前に.",
     example_jp: "寝る前に、歯を磨きます。",
     example_de: "Bevor ich schlafe, putze ich die Zähne.",
@@ -406,6 +408,7 @@ const GRAMMAR = [
   {
     id: "g036",
     pattern: "〜後で / 〜てから (nachdem / danach)",
+    reading: "〜あとで / 〜てから",
     explanation: "後で: nach einem Ereignis. てから: direkt danach, Reihenfolge betont.",
     example_jp: "ご飯を食べた後で、散歩します。",
     example_de: "Nachdem ich gegessen habe, mache ich einen Spaziergang.",
@@ -463,6 +466,7 @@ const GRAMMAR = [
   {
     id: "g041",
     pattern: "〜の中で〜が一番〜 (Superlativ: am ...sten von allen)",
+    reading: "〜のなかで〜がいちばん〜",
     explanation: "Superlativ: 'Von allen X ist Y am [Adj]-sten'. 一番 = Nummer eins / am meisten.",
     example_jp: "果物の中でりんごが一番好きです。",
     example_de: "Von allen Früchten mag ich Äpfel am liebsten.",
@@ -507,6 +511,7 @@ const GRAMMAR = [
   {
     id: "g045",
     pattern: "数字 + 助数詞 (Zahlen mit Zählwörtern)",
+    reading: "すうじ + じょすうし",
     explanation: "Im Japanischen braucht man Zählwörter: 〜本 (zylindrische Dinge), 〜枚 (flache Dinge), 〜個 (kleine Objekte), 〜匹 (kleine Tiere), 〜人 (Personen), 〜台 (Maschinen).",
     example_jp: "えんぴつを三本ください。",
     example_de: "Bitte drei Bleistifte.",

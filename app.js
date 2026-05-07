@@ -711,11 +711,13 @@ function isNutzwort(item) {
 
 function renderListDetail(item, tab) {
   if (tab === 'grammar') {
+    const readingHtml = item.reading
+      ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
     const exHtml = `<div class="list-detail-example">
       <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
       <div class="list-detail-de">${escHtml(item.example_de)}</div>
     </div>`;
-    return `<div class="list-detail-text">${escHtml(item.explanation)}</div>${exHtml}`;
+    return `${readingHtml}<div class="list-detail-text">${escHtml(item.explanation)}</div>${exHtml}`;
   }
   const readingHtml = item.reading && item.reading !== item.word
     ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
@@ -740,7 +742,7 @@ function renderListTab(tab) {
   const listContent = document.getElementById('list-content');
   listContent.innerHTML = items.map((item, i) => {
     const jp = item.word || item.pattern || '';
-    const showReading = item.reading && item.reading !== item.word;
+    const showReading = item.reading && item.reading !== jp;
     const de = item.meaning || (item.explanation ? item.explanation.split('.')[0] : '');
     return `<div class="list-row" onclick="toggleListRow(this)">
       <div class="list-row-summary">
