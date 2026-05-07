@@ -464,6 +464,18 @@ const GRAMMAR = [
     ]
   },
   {
+    id: "g040b",
+    pattern: "〜の方が〜より〜 (Präferenz: X ist besser/lieber als Y)",
+    reading: "〜のほうが〜より〜",
+    explanation: "Drückt Präferenz oder Überlegenheit aus: 'X ist [Adj]-er als Y' / 'X mag ich lieber als Y'. の方が hebt hervor, was bevorzugt wird — の方が steht beim Favoriten, より beim Vergleichsobjekt. Struktur: [Favorit] の方が [Vergleich] より [Adjektiv] です.",
+    example_jp: "コーヒーよりお茶の方が好きです。",
+    example_de: "Ich mag Tee lieber als Kaffee.",
+    dialogue: [
+      { jp: "A: コーヒーとお茶、どちらが好きですか。", de: "A: Was mögen Sie lieber, Kaffee oder Tee?" },
+      { jp: "B: コーヒーよりお茶の方が好きです。", de: "B: Ich mag Tee lieber als Kaffee." }
+    ]
+  },
+  {
     id: "g041",
     pattern: "〜の中で〜が一番〜 (Superlativ: am ...sten von allen)",
     reading: "〜のなかで〜がいちばん〜",

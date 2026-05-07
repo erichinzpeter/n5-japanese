@@ -714,7 +714,10 @@ function renderListDetail(item, tab) {
     const readingHtml = item.reading
       ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
     const exHtml = `<div class="list-detail-example">
-      <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
+      <div class="list-detail-example-row">
+        <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
+        <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${item.example_jp.replace(/'/g, "\\'")}')" aria-label="Anhören">🔊</button>
+      </div>
       <div class="list-detail-de">${escHtml(item.example_de)}</div>
     </div>`;
     return `${readingHtml}<div class="list-detail-text">${escHtml(item.explanation)}</div>${exHtml}`;
@@ -743,7 +746,13 @@ function renderListTab(tab) {
   listContent.innerHTML = items.map((item, i) => {
     const jp = item.word || item.pattern || '';
     const showReading = item.reading && item.reading !== jp;
-    const de = item.meaning || (item.explanation ? item.explanation.split('.')[0] : '');
+    let de = item.meaning || '';
+    if (!de && item.pattern) {
+      const m = item.pattern.match(/\(([^)]+)\)\s*$/);
+      de = m ? m[1] : (item.explanation ? item.explanation.split('.')[0] : '');
+    } else if (!de) {
+      de = item.explanation ? item.explanation.split('.')[0] : '';
+    }
     return `<div class="list-row" onclick="toggleListRow(this)">
       <div class="list-row-summary">
         <div class="list-row-main">
