@@ -255,6 +255,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         ${collapsibleDialogue('Sätze anzeigen', `<div class="dialogue-box">${k.sentences.map(s => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(s.jp)}</div>
+            ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
             <div class="dialogue-de">${escHtml(s.de)}</div>
           </div>`).join('')}</div>`)}
       </div>` : ''}`;
@@ -292,6 +293,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         ${collapsibleDialogue('Sätze anzeigen', `<div class="dialogue-box">${k.sentences.map(s => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(s.jp)}</div>
+            ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
             <div class="dialogue-de">${escHtml(s.de)}</div>
           </div>`).join('')}</div>`)}
       </div>` : ''}`;
@@ -329,6 +331,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         ${collapsibleDialogue('Beispiele anzeigen', `<div class="dialogue-box">${v.examples.map(ex => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(ex.jp)}</div>
+            ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
             <div class="dialogue-de">${escHtml(ex.de)}</div>
           </div>`).join('')}</div>`)}
       </div>` : ''}`;
@@ -357,6 +360,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         ${collapsibleDialogue('Beispiele anzeigen', `<div class="dialogue-box">${v.examples.map(ex => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(ex.jp)}</div>
+            ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
             <div class="dialogue-de">${escHtml(ex.de)}</div>
           </div>`).join('')}</div>`)}
       </div>` : ''}`;
@@ -387,6 +391,7 @@ function renderGrammarCard(card, front, back, dirLabel) {
       <div class="back-section">
         <span class="back-label">Beispiel</span>
         <div class="back-example-jp">${escHtml(g.example_jp)}</div>
+        ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
         <div class="back-example-de">${escHtml(g.example_de)}</div>
       </div>
       ${g.dialogue ? `
@@ -396,6 +401,7 @@ function renderGrammarCard(card, front, back, dirLabel) {
         ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(l.jp)}</div>
+            ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
             <div class="dialogue-de">${escHtml(l.de)}</div>
           </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
       </div>` : ''}`;
@@ -420,6 +426,7 @@ function renderGrammarCard(card, front, back, dirLabel) {
       <div class="back-section">
         <span class="back-label">Beispiel</span>
         <div class="back-example-jp">${escHtml(g.example_jp)}</div>
+        ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
         <div class="back-example-de">${escHtml(g.example_de)}</div>
       </div>
       ${g.dialogue ? `
@@ -429,6 +436,7 @@ function renderGrammarCard(card, front, back, dirLabel) {
         ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
           <div class="dialogue-line">
             <div class="dialogue-jp">${escHtml(l.jp)}</div>
+            ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
             <div class="dialogue-de">${escHtml(l.de)}</div>
           </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
       </div>` : ''}`;
@@ -662,6 +670,10 @@ function speakJapanese(text) {
 }
 
 // ===== UTILS =====
+function hasKanji(str) {
+  return /[一-鿿㐀-䶿]/.test(str);
+}
+
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -698,6 +710,8 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 }
 
 // ===== LIST MODE =====
+let listSearchQuery = '';
+
 function isAltag(item) {
   return item.pos && (item.pos.includes('Adjektiv') || item.pos.includes('Adverb'));
 }
@@ -708,25 +722,55 @@ function isNutzwort(item) {
     item.pos === 'Ausdruck'
   );
 }
+function isVocabMain(item) {
+  return !isAltag(item) && !isNutzwort(item);
+}
 
 function renderListDetail(item, tab) {
+  if (tab === 'kanji') {
+    const k = item;
+    const onStr  = k.on.length  ? k.on.join('、')  : '—';
+    const kunStr = k.kun.length ? k.kun.join('、') : '—';
+    const examplesHtml = k.examples.length
+      ? `<div class="list-detail-readings">
+          ${k.examples.map(e => `<span class="list-detail-reading-item">${escHtml(e)}</span>`).join('')}
+         </div>` : '';
+    const sentHtml = k.sentences && k.sentences.length
+      ? `<div class="list-detail-example">
+          ${k.sentences.map(s => `
+            <div class="list-detail-jp">${escHtml(s.jp)}</div>
+            ${s.reading ? `<div class="sentence-reading">${escHtml(s.reading)}</div>` : ''}
+            <div class="list-detail-de">${escHtml(s.de)}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">')}
+         </div>` : '';
+    return `<span class="list-detail-reading-label">On'yomi</span>
+      <div class="list-detail-readings"><span class="list-detail-reading-item">${escHtml(onStr)}</span></div>
+      <span class="list-detail-reading-label">Kun'yomi</span>
+      <div class="list-detail-readings"><span class="list-detail-reading-item">${escHtml(kunStr)}</span></div>
+      <div class="list-detail-text">${k.meaning.map(m => escHtml(m)).join(', ')}</div>
+      ${examplesHtml}${sentHtml}`;
+  }
   if (tab === 'grammar') {
     const readingHtml = item.reading
       ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
+    const exReadingHtml = item.example_reading
+      ? `<div class="sentence-reading">${escHtml(item.example_reading)}</div>` : '';
     const exHtml = `<div class="list-detail-example">
       <div class="list-detail-example-row">
         <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
         <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${item.example_jp.replace(/'/g, "\\'")}')" aria-label="Anhören">🔊</button>
       </div>
+      ${exReadingHtml}
       <div class="list-detail-de">${escHtml(item.example_de)}</div>
     </div>`;
     return `${readingHtml}<div class="list-detail-text">${escHtml(item.explanation)}</div>${exHtml}`;
   }
+  // vocab / adjektive / ausdruecke
   const readingHtml = item.reading && item.reading !== item.word
     ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
   const ex = item.examples && item.examples[0];
   const exHtml = ex ? `<div class="list-detail-example">
     <div class="list-detail-jp">${escHtml(ex.jp)}</div>
+    ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
     <div class="list-detail-de">${escHtml(ex.de)}</div>
   </div>` : '';
   return `${readingHtml}<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}`;
@@ -734,7 +778,11 @@ function renderListDetail(item, tab) {
 
 function renderListTab(tab) {
   let items;
-  if (tab === 'grammar') {
+  if (tab === 'kanji') {
+    items = KANJI;
+  } else if (tab === 'vocab') {
+    items = VOCAB.filter(isVocabMain);
+  } else if (tab === 'grammar') {
     items = GRAMMAR;
   } else if (tab === 'adjektive') {
     items = [...BASICS, ...VOCAB].filter(isAltag);
@@ -742,8 +790,46 @@ function renderListTab(tab) {
     items = [...BASICS, ...VOCAB].filter(isNutzwort);
   }
 
+  if (listSearchQuery) {
+    const q = listSearchQuery.toLowerCase();
+    items = items.filter(item =>
+      [item.word, item.reading, item.meaning, item.char,
+       item.pattern, item.explanation,
+       ...(item.meaning ? [item.meaning] : []),
+       ...(item.meaning instanceof Array ? item.meaning : [])
+      ].some(f => f && String(f).toLowerCase().includes(q))
+    );
+  }
+
   const listContent = document.getElementById('list-content');
+
+  if (items.length === 0) {
+    listContent.innerHTML = `<div class="list-no-results">Keine Ergebnisse für „${escHtml(listSearchQuery)}"</div>`;
+    return;
+  }
+
   listContent.innerHTML = items.map((item, i) => {
+    if (tab === 'kanji') {
+      const k = item;
+      const shortMeaning = k.meaning.slice(0, 2).join(', ');
+      return `<div class="list-row" onclick="toggleListRow(this)">
+        <div class="list-row-summary">
+          <div class="list-kanji-char">${escHtml(k.char)}</div>
+          <div class="list-row-main">
+            <div class="list-jp-line">
+              <span class="list-jp">${k.on.length ? escHtml(k.on[0]) : ''}</span>
+              ${k.kun.length ? `<span class="list-reading">${escHtml(k.kun[0])}</span>` : ''}
+            </div>
+            <div class="list-de">${escHtml(shortMeaning)}</div>
+          </div>
+          <span class="list-chevron">▼</span>
+        </div>
+        <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
+          ${renderListDetail(item, tab)}
+        </div>
+      </div>`;
+    }
+
     const jp = item.word || item.pattern || '';
     const showReading = item.reading && item.reading !== jp;
     let de = item.meaning || '';
@@ -780,8 +866,13 @@ function toggleListRow(el) {
 
 function showListScreen() {
   showScreen('list');
-  const activeTab = document.querySelector('.list-tab.active');
-  renderListTab(activeTab ? activeTab.dataset.listTab : 'grammar');
+  listSearchQuery = '';
+  const searchEl = document.getElementById('list-search');
+  if (searchEl) searchEl.value = '';
+  const firstTab = document.querySelector('.list-tab[data-list-tab="kanji"]');
+  document.querySelectorAll('.list-tab').forEach(t => t.classList.remove('active'));
+  if (firstTab) firstTab.classList.add('active');
+  renderListTab('kanji');
 }
 
 // ===== EVENTS =====
@@ -848,6 +939,16 @@ function initEvents() {
 
   // List back button
   document.getElementById('list-back-btn').addEventListener('click', () => renderHome());
+
+  // List search
+  const listSearchEl = document.getElementById('list-search');
+  if (listSearchEl) {
+    listSearchEl.addEventListener('input', e => {
+      listSearchQuery = e.target.value.trim();
+      const activeTab = document.querySelector('.list-tab.active');
+      renderListTab(activeTab ? activeTab.dataset.listTab : 'kanji');
+    });
+  }
 
   // List tabs
   document.querySelectorAll('.list-tab').forEach(tab => {

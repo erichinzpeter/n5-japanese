@@ -627,7 +627,15 @@ body {
   font-size: 18px;
   color: var(--text);
   line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.dialogue-reading {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-muted);
   margin-bottom: 2px;
+  line-height: 1.4;
 }
 
 .dialogue-de {
@@ -1041,10 +1049,40 @@ body {
   color: var(--text);
 }
 
+.list-search {
+  margin: 0 20px 10px;
+  width: calc(100% - 40px);
+  padding: 9px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.list-search::placeholder {
+  color: var(--text-dim);
+}
+
+.list-search:focus {
+  border-color: var(--accent);
+}
+
 .list-tabs {
   display: flex;
   gap: 6px;
   padding: 4px 20px 12px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.list-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .list-tab {
@@ -1214,6 +1252,57 @@ body {
   font-family: var(--font-ui);
   font-size: 14px;
   color: var(--text-muted);
+}
+
+.sentence-reading {
+  font-family: var(--font-display);
+  font-size: 0.78em;
+  color: var(--text-muted);
+  margin-top: -2px;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.list-no-results {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 15px;
+}
+
+.list-kanji-char {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.list-detail-readings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.list-detail-reading-item {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--surface-2);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.list-detail-reading-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+  display: block;
 }
 
 /* ===== Responsive ===== */
