@@ -624,7 +624,7 @@ body {
 
 .dialogue-jp {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 22px;
   color: var(--text);
   line-height: 1.5;
   margin-bottom: 0;
@@ -632,7 +632,7 @@ body {
 
 .dialogue-reading {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-muted);
   margin-bottom: 2px;
   line-height: 1.4;
@@ -640,7 +640,7 @@ body {
 
 .dialogue-de {
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text-muted);
 }
 
@@ -1157,7 +1157,7 @@ body {
 
 .list-jp {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 21px;
   color: var(--text);
   overflow-wrap: break-word;
   min-width: 0;
@@ -1165,14 +1165,14 @@ body {
 
 .list-reading {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 15px;
   color: var(--text-muted);
   flex-shrink: 0;
 }
 
 .list-de {
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-muted);
   line-height: 1.4;
 }
@@ -1190,7 +1190,7 @@ body {
 
 .list-row-detail {
   padding: 0 20px 16px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
   display: none;
 }
@@ -1201,7 +1201,7 @@ body {
 
 .list-detail-reading {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 21px;
   color: var(--text-muted);
   margin-bottom: 6px;
 }
@@ -1231,7 +1231,7 @@ body {
 
 .list-detail-jp {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 20px;
   color: var(--text);
   flex: 1;
 }
@@ -1248,19 +1248,54 @@ body {
 }
 .btn-speak-example:hover { opacity: 1; }
 
+.btn-speak-list {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 6px;
+  opacity: 0.55;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.btn-speak-list:hover { opacity: 1; }
+
 .list-detail-de {
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-muted);
 }
 
 .sentence-reading {
   font-family: var(--font-display);
-  font-size: 0.78em;
+  font-size: 0.88em;
   color: var(--text-muted);
   margin-top: -2px;
   margin-bottom: 4px;
   line-height: 1.5;
+}
+
+.back-main-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-speak-word {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  padding: 4px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.btn-speak-word:hover { opacity: 1; }
+
+.dialogue-line-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .list-no-results {
@@ -1272,12 +1307,12 @@ body {
 
 .list-kanji-char {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 600;
   color: var(--text);
   line-height: 1;
   flex-shrink: 0;
-  width: 36px;
+  width: 40px;
 }
 
 .list-detail-readings {
@@ -1289,7 +1324,7 @@ body {
 
 .list-detail-reading-item {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 16px;
   color: var(--accent);
   background: var(--surface-2);
   padding: 2px 8px;

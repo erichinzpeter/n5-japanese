@@ -197,15 +197,6 @@ function renderCard() {
     renderGrammarCard(card, front, back, dirLabel);
   }
 
-  const currentSessionCard = state.session[state.sessionIdx];
-  if (currentSessionCard && currentSessionCard.type !== 'grammar') {
-    back.innerHTML += audioButtonHtml();
-    document.getElementById('back-speak-btn').addEventListener('click', () => {
-      const c = state.session[state.sessionIdx];
-      if (c) speakJapanese(getJapaneseText(c));
-    });
-  }
-
   // Show flip button, hide ratings
   document.getElementById('flip-btn').style.display = '';
   const ratingWrap = document.getElementById('rating-wrap');
@@ -216,6 +207,18 @@ function renderKanjiCard(card, front, back, dirLabel) {
   const k = card.item;
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
+  const kanjiSpeakText = k.char.replace(/'/g, "\\'");
+  const kanjiSentencesHtml = k.sentences && k.sentences.length
+    ? `<div class="dialogue-box">${k.sentences.map(s => `
+        <div class="dialogue-line">
+          <div class="dialogue-line-top">
+            <div class="dialogue-jp">${escHtml(s.jp)}</div>
+            <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+          </div>
+          ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
+          <div class="dialogue-de">${escHtml(s.de)}</div>
+        </div>`).join('')}</div>`
+    : '';
 
   if (card.dir === 'fwd') {
     // JP → DE: front = Kanji
@@ -227,7 +230,10 @@ function renderKanjiCard(card, front, back, dirLabel) {
       <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Kanji</span>
-        <div class="back-main">${k.char}</div>
+        <div class="back-main-row">
+          <div class="back-main">${k.char}</div>
+          <button class="btn-speak-word" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+        </div>
       </div>
       <div class="back-divider"></div>
       <div class="back-section">
@@ -252,12 +258,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Sätze</span>
-        ${collapsibleDialogue('Sätze anzeigen', `<div class="dialogue-box">${k.sentences.map(s => `
-          <div class="dialogue-line">
-            <div class="dialogue-jp">${escHtml(s.jp)}</div>
-            ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
-            <div class="dialogue-de">${escHtml(s.de)}</div>
-          </div>`).join('')}</div>`)}
+        ${collapsibleDialogue('Sätze anzeigen', kanjiSentencesHtml)}
       </div>` : ''}`;
   } else {
     // DE → JP: front = German meaning
@@ -269,7 +270,10 @@ function renderKanjiCard(card, front, back, dirLabel) {
       <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Kanji</span>
-        <div class="back-main">${k.char}</div>
+        <div class="back-main-row">
+          <div class="back-main">${k.char}</div>
+          <button class="btn-speak-word" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+        </div>
       </div>
       <div class="back-divider"></div>
       <div class="back-section">
@@ -290,12 +294,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Sätze</span>
-        ${collapsibleDialogue('Sätze anzeigen', `<div class="dialogue-box">${k.sentences.map(s => `
-          <div class="dialogue-line">
-            <div class="dialogue-jp">${escHtml(s.jp)}</div>
-            ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
-            <div class="dialogue-de">${escHtml(s.de)}</div>
-          </div>`).join('')}</div>`)}
+        ${collapsibleDialogue('Sätze anzeigen', kanjiSentencesHtml)}
       </div>` : ''}`;
   }
 }
@@ -303,6 +302,19 @@ function renderKanjiCard(card, front, back, dirLabel) {
 function renderVocabCard(card, front, back, dirLabel) {
   const v = card.item;
   const showReading = v.word !== v.reading;
+
+  const vocabSpeakText = (v.reading || v.word).replace(/'/g, "\\'");
+  const vocabExamplesHtml = v.examples && v.examples.length
+    ? `<div class="dialogue-box">${v.examples.map(ex => `
+        <div class="dialogue-line">
+          <div class="dialogue-line-top">
+            <div class="dialogue-jp">${escHtml(ex.jp)}</div>
+            <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+          </div>
+          ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
+          <div class="dialogue-de">${escHtml(ex.de)}</div>
+        </div>`).join('')}</div>`
+    : '';
 
   if (card.dir === 'fwd') {
     // JP → DE: front = Japanese word + reading
@@ -315,7 +327,10 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Wort</span>
-        <div class="back-main" style="font-size:32px">${v.word}</div>
+        <div class="back-main-row">
+          <div class="back-main" style="font-size:32px">${v.word}</div>
+          <button class="btn-speak-word" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+        </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
       <div class="back-divider"></div>
@@ -328,12 +343,7 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Beispiele</span>
-        ${collapsibleDialogue('Beispiele anzeigen', `<div class="dialogue-box">${v.examples.map(ex => `
-          <div class="dialogue-line">
-            <div class="dialogue-jp">${escHtml(ex.jp)}</div>
-            ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
-            <div class="dialogue-de">${escHtml(ex.de)}</div>
-          </div>`).join('')}</div>`)}
+        ${collapsibleDialogue('Beispiele anzeigen', vocabExamplesHtml)}
       </div>` : ''}`;
   } else {
     // DE → JP: front = German meaning
@@ -345,7 +355,10 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Japanisch</span>
-        <div class="back-main" style="font-size:36px">${v.word}</div>
+        <div class="back-main-row">
+          <div class="back-main" style="font-size:36px">${v.word}</div>
+          <button class="btn-speak-word" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+        </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
       <div class="back-divider"></div>
@@ -357,12 +370,7 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">Beispiele</span>
-        ${collapsibleDialogue('Beispiele anzeigen', `<div class="dialogue-box">${v.examples.map(ex => `
-          <div class="dialogue-line">
-            <div class="dialogue-jp">${escHtml(ex.jp)}</div>
-            ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
-            <div class="dialogue-de">${escHtml(ex.de)}</div>
-          </div>`).join('')}</div>`)}
+        ${collapsibleDialogue('Beispiele anzeigen', vocabExamplesHtml)}
       </div>` : ''}`;
   }
 }
@@ -738,7 +746,10 @@ function renderListDetail(item, tab) {
     const sentHtml = k.sentences && k.sentences.length
       ? `<div class="list-detail-example">
           ${k.sentences.map(s => `
-            <div class="list-detail-jp">${escHtml(s.jp)}</div>
+            <div class="list-detail-example-row">
+              <div class="list-detail-jp">${escHtml(s.jp)}</div>
+              <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+            </div>
             ${s.reading ? `<div class="sentence-reading">${escHtml(s.reading)}</div>` : ''}
             <div class="list-detail-de">${escHtml(s.de)}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">')}
          </div>` : '';
@@ -769,7 +780,10 @@ function renderListDetail(item, tab) {
     ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
   const ex = item.examples && item.examples[0];
   const exHtml = ex ? `<div class="list-detail-example">
-    <div class="list-detail-jp">${escHtml(ex.jp)}</div>
+    <div class="list-detail-example-row">
+      <div class="list-detail-jp">${escHtml(ex.jp)}</div>
+      <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+    </div>
     ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
     <div class="list-detail-de">${escHtml(ex.de)}</div>
   </div>` : '';
@@ -822,6 +836,7 @@ function renderListTab(tab) {
             </div>
             <div class="list-de">${escHtml(shortMeaning)}</div>
           </div>
+          <button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${k.char.replace(/'/g, "\\'")}')">🔊</button>
           <span class="list-chevron">▼</span>
         </div>
         <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
@@ -839,6 +854,10 @@ function renderListTab(tab) {
     } else if (!de) {
       de = item.explanation ? item.explanation.split('.')[0] : '';
     }
+    const speakText = tab !== 'grammar' ? (item.reading || item.word || item.pattern || '') : '';
+    const speakBtn = speakText
+      ? `<button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊</button>`
+      : '';
     return `<div class="list-row" onclick="toggleListRow(this)">
       <div class="list-row-summary">
         <div class="list-row-main">
@@ -848,6 +867,7 @@ function renderListTab(tab) {
           </div>
           <div class="list-de">${escHtml(de)}</div>
         </div>
+        ${speakBtn}
         <span class="list-chevron">▼</span>
       </div>
       <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">

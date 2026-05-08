@@ -28,5 +28,6 @@ git push origin main     # deployed automatisch via GitHub Pages
 
 - Kein npm, kein Build. Änderungen direkt in den Dateien, im Browser testen.
 - `sw.js`: Cache-Name (`n5-vX`) bei jeder inhaltlichen Dateiänderung inkrementieren.
+- `index.html`: `<div class="app-version">` bei jedem Feature-Release auf die neue Versionsnummer setzen (SemVer, aktuell v1.6.0).
 - `CHANGELOG.md` bei Features und Fixes aktuell halten.
 - `data/*.js` Lesbarkeit > Kompaktheit — lesbare Feldnamen, ein Objekt pro Zeile.
