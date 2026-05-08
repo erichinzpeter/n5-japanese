@@ -663,7 +663,7 @@ function renderDone() {
 // ===== TEXT-TO-SPEECH =====
 function getJapaneseText(card) {
   const { item, type } = card;
-  if (type === 'kanji')   return item.char;
+  if (type === 'kanji')   return item.speak || item.kun[0] || item.on[0];
   if (type === 'grammar') return item.pattern;
   return item.reading || item.word;   // vocab + basics
 }

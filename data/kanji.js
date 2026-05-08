@@ -1,26 +1,26 @@
 const KANJI = [
   // Zahlen
-  { id: "k001", char: "一", meaning: ["eins", "1"], on: ["いち", "いつ"], kun: ["ひと", "ひとつ"], examples: ["一月 (いちがつ) — Januar", "一つ (ひとつ) — ein Ding"], sentences: [
+  { id: "k001", char: "一", meaning: ["eins", "1"], speak: "いち", on: ["いち", "いつ"], kun: ["ひと", "ひとつ"], examples: ["一月 (いちがつ) — Januar", "一つ (ひとつ) — ein Ding"], sentences: [
     { jp: "りんごを一つください。", reading: "りんごをひとつください。", de: "Geben Sie mir bitte einen Apfel." },
     { jp: "一月はとても寒いです。", reading: "いちがつはとてもさむいです。", de: "Der Januar ist sehr kalt." }
   ]},
-  { id: "k002", char: "二", meaning: ["zwei", "2"], on: ["に", "じ"], kun: ["ふた", "ふたつ"], examples: ["二月 (にがつ) — Februar", "二つ (ふたつ) — zwei Dinge"], sentences: [
+  { id: "k002", char: "二", meaning: ["zwei", "2"], speak: "に", on: ["に", "じ"], kun: ["ふた", "ふたつ"], examples: ["二月 (にがつ) — Februar", "二つ (ふたつ) — zwei Dinge"], sentences: [
     { jp: "コーヒーを二つお願いします。", reading: "コーヒーをふたつおねがいします。", de: "Zwei Kaffee bitte." },
     { jp: "二月に誕生日があります。", reading: "にがつにたんじょうびがあります。", de: "Mein Geburtstag ist im Februar." }
   ]},
-  { id: "k003", char: "三", meaning: ["drei", "3"], on: ["さん"], kun: ["み", "みっつ"], examples: ["三月 (さんがつ) — März", "三つ (みっつ) — drei Dinge"], sentences: [
+  { id: "k003", char: "三", meaning: ["drei", "3"], speak: "さん", on: ["さん"], kun: ["み", "みっつ"], examples: ["三月 (さんがつ) — März", "三つ (みっつ) — drei Dinge"], sentences: [
     { jp: "三時に友達と会います。", reading: "さんじにともだちとあいます。", de: "Ich treffe mich um drei Uhr mit meinem Freund." },
     { jp: "三つのケーキを食べました。", reading: "みっつのケーキをたべました。", de: "Ich habe drei Kuchen gegessen." }
   ]},
-  { id: "k004", char: "四", meaning: ["vier", "4"], on: ["し"], kun: ["よ", "よん", "よっつ"], examples: ["四月 (しがつ) — April", "四つ (よっつ) — vier Dinge"], sentences: [
+  { id: "k004", char: "四", meaning: ["vier", "4"], speak: "よん", on: ["し"], kun: ["よ", "よん", "よっつ"], examples: ["四月 (しがつ) — April", "四つ (よっつ) — vier Dinge"], sentences: [
     { jp: "四月に学校が始まります。", reading: "しがつにがっこうがはじまります。", de: "Die Schule beginnt im April." },
     { jp: "家族は四人います。", reading: "かぞくはよにんいます。", de: "Meine Familie hat vier Personen." }
   ]},
-  { id: "k005", char: "五", meaning: ["fünf", "5"], on: ["ご"], kun: ["いつ", "いつつ"], examples: ["五月 (ごがつ) — Mai", "五つ (いつつ) — fünf Dinge"], sentences: [
+  { id: "k005", char: "五", meaning: ["fünf", "5"], speak: "ご", on: ["ご"], kun: ["いつ", "いつつ"], examples: ["五月 (ごがつ) — Mai", "五つ (いつつ) — fünf Dinge"], sentences: [
     { jp: "五月は天気がいいです。", reading: "ごがつはてんきがいいです。", de: "Im Mai ist das Wetter schön." },
     { jp: "五時に家に帰ります。", reading: "ごじにいえにかえります。", de: "Ich gehe um fünf Uhr nach Hause." }
   ]},
-  { id: "k006", char: "六", meaning: ["sechs", "6"], on: ["ろく"], kun: ["む", "むっつ"], examples: ["六月 (ろくがつ) — Juni", "六つ (むっつ) — sechs Dinge"], sentences: [
+  { id: "k006", char: "六", meaning: ["sechs", "6"], speak: "ろく", on: ["ろく"], kun: ["む", "むっつ"], examples: ["六月 (ろくがつ) — Juni", "六つ (むっつ) — sechs Dinge"], sentences: [
     { jp: "六月はよく雨が降ります。", reading: "ろくがつはよくあめがふります。", de: "Im Juni regnet es oft." },
     { jp: "六時に起きます。", reading: "ろくじにおきます。", de: "Ich stehe um sechs Uhr auf." }
   ]},
@@ -28,15 +28,15 @@ const KANJI = [
     { jp: "七月に海へ行きます。", reading: "しちがつにうみへいきます。", de: "Im Juli fahre ich ans Meer." },
     { jp: "七時に朝ごはんを食べます。", reading: "しちじにあさごはんをたべます。", de: "Ich esse um sieben Uhr Frühstück." }
   ]},
-  { id: "k008", char: "八", meaning: ["acht", "8"], on: ["はち"], kun: ["や", "やっつ"], examples: ["八月 (はちがつ) — August", "八つ (やっつ) — acht Dinge"], sentences: [
+  { id: "k008", char: "八", meaning: ["acht", "8"], speak: "はち", on: ["はち"], kun: ["や", "やっつ"], examples: ["八月 (はちがつ) — August", "八つ (やっつ) — acht Dinge"], sentences: [
     { jp: "八月はとても暑いです。", reading: "はちがつはとてもあついです。", de: "Im August ist es sehr heiß." },
     { jp: "八時に学校が始まります。", reading: "はちじにがっこうがはじまります。", de: "Die Schule beginnt um acht Uhr." }
   ]},
-  { id: "k009", char: "九", meaning: ["neun", "9"], on: ["く", "きゅう"], kun: ["ここの", "ここのつ"], examples: ["九月 (くがつ) — September", "九つ (ここのつ) — neun Dinge"], sentences: [
+  { id: "k009", char: "九", meaning: ["neun", "9"], speak: "きゅう", on: ["く", "きゅう"], kun: ["ここの", "ここのつ"], examples: ["九月 (くがつ) — September", "九つ (ここのつ) — neun Dinge"], sentences: [
     { jp: "九月に日本へ来ました。", reading: "くがつににほんへきました。", de: "Ich bin im September nach Japan gekommen." },
     { jp: "九時まで起きています。", reading: "くじまでおきています。", de: "Ich bleibe bis neun Uhr auf." }
   ]},
-  { id: "k010", char: "十", meaning: ["zehn", "10"], on: ["じゅう", "じっ"], kun: ["とお", "と"], examples: ["十月 (じゅうがつ) — Oktober", "十 (とお) — zehn Dinge"], sentences: [
+  { id: "k010", char: "十", meaning: ["zehn", "10"], speak: "じゅう", on: ["じゅう", "じっ"], kun: ["とお", "と"], examples: ["十月 (じゅうがつ) — Oktober", "十 (とお) — zehn Dinge"], sentences: [
     { jp: "十月は紅葉がきれいです。", reading: "じゅうがつはこうようがきれいです。", de: "Im Oktober sind die Herbstblätter wunderschön." },
     { jp: "十分待ってください。", reading: "じゅっぷんまってください。", de: "Bitte warten Sie zehn Minuten." }
   ]},
@@ -46,7 +46,7 @@ const KANJI = [
     { jp: "このジュースは百円です。", reading: "このジュースはひゃくえんです。", de: "Dieser Saft kostet 100 Yen." },
     { jp: "百メートル歩きました。", reading: "ひゃくメートルあるきました。", de: "Ich bin hundert Meter gelaufen." }
   ]},
-  { id: "k012", char: "千", meaning: ["tausend", "1.000"], on: ["せん", "ぜん"], kun: ["ち"], examples: ["千円 (せんえん) — 1.000 Yen", "三千 (さんぜん) — 3.000"], sentences: [
+  { id: "k012", char: "千", meaning: ["tausend", "1.000"], speak: "せん", on: ["せん", "ぜん"], kun: ["ち"], examples: ["千円 (せんえん) — 1.000 Yen", "三千 (さんぜん) — 3.000"], sentences: [
     { jp: "このかばんは千円です。", reading: "このかばんはせんえんです。", de: "Diese Tasche kostet 1.000 Yen." },
     { jp: "千円でランチを食べました。", reading: "せんえんでランチをたべました。", de: "Ich habe für 1.000 Yen zu Mittag gegessen." }
   ]},
@@ -54,7 +54,7 @@ const KANJI = [
     { jp: "このパソコンは五万円です。", reading: "このパソコンはごまんえんです。", de: "Dieser Computer kostet 50.000 Yen." },
     { jp: "一万円をATMでおろしました。", reading: "いちまんえんをATMでおろしました。", de: "Ich habe 10.000 Yen am Geldautomaten abgehoben." }
   ]},
-  { id: "k014", char: "円", meaning: ["Yen", "Kreis", "rund"], on: ["えん"], kun: ["まるい"], examples: ["百円 (ひゃくえん) — 100 Yen", "円い (まるい) — rund"], sentences: [
+  { id: "k014", char: "円", meaning: ["Yen", "Kreis", "rund"], speak: "えん", on: ["えん"], kun: ["まるい"], examples: ["百円 (ひゃくえん) — 100 Yen", "円い (まるい) — rund"], sentences: [
     { jp: "すみません、百円がありますか。", reading: "すみません、ひゃくえんがありますか。", de: "Entschuldigung, haben Sie 100 Yen?" },
     { jp: "このケーキは円い形です。", reading: "このケーキはまるいかたちです。", de: "Dieser Kuchen hat eine runde Form." }
   ]},
@@ -76,11 +76,11 @@ const KANJI = [
     { jp: "今、何時ですか。", reading: "いま、なんじですか。", de: "Wie viel Uhr ist es jetzt?" },
     { jp: "時々コーヒーを飲みます。", reading: "ときどきコーヒーをのみます。", de: "Manchmal trinke ich Kaffee." }
   ]},
-  { id: "k019", char: "分", meaning: ["Minute", "Teil", "verstehen"], on: ["ふん", "ぶん", "ぷん"], kun: ["わかる", "わける"], examples: ["五分 (ごふん) — 5 Minuten", "分かる (わかる) — verstehen"], sentences: [
+  { id: "k019", char: "分", meaning: ["Minute", "Teil", "verstehen"], speak: "ふん", on: ["ふん", "ぶん", "ぷん"], kun: ["わかる", "わける"], examples: ["五分 (ごふん) — 5 Minuten", "分かる (わかる) — verstehen"], sentences: [
     { jp: "五分後に来てください。", reading: "ごふんごにきてください。", de: "Bitte kommen Sie in fünf Minuten." },
     { jp: "日本語が少し分かります。", reading: "にほんごがすこしわかります。", de: "Ich verstehe ein bisschen Japanisch." }
   ]},
-  { id: "k020", char: "半", meaning: ["halb", "Mitte"], on: ["はん"], kun: ["なかば"], examples: ["三時半 (さんじはん) — halb vier", "半分 (はんぶん) — die Hälfte"], sentences: [
+  { id: "k020", char: "半", meaning: ["halb", "Mitte"], speak: "はん", on: ["はん"], kun: ["なかば"], examples: ["三時半 (さんじはん) — halb vier", "半分 (はんぶん) — die Hälfte"], sentences: [
     { jp: "七時半に朝ごはんを食べます。", reading: "しちじはんにあさごはんをたべます。", de: "Ich esse um halb acht Frühstück." },
     { jp: "ケーキを半分食べました。", reading: "ケーキをはんぶんたべました。", de: "Ich habe die Hälfte des Kuchens gegessen." }
   ]},
@@ -148,7 +148,7 @@ const KANJI = [
     { jp: "友達に会いました。", reading: "ともだちにあいました。", de: "Ich habe meinen Freund getroffen." },
     { jp: "父は会社で働いています。", reading: "ちちはかいしゃではたらいています。", de: "Mein Vater arbeitet in einer Firma." }
   ]},
-  { id: "k035", char: "社", meaning: ["Gesellschaft", "Firma", "Schrein"], on: ["しゃ", "じゃ"], kun: ["やしろ"], examples: ["会社 (かいしゃ) — Firma", "神社 (じんじゃ) — Shinto-Schrein"], sentences: [
+  { id: "k035", char: "社", meaning: ["Gesellschaft", "Firma", "Schrein"], speak: "しゃ", on: ["しゃ", "じゃ"], kun: ["やしろ"], examples: ["会社 (かいしゃ) — Firma", "神社 (じんじゃ) — Shinto-Schrein"], sentences: [
     { jp: "母は会社に行きました。", reading: "はははかいしゃにいきました。", de: "Meine Mutter ist zur Firma gegangen." },
     { jp: "神社でお参りをしました。", reading: "じんじゃでおまいりをしました。", de: "Ich habe am Shinto-Schrein gebetet." }
   ]},
@@ -170,15 +170,15 @@ const KANJI = [
     { jp: "日本語を毎日練習します。", reading: "にほんごをまいにちれんしゅうします。", de: "Ich übe jeden Tag Japanisch." },
     { jp: "英語と日本語を話せます。", reading: "えいごとにほんごをはなせます。", de: "Ich kann Englisch und Japanisch sprechen." }
   ]},
-  { id: "k040", char: "字", meaning: ["Schriftzeichen", "Buchstabe"], on: ["じ"], kun: ["あざ"], examples: ["漢字 (かんじ) — Kanji", "文字 (もじ) — Schriftzeichen"], sentences: [
+  { id: "k040", char: "字", meaning: ["Schriftzeichen", "Buchstabe"], speak: "じ", on: ["じ"], kun: ["あざ"], examples: ["漢字 (かんじ) — Kanji", "文字 (もじ) — Schriftzeichen"], sentences: [
     { jp: "漢字を毎日練習しています。", reading: "かんじをまいにちれんしゅうしています。", de: "Ich übe jeden Tag Kanji." },
     { jp: "この字はどう読みますか。", reading: "このじはどうよみますか。", de: "Wie liest man dieses Schriftzeichen?" }
   ]},
-  { id: "k041", char: "文", meaning: ["Text", "Schrift", "Satz"], on: ["ぶん", "もん"], kun: ["ふみ"], examples: ["文字 (もじ) — Schriftzeichen", "作文 (さくぶん) — Aufsatz"], sentences: [
+  { id: "k041", char: "文", meaning: ["Text", "Schrift", "Satz"], speak: "ぶん", on: ["ぶん", "もん"], kun: ["ふみ"], examples: ["文字 (もじ) — Schriftzeichen", "作文 (さくぶん) — Aufsatz"], sentences: [
     { jp: "日本語で文を書きました。", reading: "にほんごでぶんをかきました。", de: "Ich habe einen Satz auf Japanisch geschrieben." },
     { jp: "作文の宿題があります。", reading: "さくぶんのしゅくだいがあります。", de: "Ich habe Hausaufgaben für den Aufsatz." }
   ]},
-  { id: "k042", char: "本", meaning: ["Buch", "Ursprung", "Japan"], on: ["ほん", "ぽん", "ぼん"], kun: ["もと"], examples: ["本 (ほん) — Buch", "日本 (にほん) — Japan"], sentences: [
+  { id: "k042", char: "本", meaning: ["Buch", "Ursprung", "Japan"], speak: "ほん", on: ["ほん", "ぽん", "ぼん"], kun: ["もと"], examples: ["本 (ほん) — Buch", "日本 (にほん) — Japan"], sentences: [
     { jp: "図書館で本を読みました。", reading: "としょかんでほんをよみました。", de: "Ich habe in der Bibliothek ein Buch gelesen." },
     { jp: "日本へ旅行したいです。", reading: "にほんへりょこうしたいです。", de: "Ich möchte nach Japan reisen." }
   ]},
@@ -232,7 +232,7 @@ const KANJI = [
     { jp: "八時に家を出ます。", reading: "はちじにいえをでます。", de: "Ich verlasse das Haus um acht Uhr." },
     { jp: "出口はどこですか。", reading: "でぐちはどこですか。", de: "Wo ist der Ausgang?" }
   ]},
-  { id: "k055", char: "入", meaning: ["eintreten", "hineingehen"], on: ["にゅう"], kun: ["いる", "いれる", "はいる"], examples: ["入る (はいる) — eintreten", "入口 (いりぐち) — Eingang"], sentences: [
+  { id: "k055", char: "入", meaning: ["eintreten", "hineingehen"], speak: "はいる", on: ["にゅう"], kun: ["いる", "いれる", "はいる"], examples: ["入る (はいる) — eintreten", "入口 (いりぐち) — Eingang"], sentences: [
     { jp: "部屋に入ってください。", reading: "へやにはいってください。", de: "Bitte treten Sie ins Zimmer ein." },
     { jp: "入口はあちらです。", reading: "いりぐちはあちらです。", de: "Der Eingang ist dort drüben." }
   ]},
@@ -378,7 +378,7 @@ const KANJI = [
     { jp: "今日は雨が降っています。", reading: "きょうはあめがふっています。", de: "Heute regnet es." },
     { jp: "雨の日は家にいます。", reading: "あめのひはいえにいます。", de: "An Regentagen bleibe ich zu Hause." }
   ]},
-  { id: "k089", char: "天", meaning: ["Himmel", "Natur", "himmlisch"], on: ["てん"], kun: ["あま", "あめ"], examples: ["天気 (てんき) — Wetter", "天ぷら (てんぷら) — Tempura"], sentences: [
+  { id: "k089", char: "天", meaning: ["Himmel", "Natur", "himmlisch"], speak: "てん", on: ["てん"], kun: ["あま", "あめ"], examples: ["天気 (てんき) — Wetter", "天ぷら (てんぷら) — Tempura"], sentences: [
     { jp: "今日の天気はどうですか。", reading: "きょうのてんきはどうですか。", de: "Wie ist das Wetter heute?" },
     { jp: "天ぷらが大好きです。", reading: "てんぷらがだいすきです。", de: "Ich liebe Tempura sehr." }
   ]},
