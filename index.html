@@ -15,7 +15,7 @@
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,12 +25,13 @@
     <header class="home-header">
       <div class="home-logo">日本語</div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v1.7.0</div>
+      <div class="app-version">v2.0.0</div>
     </header>
 
     <div class="mode-toggle">
       <button class="mode-btn active" data-mode="flashcard">Karteikarten</button>
       <button class="mode-btn" data-mode="mc">Multiple Choice</button>
+      <button class="mode-btn" data-mode="situation">Situation</button>
     </div>
 
     <div class="direction-toggle">
@@ -132,6 +133,11 @@
 
     <div id="mc-choices" class="mc-choices" style="display:none">
       <!-- filled by JS in MC mode -->
+    </div>
+
+    <div id="tiles-wrap" style="display:none">
+      <div id="tiles-target"></div>
+      <div id="tiles-source"></div>
     </div>
 
     <div class="rating-wrap" id="rating-wrap" style="display:none">

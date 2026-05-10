@@ -157,6 +157,8 @@ function startSession(deck, direction) {
   showScreen('session');
   if (state.mode === 'mc') {
     renderMCCard();
+  } else if (state.mode === 'situation') {
+    renderSituationCard();
   } else {
     renderCard();
   }
@@ -197,10 +199,11 @@ function renderCard() {
     renderGrammarCard(card, front, back, dirLabel);
   }
 
-  // Show flip button, hide ratings
+  // Show flip button, hide ratings and other mode elements
   document.getElementById('flip-btn').style.display = '';
-  const ratingWrap = document.getElementById('rating-wrap');
-  ratingWrap.style.display = 'none';
+  document.getElementById('rating-wrap').style.display = 'none';
+  document.getElementById('mc-choices').style.display = 'none';
+  document.getElementById('situation-input-wrap').style.display = 'none';
 }
 
 function renderKanjiCard(card, front, back, dirLabel) {
@@ -543,6 +546,7 @@ function renderMCCard() {
   // Hide flip button and SRS buttons, show MC choices
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
+  document.getElementById('situation-input-wrap').style.display = 'none';
 
   const { choices, correct, readings } = generateChoices(card);
   const mcEl = document.getElementById('mc-choices');
@@ -591,6 +595,200 @@ function handleMCAnswer(clickedBtn, correct) {
   }, delay);
 }
 
+// ===== SITUATION MODE =====
+function generateSituationChoices(card) {
+  const pool = GRAMMAR.filter(g => g.id !== card.item.id);
+  const correct = card.item.pattern;
+  const distractors = shuffle([...pool]).slice(0, 3).map(g => g.pattern);
+  return { choices: shuffle([correct, ...distractors]), correct };
+}
+
+function renderSituationCard() {
+  const card = state.session[state.sessionIdx];
+  const front = document.getElementById('card-front');
+  const back  = document.getElementById('card-back');
+  const inner = document.getElementById('card-inner');
+
+  inner.classList.remove('flipped');
+  state.flipped = false;
+
+  const flashcard = document.getElementById('flashcard');
+  flashcard.classList.remove('card-enter');
+  void flashcard.offsetWidth;
+  flashcard.classList.add('card-enter');
+
+  const total = state.session.length;
+  const idx   = state.sessionIdx;
+  document.getElementById('session-progress').textContent = `${idx + 1} / ${total}`;
+  document.getElementById('progress-bar').style.width = `${(idx / total) * 100}%`;
+
+  const g = card.item;
+  // Non-grammar cards have no situation — fall back to regular flashcard
+  if (card.type !== 'grammar') {
+    renderCard();
+    return;
+  }
+  const situation = g.situation || g.explanation.split('.')[0];
+
+  front.innerHTML = `
+    <div class="card-type-label">Grammatik — Situation</div>
+    <div class="situation-prompt">${escHtml(situation)}</div>`;
+
+  // Back: full grammar reveal (same as DE→JP flashcard back)
+  back.innerHTML = `
+    <div class="back-section">
+      <span class="back-label">Muster</span>
+      <div style="font-family:var(--font-display);font-size:28px;color:var(--accent)">${escHtml(g.pattern)}</div>
+    </div>
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Erklärung</span>
+      <div class="back-explanation">${escHtml(g.explanation)}</div>
+    </div>
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Beispiel</span>
+      <div class="back-example-jp">${escHtml(g.example_jp)}</div>
+      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
+      <div class="back-example-de">${escHtml(g.example_de)}</div>
+    </div>
+    ${g.dialogue ? `
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Dialog</span>
+      ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
+        <div class="dialogue-line">
+          <div class="dialogue-jp">${escHtml(l.jp)}</div>
+          ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
+          <div class="dialogue-de">${escHtml(l.de)}</div>
+        </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
+    </div>` : ''}`;
+
+  document.getElementById('flip-btn').style.display = 'none';
+  document.getElementById('rating-wrap').style.display = 'none';
+
+  const tokens = tokenizePattern(g.pattern);
+  const useTiles = tokens.length >= 2;
+  const subMode = (!useTiles || Math.random() < 0.6) ? 'mc' : 'tiles';
+
+  const mcEl = document.getElementById('mc-choices');
+  const tilesWrap = document.getElementById('tiles-wrap');
+  mcEl.style.display = 'none';
+  tilesWrap.style.display = 'none';
+
+  if (subMode === 'mc') {
+    const { choices, correct } = generateSituationChoices(card);
+    mcEl.style.display = '';
+    mcEl.innerHTML = choices.map((c, i) =>
+      `<button class="mc-btn" data-choice="${escHtml(c)}" data-correct="${escHtml(correct)}">
+        <span class="mc-num">${i + 1}</span>
+        <span class="mc-text"><span class="mc-word">${escHtml(c)}</span></span>
+      </button>`
+    ).join('');
+    mcEl.querySelectorAll('.mc-btn').forEach(btn => {
+      btn.addEventListener('click', () => handleSituationMCAnswer(btn, correct));
+    });
+  } else {
+    tilesWrap.style.display = '';
+    renderTiles(tokens, g.pattern);
+  }
+}
+
+function handleSituationMCAnswer(clickedBtn, correct) {
+  const mcEl = document.getElementById('mc-choices');
+  const isCorrect = clickedBtn.dataset.choice === correct;
+
+  mcEl.querySelectorAll('.mc-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.dataset.choice === correct) btn.classList.add('correct');
+    else if (btn === clickedBtn && !isCorrect) btn.classList.add('wrong');
+  });
+
+  setTimeout(() => {
+    mcEl.style.display = 'none';
+    // Flip to reveal
+    document.getElementById('card-inner').classList.add('flipped');
+    state.flipped = true;
+    const card = state.session[state.sessionIdx];
+    const ratingWrap = document.getElementById('rating-wrap');
+    ratingWrap.style.display = '';
+    [1, 3].forEach(r => {
+      const el = document.getElementById(`int-${r}`);
+      if (el) el.textContent = intervalLabel(card.srsCard, r);
+    });
+  }, isCorrect ? 1000 : 1500);
+}
+
+function tokenizePattern(pattern) {
+  return (pattern.match(/(〜[^〜]+|[^〜]+)/g) || [pattern]).filter(t => t.length > 0);
+}
+
+function renderTiles(tokens, correctPattern) {
+  const target = document.getElementById('tiles-target');
+  const source = document.getElementById('tiles-source');
+  target.innerHTML = '';
+  source.innerHTML = '';
+  target.className = '';
+
+  const shuffled = shuffle([...tokens]);
+  shuffled.forEach((token, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tile';
+    btn.textContent = token;
+    btn.dataset.token = token;
+    btn.dataset.idx = i;
+    btn.addEventListener('click', () => moveTile(btn, source, target, correctPattern));
+    source.appendChild(btn);
+  });
+}
+
+function moveTile(btn, source, target, correctPattern) {
+  if (target.classList.contains('correct') || target.classList.contains('wrong')) return;
+
+  if (btn.parentElement === source) {
+    target.appendChild(btn);
+  } else {
+    source.appendChild(btn);
+  }
+
+  const placed = [...target.querySelectorAll('.tile')];
+  const tokens = tokenizePattern(correctPattern);
+  if (placed.length === tokens.length) {
+    handleTileAnswer(placed.map(b => b.dataset.token).join(''), correctPattern);
+  }
+}
+
+function handleTileAnswer(assembled, correct) {
+  const normalize = s => s.trim().replace(/〜/g, '').replace(/\s+/g, '').toLowerCase();
+  const isCorrect = normalize(assembled) === normalize(correct);
+
+  const target = document.getElementById('tiles-target');
+  target.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  // On wrong: reset tiles after short pause so user can retry
+  if (!isCorrect) {
+    setTimeout(() => {
+      const source = document.getElementById('tiles-source');
+      target.classList.remove('wrong');
+      [...target.querySelectorAll('.tile')].forEach(t => source.appendChild(t));
+    }, 900);
+    return;
+  }
+
+  setTimeout(() => {
+    document.getElementById('tiles-wrap').style.display = 'none';
+    document.getElementById('card-inner').classList.add('flipped');
+    state.flipped = true;
+    const card = state.session[state.sessionIdx];
+    const ratingWrap = document.getElementById('rating-wrap');
+    ratingWrap.style.display = '';
+    [1, 3].forEach(r => {
+      const el = document.getElementById(`int-${r}`);
+      if (el) el.textContent = intervalLabel(card.srsCard, r);
+    });
+  }, 800);
+}
+
 // ===== FLIP =====
 function flipCard() {
   if (state.flipped) return;
@@ -637,6 +835,8 @@ function rateCard(rating) {
     renderDone();
   } else if (state.mode === 'mc') {
     renderMCCard();
+  } else if (state.mode === 'situation') {
+    renderSituationCard();
   } else {
     renderCard();
   }
@@ -719,6 +919,9 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 
 // ===== LIST MODE =====
 let listSearchQuery = '';
+let pendingExpandKey = '';
+
+const TAB_LABELS = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
 
 function isAltag(item) {
   return item.pos && (item.pos.includes('Adjektiv') || item.pos.includes('Adverb'));
@@ -790,29 +993,82 @@ function renderListDetail(item, tab) {
   return `${readingHtml}<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}`;
 }
 
-function renderListTab(tab) {
-  let items;
+function getItemsForTab(tab) {
+  if (tab === 'kanji')     return KANJI;
+  if (tab === 'vocab')     return VOCAB.filter(isVocabMain);
+  if (tab === 'grammar')   return GRAMMAR;
+  if (tab === 'adjektive') return [...BASICS, ...VOCAB].filter(isAltag);
+  return [...BASICS, ...VOCAB].filter(isNutzwort);
+}
+
+function matchesSearch(item, q) {
+  return [item.word, item.reading, item.meaning, item.char, item.pattern, item.explanation]
+    .concat(Array.isArray(item.meaning) ? item.meaning : [])
+    .some(f => f && String(f).toLowerCase().includes(q));
+}
+
+function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
+  const itemKey = escHtml(item.id || item.char || item.word || item.pattern || '');
+  const attrs = `data-item-key="${itemKey}"${extraAttrs ? ' ' + extraAttrs : ''} onclick="${clickHandler}"`;
+  const badge = badgeHtml || '';
   if (tab === 'kanji') {
-    items = KANJI;
-  } else if (tab === 'vocab') {
-    items = VOCAB.filter(isVocabMain);
-  } else if (tab === 'grammar') {
-    items = GRAMMAR;
-  } else if (tab === 'adjektive') {
-    items = [...BASICS, ...VOCAB].filter(isAltag);
-  } else {
-    items = [...BASICS, ...VOCAB].filter(isNutzwort);
+    const k = item;
+    const shortMeaning = k.meaning.slice(0, 2).join(', ');
+    return `<div class="list-row" ${attrs}>
+      <div class="list-row-summary">
+        <div class="list-kanji-char">${escHtml(k.char)}</div>
+        <div class="list-row-main">
+          <div class="list-jp-line">
+            <span class="list-jp">${k.on.length ? escHtml(k.on[0]) : ''}</span>
+            ${k.kun.length ? `<span class="list-reading">${escHtml(k.kun[0])}</span>` : ''}
+          </div>
+          <div class="list-de">${escHtml(shortMeaning)}</div>
+        </div>
+        <button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${k.char.replace(/'/g, "\\'")}')">🔊</button>
+        ${badge}<span class="list-chevron">▼</span>
+      </div>
+      <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
+        ${renderListDetail(item, tab)}
+      </div>
+    </div>`;
   }
+
+  const jp = item.word || item.pattern || '';
+  const showReading = item.reading && item.reading !== jp;
+  let de = item.meaning || '';
+  if (!de && item.pattern) {
+    const m = item.pattern.match(/\(([^)]+)\)\s*$/);
+    de = m ? m[1] : (item.explanation ? item.explanation.split('.')[0] : '');
+  } else if (!de) {
+    de = item.explanation ? item.explanation.split('.')[0] : '';
+  }
+  const speakText = tab !== 'grammar' ? (item.reading || item.word || item.pattern || '') : '';
+  const speakBtn = speakText
+    ? `<button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊</button>`
+    : '';
+  return `<div class="list-row" ${attrs}>
+    <div class="list-row-summary">
+      <div class="list-row-main">
+        <div class="list-jp-line">
+          <span class="list-jp">${escHtml(jp)}</span>
+          ${showReading ? `<span class="list-reading">${escHtml(item.reading)}</span>` : ''}
+        </div>
+        <div class="list-de">${escHtml(de)}</div>
+      </div>
+      ${speakBtn}${badge}<span class="list-chevron">▼</span>
+    </div>
+    <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
+      ${renderListDetail(item, tab)}
+    </div>
+  </div>`;
+}
+
+function renderListTab(tab) {
+  let items = getItemsForTab(tab);
 
   if (listSearchQuery) {
     const q = listSearchQuery.toLowerCase();
-    items = items.filter(item =>
-      [item.word, item.reading, item.meaning, item.char,
-       item.pattern, item.explanation,
-       ...(item.meaning ? [item.meaning] : []),
-       ...(item.meaning instanceof Array ? item.meaning : [])
-      ].some(f => f && String(f).toLowerCase().includes(q))
-    );
+    items = items.filter(item => matchesSearch(item, q));
   }
 
   const listContent = document.getElementById('list-content');
@@ -822,59 +1078,43 @@ function renderListTab(tab) {
     return;
   }
 
-  listContent.innerHTML = items.map((item, i) => {
-    if (tab === 'kanji') {
-      const k = item;
-      const shortMeaning = k.meaning.slice(0, 2).join(', ');
-      return `<div class="list-row" onclick="toggleListRow(this)">
-        <div class="list-row-summary">
-          <div class="list-kanji-char">${escHtml(k.char)}</div>
-          <div class="list-row-main">
-            <div class="list-jp-line">
-              <span class="list-jp">${k.on.length ? escHtml(k.on[0]) : ''}</span>
-              ${k.kun.length ? `<span class="list-reading">${escHtml(k.kun[0])}</span>` : ''}
-            </div>
-            <div class="list-de">${escHtml(shortMeaning)}</div>
-          </div>
-          <button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${k.char.replace(/'/g, "\\'")}')">🔊</button>
-          <span class="list-chevron">▼</span>
-        </div>
-        <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
-          ${renderListDetail(item, tab)}
-        </div>
-      </div>`;
-    }
+  listContent.innerHTML = items.map((item, i) => renderListRow(item, tab, i, 'toggleListRow(this)', '', '')).join('');
 
-    const jp = item.word || item.pattern || '';
-    const showReading = item.reading && item.reading !== jp;
-    let de = item.meaning || '';
-    if (!de && item.pattern) {
-      const m = item.pattern.match(/\(([^)]+)\)\s*$/);
-      de = m ? m[1] : (item.explanation ? item.explanation.split('.')[0] : '');
-    } else if (!de) {
-      de = item.explanation ? item.explanation.split('.')[0] : '';
-    }
-    const speakText = tab !== 'grammar' ? (item.reading || item.word || item.pattern || '') : '';
-    const speakBtn = speakText
-      ? `<button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊</button>`
-      : '';
-    return `<div class="list-row" onclick="toggleListRow(this)">
-      <div class="list-row-summary">
-        <div class="list-row-main">
-          <div class="list-jp-line">
-            <span class="list-jp">${escHtml(jp)}</span>
-            ${showReading ? `<span class="list-reading">${escHtml(item.reading)}</span>` : ''}
-          </div>
-          <div class="list-de">${escHtml(de)}</div>
-        </div>
-        ${speakBtn}
-        <span class="list-chevron">▼</span>
-      </div>
-      <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
-        ${renderListDetail(item, tab)}
-      </div>
-    </div>`;
-  }).join('');
+  if (pendingExpandKey) {
+    const row = listContent.querySelector(`[data-item-key="${pendingExpandKey}"]`);
+    if (row) toggleListRow(row);
+    pendingExpandKey = '';
+  }
+}
+
+function renderSearchAllTabs() {
+  const q = listSearchQuery.toLowerCase();
+  const rows = [];
+
+  ['kanji', 'vocab', 'grammar', 'adjektive', 'ausdruecke'].forEach(tab => {
+    getItemsForTab(tab)
+      .filter(item => matchesSearch(item, q))
+      .forEach((item, i) => {
+        const badge = `<span class="list-tab-badge">${TAB_LABELS[tab]}</span>`;
+        rows.push(renderListRow(item, tab, i, 'switchToTabAndExpand(this)', `data-source-tab="${tab}"`, badge));
+      });
+  });
+
+  const listContent = document.getElementById('list-content');
+  listContent.innerHTML = rows.length
+    ? rows.join('')
+    : `<div class="list-no-results">Keine Ergebnisse für „${escHtml(listSearchQuery)}"</div>`;
+}
+
+function switchToTabAndExpand(el) {
+  const sourceTab = el.dataset.sourceTab;
+  const itemKey = el.dataset.itemKey;
+
+  document.querySelectorAll('.list-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.list-tab[data-list-tab="${sourceTab}"]`).classList.add('active');
+
+  pendingExpandKey = itemKey;
+  renderListTab(sourceTab);
 }
 
 function toggleListRow(el) {
@@ -965,8 +1205,12 @@ function initEvents() {
   if (listSearchEl) {
     listSearchEl.addEventListener('input', e => {
       listSearchQuery = e.target.value.trim();
-      const activeTab = document.querySelector('.list-tab.active');
-      renderListTab(activeTab ? activeTab.dataset.listTab : 'kanji');
+      if (listSearchQuery) {
+        renderSearchAllTabs();
+      } else {
+        const activeTab = document.querySelector('.list-tab.active');
+        renderListTab(activeTab ? activeTab.dataset.listTab : 'kanji');
+      }
     });
   }
 

@@ -4,6 +4,32 @@
 
 ---
 
+## [2.0.0] — 2026-05-10
+
+### Neu
+
+- **Situation-Modus** — dritter Lernmodus speziell für Grammatik-Patterns
+  - Auf der Startseite als neuer Tab „Situation" wählbar
+  - Jede Karte zeigt eine deutsche Alltagssituation auf der Vorderseite; der Nutzer erkennt und wählt/baut das passende Grammatikmuster
+  - 60% der Fälle: Multiple Choice (4 Patterns zur Auswahl)
+  - 40% der Fälle: **Kacheln-Modus** (Duolingo-Stil) — Tokens des Musters erscheinen gemischt als anklickbare Kacheln, müssen in die richtige Reihenfolge gebracht werden
+  - Automatischer Fallback auf MC, wenn das Muster nur einen Token hat (z.B. `〜ましょう`)
+  - Bei falscher Kacheln-Reihenfolge: visueller Rot-Feedback + Tokens automatisch zurücksetzen zum erneuten Versuch
+  - Bei richtiger Reihenfolge: Grün-Feedback → Karte dreht sich → SRS-Rating
+
+- **Situation-Felder in allen 46 Grammatik-Einträgen** — jeder Grammar-Eintrag hat jetzt ein `situation`-Feld mit einer deutschen Alltagssituation, die das Muster einbettet (z.B. „Du möchtest eine höfliche Bitte äußern.")
+
+- **Kacheln-Interaktion** — neue tokenbasierte UI-Komponente
+  - `tokenizePattern()` zerlegt z.B. `〜は〜です` → `["〜は", "〜", "です"]`
+  - Kacheln sind touch-optimiert (min. 44px, `touch-action: manipulation`)
+  - Klick auf platzierte Kachel schickt sie zurück in den Pool
+
+### Geändert
+
+- **Font Inter → Outfit** — Interface-Schrift auf Outfit umgestellt (bessere Lesbarkeit, modernere Anmutung)
+
+---
+
 ## [1.3.0] — 2026-05-05
 
 ### Neu

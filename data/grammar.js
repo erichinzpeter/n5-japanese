@@ -3,6 +3,7 @@ const GRAMMAR = [
   {
     id: "g001",
     pattern: "〜は〜です",
+    situation: "Du möchtest jemandem höflich erklären, was etwas ist oder wer jemand ist.",
     explanation: "Höfliche Aussage: 'X ist Y'. は (wa) markiert das Thema, です (desu) = ist/bin/sind.",
     example_jp: "これはペンです。",
     example_de: "Das ist ein Stift.",
@@ -14,6 +15,7 @@ const GRAMMAR = [
   {
     id: "g002",
     pattern: "〜は〜じゃないです / ではありません",
+    situation: "Du möchtest eine falsche Annahme über etwas oder jemanden höflich korrigieren.",
     explanation: "Verneinung von です: 'X ist nicht Y'. じゃない (casual) / ではありません (formal).",
     example_jp: "これはペンじゃないです。",
     example_de: "Das ist kein Stift.",
@@ -25,6 +27,7 @@ const GRAMMAR = [
   {
     id: "g003",
     pattern: "〜ですか",
+    situation: "Du möchtest jemanden höflich nach etwas fragen.",
     explanation: "Fragesatz: Einfach か (ka) an das Ende hängen, keine Wortstellung ändern.",
     example_jp: "これはペンですか。",
     example_de: "Ist das ein Stift?",
@@ -36,6 +39,7 @@ const GRAMMAR = [
   {
     id: "g004",
     pattern: "〜でした / 〜じゃなかったです",
+    situation: "Du möchtest über etwas sprechen, das früher so war, aber jetzt anders sein könnte.",
     explanation: "Vergangenheit von です: でした = war/waren, じゃなかったです = war nicht.",
     example_jp: "昨日は月曜日でした。",
     example_reading: "きのうはげつようびでした。",
@@ -50,6 +54,7 @@ const GRAMMAR = [
   {
     id: "g005",
     pattern: "は (Thema-Partikel)",
+    situation: "Du möchtest klarstellen, worüber du sprichst, bevor du eine Aussage darüber machst.",
     explanation: "Markiert das Thema eines Satzes. Was über das Thema ausgesagt wird, folgt danach.",
     example_jp: "私は学生です。",
     example_reading: "わたしはがくせいです。",
@@ -62,6 +67,7 @@ const GRAMMAR = [
   {
     id: "g006",
     pattern: "が (Subjekt-Partikel)",
+    situation: "Du möchtest betonen, wer genau gehandelt hat oder wo genau etwas existiert.",
     explanation: "Markiert das Subjekt. Betont die Handlung/den Zustand, nicht das Thema. Oft bei Verben wie ある/いる, わかる, すき.",
     example_jp: "猫がいます。",
     example_reading: "ねこがいます。",
@@ -74,6 +80,7 @@ const GRAMMAR = [
   {
     id: "g007",
     pattern: "を (Objekt-Partikel)",
+    situation: "Du möchtest ausdrücken, was direkt von einer Handlung betroffen ist.",
     explanation: "Markiert das direkte Objekt einer transitiven Handlung.",
     example_jp: "本を読みます。",
     example_reading: "ほんをよみます。",
@@ -86,6 +93,7 @@ const GRAMMAR = [
   {
     id: "g008",
     pattern: "に (Richtung / Zeit / Empfänger)",
+    situation: "Du möchtest sagen, wohin du gehst, zu welchem Zeitpunkt etwas passiert, oder wem du etwas gibst.",
     explanation: "1) Richtung/Ziel bei gehen/kommen. 2) Zeitpunkt. 3) Empfänger bei geben/schicken. 4) Existenz-Ort bei ある/いる.",
     example_jp: "学校に行きます。/ 三時に起きます。",
     example_reading: "がっこうにいきます。／さんじにおきます。",
@@ -98,6 +106,7 @@ const GRAMMAR = [
   {
     id: "g009",
     pattern: "で (Ort der Handlung / Mittel)",
+    situation: "Du möchtest sagen, wo eine Handlung stattfindet oder mit welchem Mittel du etwas tust.",
     explanation: "1) Ort, wo eine Handlung stattfindet. 2) Mittel/Werkzeug/Verkehrsmittel/Sprache.",
     example_jp: "図書館で勉強します。/ 電車で行きます。",
     example_reading: "としょかんでべんきょうします。／でんしゃでいきます。",
@@ -110,6 +119,7 @@ const GRAMMAR = [
   {
     id: "g010",
     pattern: "の (Possessiv / Nomen-Modifikator)",
+    situation: "Du möchtest zeigen, dass etwas jemandem gehört, oder zwei Nomen miteinander verknüpfen.",
     explanation: "Verbindet zwei Nomen. Das erste modifiziert das zweite, oft wie 's im Deutschen.",
     example_jp: "田中さんの本です。",
     example_reading: "たなかさんのほんです。",
@@ -122,6 +132,7 @@ const GRAMMAR = [
   {
     id: "g011",
     pattern: "へ (Richtungs-Partikel)",
+    situation: "Du möchtest die Richtung angeben, in die du dich auf den Weg machst.",
     explanation: "Zeigt Richtung an (wohin). Oft austauschbar mit に bei Bewegungsverben.",
     example_jp: "東京へ行きます。",
     example_reading: "とうきょうへいきます。",
@@ -134,6 +145,7 @@ const GRAMMAR = [
   {
     id: "g012",
     pattern: "と (und / mit)",
+    situation: "Du möchtest mehrere Dinge vollständig aufzählen oder sagen, mit wem du etwas machst.",
     explanation: "1) Verbindet Nomen vollständig: 'A und B'. 2) 'zusammen mit' einer Person.",
     example_jp: "コーヒーとケーキを食べます。/ 友達と行きます。",
     example_reading: "コーヒーとケーキをたべます。／ともだちといきます。",
@@ -146,6 +158,7 @@ const GRAMMAR = [
   {
     id: "g013",
     pattern: "も (auch / ebenfalls)",
+    situation: "Du möchtest ausdrücken, dass dasselbe auch für dich oder eine andere Person gilt.",
     explanation: "Ersetzt は oder が: 'auch X'. Zeigt, dass dasselbe auch für X gilt.",
     example_jp: "私も学生です。",
     example_reading: "わたしもがくせいです。",
@@ -158,6 +171,7 @@ const GRAMMAR = [
   {
     id: "g014",
     pattern: "から〜まで (von ... bis ...)",
+    situation: "Du möchtest einen Zeitraum oder eine Strecke von einem Startpunkt zu einem Endpunkt angeben.",
     explanation: "から = von (Startpunkt), まで = bis (Endpunkt). Gilt für Zeit und Ort.",
     example_jp: "月曜日から金曜日まで働きます。",
     example_reading: "げつようびからきんようびまではたらきます。",
@@ -170,6 +184,7 @@ const GRAMMAR = [
   {
     id: "g015",
     pattern: "や〜など (A, B usw.)",
+    situation: "Du möchtest einige Beispiele aus einer Gruppe nennen, ohne alle Elemente aufzuzählen.",
     explanation: "Zählt Beispiele aus einer nicht erschöpfenden Liste auf. Wie 'A, B und so weiter'.",
     example_jp: "りんごやバナナなどを買いました。",
     example_reading: "りんごやバナナなどをかいました。",
@@ -184,6 +199,7 @@ const GRAMMAR = [
   {
     id: "g016",
     pattern: "こ/そ/あ/ど — これ・それ・あれ・どれ",
+    situation: "Du möchtest auf Dinge zeigen und sie je nach Entfernung voneinander unterscheiden.",
     explanation: "Zeigepronomen für Dinge: これ (dieses hier) / それ (das dort bei dir) / あれ (jenes dort drüben) / どれ (welches?).",
     example_jp: "これは何ですか。",
     example_reading: "これはなんですか。",
@@ -196,6 +212,7 @@ const GRAMMAR = [
   {
     id: "g017",
     pattern: "この・その・あの・どの + Nomen",
+    situation: "Du möchtest ein bestimmtes Ding beschreiben, indem du es direkt vor einem Nomen einordnest.",
     explanation: "Demonstrativadjektive: stehen vor einem Nomen. この本 = dieses Buch.",
     example_jp: "この本は面白いです。",
     example_reading: "このほんはおもしろいです。",
@@ -208,6 +225,7 @@ const GRAMMAR = [
   {
     id: "g018",
     pattern: "ここ・そこ・あそこ・どこ",
+    situation: "Du möchtest nach einem Ort fragen oder einen Ort je nach Entfernung benennen.",
     explanation: "Demonstrativpronomen für Orte: ここ (hier) / そこ (dort/bei dir) / あそこ (dort drüben) / どこ (wo?).",
     example_jp: "トイレはどこですか。",
     example_de: "Wo ist das WC?",
@@ -221,6 +239,7 @@ const GRAMMAR = [
   {
     id: "g019",
     pattern: "〜に〜があります / います",
+    situation: "Du möchtest sagen, dass an einem bestimmten Ort etwas oder jemand vorhanden ist.",
     explanation: "Existenz ausdrücken: があります für Dinge/Pflanzen, がいます für Personen/Tiere.",
     example_jp: "机の上に本があります。/ 部屋に猫がいます。",
     example_reading: "つくえのうえにほんがあります。／へやにねこがいます。",
@@ -233,6 +252,7 @@ const GRAMMAR = [
   {
     id: "g020",
     pattern: "〜は〜にあります / います",
+    situation: "Du möchtest sagen, wo sich ein bestimmter Gegenstand oder eine bestimmte Person befindet.",
     explanation: "Ort von Dingen/Personen angeben: 'X ist an/bei Y'.",
     example_jp: "本は机の上にあります。",
     example_reading: "ほんはつくえのうえにあります。",
@@ -247,6 +267,7 @@ const GRAMMAR = [
   {
     id: "g021",
     pattern: "〜ます / 〜ません (höfliche Gegenwart/Zukunft)",
+    situation: "Du möchtest höflich sagen, was du regelmäßig tust oder in Zukunft tun wirst — oder eben nicht.",
     explanation: "Höfliche Verbform für Gegenwart und Zukunft. ます = positiv, ません = negativ.",
     example_jp: "毎日日本語を勉強します。/ お酒を飲みません。",
     example_reading: "まいにちにほんごをべんきょうします。／おさけをのみません。",
@@ -259,6 +280,7 @@ const GRAMMAR = [
   {
     id: "g022",
     pattern: "〜ました / 〜ませんでした (höfliche Vergangenheit)",
+    situation: "Du möchtest höflich berichten, was du getan hast oder nicht getan hast.",
     explanation: "Höfliche Vergangenheitsform. ました = tat, ませんでした = tat nicht.",
     example_jp: "昨日映画を見ました。",
     example_reading: "きのうえいがをみました。",
@@ -273,6 +295,7 @@ const GRAMMAR = [
   {
     id: "g023",
     pattern: "〜ませんか (Einladung: Wollen wir nicht ...?)",
+    situation: "Du möchtest jemanden höflich einladen, etwas gemeinsam mit dir zu tun.",
     explanation: "Höfliche Einladung oder Vorschlag. Wie 'Wollen Sie nicht...?' / 'Wie wäre es mit...?'",
     example_jp: "一緒に映画を見ませんか。",
     example_reading: "いっしょにえいがをみませんか。",
@@ -285,6 +308,7 @@ const GRAMMAR = [
   {
     id: "g024",
     pattern: "〜ましょう / 〜ましょうか (Vorschlag: Lass uns ...)",
+    situation: "Du möchtest vorschlagen, jetzt gemeinsam loszulegen, oder anbieten, jemandem zu helfen.",
     explanation: "Vorschlag, etwas gemeinsam zu tun. ましょう = Lass uns!, ましょうか = Soll ich / Wollen wir?",
     example_jp: "始めましょう！/ 手伝いましょうか。",
     example_reading: "はじめましょう！／てつだいましょうか。",
@@ -299,6 +323,7 @@ const GRAMMAR = [
   {
     id: "g025",
     pattern: "〜てください (Bitte tun Sie ...)",
+    situation: "Du möchtest jemanden höflich darum bitten, etwas Bestimmtes zu tun.",
     explanation: "Höfliche Bitte oder Aufforderung: て-Form des Verbs + ください.",
     example_jp: "ゆっくり話してください。",
     example_reading: "ゆっくりはなしてください。",
@@ -311,6 +336,7 @@ const GRAMMAR = [
   {
     id: "g026",
     pattern: "〜てもいいですか (Darf ich ...?)",
+    situation: "Du möchtest höflich nachfragen, ob es in Ordnung ist, wenn du etwas tust.",
     explanation: "Um Erlaubnis bitten: 'Ist es in Ordnung, wenn ich...?'",
     example_jp: "ここに座ってもいいですか。",
     example_reading: "ここにすわってもいいですか。",
@@ -323,6 +349,7 @@ const GRAMMAR = [
   {
     id: "g027",
     pattern: "〜てはいけません (Man darf nicht ...)",
+    situation: "Du möchtest jemandem erklären, dass etwas nicht erlaubt ist.",
     explanation: "Verbot ausdrücken: 'Es ist verboten zu...' / 'Man darf nicht...'",
     example_jp: "ここで写真を撮ってはいけません。",
     example_reading: "ここでしゃしんをとってはいけません。",
@@ -335,6 +362,7 @@ const GRAMMAR = [
   {
     id: "g028",
     pattern: "〜ないでください (Bitte nicht ...)",
+    situation: "Du möchtest jemanden höflich darum bitten, etwas zu unterlassen.",
     explanation: "Negative Bitte: Nai-Form + でください. Bitten, etwas zu unterlassen.",
     example_jp: "ここで食べないでください。",
     example_reading: "ここでたべないでください。",
@@ -347,6 +375,7 @@ const GRAMMAR = [
   {
     id: "g029",
     pattern: "〜ている (gerade tun / Zustand)",
+    situation: "Du möchtest beschreiben, was du gerade in diesem Moment tust, oder einen andauernden Zustand ausdrücken.",
     explanation: "1) Andauernde Handlung (gerade): 食べている = isst gerade. 2) Resultierender Zustand: 結婚している = ist verheiratet.",
     example_jp: "今、テレビを見ています。",
     example_reading: "いま、テレビをみています。",
@@ -359,6 +388,7 @@ const GRAMMAR = [
   {
     id: "g030",
     pattern: "〜て + Verb (Handlungsfolge)",
+    situation: "Du möchtest beschreiben, dass du mehrere Dinge nacheinander erledigst.",
     explanation: "Mehrere Handlungen verbinden: 'X tun und dann Y tun'. Reihenfolge ist wichtig.",
     example_jp: "朝ごはんを食べて、学校に行きます。",
     example_reading: "あさごはんをたべて、がっこうにいきます。",
@@ -373,6 +403,7 @@ const GRAMMAR = [
   {
     id: "g031",
     pattern: "〜たい (möchte ... tun)",
+    situation: "Du möchtest ausdrücken, was du dir selbst wünschst oder gerne tun würdest.",
     explanation: "Eigenen Wunsch ausdrücken: ます-Stamm + たい. Konjugiert wie ein i-Adjektiv.",
     example_jp: "日本に行きたいです。",
     example_reading: "にほんにいきたいです。",
@@ -386,6 +417,7 @@ const GRAMMAR = [
     id: "g032",
     pattern: "〜に行きます / 来ます / 帰ります",
     reading: "〜にいきます / きます / かえります",
+    situation: "Du möchtest sagen, zu welchem Zweck du irgendwohin gehst, kommst oder zurückkehrst.",
     explanation: "Zweck einer Bewegung ausdrücken: Verbstamm + に + 行く/来る/帰る.",
     example_jp: "ご飯を食べに行きます。",
     example_reading: "ごはんをたべにいきます。",
@@ -400,6 +432,7 @@ const GRAMMAR = [
   {
     id: "g033",
     pattern: "〜から (weil / da — Begründung)",
+    situation: "Du möchtest erklären, warum du etwas tust oder nicht tust.",
     explanation: "Begründung angeben: [Grund]から、[Ergebnis]. Steht nach dem Grund-Satz.",
     example_jp: "眠いから、寝ます。",
     example_reading: "ねむいから、ねます。",
@@ -412,6 +445,7 @@ const GRAMMAR = [
   {
     id: "g034",
     pattern: "〜が / 〜けど (aber / jedoch)",
+    situation: "Du möchtest einen Gegensatz einräumen — etwas stimmt, aber es gibt eine Einschränkung.",
     explanation: "Kontrast oder Einschränkung ausdrücken. が (neutral/förmlich), けど (umgangssprachlich).",
     example_jp: "日本語は好きですが、難しいです。",
     example_reading: "にほんごはすきですが、むずかしいです。",
@@ -427,6 +461,7 @@ const GRAMMAR = [
     id: "g035",
     pattern: "〜前に (bevor / vor)",
     reading: "〜まえに",
+    situation: "Du möchtest beschreiben, was du tust, bevor eine andere Sache passiert.",
     explanation: "Zeitliche Abfolge: 'vor X'. Verb im Wörterbuch-Form + 前に.",
     example_jp: "寝る前に、歯を磨きます。",
     example_reading: "ねるまえに、はをみがきます。",
@@ -440,6 +475,7 @@ const GRAMMAR = [
     id: "g036",
     pattern: "〜後で / 〜てから (nachdem / danach)",
     reading: "〜あとで / 〜てから",
+    situation: "Du möchtest beschreiben, was du tust, nachdem etwas anderes abgeschlossen ist.",
     explanation: "後で: nach einem Ereignis. てから: direkt danach, Reihenfolge betont.",
     example_jp: "ご飯を食べた後で、散歩します。",
     example_reading: "ごはんをたべたあとで、さんぽします。",
@@ -452,6 +488,7 @@ const GRAMMAR = [
   {
     id: "g037",
     pattern: "〜ごろ (ungefähr / gegen)",
+    situation: "Du möchtest eine ungefähre Zeit angeben, ohne den genauen Zeitpunkt zu kennen.",
     explanation: "Ungefähre Zeit oder Menge angeben: 'gegen X Uhr' / 'ungefähr'.",
     example_jp: "七時ごろ、起きます。",
     example_reading: "しちじごろ、おきます。",
@@ -466,6 +503,7 @@ const GRAMMAR = [
   {
     id: "g038",
     pattern: "い-Adjektiv Konjugation",
+    situation: "Du möchtest ein い-Adjektiv verneinen oder in die Vergangenheit setzen.",
     explanation: "い-Adj: Positiv: 高い. Negativ: 高くない. Vergangenheit: 高かった. Neg-Verg: 高くなかった. て-Form: 高くて.",
     example_jp: "このりんごは高くないです。",
     example_reading: "このりんごはたかくないです。",
@@ -478,6 +516,7 @@ const GRAMMAR = [
   {
     id: "g039",
     pattern: "な-Adjektiv + です / な + Nomen",
+    situation: "Du möchtest ein な-Adjektiv als Aussage verwenden oder direkt vor einem Nomen einsetzen.",
     explanation: "な-Adj: als Prädikat + です. Vor Nomen: Adj + な + Nomen. Negation: じゃない.",
     example_jp: "あの人はきれいです。/ きれいな人です。",
     example_reading: "あのひとはきれいです。／きれいなひとです。",
@@ -490,6 +529,7 @@ const GRAMMAR = [
   {
     id: "g040",
     pattern: "〜は〜より〜です (Vergleich: X ist ... als Y)",
+    situation: "Du möchtest zwei Dinge direkt miteinander vergleichen.",
     explanation: "Vergleich zweier Dinge: 'X ist [Adj]-er als Y'. より markiert den Vergleichspunkt.",
     example_jp: "東京は大阪より大きいです。",
     example_reading: "とうきょうはおおさかよりおおきいです。",
@@ -503,6 +543,7 @@ const GRAMMAR = [
     id: "g040b",
     pattern: "〜の方が〜より〜 (Präferenz: X ist besser/lieber als Y)",
     reading: "〜のほうが〜より〜",
+    situation: "Du möchtest ausdrücken, welche von zwei Optionen du bevorzugst.",
     explanation: "Drückt Präferenz oder Überlegenheit aus: 'X ist [Adj]-er als Y' / 'X mag ich lieber als Y'. の方が hebt hervor, was bevorzugt wird — の方が steht beim Favoriten, より beim Vergleichsobjekt. Struktur: [Favorit] の方が [Vergleich] より [Adjektiv] です.",
     example_jp: "コーヒーよりお茶の方が好きです。",
     example_reading: "コーヒーよりおちゃのほうがすきです。",
@@ -516,6 +557,7 @@ const GRAMMAR = [
     id: "g041",
     pattern: "〜の中で〜が一番〜 (Superlativ: am ...sten von allen)",
     reading: "〜のなかで〜がいちばん〜",
+    situation: "Du möchtest sagen, was von einer ganzen Gruppe am besten oder liebsten ist.",
     explanation: "Superlativ: 'Von allen X ist Y am [Adj]-sten'. 一番 = Nummer eins / am meisten.",
     example_jp: "果物の中でりんごが一番好きです。",
     example_reading: "くだもののなかでりんごがいちばんすきです。",
@@ -528,6 +570,7 @@ const GRAMMAR = [
   {
     id: "g042",
     pattern: "〜をください (Bitte geben Sie mir ...)",
+    situation: "Du möchtest in einem Geschäft oder Restaurant etwas bestellen.",
     explanation: "Etwas bestellen oder bitten: Objekt + をください. In Geschäften und Restaurants gebräuchlich.",
     example_jp: "コーヒーをください。",
     example_de: "Einen Kaffee bitte.",
@@ -539,6 +582,7 @@ const GRAMMAR = [
   {
     id: "g043",
     pattern: "〜はどうですか (Wie ist/wäre ... ?)",
+    situation: "Du möchtest nach jemandes Meinung zu etwas fragen oder etwas sanft vorschlagen.",
     explanation: "Nach einer Meinung fragen oder etwas vorschlagen: 'Wie wäre es mit...?'",
     example_jp: "お茶はどうですか。",
     example_reading: "おちゃはどうですか。",
@@ -551,6 +595,7 @@ const GRAMMAR = [
   {
     id: "g044",
     pattern: "〜だけ (nur / lediglich)",
+    situation: "Du möchtest betonen, dass du wirklich nur eine begrenzte Menge oder Sache möchtest.",
     explanation: "Einschränkung ausdrücken: 'nur X und nichts anderes'.",
     example_jp: "少しだけ食べます。",
     example_reading: "すこしだけたべます。",
@@ -564,6 +609,7 @@ const GRAMMAR = [
     id: "g045",
     pattern: "数字 + 助数詞 (Zahlen mit Zählwörtern)",
     reading: "すうじ + じょすうし",
+    situation: "Du möchtest eine genaue Anzahl von Gegenständen angeben und musst das richtige Zählwort wählen.",
     explanation: "Im Japanischen braucht man Zählwörter: 〜本 (zylindrische Dinge), 〜枚 (flache Dinge), 〜個 (kleine Objekte), 〜匹 (kleine Tiere), 〜人 (Personen), 〜台 (Maschinen).",
     example_jp: "えんぴつを三本ください。",
     example_reading: "えんぴつをさんぼんください。",
