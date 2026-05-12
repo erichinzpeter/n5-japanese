@@ -203,7 +203,7 @@ function renderCard() {
   document.getElementById('flip-btn').style.display = '';
   document.getElementById('rating-wrap').style.display = 'none';
   document.getElementById('mc-choices').style.display = 'none';
-  document.getElementById('situation-input-wrap').style.display = 'none';
+  document.getElementById('tiles-wrap').style.display = 'none';
 }
 
 function renderKanjiCard(card, front, back, dirLabel) {
@@ -546,7 +546,7 @@ function renderMCCard() {
   // Hide flip button and SRS buttons, show MC choices
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
-  document.getElementById('situation-input-wrap').style.display = 'none';
+  document.getElementById('tiles-wrap').style.display = 'none';
 
   const { choices, correct, readings } = generateChoices(card);
   const mcEl = document.getElementById('mc-choices');
