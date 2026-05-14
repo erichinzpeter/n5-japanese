@@ -4,6 +4,15 @@
 
 ---
 
+## [2.4.1] — 2026-05-14
+
+### Geändert
+
+- **Home-Screen passt auf Mobile-Viewport** — `100dvh` statt `100vh` berücksichtigt Mobile-URL-Bar. Engere Paddings/Margins auf `≤480px`, `env(safe-area-inset-bottom)` für iOS-Home-Indicator. Footer wird per `margin-top: auto` ans Viewport-Ende geschoben. `keyboard-hint` auf Mobile ausgeblendet.
+- Service-Worker-Cache `n5-v14` → `n5-v15`.
+
+---
+
 ## [2.4.0] — 2026-05-14
 
 ### Neu
