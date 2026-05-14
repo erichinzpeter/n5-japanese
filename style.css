@@ -1652,42 +1652,41 @@ body {
 }
 
 .fuji-bird--1 {
-  font-size: 34px;
-  animation: birdFly1 42s linear infinite;
+  font-size: 44px;
+  animation: birdFly1 50s linear infinite;
 }
 
 .fuji-bird--2 {
-  font-size: 26px;
-  animation: birdFly2 52s linear infinite;
-  animation-delay: -18s;
+  font-size: 34px;
+  animation: birdFly2 50s linear infinite;
 }
 
 .fuji-bird--2::before {
-  animation-delay: -0.4s;
+  animation-delay: -1.5s;
 }
 
-/* Gentle 4-state flap, no extremes */
+/* Gentle 4-state flap, no extremes. translateY compensates per-glyph baseline drift. */
 @keyframes birdFlap {
-  0%, 24%   { content: '\2323'; }   /* ⌣ */
-  25%, 49%  { content: '\203E'; }   /* ‾ */
-  50%, 74%  { content: '\2322'; }   /* ⌢ */
-  75%, 100% { content: '\203E'; }   /* ‾ */
+  0%, 24%   { content: '\2323'; transform: translateY(-0.2em); }  /* ⌣ lifted to match others */
+  25%, 49%  { content: '\203E'; transform: translateY(0); }        /* ‾ */
+  50%, 74%  { content: '\2322'; transform: translateY(-0.2em); }        /* ⌢ */
+  75%, 100% { content: '\203E'; transform: translateY(0); }        /* ‾ */
 }
 
 /* Mid-to-right drift with vertical bob; spread far apart vertically */
 @keyframes birdFly1 {
-  0%   { left: 38%; top: 12%; }
-  25%  { left: 52%; top: 14%; }
-  50%  { left: 65%; top: 11%; }
-  75%  { left: 80%; top: 15%; }
-  100% { left: 105%; top: 13%; }
+  0%   { left: 8%;  top: 10%; }
+  25%  { left: 30%; top: 12%; }
+  50%  { left: 55%; top: 9%; }
+  75%  { left: 80%; top: 13%; }
+  100% { left: 110%; top: 11%; }
 }
 
 @keyframes birdFly2 {
-  0%   { left: 50%; top: 36%; }
-  30%  { left: 62%; top: 34%; }
-  60%  { left: 76%; top: 38%; }
-  100% { left: 108%; top: 36%; }
+  0%   { left: 35%; top: 24%; }
+  30%  { left: 55%; top: 22%; }
+  60%  { left: 78%; top: 26%; }
+  100% { left: 112%; top: 24%; }
 }
 
 .fuji-title {
@@ -1717,6 +1716,6 @@ body {
 @media (max-width: 480px) {
   .fuji-banner { aspect-ratio: 16 / 9; max-height: 200px; }
   .fuji-title { font-size: 30px; left: 14px; bottom: 10px; }
-  .fuji-bird--1 { font-size: 28px; }
-  .fuji-bird--2 { font-size: 22px; }
+  .fuji-bird--1 { font-size: 36px; }
+  .fuji-bird--2 { font-size: 28px; }
 }

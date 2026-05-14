@@ -4,6 +4,15 @@
 
 ---
 
+## [2.4.2] — 2026-05-14
+
+### Geändert
+
+- **Fuji-Vögel größer und flüssiger** — Bird1 44px, Bird2 34px (Mobile 36/28). Flap-Vertikal-Drift via per-Glyph `translateY` kompensiert (⌣ -0.18em, andere 0). Beide Vögel jetzt gleiche Geschwindigkeit (50s), gleichzeitiger Start, gestaffelte Startpositionen (Bird1 left:8%, Bird2 left:35%) — durchqueren komplett das Banner.
+- Service-Worker-Cache `n5-v15` → `n5-v16`.
+
+---
+
 ## [2.4.1] — 2026-05-14
 
 ### Geändert
