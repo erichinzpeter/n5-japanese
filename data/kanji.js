@@ -430,4 +430,306 @@ const KANJI = [
     { jp: "口を大きく開けてください。", reading: "くちをおおきくあけてください。", de: "Bitte öffnen Sie den Mund weit." },
     { jp: "出口は右側にあります。", reading: "でぐちはみぎがわにあります。", de: "Der Ausgang befindet sich auf der rechten Seite." }
   ]},
+
+  // Pronomen & Wochentage
+  { id: "k101", char: "私", meaning: ["ich", "privat"], speak: "わたし", on: ["し"], kun: ["わたし", "わたくし"], examples: ["私 (わたし) — ich", "私立 (しりつ) — privat"], sentences: [
+    { jp: "私はドイツ人です。", reading: "わたしはどいつじんです。", de: "Ich bin Deutscher." },
+    { jp: "私の名前は田中です。", reading: "わたしのなまえはたなかです。", de: "Mein Name ist Tanaka." }
+  ]},
+  { id: "k102", char: "金", meaning: ["Geld", "Gold", "Freitag"], on: ["きん", "こん"], kun: ["かね"], examples: ["お金 (おかね) — Geld", "金曜日 (きんようび) — Freitag"], sentences: [
+    { jp: "お金がありません。", reading: "おかねがありません。", de: "Ich habe kein Geld." },
+    { jp: "金曜日に会いましょう。", reading: "きんようびにあいましょう。", de: "Lass uns am Freitag treffen." }
+  ]},
+  { id: "k103", char: "土", meaning: ["Erde", "Boden", "Samstag"], on: ["ど", "と"], kun: ["つち"], examples: ["土曜日 (どようび) — Samstag", "土 (つち) — Erde"], sentences: [
+    { jp: "土曜日は休みです。", reading: "どようびはやすみです。", de: "Samstag ist frei." },
+    { jp: "庭の土が乾いています。", reading: "にわのつちがかわいています。", de: "Die Erde im Garten ist trocken." }
+  ]},
+  { id: "k104", char: "駅", meaning: ["Bahnhof", "Station"], on: ["えき"], kun: [], examples: ["駅 (えき) — Bahnhof", "東京駅 (とうきょうえき) — Tokio-Bahnhof"], sentences: [
+    { jp: "駅まで歩いて行きます。", reading: "えきまであるいていきます。", de: "Ich gehe zu Fuß zum Bahnhof." },
+    { jp: "次の駅で降ります。", reading: "つぎのえきでおります。", de: "Ich steige am nächsten Bahnhof aus." }
+  ]},
+  { id: "k105", char: "道", meaning: ["Weg", "Straße"], on: ["どう"], kun: ["みち"], examples: ["道 (みち) — Weg", "北海道 (ほっかいどう) — Hokkaido"], sentences: [
+    { jp: "この道は狭いです。", reading: "このみちはせまいです。", de: "Diese Straße ist schmal." },
+    { jp: "駅までの道を教えてください。", reading: "えきまでのみちをおしえてください。", de: "Bitte zeigen Sie mir den Weg zum Bahnhof." }
+  ]},
+
+  // Familie
+  { id: "k106", char: "兄", meaning: ["älterer Bruder"], speak: "あに", on: ["けい", "きょう"], kun: ["あに"], examples: ["兄 (あに) — mein älterer Bruder", "お兄さん (おにいさん) — älterer Bruder (höflich)"], sentences: [
+    { jp: "兄は会社員です。", reading: "あにはかいしゃいんです。", de: "Mein älterer Bruder ist Angestellter." },
+    { jp: "お兄さんはお元気ですか。", reading: "おにいさんはおげんきですか。", de: "Wie geht es Ihrem älteren Bruder?" }
+  ]},
+  { id: "k107", char: "姉", meaning: ["ältere Schwester"], speak: "あね", on: ["し"], kun: ["あね"], examples: ["姉 (あね) — meine ältere Schwester", "お姉さん (おねえさん) — ältere Schwester (höflich)"], sentences: [
+    { jp: "姉は東京に住んでいます。", reading: "あねはとうきょうにすんでいます。", de: "Meine ältere Schwester wohnt in Tokio." },
+    { jp: "お姉さんは何歳ですか。", reading: "おねえさんはなんさいですか。", de: "Wie alt ist Ihre ältere Schwester?" }
+  ]},
+  { id: "k108", char: "弟", meaning: ["jüngerer Bruder"], speak: "おとうと", on: ["てい", "だい"], kun: ["おとうと"], examples: ["弟 (おとうと) — jüngerer Bruder", "兄弟 (きょうだい) — Geschwister"], sentences: [
+    { jp: "弟は学生です。", reading: "おとうとはがくせいです。", de: "Mein jüngerer Bruder ist Student." },
+    { jp: "兄弟は二人います。", reading: "きょうだいはふたりいます。", de: "Ich habe zwei Geschwister." }
+  ]},
+  { id: "k109", char: "妹", meaning: ["jüngere Schwester"], speak: "いもうと", on: ["まい"], kun: ["いもうと"], examples: ["妹 (いもうと) — jüngere Schwester", "姉妹 (しまい) — Schwestern"], sentences: [
+    { jp: "妹はまだ小さいです。", reading: "いもうとはまだちいさいです。", de: "Meine jüngere Schwester ist noch klein." },
+    { jp: "妹と一緒に映画を見ました。", reading: "いもうとといっしょにえいがをみました。", de: "Ich habe mit meiner jüngeren Schwester einen Film gesehen." }
+  ]},
+
+  // Tageszeit
+  { id: "k110", char: "朝", meaning: ["Morgen"], speak: "あさ", on: ["ちょう"], kun: ["あさ"], examples: ["朝 (あさ) — Morgen", "今朝 (けさ) — heute Morgen"], sentences: [
+    { jp: "朝ご飯を食べました。", reading: "あさごはんをたべました。", de: "Ich habe gefrühstückt." },
+    { jp: "今朝は早く起きました。", reading: "けさははやくおきました。", de: "Heute Morgen bin ich früh aufgestanden." }
+  ]},
+  { id: "k111", char: "昼", meaning: ["Mittag", "Tag"], speak: "ひる", on: ["ちゅう"], kun: ["ひる"], examples: ["昼 (ひる) — Mittag", "昼ご飯 (ひるごはん) — Mittagessen"], sentences: [
+    { jp: "昼ご飯は何にしますか。", reading: "ひるごはんはなににしますか。", de: "Was nehmen wir zum Mittagessen?" },
+    { jp: "昼の十二時に会いましょう。", reading: "ひるのじゅうにじにあいましょう。", de: "Treffen wir uns um zwölf Uhr mittags." }
+  ]},
+  { id: "k112", char: "夜", meaning: ["Nacht"], speak: "よる", on: ["や"], kun: ["よる", "よ"], examples: ["夜 (よる) — Nacht", "今夜 (こんや) — heute Nacht"], sentences: [
+    { jp: "夜はあまり寝られませんでした。", reading: "よるはあまりねられませんでした。", de: "In der Nacht konnte ich nicht gut schlafen." },
+    { jp: "今夜は雨が降ります。", reading: "こんやはあめがふります。", de: "Heute Nacht wird es regnen." }
+  ]},
+  { id: "k113", char: "晩", meaning: ["Abend"], speak: "ばん", on: ["ばん"], kun: [], examples: ["晩ご飯 (ばんごはん) — Abendessen", "今晩 (こんばん) — heute Abend"], sentences: [
+    { jp: "今晩は何を食べますか。", reading: "こんばんはなにをたべますか。", de: "Was isst du heute Abend?" },
+    { jp: "晩ご飯の時間ですよ。", reading: "ばんごはんのじかんですよ。", de: "Es ist Zeit fürs Abendessen." }
+  ]},
+  { id: "k114", char: "毎", meaning: ["jede(r/s)"], speak: "まい", on: ["まい"], kun: [], examples: ["毎日 (まいにち) — jeden Tag", "毎週 (まいしゅう) — jede Woche"], sentences: [
+    { jp: "毎日日本語を勉強します。", reading: "まいにちにほんごをべんきょうします。", de: "Ich lerne jeden Tag Japanisch." },
+    { jp: "毎週土曜日にテニスをします。", reading: "まいしゅうどようびにテニスをします。", de: "Jeden Samstag spiele ich Tennis." }
+  ]},
+  { id: "k115", char: "週", meaning: ["Woche"], speak: "しゅう", on: ["しゅう"], kun: [], examples: ["今週 (こんしゅう) — diese Woche", "来週 (らいしゅう) — nächste Woche"], sentences: [
+    { jp: "今週はとても忙しいです。", reading: "こんしゅうはとてもいそがしいです。", de: "Diese Woche bin ich sehr beschäftigt." },
+    { jp: "来週京都へ行きます。", reading: "らいしゅうきょうとへいきます。", de: "Nächste Woche fahre ich nach Kyoto." }
+  ]},
+  { id: "k116", char: "曜", meaning: ["Wochentag"], speak: "よう", on: ["よう"], kun: [], examples: ["何曜日 (なんようび) — welcher Wochentag", "月曜日 (げつようび) — Montag"], sentences: [
+    { jp: "今日は何曜日ですか。", reading: "きょうはなんようびですか。", de: "Welcher Wochentag ist heute?" },
+    { jp: "月曜日から授業があります。", reading: "げつようびからじゅぎょうがあります。", de: "Ab Montag habe ich Unterricht." }
+  ]},
+
+  // Jahreszeiten
+  { id: "k117", char: "春", meaning: ["Frühling"], speak: "はる", on: ["しゅん"], kun: ["はる"], examples: ["春 (はる) — Frühling", "春休み (はるやすみ) — Frühlingsferien"], sentences: [
+    { jp: "春に桜が咲きます。", reading: "はるにさくらがさきます。", de: "Im Frühling blühen die Kirschblüten." },
+    { jp: "春は暖かくて気持ちいいです。", reading: "はるはあたたかくてきもちいいです。", de: "Der Frühling ist warm und angenehm." }
+  ]},
+  { id: "k118", char: "夏", meaning: ["Sommer"], speak: "なつ", on: ["か"], kun: ["なつ"], examples: ["夏 (なつ) — Sommer", "夏休み (なつやすみ) — Sommerferien"], sentences: [
+    { jp: "日本の夏は暑いです。", reading: "にほんのなつはあついです。", de: "Der Sommer in Japan ist heiß." },
+    { jp: "夏休みに海へ行きます。", reading: "なつやすみにうみへいきます。", de: "In den Sommerferien fahre ich ans Meer." }
+  ]},
+  { id: "k119", char: "秋", meaning: ["Herbst"], speak: "あき", on: ["しゅう"], kun: ["あき"], examples: ["秋 (あき) — Herbst", "秋の風 (あきのかぜ) — Herbstwind"], sentences: [
+    { jp: "秋は涼しくなります。", reading: "あきはすずしくなります。", de: "Im Herbst wird es kühler." },
+    { jp: "秋の山はとてもきれいです。", reading: "あきのやまはとてもきれいです。", de: "Die Berge im Herbst sind sehr schön." }
+  ]},
+  { id: "k120", char: "冬", meaning: ["Winter"], speak: "ふゆ", on: ["とう"], kun: ["ふゆ"], examples: ["冬 (ふゆ) — Winter", "冬休み (ふゆやすみ) — Winterferien"], sentences: [
+    { jp: "冬は雪が降ります。", reading: "ふゆはゆきがふります。", de: "Im Winter schneit es." },
+    { jp: "冬は寒いので暖かい服を着ます。", reading: "ふゆはさむいのであたたかいふくをきます。", de: "Im Winter ist es kalt, also trage ich warme Kleidung." }
+  ]},
+
+  // Mengen & Eigenschaften
+  { id: "k121", char: "多", meaning: ["viel", "zahlreich"], speak: "おおい", on: ["た"], kun: ["おお"], examples: ["多い (おおい) — viel", "多分 (たぶん) — wahrscheinlich"], sentences: [
+    { jp: "東京は人が多いです。", reading: "とうきょうはひとがおおいです。", de: "In Tokio gibt es viele Menschen." },
+    { jp: "多分明日は晴れます。", reading: "たぶんあしたははれます。", de: "Morgen wird es wahrscheinlich sonnig." }
+  ]},
+  { id: "k122", char: "少", meaning: ["wenig"], speak: "すくない", on: ["しょう"], kun: ["すく", "すこ"], examples: ["少ない (すくない) — wenig", "少し (すこし) — ein bisschen"], sentences: [
+    { jp: "お金が少ないです。", reading: "おかねがすくないです。", de: "Ich habe wenig Geld." },
+    { jp: "少し休みましょう。", reading: "すこしやすみましょう。", de: "Lasst uns eine kleine Pause machen." }
+  ]},
+  { id: "k123", char: "早", meaning: ["früh", "schnell"], speak: "はやい", on: ["そう"], kun: ["はや"], examples: ["早い (はやい) — früh", "早く (はやく) — früh/schnell"], sentences: [
+    { jp: "毎朝早く起きます。", reading: "まいあさはやくおきます。", de: "Ich stehe jeden Morgen früh auf." },
+    { jp: "早く来てください。", reading: "はやくきてください。", de: "Bitte kommen Sie schnell." }
+  ]},
+
+  // Körper & Geist
+  { id: "k124", char: "体", meaning: ["Körper"], speak: "からだ", on: ["たい", "てい"], kun: ["からだ"], examples: ["体 (からだ) — Körper", "体育 (たいいく) — Sport/Turnen"], sentences: [
+    { jp: "体に気をつけてください。", reading: "からだにきをつけてください。", de: "Passen Sie auf Ihre Gesundheit auf." },
+    { jp: "毎日体を動かします。", reading: "まいにちからだをうごかします。", de: "Ich bewege meinen Körper jeden Tag." }
+  ]},
+  { id: "k125", char: "力", meaning: ["Kraft", "Stärke"], speak: "ちから", on: ["りょく", "りき"], kun: ["ちから"], examples: ["力 (ちから) — Kraft", "電力 (でんりょく) — elektrische Leistung"], sentences: [
+    { jp: "彼は力が強いです。", reading: "かれはちからがつよいです。", de: "Er hat viel Kraft." },
+    { jp: "全力で頑張ります。", reading: "ぜんりょくでがんばります。", de: "Ich gebe mein Bestes." }
+  ]},
+  { id: "k126", char: "心", meaning: ["Herz", "Geist"], speak: "こころ", on: ["しん"], kun: ["こころ"], examples: ["心 (こころ) — Herz", "安心 (あんしん) — Erleichterung"], sentences: [
+    { jp: "心から感謝します。", reading: "こころからかんしゃします。", de: "Ich danke Ihnen von Herzen." },
+    { jp: "安心してください。", reading: "あんしんしてください。", de: "Seien Sie beruhigt." }
+  ]},
+  { id: "k127", char: "思", meaning: ["denken", "glauben"], speak: "おもう", on: ["し"], kun: ["おも"], examples: ["思う (おもう) — denken", "思い出 (おもいで) — Erinnerung"], sentences: [
+    { jp: "明日は雨が降ると思います。", reading: "あしたはあめがふるとおもいます。", de: "Ich glaube, morgen wird es regnen." },
+    { jp: "子供の頃の思い出があります。", reading: "こどものころのおもいでがあります。", de: "Ich habe Erinnerungen aus meiner Kindheit." }
+  ]},
+  { id: "k128", char: "考", meaning: ["überlegen", "denken"], speak: "かんがえる", on: ["こう"], kun: ["かんが"], examples: ["考える (かんがえる) — überlegen", "参考 (さんこう) — Referenz"], sentences: [
+    { jp: "もう少し考えさせてください。", reading: "もうすこしかんがえさせてください。", de: "Lassen Sie mich noch etwas überlegen." },
+    { jp: "参考書を買いました。", reading: "さんこうしょをかいました。", de: "Ich habe ein Nachschlagewerk gekauft." }
+  ]},
+
+  // Lernen & Schule
+  { id: "k129", char: "教", meaning: ["lehren", "unterrichten"], speak: "おしえる", on: ["きょう"], kun: ["おし"], examples: ["教える (おしえる) — lehren", "教室 (きょうしつ) — Klassenzimmer"], sentences: [
+    { jp: "日本語を教えてください。", reading: "にほんごをおしえてください。", de: "Bitte bringen Sie mir Japanisch bei." },
+    { jp: "教室で勉強します。", reading: "きょうしつでべんきょうします。", de: "Ich lerne im Klassenzimmer." }
+  ]},
+  { id: "k130", char: "習", meaning: ["lernen", "üben"], speak: "ならう", on: ["しゅう"], kun: ["なら"], examples: ["習う (ならう) — lernen", "練習 (れんしゅう) — Übung"], sentences: [
+    { jp: "ピアノを習っています。", reading: "ピアノをならっています。", de: "Ich lerne Klavier." },
+    { jp: "毎日漢字の練習をします。", reading: "まいにちかんじのれんしゅうをします。", de: "Ich übe jeden Tag Kanji." }
+  ]},
+  { id: "k131", char: "勉", meaning: ["fleißig sein", "sich anstrengen"], speak: "べん", on: ["べん"], kun: [], examples: ["勉強 (べんきょう) — Lernen/Studium", "勤勉 (きんべん) — fleißig"], sentences: [
+    { jp: "毎日勉強しています。", reading: "まいにちべんきょうしています。", de: "Ich lerne jeden Tag." },
+    { jp: "彼はとても勤勉です。", reading: "かれはとてもきんべんです。", de: "Er ist sehr fleißig." }
+  ]},
+  { id: "k132", char: "強", meaning: ["stark", "kräftig"], speak: "つよい", on: ["きょう"], kun: ["つよ"], examples: ["強い (つよい) — stark", "勉強 (べんきょう) — Studium"], sentences: [
+    { jp: "風が強くなりました。", reading: "かぜがつよくなりました。", de: "Der Wind ist stärker geworden." },
+    { jp: "勉強が好きです。", reading: "べんきょうがすきです。", de: "Ich mag das Lernen." }
+  ]},
+  { id: "k133", char: "答", meaning: ["antworten", "Antwort"], speak: "こたえ", on: ["とう"], kun: ["こた"], examples: ["答え (こたえ) — Antwort", "答える (こたえる) — antworten"], sentences: [
+    { jp: "質問に答えてください。", reading: "しつもんにこたえてください。", de: "Bitte beantworten Sie die Frage." },
+    { jp: "答えはまだ分かりません。", reading: "こたえはまだわかりません。", de: "Ich kenne die Antwort noch nicht." }
+  ]},
+  { id: "k134", char: "問", meaning: ["fragen", "Frage"], speak: "もん", on: ["もん"], kun: ["と"], examples: ["問題 (もんだい) — Problem/Frage", "質問 (しつもん) — Frage"], sentences: [
+    { jp: "これは難しい問題です。", reading: "これはむずかしいもんだいです。", de: "Das ist eine schwierige Frage." },
+    { jp: "何か質問はありますか。", reading: "なにかしつもんはありますか。", de: "Gibt es noch Fragen?" }
+  ]},
+  { id: "k135", char: "漢", meaning: ["Han (China)"], speak: "かん", on: ["かん"], kun: [], examples: ["漢字 (かんじ) — Kanji", "漢方 (かんぽう) — chinesische Medizin"], sentences: [
+    { jp: "漢字は難しいですが面白いです。", reading: "かんじはむずかしいですがおもしろいです。", de: "Kanji sind schwierig, aber interessant." },
+    { jp: "毎日新しい漢字を覚えます。", reading: "まいにちあたらしいかんじをおぼえます。", de: "Ich lerne jeden Tag neue Kanji." }
+  ]},
+  { id: "k136", char: "英", meaning: ["England", "englisch"], speak: "えい", on: ["えい"], kun: [], examples: ["英語 (えいご) — Englisch", "英国 (えいこく) — Großbritannien"], sentences: [
+    { jp: "英語が話せますか。", reading: "えいごがはなせますか。", de: "Können Sie Englisch sprechen?" },
+    { jp: "英語の本を読んでいます。", reading: "えいごのほんをよんでいます。", de: "Ich lese ein Buch auf Englisch." }
+  ]},
+
+  // Allgemeines & Orte
+  { id: "k137", char: "物", meaning: ["Ding", "Sache"], speak: "もの", on: ["ぶつ", "もつ"], kun: ["もの"], examples: ["物 (もの) — Ding", "買い物 (かいもの) — Einkaufen"], sentences: [
+    { jp: "この物は何ですか。", reading: "このものはなんですか。", de: "Was ist dieses Ding?" },
+    { jp: "週末に買い物をします。", reading: "しゅうまつにかいものをします。", de: "Am Wochenende gehe ich einkaufen." }
+  ]},
+  { id: "k138", char: "事", meaning: ["Sache", "Angelegenheit"], speak: "こと", on: ["じ"], kun: ["こと"], examples: ["仕事 (しごと) — Arbeit", "事 (こと) — Sache"], sentences: [
+    { jp: "仕事はとても忙しいです。", reading: "しごとはとてもいそがしいです。", de: "Die Arbeit ist sehr stressig." },
+    { jp: "大事な事を話します。", reading: "だいじなことをはなします。", de: "Ich spreche über eine wichtige Sache." }
+  ]},
+  { id: "k139", char: "場", meaning: ["Ort", "Platz"], speak: "ばしょ", on: ["じょう"], kun: ["ば"], examples: ["場所 (ばしょ) — Ort", "会場 (かいじょう) — Veranstaltungsort"], sentences: [
+    { jp: "待ち合わせの場所はどこですか。", reading: "まちあわせのばしょはどこですか。", de: "Wo ist der Treffpunkt?" },
+    { jp: "会場まで車で行きます。", reading: "かいじょうまでくるまでいきます。", de: "Ich fahre mit dem Auto zum Veranstaltungsort." }
+  ]},
+  { id: "k140", char: "所", meaning: ["Ort", "Stelle"], speak: "ところ", on: ["しょ"], kun: ["ところ"], examples: ["場所 (ばしょ) — Ort", "近所 (きんじょ) — Nachbarschaft"], sentences: [
+    { jp: "静かな所が好きです。", reading: "しずかなところがすきです。", de: "Ich mag ruhige Orte." },
+    { jp: "近所にいいレストランがあります。", reading: "きんじょにいいレストランがあります。", de: "In der Nachbarschaft gibt es ein gutes Restaurant." }
+  ]},
+  { id: "k141", char: "室", meaning: ["Raum", "Zimmer"], speak: "しつ", on: ["しつ"], kun: [], examples: ["教室 (きょうしつ) — Klassenzimmer", "会議室 (かいぎしつ) — Konferenzraum"], sentences: [
+    { jp: "教室に学生がたくさんいます。", reading: "きょうしつにがくせいがたくさんいます。", de: "Im Klassenzimmer sind viele Studenten." },
+    { jp: "会議室は二階にあります。", reading: "かいぎしつはにかいにあります。", de: "Der Konferenzraum ist im zweiten Stock." }
+  ]},
+  { id: "k142", char: "病", meaning: ["Krankheit"], speak: "びょうき", on: ["びょう"], kun: ["やまい"], examples: ["病気 (びょうき) — Krankheit", "病院 (びょういん) — Krankenhaus"], sentences: [
+    { jp: "病気で会社を休みました。", reading: "びょうきでかいしゃをやすみました。", de: "Wegen Krankheit war ich nicht in der Arbeit." },
+    { jp: "病院へ行ってください。", reading: "びょういんへいってください。", de: "Bitte gehen Sie ins Krankenhaus." }
+  ]},
+  { id: "k143", char: "院", meaning: ["Institution", "Anstalt"], speak: "いん", on: ["いん"], kun: [], examples: ["病院 (びょういん) — Krankenhaus", "大学院 (だいがくいん) — Graduiertenschule"], sentences: [
+    { jp: "病院の場所を教えてください。", reading: "びょういんのばしょをおしえてください。", de: "Bitte sagen Sie mir, wo das Krankenhaus ist." },
+    { jp: "大学院で日本文学を勉強しています。", reading: "だいがくいんでにほんぶんがくをべんきょうしています。", de: "Ich studiere japanische Literatur an der Graduiertenschule." }
+  ]},
+  { id: "k144", char: "医", meaning: ["Medizin", "Arzt"], speak: "い", on: ["い"], kun: [], examples: ["医者 (いしゃ) — Arzt", "医学 (いがく) — Medizin"], sentences: [
+    { jp: "医者に相談しました。", reading: "いしゃにそうだんしました。", de: "Ich habe mit dem Arzt gesprochen." },
+    { jp: "彼は医学を勉強しています。", reading: "かれはいがくをべんきょうしています。", de: "Er studiert Medizin." }
+  ]},
+  { id: "k145", char: "者", meaning: ["Person"], speak: "しゃ", on: ["しゃ"], kun: ["もの"], examples: ["医者 (いしゃ) — Arzt", "学者 (がくしゃ) — Wissenschaftler"], sentences: [
+    { jp: "若い者がたくさん来ました。", reading: "わかいものがたくさんきました。", de: "Viele junge Leute sind gekommen." },
+    { jp: "彼は有名な学者です。", reading: "かれはゆうめいながくしゃです。", de: "Er ist ein berühmter Wissenschaftler." }
+  ]},
+  { id: "k146", char: "図", meaning: ["Diagramm", "Karte"], speak: "ず", on: ["ず", "と"], kun: [], examples: ["地図 (ちず) — Karte", "図書館 (としょかん) — Bibliothek"], sentences: [
+    { jp: "地図を見せてください。", reading: "ちずをみせてください。", de: "Bitte zeigen Sie mir die Karte." },
+    { jp: "図書館で本を借ります。", reading: "としょかんでほんをかります。", de: "Ich leihe Bücher in der Bibliothek aus." }
+  ]},
+  { id: "k147", char: "館", meaning: ["Halle", "Gebäude"], speak: "かん", on: ["かん"], kun: [], examples: ["図書館 (としょかん) — Bibliothek", "映画館 (えいがかん) — Kino"], sentences: [
+    { jp: "今日は図書館で勉強します。", reading: "きょうはとしょかんでべんきょうします。", de: "Heute lerne ich in der Bibliothek." },
+    { jp: "映画館で新しい映画を見ました。", reading: "えいがかんであたらしいえいがをみました。", de: "Ich habe den neuen Film im Kino gesehen." }
+  ]},
+  { id: "k148", char: "紙", meaning: ["Papier"], speak: "かみ", on: ["し"], kun: ["かみ"], examples: ["紙 (かみ) — Papier", "手紙 (てがみ) — Brief"], sentences: [
+    { jp: "紙に名前を書いてください。", reading: "かみになまえをかいてください。", de: "Bitte schreiben Sie Ihren Namen auf das Papier." },
+    { jp: "母に手紙を書きました。", reading: "ははにてがみをかきました。", de: "Ich habe meiner Mutter einen Brief geschrieben." }
+  ]},
+
+  // Medien & Kultur
+  { id: "k149", char: "写", meaning: ["kopieren", "abbilden"], speak: "しゃしん", on: ["しゃ"], kun: ["うつ"], examples: ["写真 (しゃしん) — Foto", "写す (うつす) — kopieren/abbilden"], sentences: [
+    { jp: "写真を撮ってもいいですか。", reading: "しゃしんをとってもいいですか。", de: "Darf ich ein Foto machen?" },
+    { jp: "ノートに写してください。", reading: "ノートにうつしてください。", de: "Bitte schreiben Sie es in Ihr Heft ab." }
+  ]},
+  { id: "k150", char: "真", meaning: ["wahr", "echt"], speak: "しん", on: ["しん"], kun: ["ま"], examples: ["写真 (しゃしん) — Foto", "真ん中 (まんなか) — Mitte"], sentences: [
+    { jp: "この写真はとてもきれいです。", reading: "このしゃしんはとてもきれいです。", de: "Dieses Foto ist sehr schön." },
+    { jp: "部屋の真ん中にテーブルがあります。", reading: "へやのまんなかにテーブルがあります。", de: "In der Mitte des Zimmers steht ein Tisch." }
+  ]},
+  { id: "k151", char: "映", meaning: ["projizieren", "reflektieren"], speak: "えいが", on: ["えい"], kun: ["うつ"], examples: ["映画 (えいが) — Film", "映る (うつる) — sich spiegeln"], sentences: [
+    { jp: "週末に映画を見に行きます。", reading: "しゅうまつにえいがをみにいきます。", de: "Am Wochenende gehe ich ins Kino." },
+    { jp: "湖に山が映っています。", reading: "みずうみにやまがうつっています。", de: "Der Berg spiegelt sich im See." }
+  ]},
+  { id: "k152", char: "画", meaning: ["Bild", "Plan"], speak: "が", on: ["が", "かく"], kun: [], examples: ["映画 (えいが) — Film", "計画 (けいかく) — Plan"], sentences: [
+    { jp: "好きな映画は何ですか。", reading: "すきなえいがはなんですか。", de: "Was ist Ihr Lieblingsfilm?" },
+    { jp: "旅行の計画を立てます。", reading: "りょこうのけいかくをたてます。", de: "Ich plane eine Reise." }
+  ]},
+  { id: "k153", char: "音", meaning: ["Klang", "Geräusch"], speak: "おと", on: ["おん"], kun: ["おと"], examples: ["音 (おと) — Geräusch", "音楽 (おんがく) — Musik"], sentences: [
+    { jp: "外から大きな音が聞こえます。", reading: "そとからおおきなおとがきこえます。", de: "Von draußen ist ein lautes Geräusch zu hören." },
+    { jp: "音楽を聞きながら勉強します。", reading: "おんがくをききながらべんきょうします。", de: "Ich lerne, während ich Musik höre." }
+  ]},
+  { id: "k154", char: "楽", meaning: ["Spaß", "Musik", "angenehm"], speak: "たのしい", on: ["がく", "らく"], kun: ["たの"], examples: ["音楽 (おんがく) — Musik", "楽しい (たのしい) — lustig/Spaß"], sentences: [
+    { jp: "旅行はとても楽しかったです。", reading: "りょこうはとてもたのしかったです。", de: "Die Reise war sehr schön." },
+    { jp: "音楽が好きです。", reading: "おんがくがすきです。", de: "Ich mag Musik." }
+  ]},
+
+  // Essen & Trinken
+  { id: "k155", char: "茶", meaning: ["Tee"], speak: "ちゃ", on: ["ちゃ", "さ"], kun: [], examples: ["お茶 (おちゃ) — Tee", "喫茶店 (きっさてん) — Café"], sentences: [
+    { jp: "お茶を飲みませんか。", reading: "おちゃをのみませんか。", de: "Möchten Sie nicht Tee trinken?" },
+    { jp: "駅前の喫茶店で会いましょう。", reading: "えきまえのきっさてんであいましょう。", de: "Treffen wir uns im Café vor dem Bahnhof." }
+  ]},
+  { id: "k156", char: "牛", meaning: ["Kuh", "Rind"], speak: "うし", on: ["ぎゅう"], kun: ["うし"], examples: ["牛 (うし) — Kuh", "牛肉 (ぎゅうにく) — Rindfleisch"], sentences: [
+    { jp: "牧場で牛を見ました。", reading: "ぼくじょうでうしをみました。", de: "Auf der Weide habe ich Kühe gesehen." },
+    { jp: "夕食に牛肉を食べました。", reading: "ゆうしょくにぎゅうにくをたべました。", de: "Zum Abendessen habe ich Rindfleisch gegessen." }
+  ]},
+  { id: "k157", char: "肉", meaning: ["Fleisch"], speak: "にく", on: ["にく"], kun: [], examples: ["肉 (にく) — Fleisch", "鶏肉 (とりにく) — Hühnerfleisch"], sentences: [
+    { jp: "肉が好きですか。", reading: "にくがすきですか。", de: "Mögen Sie Fleisch?" },
+    { jp: "肉より魚の方が好きです。", reading: "にくよりさかなのほうがすきです。", de: "Ich mag Fisch lieber als Fleisch." }
+  ]},
+  { id: "k158", char: "魚", meaning: ["Fisch"], speak: "さかな", on: ["ぎょ"], kun: ["さかな"], examples: ["魚 (さかな) — Fisch", "金魚 (きんぎょ) — Goldfisch"], sentences: [
+    { jp: "新鮮な魚を買いました。", reading: "しんせんなさかなをかいました。", de: "Ich habe frischen Fisch gekauft." },
+    { jp: "子供が金魚を見ています。", reading: "こどもがきんぎょをみています。", de: "Das Kind schaut die Goldfische an." }
+  ]},
+  { id: "k159", char: "鳥", meaning: ["Vogel"], speak: "とり", on: ["ちょう"], kun: ["とり"], examples: ["鳥 (とり) — Vogel", "小鳥 (ことり) — Vögelchen"], sentences: [
+    { jp: "鳥が空を飛んでいます。", reading: "とりがそらをとんでいます。", de: "Vögel fliegen am Himmel." },
+    { jp: "庭で小鳥が鳴いています。", reading: "にわでことりがないています。", de: "Im Garten zwitschern Vögelchen." }
+  ]},
+  { id: "k160", char: "米", meaning: ["Reis (roh)", "USA"], speak: "こめ", on: ["べい", "まい"], kun: ["こめ"], examples: ["お米 (おこめ) — Reis", "米国 (べいこく) — USA"], sentences: [
+    { jp: "日本ではお米をよく食べます。", reading: "にほんではおこめをよくたべます。", de: "In Japan isst man oft Reis." },
+    { jp: "兄は米国に住んでいます。", reading: "あにはべいこくにすんでいます。", de: "Mein älterer Bruder wohnt in den USA." }
+  ]},
+  { id: "k161", char: "野", meaning: ["Feld", "Wildnis"], speak: "の", on: ["や"], kun: ["の"], examples: ["野菜 (やさい) — Gemüse", "野原 (のはら) — Feld/Wiese"], sentences: [
+    { jp: "野菜をたくさん食べてください。", reading: "やさいをたくさんたべてください。", de: "Bitte essen Sie viel Gemüse." },
+    { jp: "野原で子供たちが遊んでいます。", reading: "のはらでこどもたちがあそんでいます。", de: "Auf der Wiese spielen Kinder." }
+  ]},
+  { id: "k162", char: "菜", meaning: ["Gemüse"], speak: "やさい", on: ["さい"], kun: ["な"], examples: ["野菜 (やさい) — Gemüse", "白菜 (はくさい) — Chinakohl"], sentences: [
+    { jp: "今日は野菜サラダを作ります。", reading: "きょうはやさいサラダをつくります。", de: "Heute mache ich Gemüsesalat." },
+    { jp: "白菜が安かったので買いました。", reading: "はくさいがやすかったのでかいました。", de: "Der Chinakohl war günstig, also habe ich ihn gekauft." }
+  ]},
+
+  // Verben — Bewegung & Alltag
+  { id: "k163", char: "起", meaning: ["aufstehen", "geschehen"], speak: "おきる", on: ["き"], kun: ["お"], examples: ["起きる (おきる) — aufstehen", "起こす (おこす) — wecken"], sentences: [
+    { jp: "毎朝六時に起きます。", reading: "まいあさろくじにおきます。", de: "Ich stehe jeden Morgen um sechs Uhr auf." },
+    { jp: "明日早く起こしてください。", reading: "あしたはやくおこしてください。", de: "Bitte wecken Sie mich morgen früh." }
+  ]},
+  { id: "k164", char: "寝", meaning: ["schlafen"], speak: "ねる", on: ["しん"], kun: ["ね"], examples: ["寝る (ねる) — schlafen", "寝室 (しんしつ) — Schlafzimmer"], sentences: [
+    { jp: "昨日は十一時に寝ました。", reading: "きのうはじゅういちじにねました。", de: "Gestern bin ich um elf Uhr ins Bett gegangen." },
+    { jp: "寝室は二階にあります。", reading: "しんしつはにかいにあります。", de: "Das Schlafzimmer ist im zweiten Stock." }
+  ]},
+  { id: "k165", char: "着", meaning: ["tragen", "ankommen"], speak: "きる", on: ["ちゃく"], kun: ["き", "つ"], examples: ["着る (きる) — anziehen", "到着 (とうちゃく) — Ankunft"], sentences: [
+    { jp: "新しいシャツを着ています。", reading: "あたらしいシャツをきています。", de: "Ich trage ein neues Hemd." },
+    { jp: "電車が駅に着きました。", reading: "でんしゃがえきにつきました。", de: "Der Zug ist am Bahnhof angekommen." }
+  ]},
+  { id: "k166", char: "持", meaning: ["halten", "tragen"], speak: "もつ", on: ["じ"], kun: ["も"], examples: ["持つ (もつ) — halten", "気持ち (きもち) — Gefühl"], sentences: [
+    { jp: "傘を持って行きます。", reading: "かさをもっていきます。", de: "Ich nehme einen Regenschirm mit." },
+    { jp: "気持ちがいい朝です。", reading: "きもちがいいあさです。", de: "Es ist ein angenehmer Morgen." }
+  ]},
+  { id: "k167", char: "待", meaning: ["warten"], speak: "まつ", on: ["たい"], kun: ["ま"], examples: ["待つ (まつ) — warten", "招待 (しょうたい) — Einladung"], sentences: [
+    { jp: "ここで少し待ってください。", reading: "ここですこしまってください。", de: "Bitte warten Sie hier kurz." },
+    { jp: "誕生日会に招待されました。", reading: "たんじょうびかいにしょうたいされました。", de: "Ich wurde zu einer Geburtstagsfeier eingeladen." }
+  ]},
+  { id: "k168", char: "歩", meaning: ["gehen", "Schritt"], speak: "あるく", on: ["ほ"], kun: ["ある", "あゆ"], examples: ["歩く (あるく) — gehen", "散歩 (さんぽ) — Spaziergang"], sentences: [
+    { jp: "公園を歩きましょう。", reading: "こうえんをあるきましょう。", de: "Lasst uns durch den Park gehen." },
+    { jp: "毎晩犬と散歩します。", reading: "まいばんいぬとさんぽします。", de: "Jeden Abend gehe ich mit dem Hund spazieren." }
+  ]},
+  { id: "k169", char: "走", meaning: ["rennen", "laufen"], speak: "はしる", on: ["そう"], kun: ["はし"], examples: ["走る (はしる) — rennen", "競走 (きょうそう) — Wettrennen"], sentences: [
+    { jp: "毎朝公園で走ります。", reading: "まいあさこうえんではしります。", de: "Ich laufe jeden Morgen im Park." },
+    { jp: "電車に遅れそうで走りました。", reading: "でんしゃにおくれそうではしりました。", de: "Ich bin gerannt, weil ich fast zu spät zum Zug kam." }
+  ]},
+  { id: "k170", char: "使", meaning: ["benutzen", "gebrauchen"], speak: "つかう", on: ["し"], kun: ["つか"], examples: ["使う (つかう) — benutzen", "大使館 (たいしかん) — Botschaft"], sentences: [
+    { jp: "このペンを使ってもいいですか。", reading: "このペンをつかってもいいですか。", de: "Darf ich diesen Stift benutzen?" },
+    { jp: "ドイツ大使館はどこですか。", reading: "ドイツたいしかんはどこですか。", de: "Wo ist die Deutsche Botschaft?" }
+  ]},
 ];

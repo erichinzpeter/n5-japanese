@@ -11,7 +11,98 @@ const state = {
   stats: { nochmal: 0, richtig: 0 },
   srs: {},
   lastDeck: null,
+  pendingDeck: null,
 };
+
+const MODAL_PREFS_KEY = 'n5_modal_prefs';
+
+const DECK_MODES = {
+  kanji:   ['flashcard', 'mc'],
+  vocab:   ['flashcard', 'mc'],
+  grammar: ['flashcard', 'mc', 'situation', 'verwendung'],
+  basics:  ['flashcard', 'mc'],
+  all:     ['flashcard', 'mc'],
+};
+
+const MODE_LABELS = {
+  flashcard:  'Karteikarten',
+  mc:         'Multiple Choice',
+  situation:  'Situation',
+  verwendung: 'Verwendung',
+};
+
+const MODE_NEEDS_DIRECTION = { flashcard: true, mc: true, situation: false, verwendung: false };
+
+const DECK_TITLES = {
+  kanji: 'Kanji üben',
+  vocab: 'Vokabeln üben',
+  grammar: 'Grammatik üben',
+  basics: 'Alltag üben',
+  all: 'Alles üben',
+};
+
+function loadModalPrefs() {
+  try { return JSON.parse(localStorage.getItem(MODAL_PREFS_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function saveModalPrefs(deck, mode, direction) {
+  const prefs = loadModalPrefs();
+  prefs[deck] = { mode, direction };
+  localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
+}
+
+function openStartModal(deck) {
+  state.pendingDeck = deck;
+  const prefs = loadModalPrefs()[deck] || {};
+  const allowedModes = DECK_MODES[deck] || ['flashcard', 'mc'];
+  const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
+  const initialDir = ['jp-de', 'de-jp', 'both'].includes(prefs.direction) ? prefs.direction : 'jp-de';
+
+  state.mode = initialMode;
+  state.direction = initialDir;
+
+  document.getElementById('start-modal-title').textContent = DECK_TITLES[deck] || 'Üben';
+
+  const modeWrap = document.getElementById('modal-mode-toggle');
+  modeWrap.innerHTML = '';
+  allowedModes.forEach(m => {
+    const btn = document.createElement('button');
+    btn.className = 'mode-btn' + (m === initialMode ? ' active' : '');
+    btn.dataset.mode = m;
+    btn.textContent = MODE_LABELS[m];
+    btn.addEventListener('click', () => {
+      modeWrap.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.mode = m;
+      updateDirectionVisibility();
+    });
+    modeWrap.appendChild(btn);
+  });
+
+  document.querySelectorAll('#start-modal .dir-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.dir === initialDir);
+  });
+
+  updateDirectionVisibility();
+
+  const modal = document.getElementById('start-modal');
+  modal.classList.remove('hidden');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function updateDirectionVisibility() {
+  const wrap = document.getElementById('modal-direction-wrap');
+  if (MODE_NEEDS_DIRECTION[state.mode]) wrap.classList.remove('hidden');
+  else wrap.classList.add('hidden');
+}
+
+function closeStartModal() {
+  const modal = document.getElementById('start-modal');
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden', 'true');
+  state.pendingDeck = null;
+}
 
 // ===== SRS HELPERS =====
 const SRS_KEY = 'n5_srs';
@@ -159,6 +250,8 @@ function startSession(deck, direction) {
     renderMCCard();
   } else if (state.mode === 'situation') {
     renderSituationCard();
+  } else if (state.mode === 'verwendung') {
+    renderVerwendungCard();
   } else {
     renderCard();
   }
@@ -378,14 +471,23 @@ function renderVocabCard(card, front, back, dirLabel) {
   }
 }
 
+function stripPatternHint(pattern) {
+  return pattern.replace(/\s*[\(（].*$/, '').trim();
+}
+
+function cleanExplanation(text) {
+  // Drop leading list-number "1) " / "2) " etc.; take first sentence; trim.
+  return text.replace(/^\s*\d+\)\s*/, '').split('.')[0].trim();
+}
+
 function renderGrammarCard(card, front, back, dirLabel) {
   const g = card.item;
 
   if (card.dir === 'fwd') {
-    // JP → DE: front = Grammar pattern
+    // JP → DE: front = Grammar pattern (German hint stripped so MC answers don't leak)
     front.innerHTML = `
       <div class="card-type-label">Grammatik</div>
-      <div class="card-pattern-main">${escHtml(g.pattern)}</div>
+      <div class="card-pattern-main">${escHtml(stripPatternHint(g.pattern))}</div>
       <div class="card-direction-badge">${dirLabel}</div>`;
     back.innerHTML = `
       <div class="card-direction-badge">${dirLabel}</div>
@@ -417,10 +519,10 @@ function renderGrammarCard(card, front, back, dirLabel) {
           </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
       </div>` : ''}`;
   } else {
-    // DE → JP: front = German explanation
+    // DE → JP: front = German example sentence (cloze-style — no keyword leak from pattern label)
     front.innerHTML = `
-      <div class="card-type-label">Grammatik — Erklärung</div>
-      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(g.explanation.split('.')[0])}</div>
+      <div class="card-type-label">Grammatik — welches Muster?</div>
+      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(g.example_de)}</div>
       <div class="card-direction-badge">${dirLabel}</div>`;
     back.innerHTML = `
       <div class="card-direction-badge">${dirLabel}</div>
@@ -486,11 +588,13 @@ function generateChoices(card) {
     // grammar
     pool = GRAMMAR.filter(g => g.id !== item.id);
     if (dir === 'fwd') {
-      correct = item.explanation.split('.')[0];
-      getLabel = g => g.explanation.split('.')[0];
+      correct = cleanExplanation(item.explanation);
+      getLabel = g => cleanExplanation(g.explanation);
     } else {
-      correct = item.pattern;
-      getLabel = g => g.pattern;
+      // DE→JP: answers are pattern strings with German hint stripped, so the German
+      // parenthetical inside `pattern` can't leak when the question is a DE sentence.
+      correct = stripPatternHint(item.pattern);
+      getLabel = g => stripPatternHint(g.pattern);
     }
   }
 
@@ -598,8 +702,8 @@ function handleMCAnswer(clickedBtn, correct) {
 // ===== SITUATION MODE =====
 function generateSituationChoices(card) {
   const pool = GRAMMAR.filter(g => g.id !== card.item.id);
-  const correct = card.item.pattern;
-  const distractors = shuffle([...pool]).slice(0, 3).map(g => g.pattern);
+  const correct = stripPatternHint(card.item.pattern);
+  const distractors = shuffle([...pool]).slice(0, 3).map(g => stripPatternHint(g.pattern));
   return { choices: shuffle([correct, ...distractors]), correct };
 }
 
@@ -719,6 +823,94 @@ function handleSituationMCAnswer(clickedBtn, correct) {
   }, isCorrect ? 1000 : 1500);
 }
 
+// ===== VERWENDUNG MODE =====
+// Front: deutsche Verwendungs-Situation. Choices: 4 reine JP-Muster (ohne deutschen Hinweis).
+function generateVerwendungChoices(card) {
+  const pool = GRAMMAR.filter(g => g.id !== card.item.id);
+  const correct = stripPatternHint(card.item.pattern);
+  const distractors = shuffle([...pool]).slice(0, 3).map(g => stripPatternHint(g.pattern));
+  return { choices: shuffle([correct, ...distractors]), correct };
+}
+
+function renderVerwendungCard() {
+  const card = state.session[state.sessionIdx];
+  const front = document.getElementById('card-front');
+  const back  = document.getElementById('card-back');
+  const inner = document.getElementById('card-inner');
+
+  inner.classList.remove('flipped');
+  state.flipped = false;
+
+  const flashcard = document.getElementById('flashcard');
+  flashcard.classList.remove('card-enter');
+  void flashcard.offsetWidth;
+  flashcard.classList.add('card-enter');
+
+  const total = state.session.length;
+  const idx   = state.sessionIdx;
+  document.getElementById('session-progress').textContent = `${idx + 1} / ${total}`;
+  document.getElementById('progress-bar').style.width = `${(idx / total) * 100}%`;
+
+  // Non-grammar cards have no situation — fall back to regular flashcard
+  if (card.type !== 'grammar') {
+    renderCard();
+    return;
+  }
+
+  const g = card.item;
+  const situation = g.situation || cleanExplanation(g.explanation);
+
+  front.innerHTML = `
+    <div class="card-type-label">Grammatik — Verwendung</div>
+    <div class="situation-prompt">${escHtml(situation)}</div>`;
+
+  back.innerHTML = `
+    <div class="back-section">
+      <span class="back-label">Muster</span>
+      <div style="font-family:var(--font-display);font-size:28px;color:var(--accent)">${escHtml(g.pattern)}</div>
+    </div>
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Erklärung</span>
+      <div class="back-explanation">${escHtml(g.explanation)}</div>
+    </div>
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Beispiel</span>
+      <div class="back-example-jp">${escHtml(g.example_jp)}</div>
+      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
+      <div class="back-example-de">${escHtml(g.example_de)}</div>
+    </div>
+    ${g.dialogue ? `
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Dialog</span>
+      ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
+        <div class="dialogue-line">
+          <div class="dialogue-jp">${escHtml(l.jp)}</div>
+          ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
+          <div class="dialogue-de">${escHtml(l.de)}</div>
+        </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
+    </div>` : ''}`;
+
+  document.getElementById('flip-btn').style.display = 'none';
+  document.getElementById('rating-wrap').style.display = 'none';
+  document.getElementById('tiles-wrap').style.display = 'none';
+
+  const { choices, correct } = generateVerwendungChoices(card);
+  const mcEl = document.getElementById('mc-choices');
+  mcEl.style.display = '';
+  mcEl.innerHTML = choices.map((c, i) =>
+    `<button class="mc-btn" data-choice="${escHtml(c)}" data-correct="${escHtml(correct)}">
+      <span class="mc-num">${i + 1}</span>
+      <span class="mc-text"><span class="mc-word">${escHtml(c)}</span></span>
+    </button>`
+  ).join('');
+  mcEl.querySelectorAll('.mc-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleSituationMCAnswer(btn, correct));
+  });
+}
+
 function tokenizePattern(pattern) {
   return (pattern.match(/(〜[^〜]+|[^〜]+)/g) || [pattern]).filter(t => t.length > 0);
 }
@@ -822,11 +1014,17 @@ function rateCard(rating) {
   const key = rating === 1 ? 'nochmal' : 'richtig';
   if (key) state.stats[key]++;
 
-  // If "Nochmal", re-queue the card near the end
+  // If "Nochmal", shuffle card into rest of deck (min 5 cards away)
   if (rating === 1) {
     const requeue = state.session.splice(state.sessionIdx, 1)[0];
-    const insertAt = Math.min(state.sessionIdx + 3 + Math.floor(Math.random() * 3), state.session.length);
-    state.session.splice(insertAt, 0, requeue);
+    const remaining = state.session.length - state.sessionIdx;
+    const minOffset = 5;
+    if (remaining <= minOffset) {
+      state.session.push(requeue);
+    } else {
+      const insertAt = state.sessionIdx + minOffset + Math.floor(Math.random() * (remaining - minOffset + 1));
+      state.session.splice(insertAt, 0, requeue);
+    }
   } else {
     state.sessionIdx++;
   }
@@ -837,6 +1035,8 @@ function rateCard(rating) {
     renderMCCard();
   } else if (state.mode === 'situation') {
     renderSituationCard();
+  } else if (state.mode === 'verwendung') {
+    renderVerwendungCard();
   } else {
     renderCard();
   }
@@ -1014,13 +1214,17 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
   if (tab === 'kanji') {
     const k = item;
     const shortMeaning = k.meaning.slice(0, 2).join(', ');
+    const primary   = k.speak || k.kun[0] || k.on[0] || '';
+    const secondary = k.speak
+      ? (k.kun[0] && k.kun[0] !== k.speak ? k.kun[0] : (k.on[0] && k.on[0] !== k.speak ? k.on[0] : ''))
+      : (k.kun[0] && k.on[0] ? k.on[0] : '');
     return `<div class="list-row" ${attrs}>
       <div class="list-row-summary">
         <div class="list-kanji-char">${escHtml(k.char)}</div>
         <div class="list-row-main">
           <div class="list-jp-line">
-            <span class="list-jp">${k.on.length ? escHtml(k.on[0]) : ''}</span>
-            ${k.kun.length ? `<span class="list-reading">${escHtml(k.kun[0])}</span>` : ''}
+            <span class="list-jp">${escHtml(primary)}</span>
+            ${secondary ? `<span class="list-reading">${escHtml(secondary)}</span>` : ''}
           </div>
           <div class="list-de">${escHtml(shortMeaning)}</div>
         </div>
@@ -1137,30 +1341,35 @@ function showListScreen() {
 
 // ===== EVENTS =====
 function initEvents() {
-  // Mode toggle
-  document.querySelectorAll('.mode-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      state.mode = btn.dataset.mode;
-    });
-  });
-
-  // Direction toggle
-  document.querySelectorAll('.dir-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      state.direction = btn.dataset.dir;
-      renderHome();
-    });
-  });
-
-  // Deck cards
+  // Deck cards open start-modal
   document.querySelectorAll('.deck-card').forEach(card => {
     card.addEventListener('click', () => {
-      startSession(card.dataset.deck, state.direction);
+      openStartModal(card.dataset.deck);
     });
+  });
+
+  // Start modal: close (×, backdrop, Esc)
+  document.getElementById('start-modal-close').addEventListener('click', closeStartModal);
+  document.getElementById('start-modal').addEventListener('click', e => {
+    if (e.target.id === 'start-modal') closeStartModal();
+  });
+
+  // Start modal: direction toggle
+  document.querySelectorAll('#start-modal .dir-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#start-modal .dir-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.direction = btn.dataset.dir;
+    });
+  });
+
+  // Start modal: Start button
+  document.getElementById('modal-start-btn').addEventListener('click', () => {
+    const deck = state.pendingDeck;
+    if (!deck) return;
+    saveModalPrefs(deck, state.mode, state.direction);
+    closeStartModal();
+    startSession(deck, state.direction);
   });
 
   // Flip button
@@ -1234,6 +1443,12 @@ function initEvents() {
 
   // Keyboard shortcuts
   document.addEventListener('keydown', e => {
+    const modal = document.getElementById('start-modal');
+    if (modal && !modal.classList.contains('hidden')) {
+      if (e.key === 'Escape') { closeStartModal(); return; }
+      if (e.key === 'Enter') { document.getElementById('modal-start-btn').click(); return; }
+    }
+
     const screen = document.querySelector('.screen.active');
     if (!screen) return;
 

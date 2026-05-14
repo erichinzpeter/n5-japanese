@@ -4,6 +4,50 @@
 
 ---
 
+## [2.3.0] — 2026-05-14
+
+### Neu
+
+- **Deck-first Start-Modal** — Modus- und Richtungs-Auswahl wandert vom Home-Screen in ein Modal, das beim Klick auf ein Deck öffnet. Pro Deck werden nur sinnvolle Modi angezeigt (Situation/Verwendung nur bei Grammatik). Bei diesen beiden Modi ist die Richtungs-Auswahl ausgeblendet. Letzte Auswahl pro Deck wird in `localStorage` (`n5_modal_prefs`) gemerkt. Esc/Backdrop schließt, Enter startet.
+- **70 neue Kanji (k101–k170)** — Kanji-Deck wächst von 100 auf 170: restliche N5 + häufige frühe N4. Gruppen: Pronomen/Wochentage, Familie, Tageszeiten, Jahreszeiten, Körper & Geist, Lernen & Schule, Orte, Medien, Essen & Trinken, Bewegungsverben. Schema unverändert.
+
+### Behoben
+
+- **„Nochmal"-Karte erscheint nicht mehr direkt wieder** — Re-Queue-Position war fest auf `sessionIdx + 3..5`. Bei kleinen Sessions oder Sessionende landete die Karte fast sofort wieder oben. Jetzt: zufällige Position zwischen `sessionIdx + 5` und Deck-Ende. Bei ≤5 verbleibenden Karten wird sie ans Ende geschoben.
+
+---
+
+## [2.2.0] — 2026-05-14
+
+### Neu
+
+- **Verwendungs-Modus** — vierter Lernmodus für Grammatik. Front zeigt die deutsche Verwendungs-Situation („Du möchtest jemanden höflich um etwas bitten…"), die vier Antworten sind reine japanische Muster (`〜てください`, `〜ましょう` …) ohne deutsche Hinweise. Reine Erkennung von Verwendung → Muster, kein Deutsch in den Antworten.
+
+### Behoben
+
+- **„1)"-Präfix in JP→DE MC-Antworten entfernt** — Erklärungen wie „1) Richtung/Ziel bei gehen/kommen. 2) Zeitpunkt." (z.B. に, で) zeigten in den Antworten ein verirrtes „1) ". Neue Helfer-Funktion `cleanExplanation()` entfernt die Listen-Nummerierung vor dem Splitten.
+- **Situation-Modus MC ohne deutschen Hinweis** — auch im Situation-Modus (MC-Variante) werden Muster jetzt mit `stripPatternHint()` gesäubert; keine `(Bitte tun Sie …)`-Leaks mehr in den Antworten.
+
+---
+
+## [2.1.1] — 2026-05-14
+
+### Behoben
+
+- **Grammatik JP→DE-Leak** — auch in JP→DE-Richtung wird der deutsche Hinweis in Klammern jetzt aus dem Muster auf der Fragenseite entfernt (z.B. „〜ましょう / 〜ましょうか" statt „〜ましょう / 〜ましょうか (Vorschlag: Lass uns …)"), damit MC-Antworten wie „Vorschlag, etwas gemeinsam zu tun" nicht verraten werden.
+
+---
+
+## [2.1.0] — 2026-05-14
+
+### Geändert
+
+- **Sticky Listen-Header** — Zurück-Button, Suche und Tabs bleiben beim Scrollen langer Listen (Vokabeln, Kanji) sichtbar; die Liste scrollt jetzt innerhalb ihres Containers statt der ganzen Seite. Touch-Area des Zurück-Buttons auf 44×44px vergrößert.
+- **Kanji-Anzeige zeigt natürliche Lesung** — in der Kanji-Liste erscheint jetzt die bevorzugte Lesung groß (z.B. 人 → ひと statt ジン). Logik gleich wie TTS: `speak`-Feld zuerst, sonst Kun, sonst On. Die Detail-Ansicht zeigt weiterhin beide Lesungen vollständig.
+- **Grammatik-MC ohne Antwort-Leak** — DE→JP fragt jetzt mit einem deutschen Beispielsatz („Bitte sprechen Sie langsam.") statt der Erklärung. Antwort-Choices zeigen nur die japanische Form (`〜てください`) ohne den deutschen Hinweis in Klammern. Kein Stichwort-Überlapp zwischen Frage und Antwort mehr.
+
+---
+
 ## [2.0.0] — 2026-05-10
 
 ### Neu

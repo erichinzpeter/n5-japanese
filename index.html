@@ -25,20 +25,8 @@
     <header class="home-header">
       <div class="home-logo">日本語</div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v2.0.0</div>
+      <div class="app-version">v2.3.0</div>
     </header>
-
-    <div class="mode-toggle">
-      <button class="mode-btn active" data-mode="flashcard">Karteikarten</button>
-      <button class="mode-btn" data-mode="mc">Multiple Choice</button>
-      <button class="mode-btn" data-mode="situation">Situation</button>
-    </div>
-
-    <div class="direction-toggle">
-      <button class="dir-btn active" data-dir="jp-de">JP → DE</button>
-      <button class="dir-btn" data-dir="de-jp">DE → JP</button>
-      <button class="dir-btn" data-dir="both">Beide</button>
-    </div>
 
     <div class="deck-grid">
       <button class="deck-card" data-deck="kanji">
@@ -46,7 +34,7 @@
         <div class="deck-name">Kanji</div>
         <div class="deck-stats">
           <span class="due-count" id="due-kanji">—</span>
-          <span class="deck-total" id="total-kanji">/ 100</span>
+          <span class="deck-total" id="total-kanji">/ 170</span>
         </div>
         <div class="deck-due-label">heute fällig</div>
       </button>
@@ -186,6 +174,30 @@
     </div>
     <div class="list-divider"></div>
     <div id="list-content" class="list-content"></div>
+  </div>
+
+  <!-- Start modal -->
+  <div id="start-modal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="start-modal-title">
+    <div class="modal-card">
+      <button class="modal-close" id="start-modal-close" aria-label="Schließen">×</button>
+      <h2 class="modal-title" id="start-modal-title">Üben</h2>
+
+      <div class="modal-section">
+        <div class="modal-label">Modus</div>
+        <div class="mode-toggle" id="modal-mode-toggle"></div>
+      </div>
+
+      <div class="modal-section" id="modal-direction-wrap">
+        <div class="modal-label">Richtung</div>
+        <div class="direction-toggle">
+          <button class="dir-btn active" data-dir="jp-de">JP → DE</button>
+          <button class="dir-btn" data-dir="de-jp">DE → JP</button>
+          <button class="dir-btn" data-dir="both">Beide</button>
+        </div>
+      </div>
+
+      <button id="modal-start-btn" class="modal-start-btn">Start</button>
+    </div>
   </div>
 
   <!-- Data files first, then app logic -->
