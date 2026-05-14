@@ -4,6 +4,18 @@
 
 ---
 
+## [2.4.0] — 2026-05-14
+
+### Neu
+
+- **Fuji-Banner im Home-Header** — Statt `日本語`-Logo zeigt der Home-Screen ein 8-bit Pixel-Art-Banner (Fujisan bei Dämmerung, Pagode, See, Sakura-Wälder). Zwei flatternde ASCII-Vögel (`v`/`^` im 0,45-s-Takt) ziehen langsam (22 s / 28 s, leichter Höhen-Bob) über den Himmel. `prefers-reduced-motion` parkt die Vögel statisch. Banner liegt unter `assets/fuji-banner.png`. Titel `日本語` als Overlay unten-links im Banner.
+
+### Geändert
+
+- Service-Worker-Cache `n5-v13` → `n5-v14`, neues Asset im Preload.
+
+---
+
 ## [2.3.0] — 2026-05-14
 
 ### Neu

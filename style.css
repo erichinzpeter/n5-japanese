@@ -1594,3 +1594,116 @@ body {
 .modal-start-btn:active {
   transform: scale(0.98);
 }
+
+/* ===== FUJI BANNER (static image + flapping ASCII birds) ===== */
+.fuji-banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  max-height: 240px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-image: url('assets/fuji-banner.png');
+  background-size: cover;
+  background-position: center 35%;
+  background-color: #1a1430;
+  image-rendering: pixelated;
+  isolation: isolate;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.04);
+  animation: fadeDown 0.6s ease both;
+}
+
+.fuji-birds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fuji-bird {
+  position: absolute;
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-weight: 700;
+  color: #1a1212;
+  text-shadow: 0 0 2px rgba(255, 200, 160, 0.55);
+  line-height: 1;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.fuji-bird::before {
+  display: inline-block;
+  content: 'v';
+  animation: birdFlap 2.4s steps(1) infinite;
+}
+
+.fuji-bird--1 {
+  font-size: 26px;
+  animation: birdFly1 42s linear infinite;
+}
+
+.fuji-bird--2 {
+  font-size: 20px;
+  animation: birdFly2 52s linear infinite;
+  animation-delay: -18s;
+}
+
+.fuji-bird--2::before {
+  animation-delay: -0.4s;
+}
+
+/* Gentle 4-state flap, no extremes */
+@keyframes birdFlap {
+  0%, 24%   { content: '\2323'; }   /* ⌣ */
+  25%, 49%  { content: '\203E'; }   /* ‾ */
+  50%, 74%  { content: '\2322'; }   /* ⌢ */
+  75%, 100% { content: '\203E'; }   /* ‾ */
+}
+
+/* Mid-to-right drift with vertical bob; spread far apart vertically */
+@keyframes birdFly1 {
+  0%   { left: 38%; top: 12%; }
+  25%  { left: 52%; top: 14%; }
+  50%  { left: 65%; top: 11%; }
+  75%  { left: 80%; top: 15%; }
+  100% { left: 105%; top: 13%; }
+}
+
+@keyframes birdFly2 {
+  0%   { left: 50%; top: 36%; }
+  30%  { left: 62%; top: 34%; }
+  60%  { left: 76%; top: 38%; }
+  100% { left: 108%; top: 36%; }
+}
+
+.fuji-title {
+  position: absolute;
+  left: 16px;
+  bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 0 24px rgba(0,0,0,0.4);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.home-header .home-subtitle { margin-top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fuji-bird,
+  .fuji-bird::before { animation: none; }
+  .fuji-bird--1 { transform: translateX(35%); }
+  .fuji-bird--2 { transform: translateX(60%); }
+}
+
+@media (max-width: 480px) {
+  .fuji-banner { aspect-ratio: 16 / 9; max-height: 200px; }
+  .fuji-title { font-size: 30px; left: 14px; bottom: 10px; }
+  .fuji-bird--1 { font-size: 22px; }
+  .fuji-bird--2 { font-size: 17px; }
+}

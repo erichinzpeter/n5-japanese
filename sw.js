@@ -1,4 +1,4 @@
-const CACHE = 'n5-v13';
+const CACHE = 'n5-v14';
 const ASSETS = [
   './',
   './index.html',
@@ -10,7 +10,10 @@ const ASSETS = [
   './data/basics.js',
   './manifest.json',
   './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-512.png',
+  './assets/fuji-banner.png',
+  './assets/sun.png',
+  './assets/moon.png'
 ];
 
 self.addEventListener('install', e => {
