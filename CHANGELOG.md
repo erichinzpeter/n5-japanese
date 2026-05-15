@@ -4,6 +4,15 @@
 
 ---
 
+## [2.5.3] — 2026-05-15
+
+### Behoben
+
+- **Mehr Luft unter Rating- und MC-Buttons** — Padding-Bottom auf Mobile von `max(16px, safe-area)` auf `safe-area + 32px`. Buttons sitzen jetzt deutlich höher vom Bildschirmrand weg.
+- Service-Worker-Cache `n5-v20` → `n5-v21`.
+
+---
+
 ## [2.5.2] — 2026-05-15
 
 ### Behoben
