@@ -4,6 +4,15 @@
 
 ---
 
+## [2.5.4] — 2026-05-15
+
+### Geändert
+
+- **PWA-Update wieder automatisch** — `self.skipWaiting()` zurück im Install-Handler. Neuer Service Worker aktiviert sofort, `controllerchange` triggert automatisches `location.reload()`. Toast-Element bleibt im Markup für eventuelles späteres Re-Enable, wird aber im Normalfall nicht mehr angezeigt.
+- Service-Worker-Cache `n5-v21` → `n5-v22`.
+
+---
+
 ## [2.5.3] — 2026-05-15
 
 ### Behoben

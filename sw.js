@@ -1,4 +1,4 @@
-const CACHE = 'n5-v21';
+const CACHE = 'n5-v22';
 const ASSETS = [
   './',
   './index.html',
@@ -17,6 +17,7 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', e => {
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(ASSETS))
   );
