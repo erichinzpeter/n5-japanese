@@ -31,7 +31,7 @@
         <div class="fuji-title">日本語</div>
       </div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v2.5.1</div>
+      <div class="app-version">v2.5.2</div>
     </header>
 
     <div class="deck-grid">
@@ -97,11 +97,9 @@
   <!-- SCREEN: SESSION -->
   <div id="screen-session" class="screen">
     <div class="session-topbar">
-      <button id="back-btn" class="back-btn">← Decks</button>
-      <div class="session-info">
-        <span id="session-deck-label" class="session-deck-label"></span>
-        <span id="session-progress" class="session-progress"></span>
-      </div>
+      <button id="back-btn" class="back-btn" aria-label="Zurück zu Decks">←</button>
+      <h2 id="session-deck-label" class="session-title"></h2>
+      <span id="session-progress" class="session-progress"></span>
     </div>
 
     <div class="progress-bar-wrap">

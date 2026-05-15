@@ -4,6 +4,15 @@
 
 ---
 
+## [2.5.2] — 2026-05-15
+
+### Behoben
+
+- **Karte abgeschnitten oben** — `align-items: flex-end` aus v2.5.1 hat lange Karteninhalte nach oben überlaufen lassen. Zurück auf zentriert. Rating-Buttons behalten Safe-Area-Padding.
+- Service-Worker-Cache `n5-v19` → `n5-v20`.
+
+---
+
 ## [2.5.1] — 2026-05-15
 
 ### Behoben

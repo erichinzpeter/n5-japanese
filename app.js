@@ -242,7 +242,7 @@ function startSession(deck, direction) {
   state.stats = { nochmal: 0, richtig: 0 };
   state.lastDeck = deck;
 
-  const deckLabels = { kanji: 'KANJI', vocab: 'VOKABELN', grammar: 'GRAMMATIK', basics: 'ALLTAG', all: 'ALLES' };
+  const deckLabels = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', basics: 'Alltag', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
