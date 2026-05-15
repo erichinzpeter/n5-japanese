@@ -4,6 +4,17 @@
 
 ---
 
+## [2.5.1] — 2026-05-15
+
+### Behoben
+
+- **Mobile-Safe-Area unten** — Rating-Buttons (`Nochmal`/`Richtig`) und MC-Choices liefen in iOS-Home-Indicator. `padding-bottom: max(20px, env(safe-area-inset-bottom))`.
+- **Listen-Ende klebte an Display-Kante** — `.list-content` hat jetzt `padding-bottom` mit Safe-Area.
+- **Karte und Rating-Buttons näher zusammen im Practice-Modus** — `.card-wrap` auf Mobile `align-items: flex-end`, Karte sitzt am unteren Ende des Card-Bereichs statt zentriert, Lücke zur Rating-Zeile geschlossen.
+- Service-Worker-Cache `n5-v18` → `n5-v19`.
+
+---
+
 ## [2.5.0] — 2026-05-15
 
 ### Hinzugefügt

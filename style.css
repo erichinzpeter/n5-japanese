@@ -1401,9 +1401,15 @@ body {
   .card-pattern-main { font-size: 26px; }
   .rating-buttons { grid-template-columns: repeat(2, 1fr); }
   .session-topbar { padding: 12px 16px; }
-  .card-wrap { padding: 12px 16px; }
-  .rating-wrap { padding: 0 16px 20px; }
-  .mc-choices { grid-template-columns: 1fr; padding: 0 16px 20px; }
+  .card-wrap {
+    padding: 12px 16px 8px;
+    align-items: flex-end;
+  }
+  .rating-wrap { padding: 0 16px max(20px, env(safe-area-inset-bottom)); }
+  .mc-choices { grid-template-columns: 1fr; padding: 0 16px max(20px, env(safe-area-inset-bottom)); }
+  .rating-hint { margin-bottom: 6px; }
+
+  .list-content { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
 
   #screen-home {
     padding: 24px 16px max(20px, env(safe-area-inset-bottom));
