@@ -31,7 +31,7 @@
         <div class="fuji-title">日本語</div>
       </div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v2.5.4</div>
+      <div class="app-version">v2.6.1</div>
     </header>
 
     <div class="deck-grid">
@@ -119,30 +119,33 @@
       </div>
     </div>
 
-    <div class="card-controls">
-      <button class="flip-btn" id="flip-btn">Karte umdrehen</button>
-    </div>
+    <div class="card-bottom" id="card-bottom">
+      <div class="card-controls" id="card-controls">
+        <button class="flip-btn" id="flip-btn">Karte umdrehen</button>
+      </div>
 
-    <div id="mc-choices" class="mc-choices" style="display:none">
-      <!-- filled by JS in MC mode -->
-    </div>
+      <div id="mc-choices" class="mc-choices" style="display:none">
+        <!-- filled by JS in MC mode -->
+      </div>
 
-    <div id="tiles-wrap" style="display:none">
-      <div id="tiles-target"></div>
-      <div id="tiles-source"></div>
-    </div>
+      <div id="tiles-wrap" style="display:none">
+        <div id="tiles-target"></div>
+        <div id="tiles-source"></div>
+      </div>
 
-    <div class="rating-wrap" id="rating-wrap" style="display:none">
-      <div class="rating-hint">Wie gut wusstest du es?</div>
-      <div class="rating-buttons">
-        <button class="rating-btn rating-nochmal" data-rating="1">
-          <span class="rating-label">Nochmal</span>
-          <span class="rating-interval" id="int-1"></span>
-        </button>
-        <button class="rating-btn rating-richtig" data-rating="3">
-          <span class="rating-label">Richtig</span>
-          <span class="rating-interval" id="int-3"></span>
-        </button>
+      <div class="rating-wrap" id="rating-wrap" style="display:none">
+        <div class="mc-result" id="mc-result"></div>
+        <div class="rating-hint">Wie gut wusstest du es?</div>
+        <div class="rating-buttons">
+          <button class="rating-btn rating-nochmal" data-rating="1">
+            <span class="rating-label">Nochmal</span>
+            <span class="rating-interval" id="int-1"></span>
+          </button>
+          <button class="rating-btn rating-richtig" data-rating="3">
+            <span class="rating-label">Richtig</span>
+            <span class="rating-interval" id="int-3"></span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

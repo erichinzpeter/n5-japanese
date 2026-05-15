@@ -757,11 +757,30 @@ body {
   color: var(--accent);
 }
 
+/* Bottom slot: card-controls, mc-choices, tiles, rating-wrap stack here.
+   mc-choices sits in flow and defines container height in MC mode;
+   on flip, mc-choices uses visibility:hidden to preserve space so card doesn't shift.
+   In flashcard mode, min-height matches rating-wrap height so flip-btn area = rating-wrap area. */
+.card-bottom {
+  position: relative;
+  min-height: 140px;
+}
+
+.card-bottom > .card-controls,
+.card-bottom > .rating-wrap,
+.card-bottom > #tiles-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 /* Card Controls */
 .card-controls {
-  padding: 0 20px 12px;
+  padding: 0 20px 48px;
   display: flex;
   justify-content: center;
+  align-items: flex-end;
 }
 
 .flip-btn {
@@ -786,7 +805,22 @@ body {
 
 /* Rating Buttons */
 .rating-wrap {
-  padding: 0 20px 24px;
+  padding: 0 20px 48px;
+}
+
+.mc-result {
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.mc-result.correct { color: var(--btn-gut); }
+.mc-result.wrong   { color: var(--btn-nochmal); }
+.mc-result-pick {
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 6px;
 }
 
 .rating-hint {
@@ -1397,8 +1431,10 @@ body {
   .session-topbar { padding: 30px 16px 10px; }
   .list-header { padding: 30px 16px 10px; }
   .card-wrap { padding: 12px 16px 8px; }
-  .rating-wrap { padding: 0 16px calc(env(safe-area-inset-bottom) + 32px); }
-  .mc-choices { grid-template-columns: 1fr; padding: 0 16px calc(env(safe-area-inset-bottom) + 32px); }
+  .rating-wrap { padding: 0 16px calc(env(safe-area-inset-bottom) + 80px); }
+  .card-controls { padding: 0 16px calc(env(safe-area-inset-bottom) + 80px); }
+  .card-bottom { min-height: calc(env(safe-area-inset-bottom) + 188px); }
+  .mc-choices { grid-template-columns: 1fr; padding: 0 16px calc(env(safe-area-inset-bottom) + 56px); }
   .rating-hint { margin-bottom: 6px; }
 
   .list-content { padding-bottom: max(16px, env(safe-area-inset-bottom)); }

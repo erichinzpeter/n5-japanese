@@ -293,10 +293,16 @@ function renderCard() {
   }
 
   // Show flip button, hide ratings and other mode elements
+  document.getElementById('card-controls').style.display = '';
   document.getElementById('flip-btn').style.display = '';
   document.getElementById('rating-wrap').style.display = 'none';
-  document.getElementById('mc-choices').style.display = 'none';
+  const mcEl = document.getElementById('mc-choices');
+  mcEl.style.display = 'none';
+  mcEl.style.visibility = '';
   document.getElementById('tiles-wrap').style.display = 'none';
+  const resultEl = document.getElementById('mc-result');
+  resultEl.innerHTML = '';
+  resultEl.classList.remove('correct', 'wrong');
 }
 
 function renderKanjiCard(card, front, back, dirLabel) {
@@ -647,7 +653,8 @@ function renderMCCard() {
     renderGrammarCard(card, front, back, dirLabel);
   }
 
-  // Hide flip button and SRS buttons, show MC choices
+  // Hide flip button + card-controls in MC (user clicks card to flip); hide SRS/tiles
+  document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
   document.getElementById('tiles-wrap').style.display = 'none';
@@ -655,6 +662,7 @@ function renderMCCard() {
   const { choices, correct, readings } = generateChoices(card);
   const mcEl = document.getElementById('mc-choices');
   mcEl.style.display = '';
+  mcEl.style.visibility = '';
   mcEl.innerHTML = choices.map((c, i) => {
     const reading = readings ? readings[i] : '';
     return `<button class="mc-btn" data-choice="${escHtml(c)}" data-correct="${escHtml(correct)}">
@@ -672,31 +680,15 @@ function renderMCCard() {
 }
 
 function handleMCAnswer(clickedBtn, correct) {
-  const mcEl = document.getElementById('mc-choices');
-  const isCorrect = clickedBtn.dataset.choice === correct;
-
-  // Lock all buttons
-  mcEl.querySelectorAll('.mc-btn').forEach(btn => {
-    btn.disabled = true;
-    if (btn.dataset.choice === correct) {
-      btn.classList.add('correct');
-    } else if (btn === clickedBtn && !isCorrect) {
-      btn.classList.add('wrong');
-    }
-  });
-
-  if (isCorrect) {
-    const currentCard = state.session[state.sessionIdx];
-    if (currentCard && currentCard.type !== 'grammar') speakJapanese(getJapaneseText(currentCard));
-  }
-
-  const rating = isCorrect ? 3 : 1;  // Gut or Nochmal
-  const delay  = isCorrect ? 1200 : 1600;
-
-  setTimeout(() => {
-    mcEl.style.display = 'none';
-    rateCard(rating);
-  }, delay);
+  const picked = clickedBtn.dataset.choice;
+  const isCorrect = picked === correct;
+  const resultEl = document.getElementById('mc-result');
+  resultEl.classList.remove('correct', 'wrong');
+  resultEl.classList.add(isCorrect ? 'correct' : 'wrong');
+  resultEl.innerHTML = isCorrect
+    ? `<span class="mc-result-mark">✓ Richtig</span>`
+    : `<span class="mc-result-mark">✗ Falsch</span> <span class="mc-result-pick">Deine Antwort: ${escHtml(picked)}</span>`;
+  flipCard();
 }
 
 // ===== SITUATION MODE =====
@@ -768,6 +760,7 @@ function renderSituationCard() {
         </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
     </div>` : ''}`;
 
+  document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
 
@@ -893,6 +886,7 @@ function renderVerwendungCard() {
         </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
     </div>` : ''}`;
 
+  document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
   document.getElementById('tiles-wrap').style.display = 'none';
@@ -987,7 +981,13 @@ function flipCard() {
   state.flipped = true;
 
   document.getElementById('card-inner').classList.add('flipped');
-  document.getElementById('flip-btn').style.display = 'none';
+  document.getElementById('card-controls').style.display = 'none';
+
+  // In MC: keep mc-choices container's space so card doesn't shift; just hide its content
+  const mcEl = document.getElementById('mc-choices');
+  if (state.mode === 'mc' && mcEl.style.display !== 'none') {
+    mcEl.style.visibility = 'hidden';
+  }
 
   const currentCard = state.session[state.sessionIdx];
   if (currentCard && currentCard.type !== 'grammar') speakJapanese(getJapaneseText(currentCard));
@@ -1454,11 +1454,21 @@ function initEvents() {
 
     if (screen.id === 'screen-session') {
       if (state.mode === 'mc') {
-        const mcBtns = document.querySelectorAll('.mc-btn:not([disabled])');
-        if (e.key === '1' && mcBtns[0]) mcBtns[0].click();
-        if (e.key === '2' && mcBtns[1]) mcBtns[1].click();
-        if (e.key === '3' && mcBtns[2]) mcBtns[2].click();
-        if (e.key === '4' && mcBtns[3]) mcBtns[3].click();
+        if (state.flipped) {
+          if (e.key === '1') rateCard(1);
+          if (e.key === '3') rateCard(3);
+        } else {
+          if (e.code === 'Space' || e.key === ' ') {
+            e.preventDefault();
+            flipCard();
+          } else {
+            const mcBtns = document.querySelectorAll('.mc-btn:not([disabled])');
+            if (e.key === '1' && mcBtns[0]) mcBtns[0].click();
+            if (e.key === '2' && mcBtns[1]) mcBtns[1].click();
+            if (e.key === '3' && mcBtns[2]) mcBtns[2].click();
+            if (e.key === '4' && mcBtns[3]) mcBtns[3].click();
+          }
+        }
       } else {
         if (e.code === 'Space' || e.key === ' ') {
           e.preventDefault();
