@@ -4,6 +4,29 @@
 
 ---
 
+## [2.5.0] — 2026-05-15
+
+### Hinzugefügt
+
+- **PWA-Update-Mechanismus** — Service Worker prüft beim App-Start und bei Sichtbarkeitswechsel auf neue Version. Wenn verfügbar, erscheint Toast „Neue Version verfügbar – Tippen zum Aktualisieren" unten. Tap → neuer SW übernimmt, Seite lädt automatisch neu.
+
+### Geändert
+
+- **Fetch-Strategie umgestellt** — Network-first für HTML/JS/CSS/JSON (immer frisch online, Cache-Fallback offline). Cache-first nur noch für Bilder.
+- Kein automatisches `skipWaiting()` mehr — User entscheidet via Toast, wann aktualisiert wird.
+- Service-Worker-Cache `n5-v17` → `n5-v18`.
+
+---
+
+## [2.4.3] — 2026-05-14
+
+### Behoben
+
+- **Screen-Wechsel auf Mobile kaputt** — `#screen-home`-Media-Query setzte `display: flex` ohne `.active`-Scope. ID-Specifity überschrieb `.screen { display: none }`, Home blieb sichtbar, andere Screens stapelten darunter. `display`/`flex-direction` aus Media-Query entfernt — `.screen.active` regelt Flex-Layout bereits.
+- Service-Worker-Cache `n5-v16` → `n5-v17`.
+
+---
+
 ## [2.4.2] — 2026-05-14
 
 ### Geändert
