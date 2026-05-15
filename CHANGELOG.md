@@ -9,6 +9,10 @@
 ### Behoben
 
 - **Karte abgeschnitten oben** — `align-items: flex-end` aus v2.5.1 hat lange Karteninhalte nach oben überlaufen lassen. Zurück auf zentriert. Rating-Buttons behalten Safe-Area-Padding.
+
+### Geändert
+
+- **Einheitlicher Header für Practice + Liste** — beide haben jetzt gleiche Struktur: Pfeil-Icon links, heller Titel daneben. Practice zeigt Deck-Name (`Kanji`, `Vokabeln`, `Grammatik`, `Alltag`, `Alles`) als Titel statt UPPERCASE-Label rechts. Progress (`1/270`) rutscht rechts. Padding-Top 30–36px statt 12px/52px.
 - Service-Worker-Cache `n5-v19` → `n5-v20`.
 
 ---
