@@ -130,11 +130,11 @@ const KANJI = [
     { jp: "先生に質問があります。", reading: "せんせいにしつもんがあります。", de: "Ich habe eine Frage an den Lehrer." },
     { jp: "先週、図書館へ行きました。", reading: "せんしゅう、としょかんへいきました。", de: "Letzte Woche bin ich in die Bibliothek gegangen." }
   ]},
-  { id: "k031", char: "生", meaning: ["Leben", "gebären", "roh"], on: ["せい", "しょう"], kun: ["いきる", "うまれる", "なま"], examples: ["先生 (せんせい) — Lehrer", "学生 (がくせい) — Student"], sentences: [
+  { id: "k031", char: "生", meaning: ["Leben", "gebären", "roh"], speak: "せい", on: ["せい", "しょう"], kun: ["いきる", "うまれる", "なま"], examples: ["先生 (せんせい) — Lehrer", "学生 (がくせい) — Student"], sentences: [
     { jp: "私は学生です。", reading: "わたしはがくせいです。", de: "Ich bin Student." },
     { jp: "先生はやさしいです。", reading: "せんせいはやさしいです。", de: "Der Lehrer ist freundlich." }
   ]},
-  { id: "k032", char: "学", meaning: ["lernen", "Wissenschaft"], on: ["がく"], kun: ["まなぶ"], examples: ["学校 (がっこう) — Schule", "大学 (だいがく) — Universität"], sentences: [
+  { id: "k032", char: "学", meaning: ["lernen", "Wissenschaft"], speak: "がく", on: ["がく"], kun: ["まなぶ"], examples: ["学校 (がっこう) — Schule", "大学 (だいがく) — Universität"], sentences: [
     { jp: "毎日学校へ行きます。", reading: "まいにちがっこうへいきます。", de: "Ich gehe jeden Tag zur Schule." },
     { jp: "大学で日本語を学んでいます。", reading: "だいがくでにほんごをまなんでいます。", de: "Ich lerne an der Universität Japanisch." }
   ]},
@@ -166,7 +166,7 @@ const KANJI = [
   ]},
 
   // Sprache
-  { id: "k039", char: "語", meaning: ["Sprache", "Wort"], on: ["ご"], kun: ["かたる", "かたらう"], examples: ["日本語 (にほんご) — Japanisch", "英語 (えいご) — Englisch"], sentences: [
+  { id: "k039", char: "語", meaning: ["Sprache", "Wort"], speak: "ご", on: ["ご"], kun: ["かたる", "かたらう"], examples: ["日本語 (にほんご) — Japanisch", "英語 (えいご) — Englisch"], sentences: [
     { jp: "日本語を毎日練習します。", reading: "にほんごをまいにちれんしゅうします。", de: "Ich übe jeden Tag Japanisch." },
     { jp: "英語と日本語を話せます。", reading: "えいごとにほんごをはなせます。", de: "Ich kann Englisch und Japanisch sprechen." }
   ]},

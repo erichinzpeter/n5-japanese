@@ -4,6 +4,29 @@
 
 ---
 
+## [2.8.1] — 2026-05-30
+
+Kanji-Aussprache: Stimme passte nicht zur angezeigten Lesung.
+
+### Behoben
+
+- **🔊-Buttons sprachen das rohe Kanji-Zeichen** (`k.char`) statt einer Lesung. Eine einzelne Kanji-Glyphe an die Sprachausgabe zu geben liefert eine nichtdeterministische Lesung, die oft nicht zur angezeigten Hiragana/Katakana passte. Buttons (Karte + Liste) sprechen jetzt dieselbe kuratierte Lesung wie das Auto-Vorlesen beim Umdrehen (`kanjiReading()` = `speak || kun[0] || on[0]`). Stimme = angezeigte Lesung, deterministisch.
+- **Falsche Standard-Lesung bei on-dominanten Kanji** — 学 sprach „まなぶ" (N4-Verb) statt „がく", 語 „かたる" (N3) statt „ご", 生 „いきる" (N4) statt „せい". `speak`-Feld mit der N5-üblichen Lesung ergänzt.
+
+### Hinzugefügt
+
+- `data/kanji-reading.test.mjs` — prüft, dass jede gesprochene Lesung sauberes Kana ist (nie ein Kanji-Zeichen) und die korrigierten Lesungen stimmen.
+
+### Bekannt / offen
+
+- Bei einigen Kanji mit Wort-`speak` (z.B. 菜 → „やさい", 写 → „しゃしん") wird ein N5-Wort gesprochen, das nicht in den angezeigten On/Kun-Listen steht. Bewusste Kuratierung, kein Fehler; ggf. später als „Beispielwort" kennzeichnen.
+
+### Geändert
+
+- Service-Worker-Cache `n5-v27` → `n5-v28`.
+
+---
+
 ## [2.8.0] — 2026-05-30
 
 Onboarding (impeccable onboard).
