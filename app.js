@@ -355,7 +355,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
   const k = card.item;
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
-  const kanjiSpeakText = k.char.replace(/'/g, "\\'");
+  const kanjiSpeakText = kanjiReading(k).replace(/'/g, "\\'");
   const kanjiSentencesHtml = k.sentences && k.sentences.length
     ? `<div class="dialogue-box">${k.sentences.map(s => `
         <div class="dialogue-line">
@@ -1136,9 +1136,16 @@ function renderDone() {
 }
 
 // ===== TEXT-TO-SPEECH =====
+// Spoken reading for a kanji: a curated kana reading, never the raw character.
+// A lone kanji handed to speech synthesis is read nondeterministically and
+// often mismatches the reading shown on the card.
+function kanjiReading(k) {
+  return k.speak || k.kun[0] || k.on[0];
+}
+
 function getJapaneseText(card) {
   const { item, type } = card;
-  if (type === 'kanji')   return item.speak || item.kun[0] || item.on[0];
+  if (type === 'kanji')   return kanjiReading(item);
   if (type === 'grammar') return item.pattern;
   return item.reading || item.word;   // vocab + basics
 }
@@ -1329,7 +1336,7 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
           </div>
           <div class="list-de">${escHtml(shortMeaning)}</div>
         </div>
-        <button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${k.char.replace(/'/g, "\\'")}')">🔊</button>
+        <button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${kanjiReading(k).replace(/'/g, "\\'")}')">🔊</button>
         ${badge}<span class="list-chevron">▼</span>
       </div>
       <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
