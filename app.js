@@ -641,7 +641,7 @@ function generateChoices(card) {
     }
   } else if (type === 'vocab') {
     // Pool includes BASICS items too so distractors come from the same broad vocab space
-    const vocabPool = [...VOCAB, ...BASICS].filter(v => v.id !== item.id);
+    const vocabPool = [...vocabForLevel(), ...BASICS].filter(v => v.id !== item.id);
     pool = vocabPool;
     if (dir === 'fwd') {
       correct = item.meaning;
