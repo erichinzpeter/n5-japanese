@@ -4,6 +4,59 @@
 
 ---
 
+## [2.8.0] — 2026-05-30
+
+Onboarding (impeccable onboard).
+
+### Neu
+
+- **Willkommens-Panel beim ersten Start** — erklärt auf dem Home-Screen kurz, wie Spaced Repetition hier funktioniert (umdrehen → bewerten, Nochmal/Richtig, 20 Karten pro Runde). Nicht blockierend, schließbar (× / „Los geht's"), erscheint nur einmal (`localStorage: n5_onboarded`).
+- **Hinweis bei der ersten Bewertung** — einmaliger Inline-Hinweis über den Rating-Buttons, der erklärt, dass die Bewertung den nächsten Wiederholungstermin plant. Verschwindet nach der ersten Bewertung (`localStorage: n5_rating_hint_seen`).
+
+### Politur (impeccable polish)
+
+- **Reduced-Motion** projektweit respektiert — globaler `@media (prefers-reduced-motion: reduce)`-Guard statt nur Einzelfälle (Modal, Vögel).
+- **Fokusring-Bug behoben** — `:focus-visible` setzte `border-radius` und überschrieb damit die Eck-Radien fokussierter Elemente (z.B. Karte 16px → 8px). Radius entfernt, Outline folgt jetzt dem Element.
+- **Touch-Targets** — Schließen-Buttons (Onboarding + Modal) auf 44×44px.
+- **Button-Konsistenz** — Onboarding-„Los geht's" nutzt jetzt dieselbe Hover/Active-Konvention wie der Modal-Start-Button (`brightness(1.08)` + `scale(0.98)`).
+- **Copy** — Gedankenstrich aus „nichts fällig"-Toast entfernt.
+
+### Geändert
+
+- Service-Worker-Cache `n5-v25` → `n5-v27`.
+
+---
+
+## [2.7.0] — 2026-05-30
+
+Usability-Pass (impeccable critique).
+
+### Neu
+
+- **Session-Limit (20 Karten)** — frische Decks (alles fällig) bleiben endlich und erreichbar. Done-Screen zeigt „Noch X heute fällig", „Nochmal" startet die nächste Portion.
+- **Rückgängig nach Bewertung** — Toast mit „Rückgängig" stellt SRS-Planung, Session und Stats wieder her. Fehlklick ist kein Datenverlust mehr.
+- **Leere Decks sichtbar** — Decks ohne fällige Karten werden auf dem Home-Screen gedimmt, statt erst nach dem Modal-Funnel.
+
+### Geändert
+
+- **Keine nativen Dialoge mehr** — `alert`/`confirm` ersetzt: „nichts fällig" als Toast, Reset als zweistufiger Inline-Confirm.
+- **Kontrast** — `--text-dim` `#5a5450` → `#857d76` (jetzt ≥4.5:1, WCAG AA). Betrifft Deck-Totals, App-Version, Tastatur-Hinweis u.a.
+- **Tastatur-Hinweis** verschoben von Home in den Session-Screen, nur bei echter Tastatur sichtbar.
+
+### Barrierefreiheit
+
+- Karte als `role="button"` fokussierbar (Tab/Enter), Fokusring projektweit.
+- Modal: Fokus-Trap (Tab zyklisch) und Fokus-Wiederherstellung beim Schließen.
+- `aria-label` auf allen 🔊-Buttons, `aria-live` auf Toast.
+
+### Aufgeräumt
+
+- Toter SRS-Code (Ratings 2/4 nie aus der UI erreichbar) aus `calcNextReview` entfernt.
+- MC-Modus: Karten-Klick deckt nicht mehr vorab die Antwort auf.
+- Service-Worker-Cache `n5-v24` → `n5-v25`.
+
+---
+
 ## [2.5.4] — 2026-05-15
 
 ### Geändert

@@ -12,9 +12,16 @@ const state = {
   srs: {},
   lastDeck: null,
   pendingDeck: null,
+  dueTotal: 0,
+  lastAction: null,
 };
 
+// Cap each session so a fresh deck (everything due) stays finite and reachable.
+const SESSION_CAP = 20;
+
 const MODAL_PREFS_KEY = 'n5_modal_prefs';
+const ONBOARD_KEY = 'n5_onboarded';
+const RATING_HINT_KEY = 'n5_rating_hint_seen';
 
 const DECK_MODES = {
   kanji:   ['flashcard', 'mc'],
@@ -51,6 +58,8 @@ function saveModalPrefs(deck, mode, direction) {
   prefs[deck] = { mode, direction };
   localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
 }
+
+let modalLastFocus = null;
 
 function openStartModal(deck) {
   state.pendingDeck = deck;
@@ -89,6 +98,9 @@ function openStartModal(deck) {
   const modal = document.getElementById('start-modal');
   modal.classList.remove('hidden');
   modal.setAttribute('aria-hidden', 'false');
+
+  modalLastFocus = document.activeElement;
+  (modal.querySelector('.mode-btn.active') || document.getElementById('modal-start-btn')).focus();
 }
 
 function updateDirectionVisibility() {
@@ -102,6 +114,18 @@ function closeStartModal() {
   modal.classList.add('hidden');
   modal.setAttribute('aria-hidden', 'true');
   state.pendingDeck = null;
+  if (modalLastFocus) { modalLastFocus.focus(); modalLastFocus = null; }
+}
+
+function trapModalTab(e) {
+  if (e.key !== 'Tab') return;
+  const modal = document.getElementById('start-modal');
+  if (modal.classList.contains('hidden')) return;
+  const f = [...modal.querySelectorAll('button:not([disabled])')];
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 }
 
 // ===== SRS HELPERS =====
@@ -137,19 +161,14 @@ function calcNextReview(srsCard, rating) {
   if (rating === 1) {
     return { interval: 1, ease: Math.max(1.3, srsCard.ease - 0.2), due: addDays(1), reps: 0 };
   }
+  // rating 3 (Richtig): standard SM-2 progression, ease unchanged
   const newReps = srsCard.reps + 1;
   let interval;
   if (srsCard.reps === 0)      interval = 1;
   else if (srsCard.reps === 1) interval = 6;
   else                          interval = Math.round(srsCard.interval * srsCard.ease);
 
-  const easeDeltas = { 2: -0.15, 3: 0, 4: 0.1 };
-  const newEase = Math.max(1.3, srsCard.ease + (easeDeltas[rating] || 0));
-
-  if (rating === 2) interval = Math.max(1, Math.round(interval * 1.2));
-  if (rating === 4) interval = Math.round(interval * 1.3);
-
-  return { interval, ease: newEase, due: addDays(interval), reps: newReps };
+  return { interval, ease: srsCard.ease, due: addDays(interval), reps: newReps };
 }
 
 function intervalLabel(srsCard, rating) {
@@ -217,6 +236,8 @@ function renderHome() {
     const due = countDue(deck, state.direction);
     const el = document.getElementById(`due-${deck}`);
     if (el) el.textContent = due;
+    const card = document.querySelector(`.deck-card[data-deck="${deck}"]`);
+    if (card) card.classList.toggle('deck-card--done', due === 0);
   });
 
   // Update totals dynamically
@@ -225,36 +246,61 @@ function renderHome() {
   document.getElementById('total-grammar').textContent  = `/ ${GRAMMAR.length}`;
   document.getElementById('total-basics').textContent   = `/ ${BASICS.length}`;
   document.getElementById('total-all').textContent      = '';
+
+  const onboardPanel = document.getElementById('onboard-panel');
+  if (onboardPanel) onboardPanel.classList.toggle('hidden', !!localStorage.getItem(ONBOARD_KEY));
+}
+
+// ===== ONBOARDING =====
+function dismissOnboard() {
+  localStorage.setItem(ONBOARD_KEY, '1');
+  const el = document.getElementById('onboard-panel');
+  if (el) el.classList.add('hidden');
+}
+
+function showRatingHintOnce() {
+  if (localStorage.getItem(RATING_HINT_KEY)) return;
+  const el = document.getElementById('first-rating-hint');
+  if (el) el.classList.remove('hidden');
+}
+
+function dismissRatingHint() {
+  if (localStorage.getItem(RATING_HINT_KEY)) return;
+  localStorage.setItem(RATING_HINT_KEY, '1');
+  const el = document.getElementById('first-rating-hint');
+  if (el) el.classList.add('hidden');
 }
 
 // ===== SESSION START =====
 function startSession(deck, direction) {
   const cards = getDueCards(deck, direction);
   if (cards.length === 0) {
-    alert(`Keine fälligen Karten für dieses Deck (${direction === 'jp-de' ? 'JP→DE' : direction === 'de-jp' ? 'DE→JP' : 'Beide'}). Gut gemacht!`);
+    showToast('Heute nichts mehr fällig. Gut gemacht! 🎉');
+    renderHome();
     return;
   }
 
   state.deck = deck;
-  state.session = cards;
+  state.dueTotal = cards.length;
+  state.session = cards.slice(0, SESSION_CAP);
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
   state.lastDeck = deck;
+  state.lastAction = null;
 
   const deckLabels = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', basics: 'Alltag', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
-  if (state.mode === 'mc') {
-    renderMCCard();
-  } else if (state.mode === 'situation') {
-    renderSituationCard();
-  } else if (state.mode === 'verwendung') {
-    renderVerwendungCard();
-  } else {
-    renderCard();
-  }
+  renderCurrentCard();
+}
+
+function renderCurrentCard() {
+  if (state.mode === 'mc') renderMCCard();
+  else if (state.mode === 'situation') renderSituationCard();
+  else if (state.mode === 'verwendung') renderVerwendungCard();
+  else renderCard();
 }
 
 // ===== CARD RENDERING =====
@@ -315,7 +361,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <div class="dialogue-line">
           <div class="dialogue-line-top">
             <div class="dialogue-jp">${escHtml(s.jp)}</div>
-            <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+            <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
           </div>
           ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
           <div class="dialogue-de">${escHtml(s.de)}</div>
@@ -334,7 +380,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
           <div class="back-main">${k.char}</div>
-          <button class="btn-speak-word" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
         </div>
       </div>
       <div class="back-divider"></div>
@@ -374,7 +420,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
           <div class="back-main">${k.char}</div>
-          <button class="btn-speak-word" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
         </div>
       </div>
       <div class="back-divider"></div>
@@ -411,7 +457,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         <div class="dialogue-line">
           <div class="dialogue-line-top">
             <div class="dialogue-jp">${escHtml(ex.jp)}</div>
-            <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+            <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
           </div>
           ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
           <div class="dialogue-de">${escHtml(ex.de)}</div>
@@ -431,7 +477,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         <span class="back-label">Wort</span>
         <div class="back-main-row">
           <div class="back-main" style="font-size:32px">${v.word}</div>
-          <button class="btn-speak-word" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
@@ -459,7 +505,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         <span class="back-label">Japanisch</span>
         <div class="back-main-row">
           <div class="back-main" style="font-size:36px">${v.word}</div>
-          <button class="btn-speak-word" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
@@ -813,6 +859,7 @@ function handleSituationMCAnswer(clickedBtn, correct) {
       const el = document.getElementById(`int-${r}`);
       if (el) el.textContent = intervalLabel(card.srsCard, r);
     });
+    showRatingHintOnce();
   }, isCorrect ? 1000 : 1500);
 }
 
@@ -972,6 +1019,7 @@ function handleTileAnswer(assembled, correct) {
       const el = document.getElementById(`int-${r}`);
       if (el) el.textContent = intervalLabel(card.srsCard, r);
     });
+    showRatingHintOnce();
   }, 800);
 }
 
@@ -1001,12 +1049,23 @@ function flipCard() {
     const el = document.getElementById(`int-${r}`);
     if (el) el.textContent = intervalLabel(card.srsCard, r);
   });
+  showRatingHintOnce();
 }
 
 // ===== RATE & ADVANCE =====
 function rateCard(rating) {
+  dismissRatingHint();
   const card = state.session[state.sessionIdx];
   const next = calcNextReview(card.srsCard, rating);
+
+  // Snapshot so a misclicked rating can be undone (state + scheduling).
+  state.lastAction = {
+    cardId: card.id,
+    prevSrs: state.srs[card.id] ? { ...state.srs[card.id] } : null,
+    sessionIdx: state.sessionIdx,
+    session: [...state.session],
+    stats: { ...state.stats },
+  };
 
   state.srs[card.id] = next;
   saveSRS();
@@ -1031,15 +1090,25 @@ function rateCard(rating) {
 
   if (state.sessionIdx >= state.session.length) {
     renderDone();
-  } else if (state.mode === 'mc') {
-    renderMCCard();
-  } else if (state.mode === 'situation') {
-    renderSituationCard();
-  } else if (state.mode === 'verwendung') {
-    renderVerwendungCard();
   } else {
-    renderCard();
+    renderCurrentCard();
+    showToast('Bewertet', 'Rückgängig', undoLastRating);
   }
+}
+
+function undoLastRating() {
+  const a = state.lastAction;
+  if (!a) return;
+  if (a.prevSrs) state.srs[a.cardId] = a.prevSrs;
+  else delete state.srs[a.cardId];
+  saveSRS();
+  state.session = a.session;
+  state.sessionIdx = a.sessionIdx;
+  state.stats = a.stats;
+  state.flipped = false;
+  state.lastAction = null;
+  showScreen('session');
+  renderCurrentCard();
 }
 
 // ===== DONE SCREEN =====
@@ -1056,6 +1125,12 @@ function renderDone() {
     <span class="done-stat-num" style="color:var(--btn-gut)">${s.richtig}</span>
     <span class="done-stat-label">Richtig</span>
   </div>`;
+
+  const remaining = (state.dueTotal || 0) - state.session.length;
+  const remainingEl = document.getElementById('done-remaining');
+  if (remainingEl) {
+    remainingEl.textContent = remaining > 0 ? `Noch ${remaining} heute fällig` : '';
+  }
 
   showScreen('done');
 }
@@ -1088,6 +1163,32 @@ function escHtml(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+let toastTimer = null;
+function showToast(msg, actionLabel, onAction) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  clearTimeout(toastTimer);
+  el.innerHTML = '';
+  const text = document.createElement('span');
+  text.textContent = msg;
+  el.appendChild(text);
+  if (actionLabel && onAction) {
+    const btn = document.createElement('button');
+    btn.className = 'toast-action';
+    btn.textContent = actionLabel;
+    btn.addEventListener('click', () => { hideToast(); onAction(); });
+    el.appendChild(btn);
+  }
+  el.classList.add('visible');
+  toastTimer = setTimeout(hideToast, actionLabel ? 5000 : 2600);
+}
+
+function hideToast() {
+  clearTimeout(toastTimer);
+  const el = document.getElementById('toast');
+  if (el) el.classList.remove('visible');
 }
 
 function audioButtonHtml() {
@@ -1151,7 +1252,7 @@ function renderListDetail(item, tab) {
           ${k.sentences.map(s => `
             <div class="list-detail-example-row">
               <div class="list-detail-jp">${escHtml(s.jp)}</div>
-              <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+              <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
             </div>
             ${s.reading ? `<div class="sentence-reading">${escHtml(s.reading)}</div>` : ''}
             <div class="list-detail-de">${escHtml(s.de)}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">')}
@@ -1171,7 +1272,7 @@ function renderListDetail(item, tab) {
     const exHtml = `<div class="list-detail-example">
       <div class="list-detail-example-row">
         <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
-        <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${item.example_jp.replace(/'/g, "\\'")}')" aria-label="Anhören">🔊</button>
+        <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${item.example_jp.replace(/'/g, "\\'")}')">🔊</button>
       </div>
       ${exReadingHtml}
       <div class="list-detail-de">${escHtml(item.example_de)}</div>
@@ -1185,7 +1286,7 @@ function renderListDetail(item, tab) {
   const exHtml = ex ? `<div class="list-detail-example">
     <div class="list-detail-example-row">
       <div class="list-detail-jp">${escHtml(ex.jp)}</div>
-      <button class="btn-speak-example" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+      <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
     </div>
     ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
     <div class="list-detail-de">${escHtml(ex.de)}</div>
@@ -1228,7 +1329,7 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
           </div>
           <div class="list-de">${escHtml(shortMeaning)}</div>
         </div>
-        <button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${k.char.replace(/'/g, "\\'")}')">🔊</button>
+        <button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${k.char.replace(/'/g, "\\'")}')">🔊</button>
         ${badge}<span class="list-chevron">▼</span>
       </div>
       <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
@@ -1248,7 +1349,7 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
   }
   const speakText = tab !== 'grammar' ? (item.reading || item.word || item.pattern || '') : '';
   const speakBtn = speakText
-    ? `<button class="btn-speak-list" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊</button>`
+    ? `<button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊</button>`
     : '';
   return `<div class="list-row" ${attrs}>
     <div class="list-row-summary">
@@ -1348,11 +1449,12 @@ function initEvents() {
     });
   });
 
-  // Start modal: close (×, backdrop, Esc)
+  // Start modal: close (×, backdrop, Esc), trap Tab while open
   document.getElementById('start-modal-close').addEventListener('click', closeStartModal);
   document.getElementById('start-modal').addEventListener('click', e => {
     if (e.target.id === 'start-modal') closeStartModal();
   });
+  document.getElementById('start-modal').addEventListener('keydown', trapModalTab);
 
   // Start modal: direction toggle
   document.querySelectorAll('#start-modal .dir-btn').forEach(btn => {
@@ -1375,9 +1477,15 @@ function initEvents() {
   // Flip button
   document.getElementById('flip-btn').addEventListener('click', flipCard);
 
-  // Flashcard click to flip
-  document.getElementById('flashcard').addEventListener('click', () => {
+  // Flashcard click / Enter to flip (MC flips itself after an answer)
+  const flashcardEl = document.getElementById('flashcard');
+  flashcardEl.addEventListener('click', () => {
+    if (state.mode === 'mc') return;
     if (!state.flipped) flipCard();
+  });
+  flashcardEl.addEventListener('keydown', e => {
+    if (state.mode === 'mc') return;
+    if (e.key === 'Enter' && !state.flipped) { e.preventDefault(); flipCard(); }
   });
 
   // Rating buttons
@@ -1402,6 +1510,10 @@ function initEvents() {
     if (state.lastDeck) startSession(state.lastDeck, state.direction);
     else renderHome();
   });
+
+  // Onboarding panel: dismiss (Los geht's / ×)
+  document.getElementById('onboard-start').addEventListener('click', dismissOnboard);
+  document.getElementById('onboard-close').addEventListener('click', dismissOnboard);
 
   // Liste button
   document.getElementById('liste-btn').addEventListener('click', showListScreen);
@@ -1432,13 +1544,29 @@ function initEvents() {
     });
   });
 
-  // Reset button
-  document.getElementById('reset-btn').addEventListener('click', () => {
-    if (confirm('Sicher? Der gesamte Lernfortschritt wird gelöscht.')) {
-      localStorage.removeItem(SRS_KEY);
-      loadSRS();
-      renderHome();
+  // Reset button — two-step inline confirm (no native dialog)
+  const resetBtn = document.getElementById('reset-btn');
+  let resetArmed = false;
+  let resetTimer = null;
+  const disarmReset = () => {
+    resetArmed = false;
+    clearTimeout(resetTimer);
+    resetBtn.classList.remove('armed');
+    resetBtn.textContent = 'Fortschritt zurücksetzen';
+  };
+  resetBtn.addEventListener('click', () => {
+    if (!resetArmed) {
+      resetArmed = true;
+      resetBtn.classList.add('armed');
+      resetBtn.textContent = 'Wirklich? Nochmal tippen zum Löschen';
+      resetTimer = setTimeout(disarmReset, 4000);
+      return;
     }
+    disarmReset();
+    localStorage.removeItem(SRS_KEY);
+    loadSRS();
+    renderHome();
+    showToast('Fortschritt zurückgesetzt');
   });
 
   // Keyboard shortcuts
