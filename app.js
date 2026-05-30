@@ -4,6 +4,7 @@
 const state = {
   direction: 'jp-de',
   mode: 'flashcard',  // 'flashcard' | 'mc'
+  level: 'easy',      // 'easy' | 'adv' — vocab difficulty (vocab/all decks)
   deck: null,
   session: [],
   sessionIdx: 0,
@@ -181,10 +182,16 @@ function intervalLabel(srsCard, rating) {
 }
 
 // ===== SESSION BUILDING =====
+// Vocab slice for the active difficulty. Easy = early-lesson words only;
+// advanced = all vocab. Only the vocab/all decks ever read this.
+function vocabForLevel() {
+  return state.level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
+}
+
 function allItems(deck) {
   const items = [];
   if (deck === 'kanji'   || deck === 'all') KANJI.forEach(k => items.push({ item: k, type: 'kanji' }));
-  if (deck === 'vocab'   || deck === 'all') VOCAB.forEach(v => items.push({ item: v, type: 'vocab' }));
+  if (deck === 'vocab'   || deck === 'all') vocabForLevel().forEach(v => items.push({ item: v, type: 'vocab' }));
   if (deck === 'grammar' || deck === 'all') GRAMMAR.forEach(g => items.push({ item: g, type: 'grammar' }));
   if (deck === 'basics'  || deck === 'all') BASICS.forEach(b => items.push({ item: b, type: 'vocab' }));
   return items;
