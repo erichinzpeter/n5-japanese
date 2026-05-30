@@ -31,8 +31,21 @@
         <div class="fuji-title">日本語</div>
       </div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v2.6.1</div>
+      <div class="app-version">v2.8.0</div>
     </header>
+
+    <div id="onboard-panel" class="onboard-panel hidden">
+      <button class="onboard-close" id="onboard-close" aria-label="Schließen">×</button>
+      <div class="onboard-kanji" aria-hidden="true">始</div>
+      <h2 class="onboard-title">So lernst du hier</h2>
+      <ul class="onboard-points">
+        <li><span class="onboard-num">1</span><span>Karte ansehen, umdrehen, ehrlich bewerten.</span></li>
+        <li><span class="onboard-num">2</span><span><b>Nochmal</b> = bald wieder. <b>Richtig</b> = später wieder.</span></li>
+        <li><span class="onboard-num">3</span><span>20 Karten pro Runde. Jeden Tag ein bisschen.</span></li>
+      </ul>
+      <p class="onboard-note">Spaced Repetition plant jede Wiederholung zum besten Zeitpunkt. Du bewertest, die App merkt sich den Rest.</p>
+      <button id="onboard-start" class="onboard-start">Los geht's</button>
+    </div>
 
     <div class="deck-grid">
       <button class="deck-card" data-deck="kanji">
@@ -90,7 +103,6 @@
 
     <div class="home-footer">
       <button id="reset-btn" class="reset-btn">Fortschritt zurücksetzen</button>
-      <div class="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1 = Nochmal &nbsp;·&nbsp; 3 = Richtig</div>
     </div>
   </div>
 
@@ -107,7 +119,7 @@
     </div>
 
     <div class="card-wrap" id="card-wrap">
-      <div class="card" id="flashcard">
+      <div class="card" id="flashcard" role="button" tabindex="0" aria-label="Karte umdrehen">
         <div class="card-inner" id="card-inner">
           <div class="card-front" id="card-front">
             <!-- filled by JS -->
@@ -135,6 +147,7 @@
 
       <div class="rating-wrap" id="rating-wrap" style="display:none">
         <div class="mc-result" id="mc-result"></div>
+        <div id="first-rating-hint" class="first-rating-hint hidden">Bewerte ehrlich. Die App plant daraus die nächste Wiederholung: „Nochmal" bald, „Richtig" später.</div>
         <div class="rating-hint">Wie gut wusstest du es?</div>
         <div class="rating-buttons">
           <button class="rating-btn rating-nochmal" data-rating="1">
@@ -148,6 +161,8 @@
         </div>
       </div>
     </div>
+
+    <div class="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1 = Nochmal &nbsp;·&nbsp; 3 = Richtig</div>
   </div>
 
   <!-- SCREEN: DONE -->
@@ -158,6 +173,7 @@
       <div class="done-stats" id="done-stats">
         <!-- filled by JS -->
       </div>
+      <div class="done-remaining" id="done-remaining"></div>
       <div class="done-actions">
         <button id="done-again-btn" class="done-btn done-btn--primary">Nochmal</button>
         <button id="done-home-btn" class="done-btn">Zurück zu Decks</button>
@@ -217,5 +233,7 @@
   <div id="update-toast" class="update-toast" role="button" tabindex="0">
     Neue Version verfügbar – Tippen zum Aktualisieren
   </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
