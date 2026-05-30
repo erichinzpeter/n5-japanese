@@ -25,5 +25,13 @@ for (const k of KANJI) {
   if (!r || !kanaOnly.test(r)) { failures++; console.log(`FAIL ${k.char}: reading "${r}" is not clean kana`); }
 }
 
+// Word-form `speak` values (not a bare on/kun reading) are surfaced as a
+// "Beispielwort" in the UI. Lock a few representatives.
+const kanjiSpeakIsWord = k => !!k.speak && ![...(k.on || []), ...(k.kun || [])].includes(k.speak);
+for (const [char, word] of [['菜', 'やさい'], ['多', 'おおい'], ['写', 'しゃしん']]) {
+  const k = KANJI.find(x => x.char === char);
+  if (!kanjiSpeakIsWord(k) || k.speak !== word) { failures++; console.log(`FAIL ${char}: expected Beispielwort "${word}"`); }
+}
+
 console.log(failures === 0 ? `PASS (${KANJI.length} kanji)` : `${failures} failure(s)`);
 process.exit(failures === 0 ? 0 : 1);

@@ -4,6 +4,18 @@
 
 ---
 
+## [2.8.2] — 2026-05-30
+
+### Hinzugefügt
+
+- **„Beispielwort"-Label** — Kanji, deren Audio ein repräsentatives N5-Wort spricht statt einer blanken On/Kun-Lesung (z.B. 菜 → „やさい", 写 → „しゃしん", 多 → „おおい"), zeigen dieses Wort jetzt als eigene Zeile „Beispielwort" auf der Kartenrückseite und im Listen-Detail. Damit hat die gesprochene Lesung eine sichtbare Quelle und passt zur Anzeige. Betrifft 23 Kanji. Löst den in 2.8.1 vermerkten offenen Punkt.
+
+### Geändert
+
+- Service-Worker-Cache `n5-v28` → `n5-v29`.
+
+---
+
 ## [2.8.1] — 2026-05-30
 
 Kanji-Aussprache: Stimme passte nicht zur angezeigten Lesung.

@@ -356,6 +356,12 @@ function renderKanjiCard(card, front, back, dirLabel) {
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
   const kanjiSpeakText = kanjiReading(k).replace(/'/g, "\\'");
+  const beispielwortHtml = kanjiSpeakIsWord(k)
+    ? `<div class="back-section">
+        <span class="back-label">Beispielwort</span>
+        <div class="back-readings">${escHtml(k.speak)}</div>
+      </div>`
+    : '';
   const kanjiSentencesHtml = k.sentences && k.sentences.length
     ? `<div class="dialogue-box">${k.sentences.map(s => `
         <div class="dialogue-line">
@@ -383,6 +389,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
           <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
         </div>
       </div>
+      ${beispielwortHtml}
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">On'yomi</span>
@@ -423,6 +430,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
           <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
         </div>
       </div>
+      ${beispielwortHtml}
       <div class="back-divider"></div>
       <div class="back-section">
         <span class="back-label">On'yomi</span>
@@ -1143,6 +1151,13 @@ function kanjiReading(k) {
   return k.speak || k.kun[0] || k.on[0];
 }
 
+// True when `speak` is a representative word (e.g. 菜→やさい, 多→おおい) rather
+// than a bare on/kun reading. Such kanji are voiced as that word, so the word
+// is surfaced as a "Beispielwort" to explain the audio.
+function kanjiSpeakIsWord(k) {
+  return !!k.speak && ![...k.on, ...k.kun].includes(k.speak);
+}
+
 function getJapaneseText(card) {
   const { item, type } = card;
   if (type === 'kanji')   return kanjiReading(item);
@@ -1264,10 +1279,15 @@ function renderListDetail(item, tab) {
             ${s.reading ? `<div class="sentence-reading">${escHtml(s.reading)}</div>` : ''}
             <div class="list-detail-de">${escHtml(s.de)}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">')}
          </div>` : '';
+    const beispielHtml = kanjiSpeakIsWord(k)
+      ? `<span class="list-detail-reading-label">Beispielwort</span>
+      <div class="list-detail-readings"><span class="list-detail-reading-item">${escHtml(k.speak)}</span></div>`
+      : '';
     return `<span class="list-detail-reading-label">On'yomi</span>
       <div class="list-detail-readings"><span class="list-detail-reading-item">${escHtml(onStr)}</span></div>
       <span class="list-detail-reading-label">Kun'yomi</span>
       <div class="list-detail-readings"><span class="list-detail-reading-item">${escHtml(kunStr)}</span></div>
+      ${beispielHtml}
       <div class="list-detail-text">${k.meaning.map(m => escHtml(m)).join(', ')}</div>
       ${examplesHtml}${sentHtml}`;
   }
