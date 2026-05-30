@@ -4,6 +4,7 @@
 const state = {
   direction: 'jp-de',
   mode: 'flashcard',  // 'flashcard' | 'mc'
+  level: 'easy',      // 'easy' | 'adv' — vocab difficulty (vocab/all decks)
   deck: null,
   session: [],
   sessionIdx: 0,
@@ -53,9 +54,9 @@ function loadModalPrefs() {
   catch { return {}; }
 }
 
-function saveModalPrefs(deck, mode, direction) {
+function saveModalPrefs(deck, mode, direction, level) {
   const prefs = loadModalPrefs();
-  prefs[deck] = { mode, direction };
+  prefs[deck] = { mode, direction, level };
   localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
 }
 
@@ -67,9 +68,11 @@ function openStartModal(deck) {
   const allowedModes = DECK_MODES[deck] || ['flashcard', 'mc'];
   const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
   const initialDir = ['jp-de', 'de-jp', 'both'].includes(prefs.direction) ? prefs.direction : 'jp-de';
+  const initialLevel = ['easy', 'adv'].includes(prefs.level) ? prefs.level : 'easy';
 
   state.mode = initialMode;
   state.direction = initialDir;
+  state.level = initialLevel;
 
   document.getElementById('start-modal-title').textContent = DECK_TITLES[deck] || 'Üben';
 
@@ -93,7 +96,12 @@ function openStartModal(deck) {
     b.classList.toggle('active', b.dataset.dir === initialDir);
   });
 
+  document.querySelectorAll('#start-modal .lvl-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.level === initialLevel);
+  });
+
   updateDirectionVisibility();
+  updateLevelVisibility(deck);
 
   const modal = document.getElementById('start-modal');
   modal.classList.remove('hidden');
@@ -106,6 +114,12 @@ function openStartModal(deck) {
 function updateDirectionVisibility() {
   const wrap = document.getElementById('modal-direction-wrap');
   if (MODE_NEEDS_DIRECTION[state.mode]) wrap.classList.remove('hidden');
+  else wrap.classList.add('hidden');
+}
+
+function updateLevelVisibility(deck) {
+  const wrap = document.getElementById('modal-level-wrap');
+  if (deck === 'vocab' || deck === 'all') wrap.classList.remove('hidden');
   else wrap.classList.add('hidden');
 }
 
@@ -181,10 +195,16 @@ function intervalLabel(srsCard, rating) {
 }
 
 // ===== SESSION BUILDING =====
+// Vocab slice for the active difficulty. Easy = early-lesson words only;
+// advanced = all vocab. Only the vocab/all decks ever read this.
+function vocabForLevel() {
+  return state.level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
+}
+
 function allItems(deck) {
   const items = [];
   if (deck === 'kanji'   || deck === 'all') KANJI.forEach(k => items.push({ item: k, type: 'kanji' }));
-  if (deck === 'vocab'   || deck === 'all') VOCAB.forEach(v => items.push({ item: v, type: 'vocab' }));
+  if (deck === 'vocab'   || deck === 'all') vocabForLevel().forEach(v => items.push({ item: v, type: 'vocab' }));
   if (deck === 'grammar' || deck === 'all') GRAMMAR.forEach(g => items.push({ item: g, type: 'grammar' }));
   if (deck === 'basics'  || deck === 'all') BASICS.forEach(b => items.push({ item: b, type: 'vocab' }));
   return items;
@@ -634,7 +654,7 @@ function generateChoices(card) {
     }
   } else if (type === 'vocab') {
     // Pool includes BASICS items too so distractors come from the same broad vocab space
-    const vocabPool = [...VOCAB, ...BASICS].filter(v => v.id !== item.id);
+    const vocabPool = [...vocabForLevel(), ...BASICS].filter(v => v.id !== item.id);
     pool = vocabPool;
     if (dir === 'fwd') {
       correct = item.meaning;
@@ -1492,11 +1512,20 @@ function initEvents() {
     });
   });
 
+  // Start modal: level toggle
+  document.querySelectorAll('#start-modal .lvl-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#start-modal .lvl-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.level = btn.dataset.level;
+    });
+  });
+
   // Start modal: Start button
   document.getElementById('modal-start-btn').addEventListener('click', () => {
     const deck = state.pendingDeck;
     if (!deck) return;
-    saveModalPrefs(deck, state.mode, state.direction);
+    saveModalPrefs(deck, state.mode, state.direction, state.level);
     closeStartModal();
     startSession(deck, state.direction);
   });

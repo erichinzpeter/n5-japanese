@@ -4,6 +4,19 @@
 
 ---
 
+## [2.9.0] — 2026-05-30
+
+### Hinzugefügt
+
+- **Niveau-Umschalter (Einfach / Fortgeschritten)** für Vokabel-Übungen. Einfach zeigt nur Vokabeln aus den frühen N5-Lektionen; Fortgeschritten nimmt den gesamten N5-Wortschatz dazu. Gilt für die Decks Vokabeln und Alles; in Alles wird nur der Vokabel-Anteil gefiltert. Auswahl wird pro Deck gespeichert, Standard ist Einfach.
+- **~100 neue N5-Vokabeln** im Wortschatz und in der Liste.
+
+### Geändert
+
+- Service-Worker-Cache `n5-v29` → `n5-v30`.
+
+---
+
 ## [2.8.2] — 2026-05-30
 
 ### Hinzugefügt
