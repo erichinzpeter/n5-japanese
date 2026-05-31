@@ -1752,6 +1752,14 @@ body {
   .liste-btn { margin-bottom: 14px; }
   .home-footer { margin-top: auto; }
   .keyboard-hint { display: none; }
+
+  /* Larger explanation text on mobile (shared across all list/detail screens) */
+  .concept-detail { font-size: 16px; }
+  .concept-summary { font-size: 16px; }
+  .concept-example .list-detail-jp { font-size: 19px; }
+  .concept-example .list-detail-de { font-size: 15px; }
+  .list-detail-text { font-size: 16px; }
+  .list-detail-de { font-size: 17px; }
 }
 
 @media (max-width: 360px) {
