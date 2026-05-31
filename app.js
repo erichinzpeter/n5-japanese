@@ -315,7 +315,6 @@ function renderCard() {
   const front = document.getElementById('card-front');
   const back  = document.getElementById('card-back');
   const inner = document.getElementById('card-inner');
-  const wrap  = document.getElementById('card-wrap');
 
   // Reset flip
   inner.classList.remove('flipped');
@@ -684,7 +683,6 @@ function renderMCCard() {
   const front = document.getElementById('card-front');
   const back  = document.getElementById('card-back');
   const inner = document.getElementById('card-inner');
-  const wrap  = document.getElementById('card-wrap');
 
   // Reset state
   inner.classList.remove('flipped');
@@ -893,10 +891,6 @@ function speakJapanese(text) {
 }
 
 // ===== UTILS =====
-function hasKanji(str) {
-  return /[一-鿿㐀-䶿]/.test(str);
-}
-
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -929,10 +923,6 @@ function hideToast() {
   clearTimeout(toastTimer);
   const el = document.getElementById('toast');
   if (el) el.classList.remove('visible');
-}
-
-function audioButtonHtml() {
-  return `<div class="back-audio-wrap"><button class="back-speak-btn" id="back-speak-btn" title="Nochmal vorlesen">🔊 Nochmal hören</button></div>`;
 }
 
 function collapsibleDialogue(label, innerHtml, speakText) {
