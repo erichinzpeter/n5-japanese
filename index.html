@@ -31,7 +31,7 @@
         <div class="fuji-title">日本語</div>
       </div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v2.10.0</div>
+      <div class="app-version">v2.11.0</div>
     </header>
 
     <div id="onboard-panel" class="onboard-panel hidden">
@@ -100,6 +100,7 @@
     </div>
 
     <button id="liste-btn" class="liste-btn">☰ Liste anzeigen</button>
+    <button id="concepts-btn" class="liste-btn">📖 Grammatik verstehen</button>
 
     <div class="home-footer">
       <button id="reset-btn" class="reset-btn">Fortschritt zurücksetzen</button>
@@ -194,6 +195,16 @@
     <div id="list-content" class="list-content"></div>
   </div>
 
+  <!-- SCREEN: CONCEPTS -->
+  <div id="screen-concepts" class="screen">
+    <div class="list-header">
+      <button id="concepts-back-btn" class="list-back-btn">←</button>
+      <h2 class="list-title">Grammatik verstehen</h2>
+    </div>
+    <div class="concepts-intro">Kurze Erklärungen zu den N5-Grammatikkonzepten — antippen zum Aufklappen. 🔊 spielt das Beispiel ab.</div>
+    <div id="concepts-content" class="list-content"></div>
+  </div>
+
   <!-- Start modal -->
   <div id="start-modal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="start-modal-title">
     <div class="modal-card">
@@ -230,6 +241,7 @@
   <script src="data/vocab.js"></script>
   <script src="data/grammar.js"></script>
   <script src="data/basics.js"></script>
+  <script src="data/concepts.js"></script>
   <script src="app.js"></script>
 
   <div id="update-toast" class="update-toast" role="button" tabindex="0">

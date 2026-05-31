@@ -474,6 +474,131 @@ body {
   color: var(--text);
 }
 
+/* ===== CONCEPTS SCREEN (Grammatik verstehen) ===== */
+#screen-concepts {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.concepts-intro {
+  padding: 0 20px 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.concept-category {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 18px 20px 8px;
+}
+
+.concept-detail {
+  font-size: 15px;
+}
+
+.concept-summary {
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.concept-formation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+
+.concept-rule {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.concept-rule-from { color: var(--text-muted); }
+.concept-rule-arrow { color: var(--accent); }
+.concept-rule-to {
+  font-family: var(--font-display);
+  color: var(--text);
+}
+.concept-rule-note {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.concept-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.concept-table th,
+.concept-table td {
+  text-align: left;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.concept-table th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.concept-table td {
+  font-family: var(--font-display);
+  color: var(--text);
+}
+
+.concept-table tr:last-child td {
+  border-bottom: none;
+}
+
+.concept-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.concept-example {
+  border-left: 2px solid var(--border-light);
+  padding-left: 12px;
+}
+
+.concept-example-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.concept-example .list-detail-jp {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--text);
+}
+
+.concept-example .list-detail-de {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
 /* Home Footer */
 .home-footer {
   display: flex;
