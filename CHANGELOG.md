@@ -4,6 +4,22 @@
 
 ---
 
+## [2.13.0] — 2026-05-31
+
+### Hinzugefügt
+
+- **Vollständige Grammatik-Abdeckung** — die Sektion „Grammatik verstehen" erklärt jetzt alle 46 Grammatik-Themen des SRS-Decks. Konzepte von 33 → 43 erweitert.
+- **10 neue Konzepte:** `c-kopula`, `c-ka-frage` (neue Kategorie **Grundlagen**, am Listenanfang); `c-ya-nado`, `c-ga-kedo`, `c-dake` (Partikel); `c-ni-purpose`, `c-reihenfolge`, `c-wo-kudasai`, `c-dou-desuka` (Schlüsselmuster); `c-goro-gurai` (Sonstiges).
+- **Neue Kategorie „Grundlagen"** — Kopula です und Ja/Nein-Frage か zuerst (Anfänger-Lernpfad). Kategorie-Reihenfolge: Grundlagen → Verbformen → Adjektive → Partikel → Schlüsselmuster → Sonstiges.
+
+### Geändert
+
+- `c-kono-sono-ano` um Orts-Demonstrativa ここ/そこ/あそこ/どこ erweitert (Zusammenfassung, Tabelle, Beispiel).
+- `c-yori` von reinem Vergleich zu Vergleich + Präferenz (の方が) + Superlativ (の中で一番), umbenannt, mit Übersichtstabelle.
+- Service-Worker-Cache `n5-v33` → `n5-v34`.
+
+---
+
 ## [2.12.0] — 2026-05-31
 
 ### Hinzugefügt
