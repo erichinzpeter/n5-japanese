@@ -27,7 +27,7 @@ const RATING_HINT_KEY = 'n5_rating_hint_seen';
 const DECK_MODES = {
   kanji:   ['flashcard', 'mc'],
   vocab:   ['flashcard', 'mc'],
-  grammar: ['flashcard', 'mc', 'situation', 'verwendung'],
+  grammar: ['flashcard', 'mc'],
   basics:  ['flashcard', 'mc'],
   all:     ['flashcard', 'mc'],
 };
@@ -35,11 +35,7 @@ const DECK_MODES = {
 const MODE_LABELS = {
   flashcard:  'Karteikarten',
   mc:         'Multiple Choice',
-  situation:  'Situation',
-  verwendung: 'Verwendung',
 };
-
-const MODE_NEEDS_DIRECTION = { flashcard: true, mc: true, situation: false, verwendung: false };
 
 const DECK_TITLES = {
   kanji: 'Kanji üben',
@@ -318,8 +314,6 @@ function startSession(deck, direction) {
 
 function renderCurrentCard() {
   if (state.mode === 'mc') renderMCCard();
-  else if (state.mode === 'situation') renderSituationCard();
-  else if (state.mode === 'verwendung') renderVerwendungCard();
   else renderCard();
 }
 
