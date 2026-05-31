@@ -702,6 +702,15 @@ body {
   margin-bottom: 8px;
 }
 
+.card-example-jp {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text);
+  padding: 0 8px;
+}
+
 /* Back content */
 .back-section {
   width: 100%;

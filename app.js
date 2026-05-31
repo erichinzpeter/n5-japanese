@@ -712,6 +712,17 @@ function renderMCCard() {
     renderGrammarCard(card, front, back, dirLabel);
   }
 
+  // Grammar JP→DE MC: ask with the pattern in context (a sentence), not the bare
+  // skeleton — particles in a lone pattern telegraph the correct explanation.
+  if (card.type === 'grammar' && card.dir === 'fwd') {
+    const g = card.item;
+    front.innerHTML = `
+      <div class="card-type-label">Grammatik — was passt?</div>
+      <div class="card-example-jp">${escHtml(g.example_jp)}</div>
+      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
+      <div class="card-direction-badge">${dirLabel}</div>`;
+  }
+
   // Hide flip button + card-controls in MC (user clicks card to flip); hide SRS/tiles
   document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
