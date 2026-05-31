@@ -359,7 +359,6 @@ function renderCard() {
   const mcEl = document.getElementById('mc-choices');
   mcEl.style.display = 'none';
   mcEl.style.visibility = '';
-  document.getElementById('tiles-wrap').style.display = 'none';
   const resultEl = document.getElementById('mc-result');
   resultEl.innerHTML = '';
   resultEl.classList.remove('correct', 'wrong');
@@ -725,7 +724,6 @@ function renderMCCard() {
   document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
-  document.getElementById('tiles-wrap').style.display = 'none';
 
   const { choices, correct, readings } = generateChoices(card);
   const mcEl = document.getElementById('mc-choices');
