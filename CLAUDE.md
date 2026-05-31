@@ -15,8 +15,8 @@ git push origin main     # deployed automatisch via GitHub Pages
 - `index.html`   — 4 Screens (home, session, done, list); kein Templating
 - `sw.js`        — Service Worker für PWA-Offline; Cache-Name bei Änderungen bumpen
 - `manifest.json`— PWA-Metadaten (Name, Icons, Theme-Color)
-- `data/kanji.js`   — const KANJI (100 Einträge)
-- `data/vocab.js`   — const VOCAB (270 Einträge)
+- `data/kanji.js`   — const KANJI (170 Einträge)
+- `data/vocab.js`   — const VOCAB (370 Einträge: 223 easy / 147 adv)
 - `data/grammar.js` — const GRAMMAR (46 Einträge)
 - `data/basics.js`  — const BASICS (56 Einträge)
 
@@ -28,6 +28,6 @@ git push origin main     # deployed automatisch via GitHub Pages
 
 - Kein npm, kein Build. Änderungen direkt in den Dateien, im Browser testen.
 - `sw.js`: Cache-Name (`n5-vX`) bei jeder inhaltlichen Dateiänderung inkrementieren.
-- `index.html`: `<div class="app-version">` bei jedem Feature-Release auf die neue Versionsnummer setzen (SemVer, aktuell v1.6.0).
+- `index.html`: `<div class="app-version">` bei jedem Feature-Release auf die neue Versionsnummer setzen (SemVer, aktuell v2.10.0).
 - `CHANGELOG.md` bei Features und Fixes aktuell halten.
 - `data/*.js` Lesbarkeit > Kompaktheit — lesbare Feldnamen, ein Objekt pro Zeile.

@@ -27,7 +27,7 @@ const RATING_HINT_KEY = 'n5_rating_hint_seen';
 const DECK_MODES = {
   kanji:   ['flashcard', 'mc'],
   vocab:   ['flashcard', 'mc'],
-  grammar: ['flashcard', 'mc', 'situation', 'verwendung'],
+  grammar: ['flashcard', 'mc'],
   basics:  ['flashcard', 'mc'],
   all:     ['flashcard', 'mc'],
 };
@@ -35,11 +35,7 @@ const DECK_MODES = {
 const MODE_LABELS = {
   flashcard:  'Karteikarten',
   mc:         'Multiple Choice',
-  situation:  'Situation',
-  verwendung: 'Verwendung',
 };
-
-const MODE_NEEDS_DIRECTION = { flashcard: true, mc: true, situation: false, verwendung: false };
 
 const DECK_TITLES = {
   kanji: 'Kanji üben',
@@ -67,7 +63,7 @@ function openStartModal(deck) {
   const prefs = loadModalPrefs()[deck] || {};
   const allowedModes = DECK_MODES[deck] || ['flashcard', 'mc'];
   const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
-  const initialDir = ['jp-de', 'de-jp', 'both'].includes(prefs.direction) ? prefs.direction : 'jp-de';
+  const initialDir = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : 'jp-de';
   const initialLevel = ['easy', 'adv'].includes(prefs.level) ? prefs.level : 'easy';
 
   state.mode = initialMode;
@@ -87,7 +83,6 @@ function openStartModal(deck) {
       modeWrap.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.mode = m;
-      updateDirectionVisibility();
     });
     modeWrap.appendChild(btn);
   });
@@ -100,7 +95,6 @@ function openStartModal(deck) {
     b.classList.toggle('active', b.dataset.level === initialLevel);
   });
 
-  updateDirectionVisibility();
   updateLevelVisibility(deck);
 
   const modal = document.getElementById('start-modal');
@@ -109,12 +103,6 @@ function openStartModal(deck) {
 
   modalLastFocus = document.activeElement;
   (modal.querySelector('.mode-btn.active') || document.getElementById('modal-start-btn')).focus();
-}
-
-function updateDirectionVisibility() {
-  const wrap = document.getElementById('modal-direction-wrap');
-  if (MODE_NEEDS_DIRECTION[state.mode]) wrap.classList.remove('hidden');
-  else wrap.classList.add('hidden');
 }
 
 function updateLevelVisibility(deck) {
@@ -197,25 +185,25 @@ function intervalLabel(srsCard, rating) {
 // ===== SESSION BUILDING =====
 // Vocab slice for the active difficulty. Easy = early-lesson words only;
 // advanced = all vocab. Only the vocab/all decks ever read this.
-function vocabForLevel() {
-  return state.level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
+function vocabForLevel(level) {
+  return level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
 }
 
-function allItems(deck) {
+function allItems(deck, level) {
   const items = [];
   if (deck === 'kanji'   || deck === 'all') KANJI.forEach(k => items.push({ item: k, type: 'kanji' }));
-  if (deck === 'vocab'   || deck === 'all') vocabForLevel().forEach(v => items.push({ item: v, type: 'vocab' }));
+  if (deck === 'vocab'   || deck === 'all') vocabForLevel(level).forEach(v => items.push({ item: v, type: 'vocab' }));
   if (deck === 'grammar' || deck === 'all') GRAMMAR.forEach(g => items.push({ item: g, type: 'grammar' }));
   if (deck === 'basics'  || deck === 'all') BASICS.forEach(b => items.push({ item: b, type: 'vocab' }));
   return items;
 }
 
-function getDueCards(deck, direction) {
+function getDueCards(deck, direction, level) {
   const today = todayStr();
-  const dirs = direction === 'both' ? ['fwd', 'rev'] : [direction === 'jp-de' ? 'fwd' : 'rev'];
+  const dirs = [direction === 'jp-de' ? 'fwd' : 'rev'];
   const cards = [];
 
-  allItems(deck).forEach(({ item, type }) => {
+  allItems(deck, level).forEach(({ item, type }) => {
     dirs.forEach(dir => {
       const id = `${item.id}-${dir}`;
       const srsCard = getSRSCard(id);
@@ -228,8 +216,8 @@ function getDueCards(deck, direction) {
   return shuffle(cards);
 }
 
-function countDue(deck, direction) {
-  return getDueCards(deck, direction).length;
+function countDue(deck, direction, level) {
+  return getDueCards(deck, direction, level).length;
 }
 
 function shuffle(arr) {
@@ -252,8 +240,10 @@ function renderHome() {
   showScreen('home');
 
   const decks = ['kanji', 'vocab', 'grammar', 'basics', 'all'];
+  const prefs = loadModalPrefs();
   decks.forEach(deck => {
-    const due = countDue(deck, state.direction);
+    const level = (deck === 'vocab' || deck === 'all') ? ((prefs[deck] && prefs[deck].level) || 'easy') : 'easy';
+    const due = countDue(deck, state.direction, level);
     const el = document.getElementById(`due-${deck}`);
     if (el) el.textContent = due;
     const card = document.querySelector(`.deck-card[data-deck="${deck}"]`);
@@ -293,7 +283,7 @@ function dismissRatingHint() {
 
 // ===== SESSION START =====
 function startSession(deck, direction) {
-  const cards = getDueCards(deck, direction);
+  const cards = getDueCards(deck, direction, state.level);
   if (cards.length === 0) {
     showToast('Heute nichts mehr fällig. Gut gemacht! 🎉');
     renderHome();
@@ -318,8 +308,6 @@ function startSession(deck, direction) {
 
 function renderCurrentCard() {
   if (state.mode === 'mc') renderMCCard();
-  else if (state.mode === 'situation') renderSituationCard();
-  else if (state.mode === 'verwendung') renderVerwendungCard();
   else renderCard();
 }
 
@@ -329,7 +317,6 @@ function renderCard() {
   const front = document.getElementById('card-front');
   const back  = document.getElementById('card-back');
   const inner = document.getElementById('card-inner');
-  const wrap  = document.getElementById('card-wrap');
 
   // Reset flip
   inner.classList.remove('flipped');
@@ -365,7 +352,6 @@ function renderCard() {
   const mcEl = document.getElementById('mc-choices');
   mcEl.style.display = 'none';
   mcEl.style.visibility = '';
-  document.getElementById('tiles-wrap').style.display = 'none';
   const resultEl = document.getElementById('mc-result');
   resultEl.innerHTML = '';
   resultEl.classList.remove('correct', 'wrong');
@@ -375,7 +361,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
   const k = card.item;
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
-  const kanjiSpeakText = kanjiReading(k).replace(/'/g, "\\'");
+  const kanjiSpeakText = kanjiReading(k);
   const beispielwortHtml = kanjiSpeakIsWord(k)
     ? `<div class="back-section">
         <span class="back-label">Beispielwort</span>
@@ -387,7 +373,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <div class="dialogue-line">
           <div class="dialogue-line-top">
             <div class="dialogue-jp">${escHtml(s.jp)}</div>
-            <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+            ${speakBtn(s.jp, 'btn-speak-example')}
           </div>
           ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
           <div class="dialogue-de">${escHtml(s.de)}</div>
@@ -406,7 +392,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
           <div class="back-main">${k.char}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+          ${speakBtn(kanjiSpeakText, 'btn-speak-word')}
         </div>
       </div>
       ${beispielwortHtml}
@@ -447,7 +433,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
           <div class="back-main">${k.char}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+          ${speakBtn(kanjiSpeakText, 'btn-speak-word')}
         </div>
       </div>
       ${beispielwortHtml}
@@ -479,13 +465,13 @@ function renderVocabCard(card, front, back, dirLabel) {
   const v = card.item;
   const showReading = v.word !== v.reading;
 
-  const vocabSpeakText = (v.reading || v.word).replace(/'/g, "\\'");
+  const vocabSpeakText = v.reading || v.word;
   const vocabExamplesHtml = v.examples && v.examples.length
     ? `<div class="dialogue-box">${v.examples.map(ex => `
         <div class="dialogue-line">
           <div class="dialogue-line-top">
             <div class="dialogue-jp">${escHtml(ex.jp)}</div>
-            <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+            ${speakBtn(ex.jp, 'btn-speak-example')}
           </div>
           ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
           <div class="dialogue-de">${escHtml(ex.de)}</div>
@@ -505,7 +491,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         <span class="back-label">Wort</span>
         <div class="back-main-row">
           <div class="back-main" style="font-size:32px">${v.word}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+          ${speakBtn(vocabSpeakText, 'btn-speak-word')}
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
@@ -533,7 +519,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         <span class="back-label">Japanisch</span>
         <div class="back-main-row">
           <div class="back-main" style="font-size:36px">${v.word}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+          ${speakBtn(vocabSpeakText, 'btn-speak-word')}
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
@@ -654,7 +640,7 @@ function generateChoices(card) {
     }
   } else if (type === 'vocab') {
     // Pool includes BASICS items too so distractors come from the same broad vocab space
-    const vocabPool = [...vocabForLevel(), ...BASICS].filter(v => v.id !== item.id);
+    const vocabPool = [...vocabForLevel(state.level), ...BASICS].filter(v => v.id !== item.id);
     pool = vocabPool;
     if (dir === 'fwd') {
       correct = item.meaning;
@@ -699,7 +685,6 @@ function renderMCCard() {
   const front = document.getElementById('card-front');
   const back  = document.getElementById('card-back');
   const inner = document.getElementById('card-inner');
-  const wrap  = document.getElementById('card-wrap');
 
   // Reset state
   inner.classList.remove('flipped');
@@ -727,11 +712,21 @@ function renderMCCard() {
     renderGrammarCard(card, front, back, dirLabel);
   }
 
+  // Grammar JP→DE MC: ask with the pattern in context (a sentence), not the bare
+  // skeleton — particles in a lone pattern telegraph the correct explanation.
+  if (card.type === 'grammar' && card.dir === 'fwd') {
+    const g = card.item;
+    front.innerHTML = `
+      <div class="card-type-label">Grammatik — was passt?</div>
+      <div class="card-example-jp">${escHtml(g.example_jp)}</div>
+      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
+      <div class="card-direction-badge">${dirLabel}</div>`;
+  }
+
   // Hide flip button + card-controls in MC (user clicks card to flip); hide SRS/tiles
   document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
-  document.getElementById('tiles-wrap').style.display = 'none';
 
   const { choices, correct, readings } = generateChoices(card);
   const mcEl = document.getElementById('mc-choices');
@@ -763,292 +758,6 @@ function handleMCAnswer(clickedBtn, correct) {
     ? `<span class="mc-result-mark">✓ Richtig</span>`
     : `<span class="mc-result-mark">✗ Falsch</span> <span class="mc-result-pick">Deine Antwort: ${escHtml(picked)}</span>`;
   flipCard();
-}
-
-// ===== SITUATION MODE =====
-function generateSituationChoices(card) {
-  const pool = GRAMMAR.filter(g => g.id !== card.item.id);
-  const correct = stripPatternHint(card.item.pattern);
-  const distractors = shuffle([...pool]).slice(0, 3).map(g => stripPatternHint(g.pattern));
-  return { choices: shuffle([correct, ...distractors]), correct };
-}
-
-function renderSituationCard() {
-  const card = state.session[state.sessionIdx];
-  const front = document.getElementById('card-front');
-  const back  = document.getElementById('card-back');
-  const inner = document.getElementById('card-inner');
-
-  inner.classList.remove('flipped');
-  state.flipped = false;
-
-  const flashcard = document.getElementById('flashcard');
-  flashcard.classList.remove('card-enter');
-  void flashcard.offsetWidth;
-  flashcard.classList.add('card-enter');
-
-  const total = state.session.length;
-  const idx   = state.sessionIdx;
-  document.getElementById('session-progress').textContent = `${idx + 1} / ${total}`;
-  document.getElementById('progress-bar').style.width = `${(idx / total) * 100}%`;
-
-  const g = card.item;
-  // Non-grammar cards have no situation — fall back to regular flashcard
-  if (card.type !== 'grammar') {
-    renderCard();
-    return;
-  }
-  const situation = g.situation || g.explanation.split('.')[0];
-
-  front.innerHTML = `
-    <div class="card-type-label">Grammatik — Situation</div>
-    <div class="situation-prompt">${escHtml(situation)}</div>`;
-
-  // Back: full grammar reveal (same as DE→JP flashcard back)
-  back.innerHTML = `
-    <div class="back-section">
-      <span class="back-label">Muster</span>
-      <div style="font-family:var(--font-display);font-size:28px;color:var(--accent)">${escHtml(g.pattern)}</div>
-    </div>
-    <div class="back-divider"></div>
-    <div class="back-section">
-      <span class="back-label">Erklärung</span>
-      <div class="back-explanation">${escHtml(g.explanation)}</div>
-    </div>
-    <div class="back-divider"></div>
-    <div class="back-section">
-      <span class="back-label">Beispiel</span>
-      <div class="back-example-jp">${escHtml(g.example_jp)}</div>
-      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
-      <div class="back-example-de">${escHtml(g.example_de)}</div>
-    </div>
-    ${g.dialogue ? `
-    <div class="back-divider"></div>
-    <div class="back-section">
-      <span class="back-label">Dialog</span>
-      ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
-        <div class="dialogue-line">
-          <div class="dialogue-jp">${escHtml(l.jp)}</div>
-          ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
-          <div class="dialogue-de">${escHtml(l.de)}</div>
-        </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
-    </div>` : ''}`;
-
-  document.getElementById('card-controls').style.display = 'none';
-  document.getElementById('flip-btn').style.display = 'none';
-  document.getElementById('rating-wrap').style.display = 'none';
-
-  const tokens = tokenizePattern(g.pattern);
-  const useTiles = tokens.length >= 2;
-  const subMode = (!useTiles || Math.random() < 0.6) ? 'mc' : 'tiles';
-
-  const mcEl = document.getElementById('mc-choices');
-  const tilesWrap = document.getElementById('tiles-wrap');
-  mcEl.style.display = 'none';
-  tilesWrap.style.display = 'none';
-
-  if (subMode === 'mc') {
-    const { choices, correct } = generateSituationChoices(card);
-    mcEl.style.display = '';
-    mcEl.innerHTML = choices.map((c, i) =>
-      `<button class="mc-btn" data-choice="${escHtml(c)}" data-correct="${escHtml(correct)}">
-        <span class="mc-num">${i + 1}</span>
-        <span class="mc-text"><span class="mc-word">${escHtml(c)}</span></span>
-      </button>`
-    ).join('');
-    mcEl.querySelectorAll('.mc-btn').forEach(btn => {
-      btn.addEventListener('click', () => handleSituationMCAnswer(btn, correct));
-    });
-  } else {
-    tilesWrap.style.display = '';
-    renderTiles(tokens, g.pattern);
-  }
-}
-
-function handleSituationMCAnswer(clickedBtn, correct) {
-  const mcEl = document.getElementById('mc-choices');
-  const isCorrect = clickedBtn.dataset.choice === correct;
-
-  mcEl.querySelectorAll('.mc-btn').forEach(btn => {
-    btn.disabled = true;
-    if (btn.dataset.choice === correct) btn.classList.add('correct');
-    else if (btn === clickedBtn && !isCorrect) btn.classList.add('wrong');
-  });
-
-  setTimeout(() => {
-    mcEl.style.display = 'none';
-    // Flip to reveal
-    document.getElementById('card-inner').classList.add('flipped');
-    state.flipped = true;
-    const card = state.session[state.sessionIdx];
-    const ratingWrap = document.getElementById('rating-wrap');
-    ratingWrap.style.display = '';
-    [1, 3].forEach(r => {
-      const el = document.getElementById(`int-${r}`);
-      if (el) el.textContent = intervalLabel(card.srsCard, r);
-    });
-    showRatingHintOnce();
-  }, isCorrect ? 1000 : 1500);
-}
-
-// ===== VERWENDUNG MODE =====
-// Front: deutsche Verwendungs-Situation. Choices: 4 reine JP-Muster (ohne deutschen Hinweis).
-function generateVerwendungChoices(card) {
-  const pool = GRAMMAR.filter(g => g.id !== card.item.id);
-  const correct = stripPatternHint(card.item.pattern);
-  const distractors = shuffle([...pool]).slice(0, 3).map(g => stripPatternHint(g.pattern));
-  return { choices: shuffle([correct, ...distractors]), correct };
-}
-
-function renderVerwendungCard() {
-  const card = state.session[state.sessionIdx];
-  const front = document.getElementById('card-front');
-  const back  = document.getElementById('card-back');
-  const inner = document.getElementById('card-inner');
-
-  inner.classList.remove('flipped');
-  state.flipped = false;
-
-  const flashcard = document.getElementById('flashcard');
-  flashcard.classList.remove('card-enter');
-  void flashcard.offsetWidth;
-  flashcard.classList.add('card-enter');
-
-  const total = state.session.length;
-  const idx   = state.sessionIdx;
-  document.getElementById('session-progress').textContent = `${idx + 1} / ${total}`;
-  document.getElementById('progress-bar').style.width = `${(idx / total) * 100}%`;
-
-  // Non-grammar cards have no situation — fall back to regular flashcard
-  if (card.type !== 'grammar') {
-    renderCard();
-    return;
-  }
-
-  const g = card.item;
-  const situation = g.situation || cleanExplanation(g.explanation);
-
-  front.innerHTML = `
-    <div class="card-type-label">Grammatik — Verwendung</div>
-    <div class="situation-prompt">${escHtml(situation)}</div>`;
-
-  back.innerHTML = `
-    <div class="back-section">
-      <span class="back-label">Muster</span>
-      <div style="font-family:var(--font-display);font-size:28px;color:var(--accent)">${escHtml(g.pattern)}</div>
-    </div>
-    <div class="back-divider"></div>
-    <div class="back-section">
-      <span class="back-label">Erklärung</span>
-      <div class="back-explanation">${escHtml(g.explanation)}</div>
-    </div>
-    <div class="back-divider"></div>
-    <div class="back-section">
-      <span class="back-label">Beispiel</span>
-      <div class="back-example-jp">${escHtml(g.example_jp)}</div>
-      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
-      <div class="back-example-de">${escHtml(g.example_de)}</div>
-    </div>
-    ${g.dialogue ? `
-    <div class="back-divider"></div>
-    <div class="back-section">
-      <span class="back-label">Dialog</span>
-      ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
-        <div class="dialogue-line">
-          <div class="dialogue-jp">${escHtml(l.jp)}</div>
-          ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
-          <div class="dialogue-de">${escHtml(l.de)}</div>
-        </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
-    </div>` : ''}`;
-
-  document.getElementById('card-controls').style.display = 'none';
-  document.getElementById('flip-btn').style.display = 'none';
-  document.getElementById('rating-wrap').style.display = 'none';
-  document.getElementById('tiles-wrap').style.display = 'none';
-
-  const { choices, correct } = generateVerwendungChoices(card);
-  const mcEl = document.getElementById('mc-choices');
-  mcEl.style.display = '';
-  mcEl.innerHTML = choices.map((c, i) =>
-    `<button class="mc-btn" data-choice="${escHtml(c)}" data-correct="${escHtml(correct)}">
-      <span class="mc-num">${i + 1}</span>
-      <span class="mc-text"><span class="mc-word">${escHtml(c)}</span></span>
-    </button>`
-  ).join('');
-  mcEl.querySelectorAll('.mc-btn').forEach(btn => {
-    btn.addEventListener('click', () => handleSituationMCAnswer(btn, correct));
-  });
-}
-
-function tokenizePattern(pattern) {
-  return (pattern.match(/(〜[^〜]+|[^〜]+)/g) || [pattern]).filter(t => t.length > 0);
-}
-
-function renderTiles(tokens, correctPattern) {
-  const target = document.getElementById('tiles-target');
-  const source = document.getElementById('tiles-source');
-  target.innerHTML = '';
-  source.innerHTML = '';
-  target.className = '';
-
-  const shuffled = shuffle([...tokens]);
-  shuffled.forEach((token, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'tile';
-    btn.textContent = token;
-    btn.dataset.token = token;
-    btn.dataset.idx = i;
-    btn.addEventListener('click', () => moveTile(btn, source, target, correctPattern));
-    source.appendChild(btn);
-  });
-}
-
-function moveTile(btn, source, target, correctPattern) {
-  if (target.classList.contains('correct') || target.classList.contains('wrong')) return;
-
-  if (btn.parentElement === source) {
-    target.appendChild(btn);
-  } else {
-    source.appendChild(btn);
-  }
-
-  const placed = [...target.querySelectorAll('.tile')];
-  const tokens = tokenizePattern(correctPattern);
-  if (placed.length === tokens.length) {
-    handleTileAnswer(placed.map(b => b.dataset.token).join(''), correctPattern);
-  }
-}
-
-function handleTileAnswer(assembled, correct) {
-  const normalize = s => s.trim().replace(/〜/g, '').replace(/\s+/g, '').toLowerCase();
-  const isCorrect = normalize(assembled) === normalize(correct);
-
-  const target = document.getElementById('tiles-target');
-  target.classList.add(isCorrect ? 'correct' : 'wrong');
-
-  // On wrong: reset tiles after short pause so user can retry
-  if (!isCorrect) {
-    setTimeout(() => {
-      const source = document.getElementById('tiles-source');
-      target.classList.remove('wrong');
-      [...target.querySelectorAll('.tile')].forEach(t => source.appendChild(t));
-    }, 900);
-    return;
-  }
-
-  setTimeout(() => {
-    document.getElementById('tiles-wrap').style.display = 'none';
-    document.getElementById('card-inner').classList.add('flipped');
-    state.flipped = true;
-    const card = state.session[state.sessionIdx];
-    const ratingWrap = document.getElementById('rating-wrap');
-    ratingWrap.style.display = '';
-    [1, 3].forEach(r => {
-      const el = document.getElementById(`int-${r}`);
-      if (el) el.textContent = intervalLabel(card.srsCard, r);
-    });
-    showRatingHintOnce();
-  }, 800);
 }
 
 // ===== FLIP =====
@@ -1195,16 +904,19 @@ function speakJapanese(text) {
 }
 
 // ===== UTILS =====
-function hasKanji(str) {
-  return /[一-鿿㐀-䶿]/.test(str);
-}
-
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+// Audio button. Text goes in a `data-speak` attribute (HTML-escaped, so quotes
+// and special chars are safe) and is read by a delegated listener — no inline
+// onclick string-escaping needed.
+function speakBtn(text, cls, inner = '🔊') {
+  return `<button class="${cls}" data-speak="${escHtml(text)}" aria-label="Aussprache anhören">${inner}</button>`;
 }
 
 let toastTimer = null;
@@ -1233,14 +945,10 @@ function hideToast() {
   if (el) el.classList.remove('visible');
 }
 
-function audioButtonHtml() {
-  return `<div class="back-audio-wrap"><button class="back-speak-btn" id="back-speak-btn" title="Nochmal vorlesen">🔊 Nochmal hören</button></div>`;
-}
-
 function collapsibleDialogue(label, innerHtml, speakText) {
   const id = `dlg-${Math.random().toString(36).slice(2, 7)}`;
-  const speakBtn = speakText
-    ? `<button class="btn-speak-dialogue" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊 Anhören</button>`
+  const speakBtnHtml = speakText
+    ? speakBtn(speakText, 'btn-speak-dialogue', '🔊 Anhören')
     : '';
   return `
     <div class="dialogue-header">
@@ -1253,7 +961,7 @@ function collapsibleDialogue(label, innerHtml, speakText) {
         <span class="dialogue-toggle-arrow">▶</span>
         ${escHtml(label)}
       </button>
-      ${speakBtn}
+      ${speakBtnHtml}
     </div>
     <div class="dialogue-collapsible" id="${id}">
       ${innerHtml}
@@ -1294,7 +1002,7 @@ function renderListDetail(item, tab) {
           ${k.sentences.map(s => `
             <div class="list-detail-example-row">
               <div class="list-detail-jp">${escHtml(s.jp)}</div>
-              <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+              ${speakBtn(s.jp, 'btn-speak-example')}
             </div>
             ${s.reading ? `<div class="sentence-reading">${escHtml(s.reading)}</div>` : ''}
             <div class="list-detail-de">${escHtml(s.de)}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">')}
@@ -1319,7 +1027,7 @@ function renderListDetail(item, tab) {
     const exHtml = `<div class="list-detail-example">
       <div class="list-detail-example-row">
         <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
-        <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${item.example_jp.replace(/'/g, "\\'")}')">🔊</button>
+        ${speakBtn(item.example_jp, 'btn-speak-example')}
       </div>
       ${exReadingHtml}
       <div class="list-detail-de">${escHtml(item.example_de)}</div>
@@ -1333,7 +1041,7 @@ function renderListDetail(item, tab) {
   const exHtml = ex ? `<div class="list-detail-example">
     <div class="list-detail-example-row">
       <div class="list-detail-jp">${escHtml(ex.jp)}</div>
-      <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+      ${speakBtn(ex.jp, 'btn-speak-example')}
     </div>
     ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
     <div class="list-detail-de">${escHtml(ex.de)}</div>
@@ -1376,7 +1084,7 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
           </div>
           <div class="list-de">${escHtml(shortMeaning)}</div>
         </div>
-        <button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${kanjiReading(k).replace(/'/g, "\\'")}')">🔊</button>
+        ${speakBtn(kanjiReading(k), 'btn-speak-list')}
         ${badge}<span class="list-chevron">▼</span>
       </div>
       <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
@@ -1395,8 +1103,8 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
     de = item.explanation ? item.explanation.split('.')[0] : '';
   }
   const speakText = tab !== 'grammar' ? (item.reading || item.word || item.pattern || '') : '';
-  const speakBtn = speakText
-    ? `<button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊</button>`
+  const speakBtnHtml = speakText
+    ? speakBtn(speakText, 'btn-speak-list')
     : '';
   return `<div class="list-row" ${attrs}>
     <div class="list-row-summary">
@@ -1407,7 +1115,7 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
         </div>
         <div class="list-de">${escHtml(de)}</div>
       </div>
-      ${speakBtn}${badge}<span class="list-chevron">▼</span>
+      ${speakBtnHtml}${badge}<span class="list-chevron">▼</span>
     </div>
     <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
       ${renderListDetail(item, tab)}
@@ -1489,6 +1197,15 @@ function showListScreen() {
 
 // ===== EVENTS =====
 function initEvents() {
+  // Delegated audio: capture phase so tapping a 🔊 button doesn't also flip the
+  // card or toggle the list row it sits inside.
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-speak]');
+    if (!el) return;
+    e.stopPropagation();
+    speakJapanese(el.dataset.speak);
+  }, true);
+
   // Deck cards open start-modal
   document.querySelectorAll('.deck-card').forEach(card => {
     card.addEventListener('click', () => {
