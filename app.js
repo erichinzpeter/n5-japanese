@@ -83,7 +83,6 @@ function openStartModal(deck) {
       modeWrap.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.mode = m;
-      updateDirectionVisibility();
     });
     modeWrap.appendChild(btn);
   });
@@ -96,7 +95,6 @@ function openStartModal(deck) {
     b.classList.toggle('active', b.dataset.level === initialLevel);
   });
 
-  updateDirectionVisibility();
   updateLevelVisibility(deck);
 
   const modal = document.getElementById('start-modal');
@@ -105,12 +103,6 @@ function openStartModal(deck) {
 
   modalLastFocus = document.activeElement;
   (modal.querySelector('.mode-btn.active') || document.getElementById('modal-start-btn')).focus();
-}
-
-function updateDirectionVisibility() {
-  const wrap = document.getElementById('modal-direction-wrap');
-  if (MODE_NEEDS_DIRECTION[state.mode]) wrap.classList.remove('hidden');
-  else wrap.classList.add('hidden');
 }
 
 function updateLevelVisibility(deck) {
