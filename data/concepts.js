@@ -14,6 +14,44 @@
 //   examples  [{ jp, reading, de }] — required, 1–3 entries (reading optional per line)
 const CONCEPTS = [
 
+  // ============ GRUNDLAGEN ============
+  {
+    id: "c-kopula",
+    category: "Grundlagen",
+    title: "Kopula: です / じゃない / でした",
+    reading: "ist / ist nicht / war",
+    summary: "です ist das Bindewort (Kopula), das „X ist Y“ ausdrückt und der Aussage Höflichkeit gibt. Verneint heißt es じゃないです (lockerer) oder ではありません (förmlicher), in der Vergangenheit でした (war) bzw. じゃなかったです (war nicht). です selbst hat keine eigene Bedeutung außer „sein“ und Höflichkeit.",
+    usage: "In fast jedem höflichen Satz über ein Nomen oder ein な-Adjektiv („Das ist ein Stift“, „Ich bin Student“). Eines der allerersten Muster, das du brauchst.",
+    table: {
+      head: ["", "Form (学生)"],
+      rows: [
+        ["Gegenwart", "学生です"],
+        ["Verneinung", "学生じゃないです"],
+        ["Vergangenheit", "学生でした"],
+        ["Verg. verneint", "学生じゃなかったです"],
+      ],
+    },
+    pitfall: "です verneinst du als じゃないです / ではありません, nicht als „ですない“. Ein い-Adjektiv dagegen beugt sich selbst und braucht dafür kein です (高かった, nicht 高いでした).",
+    examples: [
+      { jp: "これはペンです。", reading: "これはペンです。", de: "Das ist ein Stift." },
+      { jp: "昨日は月曜日でした。", reading: "きのうはげつようびでした。", de: "Gestern war Montag." },
+      { jp: "私は学生じゃないです。", reading: "わたしはがくせいじゃないです。", de: "Ich bin kein Student." },
+    ],
+  },
+  {
+    id: "c-ka-frage",
+    category: "Grundlagen",
+    title: "〜か (Ja/Nein-Frage)",
+    reading: "Fragepartikel",
+    summary: "か am Satzende macht aus einer Aussage eine Frage — wie ein gesprochenes Fragezeichen. Die Wortstellung bleibt gleich, du hängst nur か an. Im Japanischen steht dahinter oft ein normaler Punkt (。) statt eines Fragezeichens.",
+    usage: "Für jede höfliche Ja/Nein-Frage („Ist das ein Stift?“, „Sind Sie Student?“) und auch zusammen mit Fragewörtern (何ですか).",
+    pitfall: "Die Satzstellung ändert sich nicht wie im Deutschen — du stellst nichts um, sondern hängst nur か an: 学生です → 学生ですか.",
+    examples: [
+      { jp: "これはペンですか。", reading: "これはペンですか。", de: "Ist das ein Stift?" },
+      { jp: "田中さんは日本人ですか。", reading: "たなかさんはにほんじんですか。", de: "Ist Herr Tanaka Japaner?" },
+    ],
+  },
+
   // ============ VERBFORMEN ============
   {
     id: "c-verbgruppen",
@@ -329,6 +367,45 @@ const CONCEPTS = [
       { jp: "東京から大阪まで。", reading: "とうきょうからおおさかまで。", de: "Von Tokyo bis Osaka." },
     ],
   },
+  {
+    id: "c-ya-nado",
+    category: "Partikel",
+    title: "や / など",
+    reading: "Aufzählung (Beispiele)",
+    summary: "や verbindet Nomen zu einer unvollständigen Liste: „A und B (unter anderem)“. Am Ende des letzten Beispiels steht oft など („und so weiter“). Damit nennst du einige Beispiele aus einer größeren Gruppe, ohne dass die Liste vollständig sein muss — anders als と, das vollständig aufzählt.",
+    usage: "Wenn du ein paar Beispiele aus einer größeren Gruppe nennst („Äpfel, Bananen und so weiter“).",
+    pitfall: "や ist die unvollständige Liste; für eine vollständige Aufzählung („genau A und B“) nimmst du と, nicht や.",
+    examples: [
+      { jp: "りんごやバナナなどを買いました。", reading: "りんごやバナナなどをかいました。", de: "Ich habe Äpfel, Bananen usw. gekauft." },
+      { jp: "牛乳やたまごがあります。", reading: "ぎゅうにゅうやたまごがあります。", de: "Es gibt Milch, Eier und Ähnliches." },
+    ],
+  },
+  {
+    id: "c-ga-kedo",
+    category: "Partikel",
+    title: "が / けど",
+    reading: "aber / jedoch",
+    summary: "Beide verbinden zwei Sätze mit einem Gegensatz: „…, aber …“. が klingt neutral und etwas förmlicher, けど umgangssprachlicher. Sie stehen am Ende des ersten Satzteils, nicht am Anfang des zweiten wie das deutsche „aber“.",
+    usage: "Wenn du einen Gegensatz oder eine Einschränkung ausdrückst („Japanisch mag ich, aber es ist schwer“).",
+    pitfall: "Dieses が hat nichts mit der Subjekt-Partikel が zu tun — gleiche Schrift, andere Aufgabe. Hier steht es nach dem ganzen ersten Satz.",
+    examples: [
+      { jp: "日本語は好きですが、難しいです。", reading: "にほんごはすきですが、むずかしいです。", de: "Ich mag Japanisch, aber es ist schwierig." },
+      { jp: "面白かったけど、長かったです。", reading: "おもしろかったけど、ながかったです。", de: "Es war interessant, aber lang." },
+    ],
+  },
+  {
+    id: "c-dake",
+    category: "Partikel",
+    title: "〜だけ",
+    reading: "nur / lediglich",
+    summary: "だけ bedeutet „nur / lediglich“ und steht direkt hinter dem Wort, das es einschränkt (Nomen, Menge oder Verb). Es betont, dass es nichts darüber hinaus gibt.",
+    usage: "Wenn du eine Menge oder Auswahl begrenzt („nur ein bisschen“, „nur Wasser“).",
+    pitfall: "だけ steht NACH dem eingeschränkten Wort, nicht davor wie das deutsche „nur“: 少しだけ, nicht だけ少し.",
+    examples: [
+      { jp: "少しだけ食べます。", reading: "すこしだけたべます。", de: "Ich esse nur ein bisschen." },
+      { jp: "水だけください。", reading: "みずだけください。", de: "Nur Wasser, bitte." },
+    ],
+  },
 
   // ============ SCHLÜSSELMUSTER ============
   {
@@ -465,16 +542,89 @@ const CONCEPTS = [
     ],
   },
   {
+    id: "c-ni-purpose",
+    category: "Schlüsselmuster",
+    title: "〜に行きます (Zweck)",
+    reading: "gehen, um zu …",
+    summary: "Drückt den Zweck einer Bewegung aus: „gehen/kommen/zurückkehren, um etwas zu tun“. An den ます-Stamm des Verbs (den Teil vor ます) hängst du に, danach folgt 行く・来る・帰る. Bei する-Verben kann auch das Nomen + に stehen (買い物に行く).",
+    usage: "Wenn du sagst, wozu du irgendwohin gehst („essen gehen“, „ein Buch kaufen gehen“).",
+    formation: [
+      { from: "ます-Stamm", to: "+ に + 行く / 来る / 帰る", note: "食べます→食べに行く" },
+    ],
+    pitfall: "Vor に steht der ます-Stamm, nicht die Wörterbuchform: 食べに行く, nicht 食べるに行く.",
+    examples: [
+      { jp: "ご飯を食べに行きます。", reading: "ごはんをたべにいきます。", de: "Ich gehe essen (um zu essen)." },
+      { jp: "本を買いに行きます。", reading: "ほんをかいにいきます。", de: "Ich gehe ein Buch kaufen." },
+    ],
+  },
+  {
+    id: "c-reihenfolge",
+    category: "Schlüsselmuster",
+    title: "前に / てから / 後で",
+    reading: "vorher / danach / nachdem",
+    summary: "Drei Muster für zeitliche Abfolge. 〜前に (Wörterbuchform + 前に) = „bevor …“. 〜てから (て-Form + から) = „nachdem … (und erst dann)“. 〜後で (た-Form + 後で) = „nachdem / danach“. Die Form des ersten Verbs entscheidet, welches Muster passt.",
+    usage: "Wenn du zwei Handlungen in eine Reihenfolge bringst („vor dem Schlafen Zähne putzen“, „nach dem Essen spazieren“).",
+    table: {
+      head: ["Muster", "Form", "Bedeutung"],
+      rows: [
+        ["前に", "寝る前に", "bevor (vor dem Schlafen)"],
+        ["てから", "食べてから", "nachdem (erst essen, dann …)"],
+        ["後で", "食べた後で", "nachdem / danach"],
+      ],
+    },
+    pitfall: "前に braucht die Wörterbuchform (寝る前に), 後で die た-Form (寝た後で) — nicht verwechseln.",
+    examples: [
+      { jp: "寝る前に、歯を磨きます。", reading: "ねるまえに、はをみがきます。", de: "Bevor ich schlafe, putze ich die Zähne." },
+      { jp: "ご飯を食べた後で、散歩します。", reading: "ごはんをたべたあとで、さんぽします。", de: "Nachdem ich gegessen habe, spaziere ich." },
+      { jp: "会議が終わってから、電話します。", reading: "かいぎがおわってから、でんわします。", de: "Nachdem das Meeting vorbei ist, rufe ich an." },
+    ],
+  },
+  {
+    id: "c-wo-kudasai",
+    category: "Schlüsselmuster",
+    title: "〜をください",
+    reading: "bitte geben Sie mir …",
+    summary: "Nomen + をください heißt „Bitte geben Sie mir …“ und ist die Standardformel zum Bestellen oder Erbitten einer Sache. を markiert dabei das Gewünschte. Für die Bitte um eine Handlung (statt einer Sache) nimmt man die て-Form + ください.",
+    usage: "Im Geschäft oder Restaurant, wenn du etwas bestellst oder erbittest („Einen Kaffee, bitte“).",
+    pitfall: "をください gilt für eine SACHE; für eine HANDLUNG („bitte warten“) brauchst du die て-Form + ください: 待ってください.",
+    examples: [
+      { jp: "コーヒーをください。", reading: "コーヒーをください。", de: "Einen Kaffee bitte." },
+      { jp: "りんごを三つください。", reading: "りんごをみっつください。", de: "Drei Äpfel, bitte." },
+    ],
+  },
+  {
+    id: "c-dou-desuka",
+    category: "Schlüsselmuster",
+    title: "〜はどうですか",
+    reading: "Wie wäre …? / Vorschlag",
+    summary: "Nomen + はどうですか fragt nach einer Meinung („Wie ist …?“) oder macht einen sanften Vorschlag („Wie wäre es mit …?“). Höflicher und weicher klingt die Variante はいかがですか.",
+    usage: "Wenn du etwas vorschlägst oder nach jemandes Eindruck fragst („Wie wäre es mit Tee?“, „Wie ist das Wetter?“).",
+    pitfall: "Für einen Vorschlag, etwas GEMEINSAM zu tun, passt eher 〜ませんか; どうですか schlägt eher eine Sache vor oder fragt nach einer Meinung.",
+    examples: [
+      { jp: "お茶はどうですか。", reading: "おちゃはどうですか。", de: "Wie wäre es mit Tee?" },
+      { jp: "週末、映画はどうですか。", reading: "しゅうまつ、えいがはどうですか。", de: "Wie wäre am Wochenende ein Film?" },
+    ],
+  },
+  {
     id: "c-yori",
     category: "Schlüsselmuster",
-    title: "〜より (Vergleich)",
-    reading: "vergleichen",
-    summary: "A は B より … = „A ist … als B“. より markiert den Vergleichsmaßstab („als“). In der Frage „Welches ist …er?“ nutzt man のほうが für die Antwort: B のほうが … .",
-    usage: "Wenn du zwei Dinge vergleichst („Der Zug ist schneller als der Bus“).",
-    pitfall: "より steht beim Maßstab („als B“), nicht beim Subjekt: AはBより, nicht AよりBは.",
+    title: "〜より / の方が / 一番 (Vergleich)",
+    reading: "Vergleich · Präferenz · Superlativ",
+    summary: "Drei verwandte Muster zum Vergleichen. Vergleich: A は B より … = „A ist … als B“ (より = „als“). Präferenz: B の方が … = „B ist eher / lieber …“, oft als Antwort auf „welches von beiden?“. Superlativ: 〜の中で〜が一番 … = „von allen … am …sten“ (一番 = „Nummer eins, am meisten“).",
+    usage: "Wenn du zwei Dinge vergleichst, eine Vorliebe ausdrückst oder das Beste aus einer Gruppe nennst.",
+    table: {
+      head: ["Muster", "Beispiel", "Bedeutung"],
+      rows: [
+        ["より", "バスより速い", "schneller als der Bus"],
+        ["の方が", "電車の方が速い", "der Zug ist (eher) schneller"],
+        ["の中で一番", "この中で一番速い", "von allen am schnellsten"],
+      ],
+    },
+    pitfall: "より steht beim Vergleichsmaßstab („als B“), の方が beim Favoriten — nicht vertauschen: 電車はバスより速い / バスより電車の方が速い.",
     examples: [
       { jp: "電車はバスより速いです。", reading: "でんしゃはバスよりはやいです。", de: "Der Zug ist schneller als der Bus." },
-      { jp: "コーヒーのほうが好きです。", reading: "コーヒーのほうがすきです。", de: "Ich mag eher Kaffee (von beiden)." },
+      { jp: "コーヒーよりお茶の方が好きです。", reading: "コーヒーよりおちゃのほうがすきです。", de: "Ich mag Tee lieber als Kaffee." },
+      { jp: "果物の中でりんごが一番好きです。", reading: "くだもののなかでりんごがいちばんすきです。", de: "Von allen Früchten mag ich Äpfel am liebsten." },
     ],
   },
   {
@@ -555,20 +705,22 @@ const CONCEPTS = [
     category: "Sonstiges",
     title: "この / その / あの",
     reading: "kosoado",
-    summary: "Hinweiswörter nach Entfernung: この/これ (beim Sprecher), その/それ (beim Hörer), あの/あれ (von beiden entfernt), どの/どれ (welch-). この+Nomen steht vor dem Nomen, これ steht allein.",
-    usage: "Wenn du auf etwas zeigst — je nachdem, ob es bei dir, beim Gegenüber oder weit weg ist.",
+    summary: "Hinweiswörter nach Entfernung: この/これ (beim Sprecher), その/それ (beim Hörer), あの/あれ (von beiden entfernt), どの/どれ (welch-). Für Orte gibt es die gleiche Reihe: ここ (hier) / そこ (dort bei dir) / あそこ (dort drüben) / どこ (wo?). この+Nomen steht vor dem Nomen, これ steht allein.",
+    usage: "Wenn du auf etwas oder einen Ort zeigst — je nachdem, ob es bei dir, beim Gegenüber oder weit weg ist.",
     table: {
       head: ["+ Nomen", "allein", "Ort"],
       rows: [
         ["この", "これ", "ここ"],
         ["その", "それ", "そこ"],
         ["あの", "あれ", "あそこ"],
+        ["どの", "どれ", "どこ"],
       ],
     },
     pitfall: "この braucht ein Nomen dahinter (この本), これ steht allein — nicht これ本.",
     examples: [
       { jp: "この本は私のです。", reading: "このほんはわたしのです。", de: "Dieses Buch (hier) ist meins." },
       { jp: "あれは何ですか。", reading: "あれはなんですか。", de: "Was ist das dort drüben?" },
+      { jp: "トイレはどこですか。", reading: "トイレはどこですか。", de: "Wo ist die Toilette?" },
     ],
   },
   {
@@ -598,6 +750,19 @@ const CONCEPTS = [
     examples: [
       { jp: "来年日本へ行くつもりです。", reading: "らいねんにほんへいくつもりです。", de: "Nächstes Jahr habe ich vor, nach Japan zu fahren." },
       { jp: "今日は何もしないつもりです。", reading: "きょうはなにもしないつもりです。", de: "Heute habe ich vor, nichts zu tun." },
+    ],
+  },
+  {
+    id: "c-goro-gurai",
+    category: "Sonstiges",
+    title: "ごろ / ぐらい",
+    reading: "ungefähr",
+    summary: "Beide heißen „ungefähr“, gelten aber für Verschiedenes: ごろ steht nur bei einem Zeitpunkt („gegen 7 Uhr“). ぐらい (auch くらい) steht bei einer Menge oder Dauer („ungefähr 3 Stunden“, „etwa 10 Stück“).",
+    usage: "Wenn du eine ungefähre Zeit (ごろ) oder eine ungefähre Menge bzw. Dauer (ぐらい) angibst.",
+    pitfall: "ごろ nur beim ZeitPUNKT, ぐらい bei Menge/Dauer: 七時ごろ (gegen 7 Uhr), aber 三時間ぐらい (ungefähr 3 Stunden) — nicht vertauschen.",
+    examples: [
+      { jp: "七時ごろ起きます。", reading: "しちじごろおきます。", de: "Ich stehe gegen 7 Uhr auf." },
+      { jp: "三時間ぐらい勉強しました。", reading: "さんじかんぐらいべんきょうしました。", de: "Ich habe ungefähr drei Stunden gelernt." },
     ],
   },
 
