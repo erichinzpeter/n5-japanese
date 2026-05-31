@@ -63,7 +63,7 @@ function openStartModal(deck) {
   const prefs = loadModalPrefs()[deck] || {};
   const allowedModes = DECK_MODES[deck] || ['flashcard', 'mc'];
   const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
-  const initialDir = ['jp-de', 'de-jp', 'both'].includes(prefs.direction) ? prefs.direction : 'jp-de';
+  const initialDir = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : 'jp-de';
   const initialLevel = ['easy', 'adv'].includes(prefs.level) ? prefs.level : 'easy';
 
   state.mode = initialMode;
@@ -200,7 +200,7 @@ function allItems(deck, level) {
 
 function getDueCards(deck, direction, level) {
   const today = todayStr();
-  const dirs = direction === 'both' ? ['fwd', 'rev'] : [direction === 'jp-de' ? 'fwd' : 'rev'];
+  const dirs = [direction === 'jp-de' ? 'fwd' : 'rev'];
   const cards = [];
 
   allItems(deck, level).forEach(({ item, type }) => {
