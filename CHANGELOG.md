@@ -4,6 +4,15 @@
 
 ---
 
+## [2.16.1] — 2026-05-31
+
+### Behoben
+
+- **Statusleiste lag auf dem Fuji-Banner** — durch `viewport-fit=cover` (v2.16.0) reichte der Inhalt unter die Notch, aber es fehlte der obere Sicherheitsabstand. `env(safe-area-inset-top)` zu allen oberen Paddings ergänzt (Home, Session-Topbar, Listen-/Konzept-Header). Uhr/Akku stehen jetzt auf dunklem Grund über dem Banner.
+- Service-Worker-Cache `n5-v37` → `n5-v38`.
+
+---
+
 ## [2.16.0] — 2026-05-31
 
 ### Geändert
