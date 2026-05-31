@@ -31,7 +31,7 @@
         <div class="fuji-title">日本語</div>
       </div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v2.11.0</div>
+      <div class="app-version">v2.12.0</div>
     </header>
 
     <div id="onboard-panel" class="onboard-panel hidden">
@@ -195,14 +195,23 @@
     <div id="list-content" class="list-content"></div>
   </div>
 
-  <!-- SCREEN: CONCEPTS -->
+  <!-- SCREEN: CONCEPTS (list) -->
   <div id="screen-concepts" class="screen">
     <div class="list-header">
       <button id="concepts-back-btn" class="list-back-btn">←</button>
       <h2 class="list-title">Grammatik verstehen</h2>
     </div>
-    <div class="concepts-intro">Kurze Erklärungen zu den N5-Grammatikkonzepten — antippen zum Aufklappen. 🔊 spielt das Beispiel ab.</div>
+    <div class="concepts-intro">Kurze Erklärungen zu den N5-Grammatikkonzepten — antippen für Details.</div>
     <div id="concepts-content" class="list-content"></div>
+  </div>
+
+  <!-- SCREEN: CONCEPT DETAIL (one concept, full screen) -->
+  <div id="screen-concept-detail" class="screen">
+    <div class="list-header">
+      <button id="concept-detail-back-btn" class="list-back-btn">←</button>
+      <h2 class="list-title" id="concept-detail-title"></h2>
+    </div>
+    <div id="concept-detail-content" class="list-content"></div>
   </div>
 
   <!-- Start modal -->

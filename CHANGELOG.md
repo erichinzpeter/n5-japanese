@@ -4,6 +4,22 @@
 
 ---
 
+## [2.12.0] — 2026-05-31
+
+### Hinzugefügt
+
+- **Zweistufige Konzepte-Navigation** — die Konzepte-Sektion zeigt jetzt eine flache Titelliste (gruppiert nach Kategorie); ein Antippen öffnet das Konzept als eigenen Vollbild-Screen statt einer aufklappbaren Zeile.
+- Neuer Block **„Wann benutzt man das?"** (🟢) pro Konzept — Alltagskontext ohne Fachjargon.
+- Neuer Block **„Häufiger Fehler"** (🔴) pro Konzept — je ein typischer N5-Fehler. Beide Blöcke sind für alle 33 Konzepte gefüllt.
+
+### Geändert
+
+- Größere Erklärungstexte auf dem Handy (≤480px) über alle Listen-Screens hinweg (gemeinsame `.list-detail-*`).
+- Listen-Header bleiben beim Scrollen oben fixiert (sticky).
+- Service-Worker-Cache `n5-v32` → `n5-v33`.
+
+---
+
 ## [2.11.0] — 2026-05-31
 
 ### Hinzugefügt

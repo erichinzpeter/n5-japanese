@@ -1197,8 +1197,14 @@ function showListScreen() {
 
 // ===== CONCEPTS (read-only N5 grammar reference) =====
 function renderConceptDetail(c) {
+  const usageHtml = c.usage
+    ? `<div class="concept-block-label">Wann benutzt man das?</div>
+       <div class="concept-usage">${escHtml(c.usage)}</div>`
+    : '';
+
   const formationHtml = c.formation && c.formation.length
-    ? `<div class="concept-formation">${c.formation.map(f => `
+    ? `<div class="concept-block-label">Bildung</div>
+       <div class="concept-formation">${c.formation.map(f => `
         <div class="concept-rule">
           <span class="concept-rule-from">${escHtml(f.from)}</span>
           <span class="concept-rule-arrow">→</span>
@@ -1208,13 +1214,20 @@ function renderConceptDetail(c) {
     : '';
 
   const tableHtml = c.table && c.table.rows && c.table.rows.length
-    ? `<table class="concept-table">
+    ? `<div class="concept-block-label">Übersicht</div>
+       <table class="concept-table">
         <thead><tr>${c.table.head.map(h => `<th>${escHtml(h)}</th>`).join('')}</tr></thead>
         <tbody>${c.table.rows.map(r => `<tr>${r.map(cell => `<td>${escHtml(cell)}</td>`).join('')}</tr>`).join('')}</tbody>
       </table>`
     : '';
 
-  const examplesHtml = `<div class="concept-examples">${c.examples.map(ex => `
+  const pitfallHtml = c.pitfall
+    ? `<div class="concept-block-label">Häufiger Fehler</div>
+       <div class="concept-pitfall">${escHtml(c.pitfall)}</div>`
+    : '';
+
+  const examplesHtml = `<div class="concept-block-label">Beispiele</div>
+    <div class="concept-examples">${c.examples.map(ex => `
     <div class="concept-example">
       <div class="concept-example-row">
         <div class="list-detail-jp">${escHtml(ex.jp)}</div>
@@ -1224,13 +1237,13 @@ function renderConceptDetail(c) {
       <div class="list-detail-de">${escHtml(ex.de)}</div>
     </div>`).join('')}</div>`;
 
-  return `<div class="concept-summary">${escHtml(c.summary)}</div>${formationHtml}${tableHtml}${examplesHtml}`;
+  return `<div class="concept-summary">${escHtml(c.summary)}</div>${usageHtml}${formationHtml}${tableHtml}${pitfallHtml}${examplesHtml}`;
 }
 
 function renderConceptRow(c) {
   const readingHtml = c.reading
     ? `<span class="list-reading">${escHtml(c.reading)}</span>` : '';
-  return `<div class="list-row" onclick="toggleListRow(this)">
+  return `<div class="list-row concept-nav-row" onclick="openConceptDetail('${escHtml(c.id)}')">
     <div class="list-row-summary">
       <div class="list-row-main">
         <div class="list-jp-line">
@@ -1238,12 +1251,24 @@ function renderConceptRow(c) {
           ${readingHtml}
         </div>
       </div>
-      <span class="list-chevron">▼</span>
-    </div>
-    <div class="list-row-detail concept-detail">
-      ${renderConceptDetail(c)}
+      <span class="list-chevron concept-chevron">›</span>
     </div>
   </div>`;
+}
+
+function openConceptDetail(id) {
+  const c = CONCEPTS.find(x => x.id === id);
+  if (!c) return;
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  showScreen('concept-detail');
+  document.getElementById('concept-detail-title').textContent = c.title;
+  document.getElementById('concept-detail-content').innerHTML =
+    `<div class="concept-detail concept-detail-screen">
+      <div class="concept-detail-reading">${escHtml(c.reading || '')}</div>
+      ${renderConceptDetail(c)}
+    </div>`;
+  document.getElementById('concept-detail-content').scrollTop = 0;
+  window.scrollTo(0, 0);
 }
 
 function renderConceptsScreen() {
@@ -1364,6 +1389,7 @@ function initEvents() {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     renderHome();
   });
+  document.getElementById('concept-detail-back-btn').addEventListener('click', renderConceptsScreen);
 
   // List back button
   document.getElementById('list-back-btn').addEventListener('click', () => renderHome());

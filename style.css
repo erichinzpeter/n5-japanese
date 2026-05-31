@@ -599,6 +599,58 @@ body {
   margin-top: 2px;
 }
 
+/* Concept detail screen */
+.concept-detail-screen {
+  padding: 4px 20px 24px;
+}
+
+.concept-detail-reading {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.concept-detail-screen .concept-summary {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.concept-block-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 18px 0 7px;
+}
+
+.concept-usage {
+  background: var(--surface);
+  border-left: 3px solid #4caf72;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.concept-pitfall {
+  background: var(--surface);
+  border-left: 3px solid #d8694e;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.concept-nav-row .list-chevron.concept-chevron {
+  font-size: 18px;
+  color: var(--text-dim);
+}
+
 /* Home Footer */
 .home-footer {
   display: flex;
@@ -1384,6 +1436,9 @@ body {
   padding: 36px 20px 12px;
   background: var(--bg);
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .list-back-btn {
@@ -1749,6 +1804,14 @@ body {
   .liste-btn { margin-bottom: 14px; }
   .home-footer { margin-top: auto; }
   .keyboard-hint { display: none; }
+
+  /* Larger explanation text on mobile (shared across all list/detail screens) */
+  .concept-detail { font-size: 16px; }
+  .concept-summary { font-size: 16px; }
+  .concept-example .list-detail-jp { font-size: 19px; }
+  .concept-example .list-detail-de { font-size: 15px; }
+  .list-detail-text { font-size: 16px; }
+  .list-detail-de { font-size: 17px; }
 }
 
 @media (max-width: 360px) {
