@@ -361,7 +361,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
   const k = card.item;
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
-  const kanjiSpeakText = kanjiReading(k).replace(/'/g, "\\'");
+  const kanjiSpeakText = kanjiReading(k);
   const beispielwortHtml = kanjiSpeakIsWord(k)
     ? `<div class="back-section">
         <span class="back-label">Beispielwort</span>
@@ -373,7 +373,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <div class="dialogue-line">
           <div class="dialogue-line-top">
             <div class="dialogue-jp">${escHtml(s.jp)}</div>
-            <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+            ${speakBtn(s.jp, 'btn-speak-example')}
           </div>
           ${s.reading ? `<div class="dialogue-reading">${escHtml(s.reading)}</div>` : ''}
           <div class="dialogue-de">${escHtml(s.de)}</div>
@@ -392,7 +392,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
           <div class="back-main">${k.char}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+          ${speakBtn(kanjiSpeakText, 'btn-speak-word')}
         </div>
       </div>
       ${beispielwortHtml}
@@ -433,7 +433,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
           <div class="back-main">${k.char}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${kanjiSpeakText}')">🔊</button>
+          ${speakBtn(kanjiSpeakText, 'btn-speak-word')}
         </div>
       </div>
       ${beispielwortHtml}
@@ -465,13 +465,13 @@ function renderVocabCard(card, front, back, dirLabel) {
   const v = card.item;
   const showReading = v.word !== v.reading;
 
-  const vocabSpeakText = (v.reading || v.word).replace(/'/g, "\\'");
+  const vocabSpeakText = v.reading || v.word;
   const vocabExamplesHtml = v.examples && v.examples.length
     ? `<div class="dialogue-box">${v.examples.map(ex => `
         <div class="dialogue-line">
           <div class="dialogue-line-top">
             <div class="dialogue-jp">${escHtml(ex.jp)}</div>
-            <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+            ${speakBtn(ex.jp, 'btn-speak-example')}
           </div>
           ${ex.reading ? `<div class="dialogue-reading">${escHtml(ex.reading)}</div>` : ''}
           <div class="dialogue-de">${escHtml(ex.de)}</div>
@@ -491,7 +491,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         <span class="back-label">Wort</span>
         <div class="back-main-row">
           <div class="back-main" style="font-size:32px">${v.word}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+          ${speakBtn(vocabSpeakText, 'btn-speak-word')}
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
@@ -519,7 +519,7 @@ function renderVocabCard(card, front, back, dirLabel) {
         <span class="back-label">Japanisch</span>
         <div class="back-main-row">
           <div class="back-main" style="font-size:36px">${v.word}</div>
-          <button class="btn-speak-word" aria-label="Aussprache anhören" onclick="speakJapanese('${vocabSpeakText}')">🔊</button>
+          ${speakBtn(vocabSpeakText, 'btn-speak-word')}
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
@@ -912,6 +912,13 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// Audio button. Text goes in a `data-speak` attribute (HTML-escaped, so quotes
+// and special chars are safe) and is read by a delegated listener — no inline
+// onclick string-escaping needed.
+function speakBtn(text, cls, inner = '🔊') {
+  return `<button class="${cls}" data-speak="${escHtml(text)}" aria-label="Aussprache anhören">${inner}</button>`;
+}
+
 let toastTimer = null;
 function showToast(msg, actionLabel, onAction) {
   const el = document.getElementById('toast');
@@ -940,8 +947,8 @@ function hideToast() {
 
 function collapsibleDialogue(label, innerHtml, speakText) {
   const id = `dlg-${Math.random().toString(36).slice(2, 7)}`;
-  const speakBtn = speakText
-    ? `<button class="btn-speak-dialogue" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊 Anhören</button>`
+  const speakBtnHtml = speakText
+    ? speakBtn(speakText, 'btn-speak-dialogue', '🔊 Anhören')
     : '';
   return `
     <div class="dialogue-header">
@@ -954,7 +961,7 @@ function collapsibleDialogue(label, innerHtml, speakText) {
         <span class="dialogue-toggle-arrow">▶</span>
         ${escHtml(label)}
       </button>
-      ${speakBtn}
+      ${speakBtnHtml}
     </div>
     <div class="dialogue-collapsible" id="${id}">
       ${innerHtml}
@@ -995,7 +1002,7 @@ function renderListDetail(item, tab) {
           ${k.sentences.map(s => `
             <div class="list-detail-example-row">
               <div class="list-detail-jp">${escHtml(s.jp)}</div>
-              <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${s.jp.replace(/'/g, "\\'")}')">🔊</button>
+              ${speakBtn(s.jp, 'btn-speak-example')}
             </div>
             ${s.reading ? `<div class="sentence-reading">${escHtml(s.reading)}</div>` : ''}
             <div class="list-detail-de">${escHtml(s.de)}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">')}
@@ -1020,7 +1027,7 @@ function renderListDetail(item, tab) {
     const exHtml = `<div class="list-detail-example">
       <div class="list-detail-example-row">
         <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
-        <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${item.example_jp.replace(/'/g, "\\'")}')">🔊</button>
+        ${speakBtn(item.example_jp, 'btn-speak-example')}
       </div>
       ${exReadingHtml}
       <div class="list-detail-de">${escHtml(item.example_de)}</div>
@@ -1034,7 +1041,7 @@ function renderListDetail(item, tab) {
   const exHtml = ex ? `<div class="list-detail-example">
     <div class="list-detail-example-row">
       <div class="list-detail-jp">${escHtml(ex.jp)}</div>
-      <button class="btn-speak-example" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${ex.jp.replace(/'/g, "\\'")}')">🔊</button>
+      ${speakBtn(ex.jp, 'btn-speak-example')}
     </div>
     ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
     <div class="list-detail-de">${escHtml(ex.de)}</div>
@@ -1077,7 +1084,7 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
           </div>
           <div class="list-de">${escHtml(shortMeaning)}</div>
         </div>
-        <button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${kanjiReading(k).replace(/'/g, "\\'")}')">🔊</button>
+        ${speakBtn(kanjiReading(k), 'btn-speak-list')}
         ${badge}<span class="list-chevron">▼</span>
       </div>
       <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
@@ -1096,8 +1103,8 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
     de = item.explanation ? item.explanation.split('.')[0] : '';
   }
   const speakText = tab !== 'grammar' ? (item.reading || item.word || item.pattern || '') : '';
-  const speakBtn = speakText
-    ? `<button class="btn-speak-list" aria-label="Aussprache anhören" onclick="event.stopPropagation();speakJapanese('${speakText.replace(/'/g, "\\'")}')">🔊</button>`
+  const speakBtnHtml = speakText
+    ? speakBtn(speakText, 'btn-speak-list')
     : '';
   return `<div class="list-row" ${attrs}>
     <div class="list-row-summary">
@@ -1108,7 +1115,7 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
         </div>
         <div class="list-de">${escHtml(de)}</div>
       </div>
-      ${speakBtn}${badge}<span class="list-chevron">▼</span>
+      ${speakBtnHtml}${badge}<span class="list-chevron">▼</span>
     </div>
     <div class="list-row-detail" data-tab="${escHtml(tab)}" data-idx="${i}">
       ${renderListDetail(item, tab)}
@@ -1190,6 +1197,15 @@ function showListScreen() {
 
 // ===== EVENTS =====
 function initEvents() {
+  // Delegated audio: capture phase so tapping a 🔊 button doesn't also flip the
+  // card or toggle the list row it sits inside.
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-speak]');
+    if (!el) return;
+    e.stopPropagation();
+    speakJapanese(el.dataset.speak);
+  }, true);
+
   // Deck cards open start-modal
   document.querySelectorAll('.deck-card').forEach(card => {
     card.addEventListener('click', () => {
