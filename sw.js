@@ -1,4 +1,4 @@
-const CACHE = 'n5-v31';
+const CACHE = 'n5-v32';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const ASSETS = [
   './data/vocab.js',
   './data/grammar.js',
   './data/basics.js',
+  './data/concepts.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

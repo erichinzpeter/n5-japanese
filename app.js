@@ -1195,6 +1195,73 @@ function showListScreen() {
   renderListTab('kanji');
 }
 
+// ===== CONCEPTS (read-only N5 grammar reference) =====
+function renderConceptDetail(c) {
+  const formationHtml = c.formation && c.formation.length
+    ? `<div class="concept-formation">${c.formation.map(f => `
+        <div class="concept-rule">
+          <span class="concept-rule-from">${escHtml(f.from)}</span>
+          <span class="concept-rule-arrow">→</span>
+          <span class="concept-rule-to">${escHtml(f.to)}</span>
+          ${f.note ? `<span class="concept-rule-note">${escHtml(f.note)}</span>` : ''}
+        </div>`).join('')}</div>`
+    : '';
+
+  const tableHtml = c.table && c.table.rows && c.table.rows.length
+    ? `<table class="concept-table">
+        <thead><tr>${c.table.head.map(h => `<th>${escHtml(h)}</th>`).join('')}</tr></thead>
+        <tbody>${c.table.rows.map(r => `<tr>${r.map(cell => `<td>${escHtml(cell)}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table>`
+    : '';
+
+  const examplesHtml = `<div class="concept-examples">${c.examples.map(ex => `
+    <div class="concept-example">
+      <div class="concept-example-row">
+        <div class="list-detail-jp">${escHtml(ex.jp)}</div>
+        ${speakBtn(ex.reading || ex.jp, 'btn-speak-example')}
+      </div>
+      ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
+      <div class="list-detail-de">${escHtml(ex.de)}</div>
+    </div>`).join('')}</div>`;
+
+  return `<div class="concept-summary">${escHtml(c.summary)}</div>${formationHtml}${tableHtml}${examplesHtml}`;
+}
+
+function renderConceptRow(c) {
+  const readingHtml = c.reading
+    ? `<span class="list-reading">${escHtml(c.reading)}</span>` : '';
+  return `<div class="list-row" onclick="toggleListRow(this)">
+    <div class="list-row-summary">
+      <div class="list-row-main">
+        <div class="list-jp-line">
+          <span class="list-jp">${escHtml(c.title)}</span>
+          ${readingHtml}
+        </div>
+      </div>
+      <span class="list-chevron">▼</span>
+    </div>
+    <div class="list-row-detail concept-detail">
+      ${renderConceptDetail(c)}
+    </div>
+  </div>`;
+}
+
+function renderConceptsScreen() {
+  showScreen('concepts');
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+  const seen = new Set();
+  const html = [];
+  CONCEPTS.forEach(c => {
+    if (!seen.has(c.category)) {
+      seen.add(c.category);
+      html.push(`<div class="concept-category">${escHtml(c.category)}</div>`);
+    }
+    html.push(renderConceptRow(c));
+  });
+  document.getElementById('concepts-content').innerHTML = html.join('');
+}
+
 // ===== EVENTS =====
 function initEvents() {
   // Delegated audio: capture phase so tapping a 🔊 button doesn't also flip the
@@ -1290,6 +1357,13 @@ function initEvents() {
 
   // Liste button
   document.getElementById('liste-btn').addEventListener('click', showListScreen);
+
+  // Concepts button (Grammatik verstehen)
+  document.getElementById('concepts-btn').addEventListener('click', renderConceptsScreen);
+  document.getElementById('concepts-back-btn').addEventListener('click', () => {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    renderHome();
+  });
 
   // List back button
   document.getElementById('list-back-btn').addEventListener('click', () => renderHome());
