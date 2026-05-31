@@ -4,6 +4,17 @@
 
 ---
 
+## [2.14.0] — 2026-05-31
+
+### Geändert
+
+- **Liste-Tab „Grammatik" entfernt** — die Liste ist jetzt reines Wörterbuch (Kanji + Wörter). Klareres mentales Modell: „Grammatik verstehen" ist die einzige Grammatik-Heimat.
+- **Grammatik-Suche zeigt jetzt Konzepte** — die Liste-Suche durchsucht zusätzlich die Konzepte (Titel, Lesung, Zusammenfassung, Verwendung); ein Treffer trägt das Badge **Konzept** und öffnet den Vollbild-Konzept-Detail statt einer aufklappbaren Zeile. Grammatik bleibt so auffindbar — mit voller Erklärung statt Roh-Muster.
+- `data/grammar.js` unverändert — weiterhin Quelle für das Grammatik-SRS-Deck.
+- Service-Worker-Cache `n5-v34` → `n5-v35`.
+
+---
+
 ## [2.13.0] — 2026-05-31
 
 ### Hinzugefügt

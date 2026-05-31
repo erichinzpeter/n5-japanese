@@ -972,7 +972,7 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 let listSearchQuery = '';
 let pendingExpandKey = '';
 
-const TAB_LABELS = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
+const TAB_LABELS = { kanji: 'Kanji', vocab: 'Vokabeln', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
 
 function isAltag(item) {
   return item.pos && (item.pos.includes('Adjektiv') || item.pos.includes('Adverb'));
@@ -1019,21 +1019,6 @@ function renderListDetail(item, tab) {
       <div class="list-detail-text">${k.meaning.map(m => escHtml(m)).join(', ')}</div>
       ${examplesHtml}${sentHtml}`;
   }
-  if (tab === 'grammar') {
-    const readingHtml = item.reading
-      ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
-    const exReadingHtml = item.example_reading
-      ? `<div class="sentence-reading">${escHtml(item.example_reading)}</div>` : '';
-    const exHtml = `<div class="list-detail-example">
-      <div class="list-detail-example-row">
-        <div class="list-detail-jp">${escHtml(item.example_jp)}</div>
-        ${speakBtn(item.example_jp, 'btn-speak-example')}
-      </div>
-      ${exReadingHtml}
-      <div class="list-detail-de">${escHtml(item.example_de)}</div>
-    </div>`;
-    return `${readingHtml}<div class="list-detail-text">${escHtml(item.explanation)}</div>${exHtml}`;
-  }
   // vocab / adjektive / ausdruecke
   const readingHtml = item.reading && item.reading !== item.word
     ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
@@ -1052,19 +1037,23 @@ function renderListDetail(item, tab) {
 function getItemsForTab(tab) {
   if (tab === 'kanji')     return KANJI;
   if (tab === 'vocab')     return VOCAB.filter(isVocabMain);
-  if (tab === 'grammar')   return GRAMMAR;
   if (tab === 'adjektive') return [...BASICS, ...VOCAB].filter(isAltag);
   return [...BASICS, ...VOCAB].filter(isNutzwort);
 }
 
 function matchesSearch(item, q) {
-  return [item.word, item.reading, item.meaning, item.char, item.pattern, item.explanation]
+  return [item.word, item.reading, item.meaning, item.char]
     .concat(Array.isArray(item.meaning) ? item.meaning : [])
     .some(f => f && String(f).toLowerCase().includes(q));
 }
 
+function matchesConcept(c, q) {
+  return [c.title, c.reading, c.summary, c.usage]
+    .some(f => f && f.toLowerCase().includes(q));
+}
+
 function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
-  const itemKey = escHtml(item.id || item.char || item.word || item.pattern || '');
+  const itemKey = escHtml(item.id || item.char || item.word || '');
   const attrs = `data-item-key="${itemKey}"${extraAttrs ? ' ' + extraAttrs : ''} onclick="${clickHandler}"`;
   const badge = badgeHtml || '';
   if (tab === 'kanji') {
@@ -1093,16 +1082,10 @@ function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {
     </div>`;
   }
 
-  const jp = item.word || item.pattern || '';
+  const jp = item.word || '';
   const showReading = item.reading && item.reading !== jp;
-  let de = item.meaning || '';
-  if (!de && item.pattern) {
-    const m = item.pattern.match(/\(([^)]+)\)\s*$/);
-    de = m ? m[1] : (item.explanation ? item.explanation.split('.')[0] : '');
-  } else if (!de) {
-    de = item.explanation ? item.explanation.split('.')[0] : '';
-  }
-  const speakText = tab !== 'grammar' ? (item.reading || item.word || item.pattern || '') : '';
+  const de = item.meaning || '';
+  const speakText = item.reading || item.word || '';
   const speakBtnHtml = speakText
     ? speakBtn(speakText, 'btn-speak-list')
     : '';
@@ -1151,7 +1134,7 @@ function renderSearchAllTabs() {
   const q = listSearchQuery.toLowerCase();
   const rows = [];
 
-  ['kanji', 'vocab', 'grammar', 'adjektive', 'ausdruecke'].forEach(tab => {
+  ['kanji', 'vocab', 'adjektive', 'ausdruecke'].forEach(tab => {
     getItemsForTab(tab)
       .filter(item => matchesSearch(item, q))
       .forEach((item, i) => {
@@ -1159,6 +1142,13 @@ function renderSearchAllTabs() {
         rows.push(renderListRow(item, tab, i, 'switchToTabAndExpand(this)', `data-source-tab="${tab}"`, badge));
       });
   });
+
+  // Grammar lives in CONCEPTS now (no list tab); a hit opens the full-screen concept detail.
+  CONCEPTS
+    .filter(c => matchesConcept(c, q))
+    .forEach(c => {
+      rows.push(renderConceptRow(c, '<span class="list-tab-badge">Konzept</span>'));
+    });
 
   const listContent = document.getElementById('list-content');
   listContent.innerHTML = rows.length
@@ -1240,9 +1230,10 @@ function renderConceptDetail(c) {
   return `<div class="concept-summary">${escHtml(c.summary)}</div>${usageHtml}${formationHtml}${tableHtml}${pitfallHtml}${examplesHtml}`;
 }
 
-function renderConceptRow(c) {
+function renderConceptRow(c, badgeHtml) {
   const readingHtml = c.reading
     ? `<span class="list-reading">${escHtml(c.reading)}</span>` : '';
+  const badge = badgeHtml || '';
   return `<div class="list-row concept-nav-row" onclick="openConceptDetail('${escHtml(c.id)}')">
     <div class="list-row-summary">
       <div class="list-row-main">
@@ -1251,7 +1242,7 @@ function renderConceptRow(c) {
           ${readingHtml}
         </div>
       </div>
-      <span class="list-chevron concept-chevron">›</span>
+      ${badge}<span class="list-chevron concept-chevron">›</span>
     </div>
   </div>`;
 }
