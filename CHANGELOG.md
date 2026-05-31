@@ -4,6 +4,21 @@
 
 ---
 
+## [2.11.0] — 2026-05-31
+
+### Hinzugefügt
+
+- **Neue Sektion „Grammatik verstehen" (Konzepte)** — eine reine Nachschlage-Sektion für 33 N5-Grammatikkonzepte in 5 Kategorien (Verbformen, Adjektive, Partikel, Schlüsselmuster, Sonstiges). Kein SRS, kein Quiz.
+- Jedes Konzept ist eine aufklappbare Zeile mit kurzer deutscher Zusammenfassung, Bildungsregeln, einer Mini-Konjugationstabelle (wo sinnvoll) und 2–3 Beispielsätzen mit Aussprache (🔊).
+- Erreichbar über den neuen Home-Button **„📖 Grammatik verstehen"**.
+- Neue Datendatei `data/concepts.js` (`const CONCEPTS`).
+
+### Geändert
+
+- Service-Worker-Cache `n5-v31` → `n5-v32`.
+
+---
+
 ## [2.10.0] — 2026-05-31
 
 ### Geändert
