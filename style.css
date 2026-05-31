@@ -42,6 +42,10 @@ body {
   font-size: 17px;
   line-height: 1.5;
   overflow-x: hidden;
+  /* Native-app feel: no double-tap zoom, no rubber-band scroll, no iOS text inflation */
+  touch-action: manipulation;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* ===== Screen System ===== */

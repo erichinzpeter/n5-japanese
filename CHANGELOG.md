@@ -4,6 +4,16 @@
 
 ---
 
+## [2.16.0] — 2026-05-31
+
+### Geändert
+
+- **App-Zoom gesperrt für natives App-Gefühl** — Pinch- und Doppeltipp-Zoom sind in der installierten PWA deaktiviert (`user-scalable=no`, `touch-action: manipulation`); kein Rubber-Band-/Pull-to-Refresh-Scrollen mehr (`overscroll-behavior: none`); iOS bläht Text nicht mehr auf (`-webkit-text-size-adjust`). OS-Zoom (iOS/Android Bedienungshilfen) bleibt nutzbar.
+- `viewport-fit=cover` ergänzt — die bereits genutzten `env(safe-area-inset-*)`-Abstände (Notch/Home-Indikator) wirken jetzt tatsächlich.
+- Service-Worker-Cache `n5-v36` → `n5-v37`.
+
+---
+
 ## [2.15.0] — 2026-05-31
 
 ### Hinzugefügt
