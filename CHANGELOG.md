@@ -4,6 +4,26 @@
 
 ---
 
+## [2.10.0] — 2026-05-31
+
+### Geändert
+
+- Grammatik hat nur noch zwei Übungsmodi: **Karteikarten** und **Multiple Choice**. Die Modi „Situation" und „Verwendung" (inkl. Kachel-Zusammenbau) wurden entfernt — sie waren nahezu Duplikate, deren Frage und Antwort sich überschnitten.
+- Grammatik-MC (JP→DE) fragt jetzt mit einem **Beispielsatz** statt dem nackten Muster — die Partikel im Muster verrieten sonst die Antwort.
+- Start-Dialog vereinfacht: die Richtungs-Auswahl ist immer sichtbar; die Option **„Beide"** wurde entfernt (verdoppelte die Kartenmenge, für Anfänger verwirrend).
+- Home-Fälligkeitszähler für Vokabeln/Alles respektieren jetzt das gespeicherte Niveau — vorher konnte der Zähler nach einer Fortgeschritten-Session still umspringen.
+- Service-Worker-Cache `n5-v30` → `n5-v31`.
+
+### Behoben
+
+- Aussprache-Buttons (🔊) nutzen einen delegierten Listener (`data-speak`) statt Inline-`onclick` — robust gegen Anführungszeichen und Sonderzeichen im Text.
+
+### Entfernt
+
+- Toter Code: `hasKanji`, `audioButtonHtml` und ungenutzte lokale Variablen.
+
+---
+
 ## [2.9.0] — 2026-05-30
 
 ### Hinzugefügt
