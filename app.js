@@ -912,6 +912,86 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// Kana → Hepburn romaji, runtime-generated so search can match latin readings
+// without storing romaji in the data (CLAUDE.md: no data/*.js structure change).
+const ROMAJI_YOON = {
+  きゃ: 'kya', きゅ: 'kyu', きょ: 'kyo', しゃ: 'sha', しゅ: 'shu', しょ: 'sho',
+  ちゃ: 'cha', ちゅ: 'chu', ちょ: 'cho', にゃ: 'nya', にゅ: 'nyu', にょ: 'nyo',
+  ひゃ: 'hya', ひゅ: 'hyu', ひょ: 'hyo', みゃ: 'mya', みゅ: 'myu', みょ: 'myo',
+  りゃ: 'rya', りゅ: 'ryu', りょ: 'ryo', ぎゃ: 'gya', ぎゅ: 'gyu', ぎょ: 'gyo',
+  じゃ: 'ja', じゅ: 'ju', じょ: 'jo', ぢゃ: 'ja', ぢゅ: 'ju', ぢょ: 'jo',
+  びゃ: 'bya', びゅ: 'byu', びょ: 'byo', ぴゃ: 'pya', ぴゅ: 'pyu', ぴょ: 'pyo'
+};
+const ROMAJI_KANA = {
+  あ: 'a', い: 'i', う: 'u', え: 'e', お: 'o',
+  か: 'ka', き: 'ki', く: 'ku', け: 'ke', こ: 'ko',
+  が: 'ga', ぎ: 'gi', ぐ: 'gu', げ: 'ge', ご: 'go',
+  さ: 'sa', し: 'shi', す: 'su', せ: 'se', そ: 'so',
+  ざ: 'za', じ: 'ji', ず: 'zu', ぜ: 'ze', ぞ: 'zo',
+  た: 'ta', ち: 'chi', つ: 'tsu', て: 'te', と: 'to',
+  だ: 'da', ぢ: 'ji', づ: 'zu', で: 'de', ど: 'do',
+  な: 'na', に: 'ni', ぬ: 'nu', ね: 'ne', の: 'no',
+  は: 'ha', ひ: 'hi', ふ: 'fu', へ: 'he', ほ: 'ho',
+  ば: 'ba', び: 'bi', ぶ: 'bu', べ: 'be', ぼ: 'bo',
+  ぱ: 'pa', ぴ: 'pi', ぷ: 'pu', ぺ: 'pe', ぽ: 'po',
+  ま: 'ma', み: 'mi', む: 'mu', め: 'me', も: 'mo',
+  や: 'ya', ゆ: 'yu', よ: 'yo',
+  ら: 'ra', り: 'ri', る: 'ru', れ: 're', ろ: 'ro',
+  わ: 'wa', ゐ: 'i', ゑ: 'e', を: 'wo', ん: 'n', ゔ: 'vu',
+  ぁ: 'a', ぃ: 'i', ぅ: 'u', ぇ: 'e', ぉ: 'o', ゃ: 'ya', ゅ: 'yu', ょ: 'yo'
+};
+function kanaToRomaji(kana) {
+  if (!kana) return '';
+  // Fold katakana onto hiragana (same offset) so one table covers both.
+  let s = '';
+  for (const ch of kana) {
+    const c = ch.codePointAt(0);
+    s += (c >= 0x30A1 && c <= 0x30F6) ? String.fromCodePoint(c - 0x60) : ch;
+  }
+  let out = '';
+  let sokuon = false;
+  let i = 0;
+  while (i < s.length) {
+    const pair = s.slice(i, i + 2);
+    let rom, len;
+    if (ROMAJI_YOON[pair]) {
+      rom = ROMAJI_YOON[pair];
+      len = 2;
+    } else {
+      const ch = s[i];
+      if (ch === 'っ') { sokuon = true; i += 1; continue; }
+      if (ch === 'ー') {
+        const last = out[out.length - 1];
+        if ('aiueo'.includes(last)) out += last;
+        i += 1;
+        continue;
+      }
+      rom = ROMAJI_KANA[ch] != null ? ROMAJI_KANA[ch] : ch;
+      len = 1;
+    }
+    if (sokuon) {
+      sokuon = false;
+      if (/^[a-z]/.test(rom)) out += rom.startsWith('ch') ? 't' : rom[0];
+    }
+    out += rom;
+    i += len;
+  }
+  return out;
+}
+
+// Normalize romaji on both query and generated side so beginner spellings match:
+// Hepburn ↔ Kunrei variants fold to one form, punctuation/spaces stripped.
+function looseRomaji(s) {
+  return String(s)
+    .toLowerCase()
+    .replace(/[\s'._,/-]/g, '')
+    .replace(/sha/g, 'sya').replace(/shu/g, 'syu').replace(/sho/g, 'syo')
+    .replace(/cha/g, 'tya').replace(/chu/g, 'tyu').replace(/cho/g, 'tyo')
+    .replace(/ja/g, 'zya').replace(/ju/g, 'zyu').replace(/jo/g, 'zyo')
+    .replace(/shi/g, 'si').replace(/chi/g, 'ti').replace(/tsu/g, 'tu')
+    .replace(/ji/g, 'zi').replace(/fu/g, 'hu').replace(/wo/g, 'o');
+}
+
 // Audio button. Text goes in a `data-speak` attribute (HTML-escaped, so quotes
 // and special chars are safe) and is read by a delegated listener — no inline
 // onclick string-escaping needed.
@@ -1042,14 +1122,26 @@ function getItemsForTab(tab) {
 }
 
 function matchesSearch(item, q) {
-  return [item.word, item.reading, item.meaning, item.char]
+  const on = Array.isArray(item.on) ? item.on : [];
+  const kun = Array.isArray(item.kun) ? item.kun : [];
+  const rawMatch = [item.word, item.reading, item.meaning, item.char, ...on, ...kun]
     .concat(Array.isArray(item.meaning) ? item.meaning : [])
     .some(f => f && String(f).toLowerCase().includes(q));
+  if (rawMatch) return true;
+
+  const qLoose = looseRomaji(q);
+  if (!qLoose) return false;
+  return [item.reading, item.word, ...on, ...kun]
+    .some(f => f && looseRomaji(kanaToRomaji(String(f))).includes(qLoose));
 }
 
 function matchesConcept(c, q) {
-  return [c.title, c.reading, c.summary, c.usage]
-    .some(f => f && f.toLowerCase().includes(q));
+  if ([c.title, c.reading, c.summary, c.usage].some(f => f && f.toLowerCase().includes(q))) return true;
+  if (c.reading && /[ぁ-ゖァ-ヺ]/.test(c.reading)) {
+    const qLoose = looseRomaji(q);
+    return !!qLoose && looseRomaji(kanaToRomaji(c.reading)).includes(qLoose);
+  }
+  return false;
 }
 
 function renderListRow(item, tab, i, clickHandler, extraAttrs, badgeHtml) {

@@ -4,6 +4,19 @@
 
 ---
 
+## [2.15.0] — 2026-05-31
+
+### Hinzugefügt
+
+- **Romaji-Suche** — Lesungen lassen sich jetzt lateinisch suchen: „mizu" findet 水, „neko" findet 猫, „gakkou" findet 学校. Romaji wird zur Suchzeit aus den Kana erzeugt (kein Datenstruktur-Change), Hepburn ↔ Kunrei-Varianten matchen beide (z.B. „shashin" und „syasin").
+- **Kanji über ihre Lesungen suchbar** — die Suche durchsucht jetzt auch die On-/Kun-Lesungen der Kanji (Kana und Romaji). Vorher waren Kanji nur über das Zeichen selbst oder die deutsche Bedeutung findbar.
+
+### Geändert
+
+- Service-Worker-Cache `n5-v35` → `n5-v36`.
+
+---
+
 ## [2.14.0] — 2026-05-31
 
 ### Geändert
