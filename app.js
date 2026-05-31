@@ -185,25 +185,25 @@ function intervalLabel(srsCard, rating) {
 // ===== SESSION BUILDING =====
 // Vocab slice for the active difficulty. Easy = early-lesson words only;
 // advanced = all vocab. Only the vocab/all decks ever read this.
-function vocabForLevel() {
-  return state.level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
+function vocabForLevel(level) {
+  return level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
 }
 
-function allItems(deck) {
+function allItems(deck, level) {
   const items = [];
   if (deck === 'kanji'   || deck === 'all') KANJI.forEach(k => items.push({ item: k, type: 'kanji' }));
-  if (deck === 'vocab'   || deck === 'all') vocabForLevel().forEach(v => items.push({ item: v, type: 'vocab' }));
+  if (deck === 'vocab'   || deck === 'all') vocabForLevel(level).forEach(v => items.push({ item: v, type: 'vocab' }));
   if (deck === 'grammar' || deck === 'all') GRAMMAR.forEach(g => items.push({ item: g, type: 'grammar' }));
   if (deck === 'basics'  || deck === 'all') BASICS.forEach(b => items.push({ item: b, type: 'vocab' }));
   return items;
 }
 
-function getDueCards(deck, direction) {
+function getDueCards(deck, direction, level) {
   const today = todayStr();
   const dirs = direction === 'both' ? ['fwd', 'rev'] : [direction === 'jp-de' ? 'fwd' : 'rev'];
   const cards = [];
 
-  allItems(deck).forEach(({ item, type }) => {
+  allItems(deck, level).forEach(({ item, type }) => {
     dirs.forEach(dir => {
       const id = `${item.id}-${dir}`;
       const srsCard = getSRSCard(id);
@@ -216,8 +216,8 @@ function getDueCards(deck, direction) {
   return shuffle(cards);
 }
 
-function countDue(deck, direction) {
-  return getDueCards(deck, direction).length;
+function countDue(deck, direction, level) {
+  return getDueCards(deck, direction, level).length;
 }
 
 function shuffle(arr) {
@@ -240,8 +240,10 @@ function renderHome() {
   showScreen('home');
 
   const decks = ['kanji', 'vocab', 'grammar', 'basics', 'all'];
+  const prefs = loadModalPrefs();
   decks.forEach(deck => {
-    const due = countDue(deck, state.direction);
+    const level = (deck === 'vocab' || deck === 'all') ? ((prefs[deck] && prefs[deck].level) || 'easy') : 'easy';
+    const due = countDue(deck, state.direction, level);
     const el = document.getElementById(`due-${deck}`);
     if (el) el.textContent = due;
     const card = document.querySelector(`.deck-card[data-deck="${deck}"]`);
@@ -281,7 +283,7 @@ function dismissRatingHint() {
 
 // ===== SESSION START =====
 function startSession(deck, direction) {
-  const cards = getDueCards(deck, direction);
+  const cards = getDueCards(deck, direction, state.level);
   if (cards.length === 0) {
     showToast('Heute nichts mehr fällig. Gut gemacht! 🎉');
     renderHome();
@@ -638,7 +640,7 @@ function generateChoices(card) {
     }
   } else if (type === 'vocab') {
     // Pool includes BASICS items too so distractors come from the same broad vocab space
-    const vocabPool = [...vocabForLevel(), ...BASICS].filter(v => v.id !== item.id);
+    const vocabPool = [...vocabForLevel(state.level), ...BASICS].filter(v => v.id !== item.id);
     pool = vocabPool;
     if (dir === 'fwd') {
       correct = item.meaning;
