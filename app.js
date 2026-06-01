@@ -233,6 +233,21 @@ function shuffle(arr) {
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(`screen-${name}`).classList.add('active');
+  updateTabbar(name);
+}
+
+// Bottom nav is visible only on the three top-level destinations.
+function updateTabbar(name) {
+  const bar = document.getElementById('tabbar');
+  if (!bar) return;
+  const navName =
+    name === 'list' ? 'list' :
+    (name === 'concepts' || name === 'concept-detail') ? 'concepts' :
+    name === 'home' ? 'home' : null;
+  bar.classList.toggle('tabbar--hidden', navName === null);
+  bar.querySelectorAll('.tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.nav === navName)
+  );
 }
 
 // ===== HOME SCREEN =====
@@ -256,6 +271,16 @@ function renderHome() {
   document.getElementById('total-grammar').textContent  = `/ ${GRAMMAR.length}`;
   document.getElementById('total-basics').textContent   = `/ ${BASICS.length}`;
   document.getElementById('total-all').textContent      = '';
+
+  // Daily-action hero: total due across everything
+  const allLevel = (prefs['all'] && prefs['all'].level) || 'easy';
+  const totalDue = countDue('all', state.direction, allLevel);
+  const hero = document.getElementById('daily-hero');
+  const heroDue = document.getElementById('hero-due');
+  const heroLabel = document.getElementById('hero-label');
+  if (heroDue) heroDue.textContent = totalDue;
+  if (hero) hero.classList.toggle('daily-hero--done', totalDue === 0);
+  if (heroLabel) heroLabel.textContent = totalDue === 0 ? 'Für heute geschafft' : 'Heute fällig';
 
   const onboardPanel = document.getElementById('onboard-panel');
   if (onboardPanel) onboardPanel.classList.toggle('hidden', !!localStorage.getItem(ONBOARD_KEY));
@@ -1463,11 +1488,20 @@ function initEvents() {
   document.getElementById('onboard-start').addEventListener('click', dismissOnboard);
   document.getElementById('onboard-close').addEventListener('click', dismissOnboard);
 
-  // Liste button
-  document.getElementById('liste-btn').addEventListener('click', showListScreen);
+  // Daily-action hero opens the start config for the full deck
+  const dailyHero = document.getElementById('daily-hero');
+  if (dailyHero) dailyHero.addEventListener('click', () => openStartModal('all'));
 
-  // Concepts button (Grammatik verstehen)
-  document.getElementById('concepts-btn').addEventListener('click', renderConceptsScreen);
+  // Bottom nav
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      switch (tab.dataset.nav) {
+        case 'home':     renderHome(); break;
+        case 'list':     showListScreen(); break;
+        case 'concepts': renderConceptsScreen(); break;
+      }
+    });
+  });
   document.getElementById('concepts-back-btn').addEventListener('click', () => {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     renderHome();
