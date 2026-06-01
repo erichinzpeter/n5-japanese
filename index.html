@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>日本語 N5 — Karteikarten</title>
   <meta name="description" content="JLPT N5 Karteikarten mit Spaced Repetition — Kanji, Vokabeln, Grammatik">
   <meta name="theme-color" content="#d4a853">
@@ -31,7 +31,6 @@
         <div class="fuji-title">日本語</div>
       </div>
       <div class="home-subtitle">JLPT N5 — Karteikarten</div>
-      <div class="app-version">v2.16.1</div>
     </header>
 
     <div id="onboard-panel" class="onboard-panel hidden">
@@ -47,6 +46,15 @@
       <button id="onboard-start" class="onboard-start">Los geht's</button>
     </div>
 
+    <button class="daily-hero" id="daily-hero" type="button">
+      <div class="daily-hero-text">
+        <span class="daily-hero-label" id="hero-label">Heute fällig</span>
+        <span class="daily-hero-count"><span id="hero-due">—</span> Karten</span>
+      </div>
+      <span class="daily-hero-cta" id="hero-cta" aria-hidden="true">Lernen starten</span>
+    </button>
+
+    <div class="deck-label">Decks</div>
     <div class="deck-grid">
       <button class="deck-card" data-deck="kanji">
         <div class="deck-kanji-preview">漢</div>
@@ -99,11 +107,9 @@
       </button>
     </div>
 
-    <button id="liste-btn" class="liste-btn">☰ Liste anzeigen</button>
-    <button id="concepts-btn" class="liste-btn">📖 Grammatik verstehen</button>
-
     <div class="home-footer">
       <button id="reset-btn" class="reset-btn">Fortschritt zurücksetzen</button>
+      <div class="app-version">v2.17.0</div>
     </div>
   </div>
 
@@ -243,6 +249,22 @@
       <button id="modal-start-btn" class="modal-start-btn">Start</button>
     </div>
   </div>
+
+  <!-- Persistent bottom navigation (home / list / concepts) -->
+  <nav class="tabbar tabbar--hidden" id="tabbar" aria-label="Hauptnavigation">
+    <button class="tab" data-nav="home" type="button">
+      <svg class="tab-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="12" rx="2"/><path d="M8 4h12a1 1 0 0 1 1 1v11"/></svg>
+      <span>Lernen</span>
+    </button>
+    <button class="tab" data-nav="list" type="button">
+      <svg class="tab-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1.1"/><circle cx="4" cy="12" r="1.1"/><circle cx="4" cy="18" r="1.1"/></svg>
+      <span>Liste</span>
+    </button>
+    <button class="tab" data-nav="concepts" type="button">
+      <svg class="tab-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 2-2h11v16H7a2 2 0 0 0-2 2z"/><path d="M5 19a2 2 0 0 1 2-2h11"/></svg>
+      <span>Grammatik</span>
+    </button>
+  </nav>
 
   <!-- Data files first, then app logic -->
   <script src="data/kanji.js"></script>

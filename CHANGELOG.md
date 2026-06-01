@@ -4,6 +4,33 @@
 
 ---
 
+## [2.17.0] — 2026-06-01
+
+### Hinzugefügt
+
+- **Feste untere Navigation** — eine persistente Tab-Leiste (Lernen · Liste · Grammatik) ersetzt die beiden Emoji-Buttons auf dem Home-Screen. Liste und „Grammatik verstehen" sind jetzt von überall in einem Tippen erreichbar, statt erst zum Home-Screen zurückzukehren. Leiste blendet sich während einer Lern-Session und auf dem Abschluss-Screen aus.
+- **Tagesaktion auf dem Home-Screen** — eine hervorgehobene „Heute fällig: N Karten → Lernen starten"-Kachel über dem Deck-Raster macht die primäre Aktion unübersehbar; bei 0 fälligen Karten zeigt sie einen ruhigen „Für heute geschafft"-Zustand.
+
+### Geändert
+
+- **Modernes Farbsystem** — von Beinahe-Schwarz + Antik-Gold auf ein wärmeres Dunkel mit hellerem Bernstein-/Safran-Akzent umgestellt. Alle Neutraltöne in OKLCH, leicht zum Akzent-Farbton getönt. `--text-muted`/`--text-dim` aufgehellt, damit kleine Labels 4.5:1 Kontrast erreichen.
+- **Deck-Farben harmonisiert** — jedes Deck trägt einen Farbton (`--deck-h`); Tönung, Zeichen und Badge leiten sich bei fester Helligkeit/Sättigung daraus ab, statt aus handgewählten Hex-Werten, die mit der warmen Basis kollidierten.
+- **Schrift sortiert** — Mincho-Serife jetzt nur noch für Japanisch; deutscher/lateinischer Text (Kartenvorderseite, Labels, Buttons) nutzt durchgängig die UI-Sans (Outfit). Liest moderner und besser.
+- **Home-Screen entrümpelt** — Versionsnummer aus der Kopfzeile in die Fußzeile verschoben.
+- Kartendreh-Animation 0.55s → 0.32s.
+- Bewertungs- und Multiple-Choice-Farben auf `--btn-*`-Tokens umgestellt (`color-mix`), folgen jetzt der Palette.
+
+### Behoben
+
+- **Pinch-Zoom wieder aktiviert** — `maximum-scale`/`user-scalable=no` (v2.16.0) entfernt. Sehbehinderte Nutzer können wieder zoomen (WCAG 1.4.4); `touch-action: manipulation` verhindert weiterhin Doppeltipp-Zoom.
+- **Fünf farbige Seitenstreifen entfernt** — Deck-Kacheln, Dialog-Zeilen, Konzept-Beispiele sowie Verwendungs-/Stolperfallen-Boxen nutzen jetzt volle Hintergrund-Tönung statt eines `border-left`-Akzents.
+
+### Geändert (intern)
+
+- Service-Worker-Cache `n5-v38` → `n5-v39`.
+
+---
+
 ## [2.16.1] — 2026-05-31
 
 ### Behoben
