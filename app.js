@@ -209,6 +209,7 @@ function makeConjugationCard(item, dir) {
 // Each example becomes a grammar-ex card; direction comes from state at call time.
 function buildGrammarRound(patternId, size) {
   const g = GRAMMAR.find(p => p.id === patternId);
+  if (!g) return [];
   const dir = state.direction === 'jp-de' ? 'fwd' : 'rev';
   const cards = g.examples.map((ex, i) => ({
     item: { ...ex, pattern: g.pattern },
@@ -282,7 +283,7 @@ function renderGrammarPatternsList(query) {
     return;
   }
   container.innerHTML = items.map(g => `
-    <div class="grammar-pattern-row list-row concept-nav-row" data-pattern-id="${escHtml(g.id)}">
+    <div class="grammar-pattern-row list-row concept-nav-row" data-pattern-id="${g.id}" tabindex="0" role="button">
       <div class="list-row-summary">
         <div class="list-row-main">
           <div class="list-jp-line">
@@ -295,10 +296,14 @@ function renderGrammarPatternsList(query) {
     </div>`).join('');
 
   container.querySelectorAll('.grammar-pattern-row').forEach(row => {
-    row.addEventListener('click', () => {
+    const open = () => {
       state.grammarPatternId = row.dataset.patternId;
       state.pendingDeck = 'grammar';
       openStartModal('grammar');
+    };
+    row.addEventListener('click', open);
+    row.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
     });
   });
 }
@@ -704,49 +709,36 @@ function renderGrammarExCard(card, front, back, dirLabel) {
 
   const patternCaption = `<div class="card-type-label">Grammatik — ${escHtml(ex.pattern)}</div>`;
 
+  // Back reveals the full sentence either way: Japanese (with reading + audio) then German.
+  back.innerHTML = `
+    <div class="card-direction-badge">${dirLabel}</div>
+    <div class="back-section">
+      <span class="back-label">Japanisch</span>
+      <div class="back-main-row">
+        <div class="back-example-jp">${escHtml(ex.jp)}</div>
+        ${speakBtn(ex.reading || ex.jp, 'btn-speak-word')}
+      </div>
+      ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
+    </div>
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Deutsch</span>
+      <div class="back-example-de">${escHtml(ex.de)}</div>
+    </div>`;
+
   if (card.dir === 'fwd') {
-    // JP → DE: show the Japanese sentence; back reveals the German translation
+    // JP → DE: front shows the Japanese sentence to translate
     front.innerHTML = `
       ${patternCaption}
       <div class="card-example-jp" style="font-size:22px;line-height:1.5">${escHtml(ex.jp)}</div>
       ${ex.reading ? `<div class="card-furigana">${escHtml(ex.reading)}</div>` : ''}
       <div class="card-direction-badge">${dirLabel}</div>`;
-    back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
-      <div class="back-section">
-        <span class="back-label">Japanisch</span>
-        <div class="back-main-row">
-          <div class="back-example-jp">${escHtml(ex.jp)}</div>
-          ${speakBtn(ex.reading || ex.jp, 'btn-speak-word')}
-        </div>
-        ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Deutsch</span>
-        <div class="back-example-de">${escHtml(ex.de)}</div>
-      </div>`;
   } else {
-    // DE → JP: show the German sentence; back reveals the Japanese
+    // DE → JP: front shows the German sentence to translate
     front.innerHTML = `
       ${patternCaption}
       <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(ex.de)}</div>
       <div class="card-direction-badge">${dirLabel}</div>`;
-    back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
-      <div class="back-section">
-        <span class="back-label">Japanisch</span>
-        <div class="back-main-row">
-          <div class="back-example-jp">${escHtml(ex.jp)}</div>
-          ${speakBtn(ex.reading || ex.jp, 'btn-speak-word')}
-        </div>
-        ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Deutsch</span>
-        <div class="back-example-de">${escHtml(ex.de)}</div>
-      </div>`;
   }
 }
 
