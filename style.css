@@ -1688,6 +1688,66 @@ body {
   display: block;
 }
 
+/* ===== Conjugation Forms Table ===== */
+.forms-block {
+  margin-top: 14px;
+  width: 100%;
+}
+
+.forms-group {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.forms-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.forms-table tr + tr td {
+  border-top: 1px solid var(--border);
+}
+
+.forms-table td {
+  padding: 5px 6px;
+  vertical-align: middle;
+}
+
+.form-label {
+  color: var(--text-dim);
+  font-size: 12px;
+  white-space: nowrap;
+  width: 30%;
+}
+
+.form-word {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--text);
+  font-weight: 600;
+  width: 35%;
+}
+
+.form-reading {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Conjugation drill front */
+.conj-prompt {
+  font-family: var(--font-ui);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 16px;
+  letter-spacing: 0.02em;
+}
+
 /* ===== Responsive ===== */
 @media (min-width: 481px) {
   .card { height: clamp(380px, 60vh, 580px); }

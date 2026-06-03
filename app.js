@@ -25,15 +25,16 @@ const RATING_HINT_KEY = 'n5_rating_hint_seen';
 
 const DECK_MODES = {
   kanji:   ['flashcard', 'mc'],
-  vocab:   ['flashcard', 'mc'],
+  vocab:   ['flashcard', 'mc', 'conjugation'],
   grammar: ['flashcard', 'mc'],
   basics:  ['flashcard', 'mc'],
   all:     ['flashcard', 'mc'],
 };
 
 const MODE_LABELS = {
-  flashcard:  'Karteikarten',
-  mc:         'Multiple Choice',
+  flashcard:   'Karteikarten',
+  mc:          'Multiple Choice',
+  conjugation: 'Konjugation',
 };
 
 const DECK_TITLES = {
@@ -135,6 +136,18 @@ function trapModalTab(e) {
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 }
 
+// ===== FORMS TABLE =====
+// Returns an HTML string for the conjugation table, or '' if the item is not conjugable.
+function renderFormsTable(item) {
+  const c = conjugate(item.word, item.reading, item.pos);
+  if (!c) return '';
+  const groupLabel = c.group ? `Gruppe ${c.group}` : '';
+  const rows = c.forms.map(f =>
+    `<tr><td class="form-label">${f.label}</td><td class="form-word">${f.word}</td><td class="form-reading">${f.reading}</td></tr>`
+  ).join('');
+  return `<div class="forms-block">${groupLabel ? `<div class="forms-group">${groupLabel}</div>` : ''}<table class="forms-table">${rows}</table></div>`;
+}
+
 // ===== SESSION BUILDING =====
 // Vocab slice for the active difficulty. Easy = early-lesson words only;
 // advanced = all vocab. Only the vocab/all decks ever read this.
@@ -152,7 +165,12 @@ function collectDeckCards(deck) {
     KANJI.forEach(k => cards.push({ item: k, type: 'kanji', dir, id: `${k.id}-${dir}` }));
   }
   if (deck === 'vocab' || deck === 'all') {
-    vocabForLevel(state.level).forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+    let vocabItems = vocabForLevel(state.level);
+    // Conjugation mode: keep only items that produce forms (verbs + adjectives).
+    if (state.mode === 'conjugation') {
+      vocabItems = vocabItems.filter(v => conjugate(v.word, v.reading, v.pos) !== null);
+    }
+    vocabItems.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
   }
   if (deck === 'grammar' || deck === 'all') {
     GRAMMAR.forEach(g => cards.push({ item: g, type: 'grammar', dir, id: `${g.id}-${dir}` }));
@@ -173,10 +191,25 @@ function shuffle(arr) {
   return a;
 }
 
+// Conjugation drill card: picks a random non-dictionary target form from the item.
+function makeConjugationCard(item) {
+  const c = conjugate(item.word, item.reading, item.pos);
+  // Skip index 0 (辞書形/Grundform — that's the known base form, not a test target).
+  const target = c.forms[1 + Math.floor(Math.random() * (c.forms.length - 1))];
+  return { item, type: 'conjugation', id: item.id, target, all: c };
+}
+
 // Build a fresh round: N random cards from the deck pool. No persistence.
 function buildRound(deck, size) {
   const pool = collectDeckCards(deck);
-  return shuffle(pool).slice(0, size);
+  const shuffled = shuffle(pool).slice(0, size);
+  if (state.mode === 'conjugation') {
+    // Replace each vocab card with a conjugation card that carries a target form.
+    return shuffled.map(card =>
+      card.type === 'vocab' ? makeConjugationCard(card.item) : card
+    );
+  }
+  return shuffled;
 }
 
 // ===== SCREEN NAVIGATION =====
@@ -247,7 +280,7 @@ function startSession(deck, direction) {
 
 function renderCurrentCard() {
   if (state.mode === 'mc') renderMCCard();
-  else renderCard();
+  else renderCard(); // covers both 'flashcard' and 'conjugation'
 }
 
 // ===== CARD RENDERING =====
@@ -276,7 +309,9 @@ function renderCard() {
   // Render front & back
   const dirLabel = card.dir === 'fwd' ? 'JP → DE' : 'DE → JP';
 
-  if (card.type === 'kanji') {
+  if (card.type === 'conjugation') {
+    renderConjugationCard(card, front, back);
+  } else if (card.type === 'kanji') {
     renderKanjiCard(card, front, back, dirLabel);
   } else if (card.type === 'vocab') {
     renderVocabCard(card, front, back, dirLabel);
@@ -417,6 +452,8 @@ function renderVocabCard(card, front, back, dirLabel) {
         </div>`).join('')}</div>`
     : '';
 
+  const formsHtml = renderFormsTable(v);
+
   if (card.dir === 'fwd') {
     // JP → DE: front = Japanese word + reading
     front.innerHTML = `
@@ -445,7 +482,8 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="back-section">
         <span class="back-label">Beispiele</span>
         ${collapsibleDialogue('Beispiele anzeigen', vocabExamplesHtml)}
-      </div>` : ''}`;
+      </div>` : ''}
+      ${formsHtml}`;
   } else {
     // DE → JP: front = German meaning
     front.innerHTML = `
@@ -472,8 +510,30 @@ function renderVocabCard(card, front, back, dirLabel) {
       <div class="back-section">
         <span class="back-label">Beispiele</span>
         ${collapsibleDialogue('Beispiele anzeigen', vocabExamplesHtml)}
-      </div>` : ''}`;
+      </div>` : ''}
+      ${formsHtml}`;
   }
+}
+
+function renderConjugationCard(card, front, back) {
+  const { item, target, all } = card;
+  const groupLabel = all.group ? `Gruppe ${all.group}` : '';
+  front.innerHTML = `
+    <div class="card-type-label">Konjugation${groupLabel ? ` — ${groupLabel}` : ''}</div>
+    <div class="card-word-main">${item.word}</div>
+    <div class="card-furigana">${item.reading}</div>
+    <div class="conj-prompt">${escHtml(target.label)}?</div>`;
+  back.innerHTML = `
+    <div class="back-section">
+      <span class="back-label">${escHtml(target.label)}</span>
+      <div class="back-main-row">
+        <div class="back-main" style="font-size:32px">${target.word}</div>
+        ${speakBtn(target.reading, 'btn-speak-word')}
+      </div>
+      <div class="back-readings">${target.reading}</div>
+    </div>
+    <div class="back-divider"></div>
+    ${renderFormsTable(item)}`;
 }
 
 function stripPatternHint(pattern) {
@@ -780,8 +840,9 @@ function kanjiSpeakIsWord(k) {
 
 function getJapaneseText(card) {
   const { item, type } = card;
-  if (type === 'kanji')   return kanjiReading(item);
-  if (type === 'grammar') return item.pattern;
+  if (type === 'kanji')       return kanjiReading(item);
+  if (type === 'grammar')     return item.pattern;
+  if (type === 'conjugation') return card.target.reading;
   return item.reading || item.word;   // vocab + basics
 }
 
@@ -1002,7 +1063,9 @@ function renderListDetail(item, tab) {
     ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
     <div class="list-detail-de">${escHtml(ex.de)}</div>
   </div>` : '';
-  return `${readingHtml}<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}`;
+  // Conjugation table for verbs and adjectives; returns '' for nouns/ausdruecke.
+  const formsHtml = renderFormsTable(item);
+  return `${readingHtml}<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}${formsHtml}`;
 }
 
 // ~55 words live in both BASICS and VOCAB; dedup by word+reading so they show once.
