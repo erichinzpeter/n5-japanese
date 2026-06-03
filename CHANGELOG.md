@@ -4,6 +4,21 @@
 
 ---
 
+## [2.18.0] — 2026-06-03
+
+### Behoben
+
+- **Zoom wieder gesperrt** — `maximum-scale=1.0, user-scalable=no` zurück im Viewport (native-App-Gefühl). Kehrt die WCAG-1.4.4-Entscheidung aus v2.17.0 bewusst um; `touch-action: manipulation` sperrt zusätzlich Doppeltipp-Zoom.
+- **Such-Feld zoomt nicht mehr beim Antippen** — `.list-search` von 14px auf 16px; iOS Safari zoomt den Viewport nur bei Eingabefeldern unter 16px ein.
+- **Doppelte Treffer in der Suche behoben** — ~29 Wörter (z. B. 遅い/osoi) stehen in `BASICS` und `VOCAB`; die Tabs Adjektive/Ausdrücke führten beide Listen ungefiltert zusammen. Zusammengeführte Liste wird jetzt nach Wort+Lesung dedupliziert.
+- **Kanji-Schrift erscheint sofort** — Schriften (`fonts.googleapis.com`/`gstatic.com`) werden im Service Worker cache-first gespeichert; `display=swap` → `display=optional` entfernt das sichtbare Umschalten 0,5s nach dem Rendern.
+
+### Geändert
+
+- **Home-Screen passt auf einen Bildschirm** — Fuji-Banner, Tagesaktion und Deck-Karten auf Mobilgeräten enger gesetzt, damit der Stack ohne Scrollen auf hohe Telefone passt.
+
+---
+
 ## [2.17.0] — 2026-06-01
 
 ### Hinzugefügt

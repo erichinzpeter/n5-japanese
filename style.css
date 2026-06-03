@@ -1523,7 +1523,8 @@ body {
   border-radius: var(--radius-pill);
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 14px;
+  /* 16px min stops iOS Safari from zooming the viewport on input focus */
+  font-size: 16px;
   outline: none;
   transition: border-color var(--transition);
   flex-shrink: 0;
@@ -1848,8 +1849,11 @@ body {
     padding: calc(24px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom));
     min-height: 100dvh;
   }
-  .home-header { margin-bottom: 14px; }
-  .fuji-banner { margin-bottom: 10px; }
+  /* Tightened so the whole home stack fits one screen without scrolling on tall phones */
+  .home-header { margin-bottom: 10px; }
+  .fuji-banner { margin-bottom: 8px; max-height: 150px; }
+  .daily-hero { margin-bottom: 12px; }
+  .deck-card { padding: 13px 16px; }
   .liste-btn { margin-bottom: 14px; }
   .home-footer { margin-top: auto; }
   .keyboard-hint { display: none; }
