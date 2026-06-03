@@ -122,8 +122,8 @@ function openStartModal(deck) {
 
 function updateLevelVisibility(deck) {
   const wrap = document.getElementById('modal-level-wrap');
-  const isVocabBased = VOCAB_CATEGORIES.includes(deck) || deck === 'all';
-  wrap.classList.toggle('hidden', !isVocabBased);
+  const isVocabDeck = VOCAB_CATEGORIES.includes(deck) || deck === 'all';
+  wrap.classList.toggle('hidden', !isVocabDeck);
 }
 
 function closeStartModal() {
@@ -175,9 +175,9 @@ function collectDeckCards(deck) {
   }
 
   if (VOCAB_CATEGORIES.includes(deck) || deck === 'all') {
-    // VOCAB respects the level toggle; BASICS items have no level and always show.
+    // VOCAB respects the level toggle; BASICS items carry no `level` field, so they aren't filtered by difficulty.
     const pool = [...vocabForLevel(state.level), ...BASICS];
-    const wanted = deck === 'all' ? null : deck; // null = accept any category
+    const wanted = deck === 'all' ? null : deck; // 'all' spans every category, so no single filter
     let items = pool.filter(v => wanted === null || posCategory(v.pos) === wanted);
     if (state.mode === 'conjugation') {
       // Keep only items that produce at least one non-dictionary form.
