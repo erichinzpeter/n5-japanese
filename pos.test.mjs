@@ -19,9 +19,11 @@ function check(input, expected) {
 check('Nomen', 'nomen');
 check('Nomen/Adverb', 'nomen');
 check('Verb (Godan, く)', 'verben');
+check('Verb (Godan, る)*', 'verben');
 check('Verb (Ichidan)', 'verben');
 check('Verb (Gruppe 1) / Adjektiv', 'verben'); // Verb wins over Adjektiv
 check('i-Adjektiv', 'adjektive');
+check('i-Adjektiv (unregelmäßig)', 'adjektive');
 check('na-Adjektiv', 'adjektive');
 check('Adjektiv-i', 'adjektive');
 check('na-Adjektiv/Adverb', 'adjektive');
