@@ -94,10 +94,11 @@ function conjugateVerb(word, reading, pos) {
 }
 
 function conjugateIAdjective(word, reading, pos) {
-  // いい / 良い conjugates on the よ-stem (よくない, よかった, …).
+  // いい / 良い conjugates on a fixed よ-stem (よくない, よかった, …), independent of which
+  // spelling the entry stores — including the display-pair entry "いい / 良い".
   const isIi = pos.includes('unregelmäßig') || word === 'いい' || word === '良い' || reading === 'いい';
-  const wStem = isIi ? word.slice(0, -2) + 'よ' : word.slice(0, -1);
-  const rStem = isIi ? reading.slice(0, -2) + 'よ' : reading.slice(0, -1);
+  const wStem = isIi ? 'よ' : word.slice(0, -1);
+  const rStem = isIi ? 'よ' : reading.slice(0, -1);
   const f = (label, suffix) => ({ label, word: wStem + suffix, reading: rStem + suffix });
 
   return {

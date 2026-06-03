@@ -36,6 +36,10 @@ eq('ookii neg', form(r,'Verneinung'),'大きくない');
 eq('ookii past', form(r,'Vergangenheit'),'大きかった');
 eq('ookii adv', form(r,'Adverb'),'大きく');
 eq('ii neg', form(conjugate('いい','いい','i-Adjektiv (unregelmäßig)'),'Verneinung'),'よくない');
+// Display-pair entry (v131 in the data): both spellings still conjugate on the よ-stem.
+r = conjugate('いい / 良い','いい / よい','i-Adjektiv (unregelmäßig)');
+eq('ii-pair neg word', form(r,'Verneinung'),'よくない');
+eq('ii-pair neg reading', formR(r,'Verneinung'),'よくない');
 
 r = conjugate('静か','しずか','na-Adjektiv');
 eq('shizuka neg', form(r,'Verneinung'),'静かじゃない');
