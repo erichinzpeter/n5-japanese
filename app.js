@@ -13,7 +13,6 @@ const state = {
   roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
-  lastAction: null,
 };
 
 // Fixed round-size presets shown in the start dialog.
@@ -98,13 +97,7 @@ function openStartModal(deck) {
   });
 
   document.querySelectorAll('#start-modal .count-btn').forEach(b => {
-    const active = parseInt(b.dataset.count) === initialCount;
-    b.classList.toggle('active', active);
-    b.addEventListener('click', () => {
-      document.querySelectorAll('#start-modal .count-btn').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      state.roundSize = parseInt(b.dataset.count);
-    });
+    b.classList.toggle('active', parseInt(b.dataset.count) === initialCount);
   });
 
   updateLevelVisibility(deck);
@@ -238,13 +231,12 @@ function dismissRatingHint() {
 // ===== SESSION START =====
 function startSession(deck, direction) {
   state.direction = direction;
-  state.session = buildRound(deck, state.roundSize || DEFAULT_ROUND);
+  state.session = buildRound(deck, state.roundSize);
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
   state.deck = deck;
   state.lastDeck = deck;
-  state.lastAction = null;
 
   const deckLabels = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', basics: 'Alltag', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
@@ -1320,6 +1312,15 @@ function initEvents() {
       document.querySelectorAll('#start-modal .lvl-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.level = btn.dataset.level;
+    });
+  });
+
+  // Start modal: count toggle
+  document.querySelectorAll('#start-modal .count-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#start-modal .count-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.roundSize = parseInt(btn.dataset.count);
     });
   });
 
