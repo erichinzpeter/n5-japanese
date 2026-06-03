@@ -338,7 +338,7 @@ const GRAMMAR = [
       { jp: "週末は本を読んだり、映画を見たりします。テレビやラジオなども聞きます。", reading: "しゅうまつはほんをよんだり、えいがをみたりします。テレビやラジオなどもききます。", de: "Am Wochenende lese ich, sehe Filme und höre Fernsehen, Radio usw." },
       { jp: "机の上にペンやノートなどがあります。", reading: "つくえのうえにペンやノートなどがあります。", de: "Auf dem Tisch liegen Stifte, Hefte usw." },
       { jp: "京都や奈良などへ行きたいです。", reading: "きょうとやならなどへいきたいです。", de: "Ich möchte nach Kyoto, Nara usw. fahren." },
-      { jp: "パーティーに田中さんや山田さんなどが来ます。", reading: "パーティーにたなかさんやまださんなどがきます。", de: "Zur Party kommen Herr Tanaka, Frau Yamada usw." },
+      { jp: "パーティーに田中さんや山田さんなどが来ます。", reading: "パーティーにたなかさんややまださんなどがきます。", de: "Zur Party kommen Herr Tanaka, Frau Yamada usw." },
       { jp: "朝はパンやたまごなどを食べます。", reading: "あさはパンやたまごなどをたべます。", de: "Morgens esse ich Brot, Eier usw." },
       { jp: "かばんに財布やかぎなどがあります。", reading: "かばんにさいふやかぎなどがあります。", de: "In der Tasche sind Geldbeutel, Schlüssel usw." },
       { jp: "店で野菜や果物などを売っています。", reading: "みせでやさいやくだものなどをうっています。", de: "Im Laden verkauft man Gemüse, Obst usw." }
@@ -739,7 +739,7 @@ const GRAMMAR = [
     examples: [
       { jp: "ご飯を食べに行きます。", reading: "ごはんをたべにいきます。", de: "Ich gehe essen." },
       { jp: "映画を見に行きます。", reading: "えいがをみにいきます。", de: "Ich gehe einen Film sehen." },
-      { jp: "友達は日本へ日本語を勉強に来ました。", reading: "ともだちはにほんへにほんごをべんきょうにきました。", de: "Mein Freund ist nach Japan gekommen, um Japanisch zu lernen." },
+      { jp: "友達は日本へ日本語を勉強しに来ました。", reading: "ともだちはにほんへにほんごをべんきょうしにきました。", de: "Mein Freund ist nach Japan gekommen, um Japanisch zu lernen." },
       { jp: "本を買いに行きます。", reading: "ほんをかいにいきます。", de: "Ich gehe ein Buch kaufen." },
       { jp: "母は買い物に行きました。", reading: "はははかいものにいきました。", de: "Meine Mutter ist einkaufen gegangen." },
       { jp: "海へ泳ぎに行きたいです。", reading: "うみへおよぎにいきたいです。", de: "Ich möchte ans Meer schwimmen gehen." },
