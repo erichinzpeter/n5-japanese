@@ -1,4 +1,4 @@
-const CACHE = 'n5-v39';
+const CACHE = 'n5-v40';
 const ASSETS = [
   './',
   './index.html',
@@ -38,8 +38,18 @@ self.addEventListener('fetch', e => {
 
   const url = new URL(req.url);
   const isAsset = /\.(js|css|html|json)$/.test(url.pathname) || req.mode === 'navigate';
+  const isFont = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
 
-  if (isAsset) {
+  if (isFont) {
+    // Cache-first so the kanji font paints instantly on repeat loads (no swap flash).
+    e.respondWith(
+      caches.match(req).then(c => c || fetch(req).then(res => {
+        const copy = res.clone();
+        caches.open(CACHE).then(c => c.put(req, copy));
+        return res;
+      }))
+    );
+  } else if (isAsset) {
     e.respondWith(
       fetch(req).then(res => {
         const copy = res.clone();

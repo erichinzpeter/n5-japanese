@@ -1139,11 +1139,22 @@ function renderListDetail(item, tab) {
   return `${readingHtml}<div class="list-detail-text">${escHtml(item.meaning)}</div>${exHtml}`;
 }
 
+// ~55 words live in both BASICS and VOCAB; dedup by word+reading so they show once.
+function dedupByWord(items) {
+  const seen = new Set();
+  return items.filter(item => {
+    const key = `${item.word} ${item.reading}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function getItemsForTab(tab) {
   if (tab === 'kanji')     return KANJI;
   if (tab === 'vocab')     return VOCAB.filter(isVocabMain);
-  if (tab === 'adjektive') return [...BASICS, ...VOCAB].filter(isAltag);
-  return [...BASICS, ...VOCAB].filter(isNutzwort);
+  if (tab === 'adjektive') return dedupByWord([...BASICS, ...VOCAB].filter(isAltag));
+  return dedupByWord([...BASICS, ...VOCAB].filter(isNutzwort));
 }
 
 function matchesSearch(item, q) {
