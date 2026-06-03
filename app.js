@@ -670,7 +670,7 @@ function renderMCCard() {
       <div class="card-direction-badge">${dirLabel}</div>`;
   }
 
-  // Hide flip button + card-controls in MC (user clicks card to flip); hide SRS/tiles
+  // Hide flip button + card-controls in MC (user clicks card to flip)
   document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
