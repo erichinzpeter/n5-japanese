@@ -122,8 +122,8 @@ function openStartModal(deck) {
 
 function updateLevelVisibility(deck) {
   const wrap = document.getElementById('modal-level-wrap');
-  if (deck === 'vocab' || deck === 'all') wrap.classList.remove('hidden');
-  else wrap.classList.add('hidden');
+  const isVocabBased = VOCAB_CATEGORIES.includes(deck) || deck === 'all';
+  wrap.classList.toggle('hidden', !isVocabBased);
 }
 
 function closeStartModal() {
