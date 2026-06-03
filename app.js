@@ -10,20 +10,14 @@ const state = {
   sessionIdx: 0,
   flipped: false,
   stats: { nochmal: 0, richtig: 0 },
-  srs: {},
-  daily: { date: null, newCount: 0 },
+  roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
-  dueTotal: 0,
-  lastAction: null,
 };
 
-// Cap each session so a fresh deck (everything due) stays finite and reachable.
-const SESSION_CAP = 20;
-
-// Max brand-new cards introduced per day. Keeps the daily plan gentle instead of
-// dumping the whole untouched corpus as "due" on day one.
-const DAILY_NEW = 20;
+// Fixed round-size presets shown in the start dialog.
+const ROUND_SIZES = [10, 20, 30];
+const DEFAULT_ROUND = 20;
 
 const MODAL_PREFS_KEY = 'n5_modal_prefs';
 const ONBOARD_KEY = 'n5_onboarded';
@@ -55,9 +49,9 @@ function loadModalPrefs() {
   catch { return {}; }
 }
 
-function saveModalPrefs(deck, mode, direction, level) {
+function saveModalPrefs(deck, mode, direction, level, count) {
   const prefs = loadModalPrefs();
-  prefs[deck] = { mode, direction, level };
+  prefs[deck] = { mode, direction, level, count };
   localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
 }
 
@@ -70,10 +64,12 @@ function openStartModal(deck) {
   const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
   const initialDir = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : 'jp-de';
   const initialLevel = ['easy', 'adv'].includes(prefs.level) ? prefs.level : 'easy';
+  const initialCount = ROUND_SIZES.includes(prefs.count) ? prefs.count : DEFAULT_ROUND;
 
   state.mode = initialMode;
   state.direction = initialDir;
   state.level = initialLevel;
+  state.roundSize = initialCount;
 
   document.getElementById('start-modal-title').textContent = DECK_TITLES[deck] || 'Üben';
 
@@ -98,6 +94,10 @@ function openStartModal(deck) {
 
   document.querySelectorAll('#start-modal .lvl-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.level === initialLevel);
+  });
+
+  document.querySelectorAll('#start-modal .count-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.count) === initialCount);
   });
 
   updateLevelVisibility(deck);
@@ -135,77 +135,6 @@ function trapModalTab(e) {
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 }
 
-// ===== SRS HELPERS =====
-const SRS_KEY = 'n5_srs';
-
-function loadSRS() {
-  try {
-    state.srs = JSON.parse(localStorage.getItem(SRS_KEY) || '{}');
-  } catch {
-    state.srs = {};
-  }
-}
-
-function saveSRS() {
-  localStorage.setItem(SRS_KEY, JSON.stringify(state.srs));
-}
-
-const DAILY_KEY = 'n5_daily';
-
-// Tracks how many new cards were introduced today so the daily plan can cap intake.
-function loadDaily() {
-  let d;
-  try { d = JSON.parse(localStorage.getItem(DAILY_KEY) || 'null'); } catch { d = null; }
-  const today = todayStr();
-  if (!d || d.date !== today) d = { date: today, newCount: 0 };
-  state.daily = d;
-}
-
-function saveDaily() {
-  localStorage.setItem(DAILY_KEY, JSON.stringify(state.daily));
-}
-
-function newAllowance() {
-  return Math.max(0, DAILY_NEW - state.daily.newCount);
-}
-
-function todayStr() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function addDays(n) {
-  const d = new Date();
-  d.setDate(d.getDate() + n);
-  return d.toISOString().slice(0, 10);
-}
-
-function getSRSCard(id) {
-  return state.srs[id] || { interval: 0, ease: 2.5, due: todayStr(), reps: 0 };
-}
-
-function calcNextReview(srsCard, rating) {
-  if (rating === 1) {
-    return { interval: 1, ease: Math.max(1.3, srsCard.ease - 0.2), due: addDays(1), reps: 0 };
-  }
-  // rating 3 (Richtig): standard SM-2 progression, ease unchanged
-  const newReps = srsCard.reps + 1;
-  let interval;
-  if (srsCard.reps === 0)      interval = 1;
-  else if (srsCard.reps === 1) interval = 6;
-  else                          interval = Math.round(srsCard.interval * srsCard.ease);
-
-  return { interval, ease: srsCard.ease, due: addDays(interval), reps: newReps };
-}
-
-function intervalLabel(srsCard, rating) {
-  const next = calcNextReview(srsCard, rating);
-  const n = next.interval;
-  if (n === 0 || n === 1) return 'morgen';
-  if (n < 7)  return `${n} Tage`;
-  if (n < 30) return `${Math.round(n / 7)} Wo.`;
-  return `${Math.round(n / 30)} Mon.`;
-}
-
 // ===== SESSION BUILDING =====
 // Vocab slice for the active difficulty. Easy = early-lesson words only;
 // advanced = all vocab. Only the vocab/all decks ever read this.
@@ -213,63 +142,41 @@ function vocabForLevel(level) {
   return level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
 }
 
-function allItems(deck, level) {
-  const items = [];
-  if (deck === 'kanji'   || deck === 'all') KANJI.forEach(k => items.push({ item: k, type: 'kanji' }));
-  if (deck === 'vocab'   || deck === 'all') vocabForLevel(level).forEach(v => items.push({ item: v, type: 'vocab' }));
-  if (deck === 'grammar' || deck === 'all') GRAMMAR.forEach(g => items.push({ item: g, type: 'grammar' }));
-  if (deck === 'basics'  || deck === 'all') BASICS.forEach(b => items.push({ item: b, type: 'vocab' }));
-  return items;
-}
-
-function getDueCards(deck, direction, level) {
-  const today = todayStr();
-  const dirs = [direction === 'jp-de' ? 'fwd' : 'rev'];
+// Collect all candidate cards for a deck. Returns plain objects { item, type, dir, id }
+// with no SR data — direction comes from state at call time.
+function collectDeckCards(deck) {
+  const dir = state.direction === 'jp-de' ? 'fwd' : 'rev';
   const cards = [];
 
-  allItems(deck, level).forEach(({ item, type }) => {
-    dirs.forEach(dir => {
-      const id = `${item.id}-${dir}`;
-      const srsCard = getSRSCard(id);
-      if (srsCard.due <= today) {
-        cards.push({ item, type, dir, id, srsCard });
-      }
-    });
-  });
+  if (deck === 'kanji' || deck === 'all') {
+    KANJI.forEach(k => cards.push({ item: k, type: 'kanji', dir, id: `${k.id}-${dir}` }));
+  }
+  if (deck === 'vocab' || deck === 'all') {
+    vocabForLevel(state.level).forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+  }
+  if (deck === 'grammar' || deck === 'all') {
+    GRAMMAR.forEach(g => cards.push({ item: g, type: 'grammar', dir, id: `${g.id}-${dir}` }));
+  }
+  if (deck === 'basics' || deck === 'all') {
+    BASICS.forEach(b => cards.push({ item: b, type: 'vocab', dir, id: `${b.id}-${dir}` }));
+  }
 
-  return shuffle(cards);
-}
-
-// The gentle daily plan: every due review (cards already seen) plus a capped trickle
-// of new cards, all decks interleaved. Never the raw untouched backlog.
-function getDailyQueue(direction, level) {
-  const today = todayStr();
-  const dir = direction === 'jp-de' ? 'fwd' : 'rev';
-  const reviews = [];
-  const news = [];
-
-  allItems('all', level).forEach(({ item, type }) => {
-    const id = `${item.id}-${dir}`;
-    const srsCard = getSRSCard(id);
-    const card = { item, type, dir, id, srsCard };
-    if (id in state.srs) {
-      if (state.srs[id].due <= today) reviews.push(card);
-    } else {
-      news.push(card);
-    }
-  });
-
-  const newCards = shuffle(news).slice(0, newAllowance());
-  return shuffle([...reviews, ...newCards]);
+  return cards;
 }
 
 function shuffle(arr) {
-  const a = [...arr];
+  const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+// Build a fresh round: N random cards from the deck pool. No persistence.
+function buildRound(deck, size) {
+  const pool = collectDeckCards(deck);
+  return shuffle(pool).slice(0, size);
 }
 
 // ===== SCREEN NAVIGATION =====
@@ -296,21 +203,6 @@ function updateTabbar(name) {
 // ===== HOME SCREEN =====
 function renderHome() {
   showScreen('home');
-  loadDaily();
-
-  // Daily-action hero: today's capped, interleaved plan, not the raw backlog.
-  const prefs = loadModalPrefs();
-  const allPrefs = prefs.all || {};
-  const dir = ['jp-de', 'de-jp'].includes(allPrefs.direction) ? allPrefs.direction : state.direction;
-  const level = ['easy', 'adv'].includes(allPrefs.level) ? allPrefs.level : 'easy';
-  const plan = getDailyQueue(dir, level);
-
-  const hero = document.getElementById('daily-hero');
-  const heroDue = document.getElementById('hero-due');
-  const heroLabel = document.getElementById('hero-label');
-  if (heroDue) heroDue.textContent = plan.length;
-  if (hero) hero.classList.toggle('daily-hero--done', plan.length === 0);
-  if (heroLabel) heroLabel.textContent = plan.length === 0 ? 'Für heute geschafft' : 'Heute dran';
 
   const onboardPanel = document.getElementById('onboard-panel');
   if (onboardPanel) onboardPanel.classList.toggle('hidden', !!localStorage.getItem(ONBOARD_KEY));
@@ -337,51 +229,14 @@ function dismissRatingHint() {
 }
 
 // ===== SESSION START =====
-// Hero entry point: one tap into today's gentle, capped, interleaved plan.
-function startDailySession() {
-  loadDaily();
-  const prefs = loadModalPrefs().all || {};
-  state.mode = (DECK_MODES.all.includes(prefs.mode)) ? prefs.mode : 'flashcard';
-  state.direction = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : state.direction;
-  state.level = ['easy', 'adv'].includes(prefs.level) ? prefs.level : 'easy';
-
-  const queue = getDailyQueue(state.direction, state.level);
-  if (queue.length === 0) {
-    showToast('Für heute geschafft. Gut gemacht! 🎉');
-    renderHome();
-    return;
-  }
-
-  state.deck = 'all';
-  state.dueTotal = queue.length;
-  state.session = queue.slice(0, SESSION_CAP);
-  state.sessionIdx = 0;
-  state.flipped = false;
-  state.stats = { nochmal: 0, richtig: 0 };
-  state.lastDeck = 'all';
-  state.lastAction = null;
-
-  document.getElementById('session-deck-label').textContent = 'Heute';
-  showScreen('session');
-  renderCurrentCard();
-}
-
 function startSession(deck, direction) {
-  const cards = getDueCards(deck, direction, state.level);
-  if (cards.length === 0) {
-    showToast('Heute nichts mehr fällig. Gut gemacht! 🎉');
-    renderHome();
-    return;
-  }
-
-  state.deck = deck;
-  state.dueTotal = cards.length;
-  state.session = cards.slice(0, SESSION_CAP);
+  state.direction = direction;
+  state.session = buildRound(deck, state.roundSize);
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
+  state.deck = deck;
   state.lastDeck = deck;
-  state.lastAction = null;
 
   const deckLabels = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', basics: 'Alltag', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
@@ -412,11 +267,11 @@ function renderCard() {
   void flashcard.offsetWidth; // reflow
   flashcard.classList.add('card-enter');
 
-  // Progress
-  const total = state.session.length;
-  const idx   = state.sessionIdx;
-  document.getElementById('session-progress').textContent = `${idx + 1} / ${total}`;
-  document.getElementById('progress-bar').style.width = `${(idx / total) * 100}%`;
+  // Progress: base total on distinct card ids so requeued cards don't inflate the count.
+  const distinctTotal = new Set(state.session.map(c => c.id)).size;
+  const erledigt = state.stats.richtig;
+  document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
+  document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
   // Render front & back
   const dirLabel = card.dir === 'fwd' ? 'JP → DE' : 'DE → JP';
@@ -780,11 +635,11 @@ function renderMCCard() {
   void flashcard.offsetWidth;
   flashcard.classList.add('card-enter');
 
-  // Progress
-  const total = state.session.length;
-  const idx   = state.sessionIdx;
-  document.getElementById('session-progress').textContent = `${idx + 1} / ${total}`;
-  document.getElementById('progress-bar').style.width = `${(idx / total) * 100}%`;
+  // Progress: base total on distinct card ids so requeued cards don't inflate the count.
+  const distinctTotal = new Set(state.session.map(c => c.id)).size;
+  const erledigt = state.stats.richtig;
+  document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
+  document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
   // Render question on front only (no flip)
   const dirLabel = card.dir === 'fwd' ? 'JP → DE' : 'DE → JP';
@@ -807,7 +662,7 @@ function renderMCCard() {
       <div class="card-direction-badge">${dirLabel}</div>`;
   }
 
-  // Hide flip button + card-controls in MC (user clicks card to flip); hide SRS/tiles
+  // Hide flip button + card-controls in MC (user clicks card to flip)
   document.getElementById('card-controls').style.display = 'none';
   document.getElementById('flip-btn').style.display = 'none';
   document.getElementById('rating-wrap').style.display = 'none';
@@ -861,15 +716,7 @@ function flipCard() {
   const currentCard = state.session[state.sessionIdx];
   if (currentCard && currentCard.type !== 'grammar') speakJapanese(getJapaneseText(currentCard));
 
-  // Show rating buttons with interval previews
-  const card = state.session[state.sessionIdx];
-  const ratingWrap = document.getElementById('rating-wrap');
-  ratingWrap.style.display = '';
-
-  [1, 3].forEach(r => {
-    const el = document.getElementById(`int-${r}`);
-    if (el) el.textContent = intervalLabel(card.srsCard, r);
-  });
+  document.getElementById('rating-wrap').style.display = '';
   showRatingHintOnce();
 }
 
@@ -877,73 +724,22 @@ function flipCard() {
 function rateCard(rating) {
   dismissRatingHint();
   const card = state.session[state.sessionIdx];
-  const next = calcNextReview(card.srsCard, rating);
-  const wasNew = !state.srs[card.id];
 
-  // Snapshot so a misclicked rating can be undone (state + scheduling).
-  state.lastAction = {
-    cardId: card.id,
-    prevSrs: state.srs[card.id] ? { ...state.srs[card.id] } : null,
-    wasNew,
-    sessionIdx: state.sessionIdx,
-    session: [...state.session],
-    stats: { ...state.stats },
-  };
-
-  state.srs[card.id] = next;
-  saveSRS();
-
-  // Count first-ever introductions against today's new-card cap.
-  if (wasNew) {
-    if (state.daily.date !== todayStr()) loadDaily();
-    state.daily.newCount++;
-    saveDaily();
-  }
-
-  const key = rating === 1 ? 'nochmal' : 'richtig';
-  if (key) state.stats[key]++;
-
-  // If "Nochmal", shuffle card into rest of deck (min 5 cards away)
   if (rating === 1) {
-    const requeue = state.session.splice(state.sessionIdx, 1)[0];
-    const remaining = state.session.length - state.sessionIdx;
-    const minOffset = 5;
-    if (remaining <= minOffset) {
-      state.session.push(requeue);
-    } else {
-      const insertAt = state.sessionIdx + minOffset + Math.floor(Math.random() * (remaining - minOffset + 1));
-      state.session.splice(insertAt, 0, requeue);
-    }
+    // Wusste ich nicht: requeue to end of round
+    state.session.push(card);
+    state.stats.nochmal++;
   } else {
-    state.sessionIdx++;
+    // Wusste ich: card is done
+    state.stats.richtig++;
   }
+  state.sessionIdx++;
 
   if (state.sessionIdx >= state.session.length) {
     renderDone();
   } else {
     renderCurrentCard();
-    showToast('Bewertet', 'Rückgängig', undoLastRating);
   }
-}
-
-function undoLastRating() {
-  const a = state.lastAction;
-  if (!a) return;
-  if (a.prevSrs) state.srs[a.cardId] = a.prevSrs;
-  else delete state.srs[a.cardId];
-  saveSRS();
-
-  if (a.wasNew && state.daily.newCount > 0) {
-    state.daily.newCount--;
-    saveDaily();
-  }
-  state.session = a.session;
-  state.sessionIdx = a.sessionIdx;
-  state.stats = a.stats;
-  state.flipped = false;
-  state.lastAction = null;
-  showScreen('session');
-  renderCurrentCard();
 }
 
 // ===== DONE SCREEN =====
@@ -954,18 +750,15 @@ function renderDone() {
   statsEl.innerHTML = `
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-nochmal)">${s.nochmal}</span>
-    <span class="done-stat-label">Nochmal</span>
+    <span class="done-stat-label">Wusste ich nicht</span>
   </div>
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-gut)">${s.richtig}</span>
-    <span class="done-stat-label">Richtig</span>
+    <span class="done-stat-label">Wusste ich</span>
   </div>`;
 
-  const remaining = (state.dueTotal || 0) - state.session.length;
   const remainingEl = document.getElementById('done-remaining');
-  if (remainingEl) {
-    remainingEl.textContent = remaining > 0 ? `Noch ${remaining} heute fällig` : '';
-  }
+  if (remainingEl) remainingEl.textContent = '';
 
   showScreen('done');
 }
@@ -1522,11 +1315,20 @@ function initEvents() {
     });
   });
 
+  // Start modal: count toggle
+  document.querySelectorAll('#start-modal .count-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#start-modal .count-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.roundSize = parseInt(btn.dataset.count);
+    });
+  });
+
   // Start modal: Start button
   document.getElementById('modal-start-btn').addEventListener('click', () => {
     const deck = state.pendingDeck;
     if (!deck) return;
-    saveModalPrefs(deck, state.mode, state.direction, state.level);
+    saveModalPrefs(deck, state.mode, state.direction, state.level, state.roundSize);
     closeStartModal();
     startSession(deck, state.direction);
   });
@@ -1572,10 +1374,6 @@ function initEvents() {
   document.getElementById('onboard-start').addEventListener('click', dismissOnboard);
   document.getElementById('onboard-close').addEventListener('click', dismissOnboard);
 
-  // Daily-action hero: one tap straight into today's plan, no config detour
-  const dailyHero = document.getElementById('daily-hero');
-  if (dailyHero) dailyHero.addEventListener('click', startDailySession);
-
   // Bottom nav
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -1616,31 +1414,6 @@ function initEvents() {
       tab.classList.add('active');
       renderListTab(tab.dataset.listTab);
     });
-  });
-
-  // Reset button — two-step inline confirm (no native dialog)
-  const resetBtn = document.getElementById('reset-btn');
-  let resetArmed = false;
-  let resetTimer = null;
-  const disarmReset = () => {
-    resetArmed = false;
-    clearTimeout(resetTimer);
-    resetBtn.classList.remove('armed');
-    resetBtn.textContent = 'Fortschritt zurücksetzen';
-  };
-  resetBtn.addEventListener('click', () => {
-    if (!resetArmed) {
-      resetArmed = true;
-      resetBtn.classList.add('armed');
-      resetBtn.textContent = 'Wirklich? Nochmal tippen zum Löschen';
-      resetTimer = setTimeout(disarmReset, 4000);
-      return;
-    }
-    disarmReset();
-    localStorage.removeItem(SRS_KEY);
-    loadSRS();
-    renderHome();
-    showToast('Fortschritt zurückgesetzt');
   });
 
   // Keyboard shortcuts
@@ -1688,8 +1461,6 @@ function initEvents() {
 
 // ===== INIT =====
 function init() {
-  loadSRS();
-  loadDaily();
   initEvents();
   renderHome();
 }

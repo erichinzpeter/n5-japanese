@@ -39,20 +39,10 @@
       <h2 class="onboard-title">So lernst du hier</h2>
       <ul class="onboard-points">
         <li><span class="onboard-num">1</span><span>Karte ansehen, umdrehen, ehrlich bewerten.</span></li>
-        <li><span class="onboard-num">2</span><span><b>Nochmal</b> = bald wieder. <b>Richtig</b> = später wieder.</span></li>
-        <li><span class="onboard-num">3</span><span>20 Karten pro Runde. Jeden Tag ein bisschen.</span></li>
+        <li><span class="onboard-num">2</span><span>20 Karten pro Runde. Jeden Tag ein bisschen.</span></li>
       </ul>
-      <p class="onboard-note">Spaced Repetition plant jede Wiederholung zum besten Zeitpunkt. Du bewertest, die App merkt sich den Rest.</p>
       <button id="onboard-start" class="onboard-start">Los geht's</button>
     </div>
-
-    <button class="daily-hero" id="daily-hero" type="button">
-      <div class="daily-hero-text">
-        <span class="daily-hero-label" id="hero-label">Heute fällig</span>
-        <span class="daily-hero-count"><span id="hero-due">—</span> Karten</span>
-      </div>
-      <span class="daily-hero-cta" id="hero-cta" aria-hidden="true">Lernen starten</span>
-    </button>
 
     <div class="deck-label">Decks</div>
     <div class="deck-grid">
@@ -83,7 +73,6 @@
     </div>
 
     <div class="home-footer">
-      <button id="reset-btn" class="reset-btn">Fortschritt zurücksetzen</button>
       <div class="app-version">v2.19.0</div>
     </div>
   </div>
@@ -124,22 +113,20 @@
 
       <div class="rating-wrap" id="rating-wrap" style="display:none">
         <div class="mc-result" id="mc-result"></div>
-        <div id="first-rating-hint" class="first-rating-hint hidden">Bewerte ehrlich. Die App plant daraus die nächste Wiederholung: „Nochmal" bald, „Richtig" später.</div>
+        <div id="first-rating-hint" class="first-rating-hint hidden">Bewerte ehrlich. „Wusste ich nicht" zeigt die Karte in dieser Runde nochmal, „Wusste ich" legt sie weg.</div>
         <div class="rating-hint">Wie gut wusstest du es?</div>
         <div class="rating-buttons">
           <button class="rating-btn rating-nochmal" data-rating="1">
-            <span class="rating-label">Nochmal</span>
-            <span class="rating-interval" id="int-1"></span>
+            <span class="rating-label">Wusste ich nicht</span>
           </button>
           <button class="rating-btn rating-richtig" data-rating="3">
-            <span class="rating-label">Richtig</span>
-            <span class="rating-interval" id="int-3"></span>
+            <span class="rating-label">Wusste ich</span>
           </button>
         </div>
       </div>
     </div>
 
-    <div class="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1 = Nochmal &nbsp;·&nbsp; 3 = Richtig</div>
+    <div class="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1 = Wusste ich nicht &nbsp;·&nbsp; 3 = Wusste ich</div>
   </div>
 
   <!-- SCREEN: DONE -->
@@ -218,6 +205,15 @@
         <div class="level-toggle">
           <button class="lvl-btn active" data-level="easy">Einfach</button>
           <button class="lvl-btn" data-level="adv">Fortgeschritten</button>
+        </div>
+      </div>
+
+      <div class="modal-section" id="modal-count-wrap">
+        <div class="modal-label">Anzahl</div>
+        <div class="count-toggle" id="modal-count-toggle">
+          <button class="count-btn" data-count="10">10</button>
+          <button class="count-btn active" data-count="20">20</button>
+          <button class="count-btn" data-count="30">30</button>
         </div>
       </div>
 
