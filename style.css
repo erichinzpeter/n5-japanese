@@ -394,18 +394,18 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 14px 16px;
   cursor: pointer;
   transition: transform var(--transition), background var(--transition), border-color var(--transition);
   text-align: left;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 13px;
   position: relative;
   overflow: hidden;
 }
 
-/* Each deck owns one hue; tint, glyph, and badge derive from it at a fixed
+/* Each deck owns one hue; tint and glyph derive from it at a fixed
    lightness/chroma so all five stay harmonized against the warm-dark base. */
 .deck-card[data-deck="kanji"]   { --deck-h: 250; }  /* blue   */
 .deck-card[data-deck="vocab"]   { --deck-h: 195; }  /* teal   */
@@ -416,78 +416,30 @@ body {
 .deck-card[data-deck]                     { background: oklch(0.235 0.03 var(--deck-h)); }
 .deck-card[data-deck]:hover               { background: oklch(0.28 0.042 var(--deck-h)); }
 .deck-card[data-deck] .deck-kanji-preview { color: oklch(0.75 0.115 var(--deck-h)); }
-.deck-card[data-deck] .due-count {
-  background: oklch(0.52 0.09 var(--deck-h));
-  color: oklch(0.96 0.025 var(--deck-h));
-}
 
 .deck-card:hover { transform: translateY(-2px); }
 
 .deck-card--all {
   grid-column: span 2;
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
 }
 
-.deck-card--all .deck-kanji-preview {
-  font-size: 36px;
-}
-
-.deck-card--all .deck-name {
-  font-size: 16px;
-}
+.deck-card--all .deck-kanji-preview { font-size: 38px; }
+.deck-card--all .deck-name { font-size: 16px; }
 
 .deck-kanji-preview {
+  flex: none;
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 32px;
   color: var(--text);
   line-height: 1;
-  margin-bottom: 4px;
 }
 
 .deck-name {
   font-family: var(--font-ui);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
-}
-
-.deck-stats {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.due-count {
-  font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 600;
-  background: var(--accent);
-  color: #131211;
-  padding: 2px 8px;
-  border-radius: var(--radius-pill);
-  line-height: 1.6;
-}
-
-.deck-total {
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
-.deck-due-label {
-  display: none;
-}
-
-/* Nothing due today — dimmed, check mark via JS-set class */
-.deck-card--done {
-  opacity: 0.55;
-}
-.deck-card--done[data-deck] .due-count {
-  background: var(--surface-2);
-  color: var(--text-muted);
+  color: var(--text);
+  letter-spacing: 0.01em;
 }
 
 .deck-card--all .deck-stats {
