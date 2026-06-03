@@ -233,7 +233,11 @@ function buildGrammarRound(patternId, size) {
 // Build a fresh round: N random cards from the deck pool. No persistence.
 function buildRound(deck, size) {
   // When a specific grammar pattern is chosen from the picker, drill only its examples.
-  if (deck === 'grammar' && state.grammarPatternId) {
+  // Pattern-drill (one pattern's example sentences) is flashcard-only — example
+  // sentences have no meaningful MC distractors. In MC mode we fall through to
+  // collectDeckCards('grammar'), which yields type:'grammar' cards that
+  // generateChoices already handles (pattern <-> explanation choices).
+  if (deck === 'grammar' && state.grammarPatternId && state.mode !== 'mc') {
     return buildGrammarRound(state.grammarPatternId, size);
   }
   const pool = collectDeckCards(deck);
