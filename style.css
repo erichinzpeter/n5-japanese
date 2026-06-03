@@ -596,6 +596,28 @@ body {
   color: var(--text-dim);
 }
 
+/* ===== GRAMMAR PATTERNS PICKER (Grammatik üben) ===== */
+#screen-grammar-patterns {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Pattern name: prominent, display font so Japanese renders clearly */
+.grammar-pattern-primary {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--accent);
+}
+
+/* Situation line: secondary text below the pattern */
+.grammar-pattern-situation {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
 /* Home Footer */
 .home-footer {
   display: flex;

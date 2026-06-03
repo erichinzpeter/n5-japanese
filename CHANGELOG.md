@@ -4,6 +4,26 @@
 
 ---
 
+## [3.0.0] — 2026-06-03
+
+Großer Umbau: von Fortschritts-Tracker zu reinem Daily-Practice-Tool.
+
+### Entfernt
+
+- **Spaced Repetition komplett raus** — kein Scheduling, keine Fällig-Berechnung, kein gespeicherter Lernzustand. Der „Heute fällig"-Hero und der „Fortschritt zurücksetzen"-Button sind weg. `localStorage` hält nur noch UI-Einstellungen.
+
+### Geändert
+
+- **Runden statt Plan** — Deck antippen → 10/20/30 Karten wählen → die App würfelt zufällig zusammen. Nach dem Umdrehen: **Wusste ich / Wusste ich nicht**; „nicht" zeigt die Karte in derselben Runde nochmal. Nichts wird gespeichert, jede Runde startet frisch.
+- **Homescreen** — ohne Hero/Reset rückt das Deck-Grid nach oben und wird der Einstieg.
+
+### Neu
+
+- **Verb- & Adjektivformen** — berechnet aus Wörterbuchform + Wortart (辞書形/ます形/て形/た形/ない形 für Verben; Verneinung/Vergangenheit/… für Adjektive). Sichtbar auf der Kartenrückseite, in der Liste und als eigener **Konjugations-Drill** im Vokabeln-Deck. Verben mit Gruppe 1/2/3 beschriftet.
+- **Grammatik-Drill** — eigener Muster-Auswahl-Screen (durchsuchbar); ein Muster wählen und dessen Beispielsätze drillen. 8 N5-Beispielsätze pro Muster (368 gesamt).
+
+---
+
 ## [2.19.0] — 2026-06-03
 
 ### Geändert

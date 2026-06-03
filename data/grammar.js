@@ -10,6 +10,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: あなたは学生ですか。", reading: "A: あなたはがくせいですか。", de: "A: Sind Sie Student?" },
       { jp: "B: はい、大学生です。", reading: "B: はい、だいがくせいです。", de: "B: Ja, ich bin Uni-Student." }
+    ],
+    examples: [
+      { jp: "私は田中です。", reading: "わたしはたなかです。", de: "Ich bin Tanaka." },
+      { jp: "あの人は先生です。", reading: "あのひとはせんせいです。", de: "Diese Person ist Lehrer." },
+      { jp: "ここは図書館です。", reading: "ここはとしょかんです。", de: "Das hier ist die Bibliothek." },
+      { jp: "今日は月曜日です。", reading: "きょうはげつようびです。", de: "Heute ist Montag." },
+      { jp: "私の母は医者です。", reading: "わたしのははいしゃです。", de: "Meine Mutter ist Ärztin." },
+      { jp: "それは私のかばんです。", reading: "それはわたしのかばんです。", de: "Das ist meine Tasche." },
+      { jp: "山田さんは日本人です。", reading: "やまださんはにほんじんです。", de: "Frau Yamada ist Japanerin." },
+      { jp: "あれは新しい車です。", reading: "あれはあたらしいくるまです。", de: "Das dort drüben ist ein neues Auto." }
     ]
   },
   {
@@ -22,6 +32,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: これはあなたのかばんですか。", de: "A: Ist das Ihre Tasche?" },
       { jp: "B: いいえ、私のじゃないです。", reading: "B: いいえ、わたしのじゃないです。", de: "B: Nein, das ist nicht meine." }
+    ],
+    examples: [
+      { jp: "私は学生じゃないです。", reading: "わたしはがくせいじゃないです。", de: "Ich bin kein Student." },
+      { jp: "あの人は先生ではありません。", reading: "あのひとはせんせいではありません。", de: "Diese Person ist nicht Lehrer." },
+      { jp: "これは私の本じゃないです。", reading: "これはわたしのほんじゃないです。", de: "Das ist nicht mein Buch." },
+      { jp: "今日は休みじゃないです。", reading: "きょうはやすみじゃないです。", de: "Heute ist nicht frei." },
+      { jp: "田中さんは日本人ではありません。", reading: "たなかさんはにほんじんではありません。", de: "Herr Tanaka ist kein Japaner." },
+      { jp: "それはお茶じゃないです。", reading: "それはおちゃじゃないです。", de: "Das ist kein Tee." },
+      { jp: "ここは駅ではありません。", reading: "ここはえきではありません。", de: "Das hier ist nicht der Bahnhof." },
+      { jp: "あれは私の車じゃないです。", reading: "あれはわたしのくるまじゃないです。", de: "Das dort drüben ist nicht mein Auto." }
     ]
   },
   {
@@ -34,6 +54,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 田中さんは日本人ですか。", reading: "A: たなかさんはにほんじんですか。", de: "A: Ist Herr Tanaka Japaner?" },
       { jp: "B: はい、そうです。", de: "B: Ja, das stimmt." }
+    ],
+    examples: [
+      { jp: "あなたは学生ですか。", reading: "あなたはがくせいですか。", de: "Sind Sie Student?" },
+      { jp: "これはあなたの本ですか。", reading: "これはあなたのほんですか。", de: "Ist das Ihr Buch?" },
+      { jp: "トイレはあそこですか。", reading: "トイレはあそこですか。", de: "Ist die Toilette dort drüben?" },
+      { jp: "今日は水曜日ですか。", reading: "きょうはすいようびですか。", de: "Ist heute Mittwoch?" },
+      { jp: "あの人は先生ですか。", reading: "あのひとはせんせいですか。", de: "Ist diese Person Lehrer?" },
+      { jp: "これはお茶ですか。", reading: "これはおちゃですか。", de: "Ist das Tee?" },
+      { jp: "山田さんは元気ですか。", reading: "やまださんはげんきですか。", de: "Geht es Frau Yamada gut?" },
+      { jp: "あれは富士山ですか。", reading: "あれはふじさんですか。", de: "Ist das dort drüben der Fuji?" }
     ]
   },
   {
@@ -47,6 +77,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 昨日のパーティーはどうでしたか。", reading: "A: きのうのパーティーはどうでしたか。", de: "A: Wie war die Party gestern?" },
       { jp: "B: 楽しかったです。天気はよくなかったけど。", reading: "B: たのしかったです。てんきはよくなかったけど。", de: "B: Es war schön. Das Wetter war zwar nicht gut, aber." }
+    ],
+    examples: [
+      { jp: "昨日は雨でした。", reading: "きのうはあめでした。", de: "Gestern war es regnerisch." },
+      { jp: "先週は休みでした。", reading: "せんしゅうはやすみでした。", de: "Letzte Woche war frei." },
+      { jp: "あの店は休みじゃなかったです。", reading: "あのみせはやすみじゃなかったです。", de: "Der Laden war nicht geschlossen." },
+      { jp: "彼は学生でした。", reading: "かれはがくせいでした。", de: "Er war Student." },
+      { jp: "今朝は寒かったです。父は元気でした。", reading: "けさはさむかったです。ちちはげんきでした。", de: "Heute Morgen war es kalt. Mein Vater war munter." },
+      { jp: "テストは簡単じゃなかったです。", reading: "テストはかんたんじゃなかったです。", de: "Der Test war nicht einfach." },
+      { jp: "おとといは日曜日でした。", reading: "おとといはにちようびでした。", de: "Vorgestern war Sonntag." },
+      { jp: "あの映画は面白くなかったです。", reading: "あのえいがはおもしろくなかったです。", de: "Der Film war nicht interessant." }
     ]
   },
 
@@ -62,6 +102,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 山田さんはどこにいますか。", reading: "A: やまださんはどこにいますか。", de: "A: Wo ist Herr Yamada?" },
       { jp: "B: 山田さんは今、会議室にいます。", reading: "B: やまださんはいま、かいぎしつにいます。", de: "B: Herr Yamada ist jetzt im Besprechungsraum." }
+    ],
+    examples: [
+      { jp: "私は日本語を勉強します。", reading: "わたしはにほんごをべんきょうします。", de: "Ich lerne Japanisch." },
+      { jp: "今日は天気がいいです。", reading: "きょうはてんきがいいです。", de: "Heute ist das Wetter gut." },
+      { jp: "この本は面白いです。", reading: "このほんはおもしろいです。", de: "Dieses Buch ist interessant." },
+      { jp: "私の父は会社員です。", reading: "わたしのちちはかいしゃいんです。", de: "Mein Vater ist Angestellter." },
+      { jp: "あの人は田中さんです。", reading: "あのひとはたなかさんです。", de: "Diese Person ist Herr Tanaka." },
+      { jp: "象は鼻が長いです。", reading: "ぞうははながながいです。", de: "Elefanten haben eine lange Nase." },
+      { jp: "私は毎朝コーヒーを飲みます。", reading: "わたしはまいあさコーヒーをのみます。", de: "Ich trinke jeden Morgen Kaffee." },
+      { jp: "東京は人が多いです。", reading: "とうきょうはひとがおおいです。", de: "In Tokio gibt es viele Menschen." }
     ]
   },
   {
@@ -75,6 +125,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 誰が電話しましたか。", reading: "A: だれがでんわしましたか。", de: "A: Wer hat angerufen?" },
       { jp: "B: 鈴木さんが電話しました。", reading: "B: すずきさんがでんわしました。", de: "B: Frau Suzuki hat angerufen." }
+    ],
+    examples: [
+      { jp: "庭に犬がいます。", reading: "にわにいぬがいます。", de: "Im Garten ist ein Hund." },
+      { jp: "机の上に本があります。", reading: "つくえのうえにほんがあります。", de: "Auf dem Tisch liegt ein Buch." },
+      { jp: "私は日本語が分かります。", reading: "わたしはにほんごがわかります。", de: "Ich verstehe Japanisch." },
+      { jp: "山田さんがケーキを作りました。", reading: "やまださんがケーキをつくりました。", de: "Frau Yamada hat einen Kuchen gemacht." },
+      { jp: "私はすしが好きです。", reading: "わたしはすしがすきです。", de: "Ich mag Sushi." },
+      { jp: "空に星がたくさんあります。", reading: "そらにほしがたくさんあります。", de: "Am Himmel sind viele Sterne." },
+      { jp: "誰が来ましたか。", reading: "だれがきましたか。", de: "Wer ist gekommen?" },
+      { jp: "私は時間がありません。", reading: "わたしはじかんがありません。", de: "Ich habe keine Zeit." }
     ]
   },
   {
@@ -88,6 +148,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 何を飲みますか。", reading: "A: なにをのみますか。", de: "A: Was möchten Sie trinken?" },
       { jp: "B: コーヒーをください。", de: "B: Einen Kaffee bitte." }
+    ],
+    examples: [
+      { jp: "毎朝、新聞を読みます。", reading: "まいあさ、しんぶんをよみます。", de: "Jeden Morgen lese ich die Zeitung." },
+      { jp: "りんごを食べます。", reading: "りんごをたべます。", de: "Ich esse einen Apfel." },
+      { jp: "テレビを見ます。", reading: "テレビをみます。", de: "Ich sehe fern." },
+      { jp: "手紙を書きました。", reading: "てがみをかきました。", de: "Ich habe einen Brief geschrieben." },
+      { jp: "音楽を聞きます。", reading: "おんがくをききます。", de: "Ich höre Musik." },
+      { jp: "日本語を勉強します。", reading: "にほんごをべんきょうします。", de: "Ich lerne Japanisch." },
+      { jp: "水を飲みます。", reading: "みずをのみます。", de: "Ich trinke Wasser." },
+      { jp: "ドアを開けました。", reading: "ドアをあけました。", de: "Ich habe die Tür geöffnet." }
     ]
   },
   {
@@ -101,6 +171,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 毎朝、何時に起きますか。", reading: "A: まいあさ、なんじにおきますか。", de: "A: Um wie viel Uhr stehen Sie jeden Morgen auf?" },
       { jp: "B: 六時半に起きます。", reading: "B: ろくじはんにおきます。", de: "B: Ich stehe um halb sieben auf." }
+    ],
+    examples: [
+      { jp: "学校に行きます。", reading: "がっこうにいきます。", de: "Ich gehe zur Schule." },
+      { jp: "七時に起きます。", reading: "しちじにおきます。", de: "Ich stehe um 7 Uhr auf." },
+      { jp: "友達に手紙を書きます。", reading: "ともだちにてがみをかきます。", de: "Ich schreibe einem Freund einen Brief." },
+      { jp: "日曜日に映画を見ます。", reading: "にちようびにえいがをみます。", de: "Am Sonntag sehe ich einen Film." },
+      { jp: "母にプレゼントをあげます。", reading: "ははにプレゼントをあげます。", de: "Ich gebe meiner Mutter ein Geschenk." },
+      { jp: "部屋に猫がいます。", reading: "へやにねこがいます。", de: "Im Zimmer ist eine Katze." },
+      { jp: "九時に家に帰ります。", reading: "くじにいえにかえります。", de: "Ich komme um 9 Uhr nach Hause." },
+      { jp: "先生に質問します。", reading: "せんせいにしつもんします。", de: "Ich stelle dem Lehrer eine Frage." }
     ]
   },
   {
@@ -114,6 +194,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: どこで昼ごはんを食べますか。", reading: "A: どこでひるごはんをたべますか。", de: "A: Wo essen Sie zu Mittag?" },
       { jp: "B: 会社の近くのカフェで食べます。", reading: "B: かいしゃのちかくのカフェでたべます。", de: "B: Ich esse in einem Café nahe der Firma." }
+    ],
+    examples: [
+      { jp: "図書館で勉強します。", reading: "としょかんでべんきょうします。", de: "Ich lerne in der Bibliothek." },
+      { jp: "電車で学校に行きます。", reading: "でんしゃでがっこうにいきます。", de: "Ich fahre mit dem Zug zur Schule." },
+      { jp: "公園で写真を撮りました。", reading: "こうえんでしゃしんをとりました。", de: "Ich habe im Park Fotos gemacht." },
+      { jp: "はしでご飯を食べます。", reading: "はしでごはんをたべます。", de: "Ich esse Reis mit Stäbchen." },
+      { jp: "日本語でメールを書きます。", reading: "にほんごでメールをかきます。", de: "Ich schreibe die Mail auf Japanisch." },
+      { jp: "家で映画を見ます。", reading: "いえでえいがをみます。", de: "Ich sehe zu Hause einen Film." },
+      { jp: "スーパーで野菜を買いました。", reading: "スーパーでやさいをかいました。", de: "Ich habe im Supermarkt Gemüse gekauft." },
+      { jp: "バスで会社に行きます。", reading: "バスでかいしゃにいきます。", de: "Ich fahre mit dem Bus zur Firma." }
     ]
   },
   {
@@ -127,6 +217,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: これは誰のかさですか。", reading: "A: これはだれのかさですか。", de: "A: Wessen Regenschirm ist das?" },
       { jp: "B: 先生のかさです。", reading: "B: せんせいのかさです。", de: "B: Das ist der Regenschirm des Lehrers." }
+    ],
+    examples: [
+      { jp: "これは私の本です。", reading: "これはわたしのほんです。", de: "Das ist mein Buch." },
+      { jp: "田中さんの車は新しいです。", reading: "たなかさんのくるまはあたらしいです。", de: "Herrn Tanakas Auto ist neu." },
+      { jp: "日本語の先生は親切です。", reading: "にほんごのせんせいはしんせつです。", de: "Der Japanischlehrer ist freundlich." },
+      { jp: "母の料理はおいしいです。", reading: "ははのりょうりはおいしいです。", de: "Das Essen meiner Mutter ist lecker." },
+      { jp: "あれは友達のかばんです。", reading: "あれはともだちのかばんです。", de: "Das dort drüben ist die Tasche eines Freundes." },
+      { jp: "会社の電話番号を知っていますか。", reading: "かいしゃのでんわばんごうをしっていますか。", de: "Kennen Sie die Telefonnummer der Firma?" },
+      { jp: "学校の前にコンビニがあります。", reading: "がっこうのまえにコンビニがあります。", de: "Vor der Schule gibt es einen Convenience Store." },
+      { jp: "これは日本の地図です。", reading: "これはにほんのちずです。", de: "Das ist eine Karte von Japan." }
     ]
   },
   {
@@ -140,6 +240,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 週末、どこへ行きますか。", reading: "A: しゅうまつ、どこへいきますか。", de: "A: Wohin gehen Sie am Wochenende?" },
       { jp: "B: 友達と海へ行きます。", reading: "B: ともだちとうみへいきます。", de: "B: Ich fahre mit einem Freund ans Meer." }
+    ],
+    examples: [
+      { jp: "学校へ行きます。", reading: "がっこうへいきます。", de: "Ich gehe zur Schule." },
+      { jp: "明日、京都へ行きます。", reading: "あした、きょうとへいきます。", de: "Morgen fahre ich nach Kyoto." },
+      { jp: "家へ帰ります。", reading: "いえへかえります。", de: "Ich gehe nach Hause." },
+      { jp: "母は日本へ来ました。", reading: "はははにほんへきました。", de: "Meine Mutter ist nach Japan gekommen." },
+      { jp: "友達と山へ行きました。", reading: "ともだちとやまへいきました。", de: "Ich bin mit einem Freund in die Berge gefahren." },
+      { jp: "右へ曲がってください。", reading: "みぎへまがってください。", de: "Bitte biegen Sie nach rechts ab." },
+      { jp: "来週、海外へ行きます。", reading: "らいしゅう、かいがいへいきます。", de: "Nächste Woche reise ich ins Ausland." },
+      { jp: "駅へ行きたいです。", reading: "えきへいきたいです。", de: "Ich möchte zum Bahnhof gehen." }
     ]
   },
   {
@@ -153,6 +263,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 誰と映画を見ましたか。", reading: "A: だれとえいがをみましたか。", de: "A: Mit wem haben Sie den Film gesehen?" },
       { jp: "B: 姉と見ました。", reading: "B: あねとみました。", de: "B: Ich habe ihn mit meiner Schwester gesehen." }
+    ],
+    examples: [
+      { jp: "パンとたまごを買いました。", reading: "パンとたまごをかいました。", de: "Ich habe Brot und Eier gekauft." },
+      { jp: "友達と映画を見ます。", reading: "ともだちとえいがをみます。", de: "Ich sehe mit einem Freund einen Film." },
+      { jp: "犬と猫がいます。", reading: "いぬとねこがいます。", de: "Es gibt einen Hund und eine Katze." },
+      { jp: "母と買い物に行きました。", reading: "ははとかいものにいきました。", de: "Ich war mit meiner Mutter einkaufen." },
+      { jp: "コーヒーとケーキをください。", reading: "コーヒーとケーキをください。", de: "Einen Kaffee und einen Kuchen bitte." },
+      { jp: "山田さんと田中さんは先生です。", reading: "やまださんとたなかさんはせんせいです。", de: "Frau Yamada und Herr Tanaka sind Lehrer." },
+      { jp: "週末、家族と公園へ行きます。", reading: "しゅうまつ、かぞくとこうえんへいきます。", de: "Am Wochenende gehe ich mit der Familie in den Park." },
+      { jp: "ペンとノートが要ります。", reading: "ペンとノートがいります。", de: "Ich brauche einen Stift und ein Heft." }
     ]
   },
   {
@@ -166,6 +286,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 私はラーメンが好きです。", reading: "A: わたしはラーメンがすきです。", de: "A: Ich mag Ramen." },
       { jp: "B: 私も大好きです！", reading: "B: わたしもだいすきです！", de: "B: Ich auch — sehr sogar!" }
+    ],
+    examples: [
+      { jp: "私も学生です。", reading: "わたしもがくせいです。", de: "Ich bin auch Student." },
+      { jp: "田中さんも日本人です。", reading: "たなかさんもにほんじんです。", de: "Herr Tanaka ist auch Japaner." },
+      { jp: "私もすしが好きです。", reading: "わたしもすしがすきです。", de: "Ich mag auch Sushi." },
+      { jp: "弟も大学に行きます。", reading: "おとうともだいがくにいきます。", de: "Mein kleiner Bruder geht auch zur Uni." },
+      { jp: "今日も暑いです。", reading: "きょうもあついです。", de: "Heute ist es auch heiß." },
+      { jp: "あの店もコーヒーがおいしいです。", reading: "あのみせもコーヒーがおいしいです。", de: "In dem Laden ist der Kaffee auch lecker." },
+      { jp: "私もそう思います。", reading: "わたしもそうおもいます。", de: "Ich denke auch so." },
+      { jp: "妹も来ます。", reading: "いもうともきます。", de: "Meine kleine Schwester kommt auch." }
     ]
   },
   {
@@ -179,6 +309,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 仕事は何時から何時までですか。", reading: "A: しごとはなんじからなんじまでですか。", de: "A: Von wie viel Uhr bis wie viel Uhr arbeiten Sie?" },
       { jp: "B: 九時から六時までです。", reading: "B: くじからろくじまでです。", de: "B: Von 9 bis 18 Uhr." }
+    ],
+    examples: [
+      { jp: "月曜日から金曜日まで働きます。", reading: "げつようびからきんようびまではたらきます。", de: "Ich arbeite von Montag bis Freitag." },
+      { jp: "九時から五時まで勉強します。", reading: "くじからごじまでべんきょうします。", de: "Ich lerne von 9 bis 17 Uhr." },
+      { jp: "東京から大阪まで電車で行きます。", reading: "とうきょうからおおさかまででんしゃでいきます。", de: "Von Tokio bis Osaka fahre ich mit dem Zug." },
+      { jp: "夏休みは七月から八月までです。", reading: "なつやすみはしちがつからはちがつまでです。", de: "Die Sommerferien gehen von Juli bis August." },
+      { jp: "家から駅まで歩きます。", reading: "いえからえきまであるきます。", de: "Vom Haus bis zum Bahnhof gehe ich zu Fuß." },
+      { jp: "朝から晩まで雨でした。", reading: "あさからばんまであめでした。", de: "Von morgens bis abends hat es geregnet." },
+      { jp: "一時から三時まで会議があります。", reading: "いちじからさんじまでかいぎがあります。", de: "Von 13 bis 15 Uhr ist eine Besprechung." },
+      { jp: "ここから学校まで近いです。", reading: "ここからがっこうまでちかいです。", de: "Von hier bis zur Schule ist es nah." }
     ]
   },
   {
@@ -192,6 +332,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 冷蔵庫に何がありますか。", reading: "A: れいぞうこになにがありますか。", de: "A: Was ist im Kühlschrank?" },
       { jp: "B: 牛乳やたまごやチーズなどがあります。", reading: "B: ぎゅうにゅうやたまごやチーズなどがあります。", de: "B: Milch, Eier, Käse und so weiter." }
+    ],
+    examples: [
+      { jp: "りんごやバナナなどを買いました。", reading: "りんごやバナナなどをかいました。", de: "Ich habe Äpfel, Bananen usw. gekauft." },
+      { jp: "週末は本を読んだり、映画を見たりします。テレビやラジオなども聞きます。", reading: "しゅうまつはほんをよんだり、えいがをみたりします。テレビやラジオなどもききます。", de: "Am Wochenende lese ich, sehe Filme und höre Fernsehen, Radio usw." },
+      { jp: "机の上にペンやノートなどがあります。", reading: "つくえのうえにペンやノートなどがあります。", de: "Auf dem Tisch liegen Stifte, Hefte usw." },
+      { jp: "京都や奈良などへ行きたいです。", reading: "きょうとやならなどへいきたいです。", de: "Ich möchte nach Kyoto, Nara usw. fahren." },
+      { jp: "パーティーに田中さんや山田さんなどが来ます。", reading: "パーティーにたなかさんややまださんなどがきます。", de: "Zur Party kommen Herr Tanaka, Frau Yamada usw." },
+      { jp: "朝はパンやたまごなどを食べます。", reading: "あさはパンやたまごなどをたべます。", de: "Morgens esse ich Brot, Eier usw." },
+      { jp: "かばんに財布やかぎなどがあります。", reading: "かばんにさいふやかぎなどがあります。", de: "In der Tasche sind Geldbeutel, Schlüssel usw." },
+      { jp: "店で野菜や果物などを売っています。", reading: "みせでやさいやくだものなどをうっています。", de: "Im Laden verkauft man Gemüse, Obst usw." }
     ]
   },
 
@@ -207,6 +357,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: あれは何ですか。", reading: "A: あれはなんですか。", de: "A: Was ist das dort drüben?" },
       { jp: "B: あれは富士山です。", reading: "B: あれはふじさんです。", de: "B: Das ist der Fuji." }
+    ],
+    examples: [
+      { jp: "これは何ですか。", reading: "これはなんですか。", de: "Was ist das hier?" },
+      { jp: "それは私のかさです。", reading: "それはわたしのかさです。", de: "Das (bei dir) ist mein Regenschirm." },
+      { jp: "あれは新しいビルです。", reading: "あれはあたらしいビルです。", de: "Das dort drüben ist ein neues Gebäude." },
+      { jp: "どれがあなたの本ですか。", reading: "どれがあなたのほんですか。", de: "Welches ist Ihr Buch?" },
+      { jp: "これをください。", reading: "これをください。", de: "Geben Sie mir das hier bitte." },
+      { jp: "それは少し高いです。", reading: "それはすこしたかいです。", de: "Das (bei dir) ist etwas teuer." },
+      { jp: "あれはおいしそうです。", reading: "あれはおいしそうです。", de: "Das dort drüben sieht lecker aus." },
+      { jp: "これは日本語の本です。", reading: "これはにほんごのほんです。", de: "Das hier ist ein Japanischbuch." }
     ]
   },
   {
@@ -220,6 +380,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: どのかばんが好きですか。", reading: "A: どのかばんがすきですか。", de: "A: Welche Tasche mögen Sie?" },
       { jp: "B: そのかばんが好きです。", reading: "B: そのかばんがすきです。", de: "B: Ich mag diese Tasche (dort bei Ihnen)." }
+    ],
+    examples: [
+      { jp: "この本は面白いです。", reading: "このほんはおもしろいです。", de: "Dieses Buch ist interessant." },
+      { jp: "その車は新しいです。", reading: "そのくるまはあたらしいです。", de: "Das Auto (dort bei dir) ist neu." },
+      { jp: "あの人は田中さんです。", reading: "あのひとはたなかさんです。", de: "Diese Person dort drüben ist Herr Tanaka." },
+      { jp: "どの店がいいですか。", reading: "どのみせがいいですか。", de: "Welcher Laden ist gut?" },
+      { jp: "この料理はおいしいです。", reading: "このりょうりはおいしいです。", de: "Dieses Gericht ist lecker." },
+      { jp: "そのかばんはいくらですか。", reading: "そのかばんはいくらですか。", de: "Was kostet diese Tasche (dort bei dir)?" },
+      { jp: "あの山はとても高いです。", reading: "あのやまはとてもたかいです。", de: "Jener Berg dort drüben ist sehr hoch." },
+      { jp: "この駅で電車を降ります。", reading: "このえきででんしゃをおります。", de: "An diesem Bahnhof steige ich aus dem Zug." }
     ]
   },
   {
@@ -232,6 +402,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: すみません、駅はどこですか。", reading: "A: すみません、えきはどこですか。", de: "A: Entschuldigung, wo ist der Bahnhof?" },
       { jp: "B: あそこです。信号を右に曲がってください。", reading: "B: あそこです。しんごうをみぎにまがってください。", de: "B: Dort drüben. Biegen Sie an der Ampel rechts ab." }
+    ],
+    examples: [
+      { jp: "トイレはどこですか。", reading: "トイレはどこですか。", de: "Wo ist die Toilette?" },
+      { jp: "ここで待ってください。", reading: "ここでまってください。", de: "Bitte warten Sie hier." },
+      { jp: "そこに私のかばんがあります。", reading: "そこにわたしのかばんがあります。", de: "Dort (bei dir) ist meine Tasche." },
+      { jp: "あそこに駅があります。", reading: "あそこにえきがあります。", de: "Dort drüben ist der Bahnhof." },
+      { jp: "ここは図書館です。", reading: "ここはとしょかんです。", de: "Das hier ist die Bibliothek." },
+      { jp: "あなたの会社はどこですか。", reading: "あなたのかいしゃはどこですか。", de: "Wo ist Ihre Firma?" },
+      { jp: "あそこでコーヒーを飲みましょう。", reading: "あそこでコーヒーをのみましょう。", de: "Lass uns dort drüben Kaffee trinken." },
+      { jp: "ここから学校まで近いです。", reading: "ここからがっこうまでちかいです。", de: "Von hier bis zur Schule ist es nah." }
     ]
   },
 
@@ -247,6 +427,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: この近くにコンビニがありますか。", reading: "A: このちかくにコンビニがありますか。", de: "A: Gibt es hier in der Nähe einen Convenience Store?" },
       { jp: "B: はい、駅の前にあります。", reading: "B: はい、えきのまえにあります。", de: "B: Ja, vor dem Bahnhof gibt es einen." }
+    ],
+    examples: [
+      { jp: "机の上に本があります。", reading: "つくえのうえにほんがあります。", de: "Auf dem Tisch liegt ein Buch." },
+      { jp: "部屋に猫がいます。", reading: "へやにねこがいます。", de: "Im Zimmer ist eine Katze." },
+      { jp: "公園に子供がいます。", reading: "こうえんにこどもがいます。", de: "Im Park sind Kinder." },
+      { jp: "冷蔵庫にたまごがあります。", reading: "れいぞうこにたまごがあります。", de: "Im Kühlschrank sind Eier." },
+      { jp: "庭に犬がいます。", reading: "にわにいぬがいます。", de: "Im Garten ist ein Hund." },
+      { jp: "かばんの中にお金があります。", reading: "かばんのなかにおかねがあります。", de: "In der Tasche ist Geld." },
+      { jp: "教室に学生がいます。", reading: "きょうしつにがくせいがいます。", de: "Im Klassenzimmer sind Studenten." },
+      { jp: "駅の前に銀行があります。", reading: "えきのまえにぎんこうがあります。", de: "Vor dem Bahnhof ist eine Bank." }
     ]
   },
   {
@@ -260,6 +450,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: リモコンはどこにありますか。", de: "A: Wo ist die Fernbedienung?" },
       { jp: "B: ソファの下にあります。", reading: "B: ソファのしたにあります。", de: "B: Sie ist unter dem Sofa." }
+    ],
+    examples: [
+      { jp: "本は机の上にあります。", reading: "ほんはつくえのうえにあります。", de: "Das Buch ist auf dem Tisch." },
+      { jp: "猫は部屋にいます。", reading: "ねこはへやにいます。", de: "Die Katze ist im Zimmer." },
+      { jp: "山田さんは会議室にいます。", reading: "やまださんはかいぎしつにいます。", de: "Frau Yamada ist im Besprechungsraum." },
+      { jp: "私の家は駅の近くにあります。", reading: "わたしのいえはえきのちかくにあります。", de: "Mein Haus ist in der Nähe des Bahnhofs." },
+      { jp: "かぎはかばんの中にあります。", reading: "かぎはかばんのなかにあります。", de: "Der Schlüssel ist in der Tasche." },
+      { jp: "先生は教室にいます。", reading: "せんせいはきょうしつにいます。", de: "Der Lehrer ist im Klassenzimmer." },
+      { jp: "トイレは二階にあります。", reading: "トイレはにかいにあります。", de: "Die Toilette ist im ersten Stock." },
+      { jp: "子供は公園にいます。", reading: "こどもはこうえんにいます。", de: "Das Kind ist im Park." }
     ]
   },
 
@@ -275,6 +475,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: お酒を飲みますか。", reading: "A: おさけをのみますか。", de: "A: Trinken Sie Alkohol?" },
       { jp: "B: いいえ、飲みません。お茶が好きです。", reading: "B: いいえ、のみません。おちゃがすきです。", de: "B: Nein, ich trinke keinen. Ich mag Tee lieber." }
+    ],
+    examples: [
+      { jp: "毎日日本語を勉強します。", reading: "まいにちにほんごをべんきょうします。", de: "Ich lerne jeden Tag Japanisch." },
+      { jp: "明日学校に行きます。", reading: "あしたがっこうにいきます。", de: "Morgen gehe ich zur Schule." },
+      { jp: "私はお酒を飲みません。", reading: "わたしはおさけをのみません。", de: "Ich trinke keinen Alkohol." },
+      { jp: "毎朝コーヒーを飲みます。", reading: "まいあさコーヒーをのみます。", de: "Jeden Morgen trinke ich Kaffee." },
+      { jp: "日曜日は働きません。", reading: "にちようびははたらきません。", de: "Sonntags arbeite ich nicht." },
+      { jp: "来年、日本へ行きます。", reading: "らいねん、にほんへいきます。", de: "Nächstes Jahr fahre ich nach Japan." },
+      { jp: "肉を食べません。", reading: "にくをたべません。", de: "Ich esse kein Fleisch." },
+      { jp: "夜十一時に寝ます。", reading: "よるじゅういちじにねます。", de: "Ich gehe um 23 Uhr schlafen." }
     ]
   },
   {
@@ -288,6 +498,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 昨日、宿題をしましたか。", reading: "A: きのう、しゅくだいをしましたか。", de: "A: Haben Sie gestern die Hausaufgaben gemacht?" },
       { jp: "B: すみません、しませんでした。", de: "B: Entschuldigung, ich habe sie nicht gemacht." }
+    ],
+    examples: [
+      { jp: "昨日映画を見ました。", reading: "きのうえいがをみました。", de: "Gestern habe ich einen Film gesehen." },
+      { jp: "先週、京都に行きました。", reading: "せんしゅう、きょうとにいきました。", de: "Letzte Woche bin ich nach Kyoto gefahren." },
+      { jp: "朝ごはんを食べませんでした。", reading: "あさごはんをたべませんでした。", de: "Ich habe nicht gefrühstückt." },
+      { jp: "日本語を三年勉強しました。", reading: "にほんごをさんねんべんきょうしました。", de: "Ich habe drei Jahre Japanisch gelernt." },
+      { jp: "昨日は雨が降りました。", reading: "きのうはあめがふりました。", de: "Gestern hat es geregnet." },
+      { jp: "友達に手紙を書きました。", reading: "ともだちにてがみをかきました。", de: "Ich habe einem Freund einen Brief geschrieben." },
+      { jp: "週末は何もしませんでした。", reading: "しゅうまつはなにもしませんでした。", de: "Am Wochenende habe ich nichts gemacht." },
+      { jp: "母にプレゼントを買いました。", reading: "ははにプレゼントをかいました。", de: "Ich habe meiner Mutter ein Geschenk gekauft." }
     ]
   },
 
@@ -303,6 +523,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 一緒にランチを食べませんか。", reading: "A: いっしょにランチをたべませんか。", de: "A: Wollen wir nicht zusammen Mittagessen?" },
       { jp: "B: いいですね！どこに行きますか。", reading: "B: いいですね！どこにいきますか。", de: "B: Gerne! Wohin gehen wir?" }
+    ],
+    examples: [
+      { jp: "一緒に映画を見ませんか。", reading: "いっしょにえいがをみませんか。", de: "Wollen wir nicht zusammen einen Film sehen?" },
+      { jp: "週末、海に行きませんか。", reading: "しゅうまつ、うみにいきませんか。", de: "Wollen wir am Wochenende nicht ans Meer fahren?" },
+      { jp: "お茶を飲みませんか。", reading: "おちゃをのみませんか。", de: "Wollen wir nicht einen Tee trinken?" },
+      { jp: "一緒に昼ごはんを食べませんか。", reading: "いっしょにひるごはんをたべませんか。", de: "Wollen wir nicht zusammen Mittagessen?" },
+      { jp: "公園を散歩しませんか。", reading: "こうえんをさんぽしませんか。", de: "Wollen wir nicht im Park spazieren gehen?" },
+      { jp: "明日、買い物に行きませんか。", reading: "あした、かいものにいきませんか。", de: "Wollen wir morgen nicht einkaufen gehen?" },
+      { jp: "一緒に日本語を勉強しませんか。", reading: "いっしょににほんごをべんきょうしませんか。", de: "Wollen wir nicht zusammen Japanisch lernen?" },
+      { jp: "今晩、うちに来ませんか。", reading: "こんばん、うちにきませんか。", de: "Wollen Sie heute Abend nicht zu mir kommen?" }
     ]
   },
   {
@@ -316,6 +546,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 荷物、持ちましょうか。", reading: "A: にもつ、もちましょうか。", de: "A: Soll ich das Gepäck tragen?" },
       { jp: "B: ありがとうございます。お願いします。", reading: "B: ありがとうございます。おねがいします。", de: "B: Danke schön. Ja, bitte." }
+    ],
+    examples: [
+      { jp: "そろそろ始めましょう。", reading: "そろそろはじめましょう。", de: "Lass uns langsam anfangen." },
+      { jp: "一緒に昼ごはんを食べましょう。", reading: "いっしょにひるごはんをたべましょう。", de: "Lass uns zusammen Mittagessen." },
+      { jp: "窓を開けましょうか。", reading: "まどをあけましょうか。", de: "Soll ich das Fenster öffnen?" },
+      { jp: "公園で写真を撮りましょう。", reading: "こうえんでしゃしんをとりましょう。", de: "Lass uns im Park Fotos machen." },
+      { jp: "荷物を持ちましょうか。", reading: "にもつをもちましょうか。", de: "Soll ich das Gepäck tragen?" },
+      { jp: "もう遅いですから、帰りましょう。", reading: "もうおそいですから、かえりましょう。", de: "Es ist schon spät, lass uns nach Hause gehen." },
+      { jp: "明日、海に行きましょう。", reading: "あした、うみにいきましょう。", de: "Lass uns morgen ans Meer fahren." },
+      { jp: "手伝いましょうか。", reading: "てつだいましょうか。", de: "Soll ich helfen?" }
     ]
   },
 
@@ -331,6 +571,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: すみません、もう一度言ってください。", reading: "A: すみません、もういちどいってください。", de: "A: Entschuldigung, sagen Sie das bitte noch einmal." },
       { jp: "B: もちろんです。", de: "B: Natürlich." }
+    ],
+    examples: [
+      { jp: "ゆっくり話してください。", reading: "ゆっくりはなしてください。", de: "Bitte sprechen Sie langsam." },
+      { jp: "もう一度言ってください。", reading: "もういちどいってください。", de: "Bitte sagen Sie das noch einmal." },
+      { jp: "ここに名前を書いてください。", reading: "ここになまえをかいてください。", de: "Bitte schreiben Sie hier Ihren Namen." },
+      { jp: "ちょっと待ってください。", reading: "ちょっとまってください。", de: "Bitte warten Sie kurz." },
+      { jp: "窓を開けてください。", reading: "まどをあけてください。", de: "Bitte öffnen Sie das Fenster." },
+      { jp: "この本を読んでください。", reading: "このほんをよんでください。", de: "Bitte lesen Sie dieses Buch." },
+      { jp: "写真を撮ってください。", reading: "しゃしんをとってください。", de: "Bitte machen Sie ein Foto." },
+      { jp: "明日、早く来てください。", reading: "あした、はやくきてください。", de: "Bitte kommen Sie morgen früh." }
     ]
   },
   {
@@ -344,6 +594,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 窓を開けてもいいですか。", reading: "A: まどをあけてもいいですか。", de: "A: Darf ich das Fenster öffnen?" },
       { jp: "B: はい、どうぞ。", de: "B: Ja, bitte sehr." }
+    ],
+    examples: [
+      { jp: "ここに座ってもいいですか。", reading: "ここにすわってもいいですか。", de: "Darf ich mich hier hinsetzen?" },
+      { jp: "写真を撮ってもいいですか。", reading: "しゃしんをとってもいいですか。", de: "Darf ich ein Foto machen?" },
+      { jp: "窓を開けてもいいですか。", reading: "まどをあけてもいいですか。", de: "Darf ich das Fenster öffnen?" },
+      { jp: "トイレを使ってもいいですか。", reading: "トイレをつかってもいいですか。", de: "Darf ich die Toilette benutzen?" },
+      { jp: "ここでたばこを吸ってもいいですか。", reading: "ここでたばこをすってもいいですか。", de: "Darf ich hier rauchen?" },
+      { jp: "この本を借りてもいいですか。", reading: "このほんをかりてもいいですか。", de: "Darf ich dieses Buch ausleihen?" },
+      { jp: "今日、早く帰ってもいいですか。", reading: "きょう、はやくかえってもいいですか。", de: "Darf ich heute früher nach Hause gehen?" },
+      { jp: "ここで食べてもいいですか。", reading: "ここでたべてもいいですか。", de: "Darf ich hier essen?" }
     ]
   },
   {
@@ -357,6 +617,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: ここでたばこを吸ってもいいですか。", reading: "A: ここでたばこをすってもいいですか。", de: "A: Darf ich hier rauchen?" },
       { jp: "B: すみません、ここでは吸ってはいけません。", reading: "B: すみません、ここではすってはいけません。", de: "B: Tut mir leid, hier darf man nicht rauchen." }
+    ],
+    examples: [
+      { jp: "ここで写真を撮ってはいけません。", reading: "ここでしゃしんをとってはいけません。", de: "Hier darf man keine Fotos machen." },
+      { jp: "図書館で話してはいけません。", reading: "としょかんではなしてはいけません。", de: "In der Bibliothek darf man nicht reden." },
+      { jp: "ここでたばこを吸ってはいけません。", reading: "ここでたばこをすってはいけません。", de: "Hier darf man nicht rauchen." },
+      { jp: "授業中、寝てはいけません。", reading: "じゅぎょうちゅう、ねてはいけません。", de: "Während des Unterrichts darf man nicht schlafen." },
+      { jp: "ここに車を止めてはいけません。", reading: "ここにくるまをとめてはいけません。", de: "Hier darf man nicht parken." },
+      { jp: "この水を飲んではいけません。", reading: "このみずをのんではいけません。", de: "Dieses Wasser darf man nicht trinken." },
+      { jp: "ここで遊んではいけません。", reading: "ここであそんではいけません。", de: "Hier darf man nicht spielen." },
+      { jp: "教室で食べてはいけません。", reading: "きょうしつでたべてはいけません。", de: "Im Klassenzimmer darf man nicht essen." }
     ]
   },
   {
@@ -370,6 +640,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 授業中、スマホを使わないでください。", reading: "A: じゅぎょうちゅう、スマホをつかわないでください。", de: "A: Bitte benutzen Sie das Handy nicht während des Unterrichts." },
       { jp: "B: わかりました。すみません。", de: "B: Verstanden. Entschuldigung." }
+    ],
+    examples: [
+      { jp: "ここで食べないでください。", reading: "ここでたべないでください。", de: "Bitte essen Sie hier nicht." },
+      { jp: "写真を撮らないでください。", reading: "しゃしんをとらないでください。", de: "Bitte machen Sie keine Fotos." },
+      { jp: "大きい声で話さないでください。", reading: "おおきいこえではなさないでください。", de: "Bitte sprechen Sie nicht laut." },
+      { jp: "心配しないでください。", reading: "しんぱいしないでください。", de: "Bitte machen Sie sich keine Sorgen." },
+      { jp: "ここに座らないでください。", reading: "ここにすわらないでください。", de: "Bitte setzen Sie sich hier nicht hin." },
+      { jp: "ドアを閉めないでください。", reading: "ドアをしめないでください。", de: "Bitte schließen Sie die Tür nicht." },
+      { jp: "授業中、スマホを使わないでください。", reading: "じゅぎょうちゅう、スマホをつかわないでください。", de: "Bitte benutzen Sie im Unterricht kein Handy." },
+      { jp: "ここでたばこを吸わないでください。", reading: "ここでたばこをすわないでください。", de: "Bitte rauchen Sie hier nicht." }
     ]
   },
   {
@@ -383,6 +663,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 今、何をしていますか。", reading: "A: いま、なにをしていますか。", de: "A: Was machen Sie gerade?" },
       { jp: "B: 日本語を勉強しています。", reading: "B: にほんごをべんきょうしています。", de: "B: Ich lerne gerade Japanisch." }
+    ],
+    examples: [
+      { jp: "今、テレビを見ています。", reading: "いま、テレビをみています。", de: "Ich sehe gerade fern." },
+      { jp: "母は台所で料理をしています。", reading: "はははだいどころでりょうりをしています。", de: "Meine Mutter kocht gerade in der Küche." },
+      { jp: "田中さんは結婚しています。", reading: "たなかさんはけっこんしています。", de: "Herr Tanaka ist verheiratet." },
+      { jp: "弟は今、寝ています。", reading: "おとうとはいま、ねています。", de: "Mein kleiner Bruder schläft gerade." },
+      { jp: "私は東京に住んでいます。", reading: "わたしはとうきょうにすんでいます。", de: "Ich wohne in Tokio." },
+      { jp: "雨が降っています。", reading: "あめがふっています。", de: "Es regnet gerade." },
+      { jp: "友達を待っています。", reading: "ともだちをまっています。", de: "Ich warte gerade auf einen Freund." },
+      { jp: "父は新聞を読んでいます。", reading: "ちちはしんぶんをよんでいます。", de: "Mein Vater liest gerade die Zeitung." }
     ]
   },
   {
@@ -396,6 +686,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 毎朝、何をしますか。", reading: "A: まいあさ、なにをしますか。", de: "A: Was machen Sie jeden Morgen?" },
       { jp: "B: シャワーを浴びて、朝ごはんを食べて、出かけます。", reading: "B: シャワーをあびて、あさごはんをたべて、でかけます。", de: "B: Ich dusche, esse dann Frühstück und gehe aus dem Haus." }
+    ],
+    examples: [
+      { jp: "朝ごはんを食べて、学校に行きます。", reading: "あさごはんをたべて、がっこうにいきます。", de: "Ich frühstücke und gehe dann zur Schule." },
+      { jp: "宿題をして、寝ます。", reading: "しゅくだいをして、ねます。", de: "Ich mache die Hausaufgaben und gehe dann schlafen." },
+      { jp: "手を洗って、ご飯を食べます。", reading: "てをあらって、ごはんをたべます。", de: "Ich wasche mir die Hände und esse dann." },
+      { jp: "本を買って、家に帰りました。", reading: "ほんをかって、いえにかえりました。", de: "Ich habe ein Buch gekauft und bin dann nach Hause gegangen." },
+      { jp: "シャワーを浴びて、出かけます。", reading: "シャワーをあびて、でかけます。", de: "Ich dusche und gehe dann aus dem Haus." },
+      { jp: "友達に会って、映画を見ました。", reading: "ともだちにあって、えいがをみました。", de: "Ich habe einen Freund getroffen und dann einen Film gesehen." },
+      { jp: "起きて、顔を洗って、コーヒーを飲みます。", reading: "おきて、かおをあらって、コーヒーをのみます。", de: "Ich stehe auf, wasche mein Gesicht und trinke dann Kaffee." },
+      { jp: "駅に行って、電車に乗ります。", reading: "えきにいって、でんしゃにのります。", de: "Ich gehe zum Bahnhof und steige dann in den Zug." }
     ]
   },
 
@@ -411,6 +711,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 将来、何をしたいですか。", reading: "A: しょうらい、なにをしたいですか。", de: "A: Was möchten Sie in Zukunft machen?" },
       { jp: "B: 日本に住みたいです。", reading: "B: にほんにすみたいです。", de: "B: Ich möchte in Japan leben." }
+    ],
+    examples: [
+      { jp: "日本に行きたいです。", reading: "にほんにいきたいです。", de: "Ich möchte nach Japan fahren." },
+      { jp: "すしを食べたいです。", reading: "すしをたべたいです。", de: "Ich möchte Sushi essen." },
+      { jp: "冷たい水を飲みたいです。", reading: "つめたいみずをのみたいです。", de: "Ich möchte kaltes Wasser trinken." },
+      { jp: "今日は早く帰りたいです。", reading: "きょうははやくかえりたいです。", de: "Heute möchte ich früh nach Hause gehen." },
+      { jp: "新しい車を買いたいです。", reading: "あたらしいくるまをかいたいです。", de: "Ich möchte ein neues Auto kaufen." },
+      { jp: "週末は休みたいです。", reading: "しゅうまつはやすみたいです。", de: "Am Wochenende möchte ich mich ausruhen." },
+      { jp: "映画を見たいです。", reading: "えいがをみたいです。", de: "Ich möchte einen Film sehen." },
+      { jp: "日本語が上手になりたいです。", reading: "にほんごがじょうずになりたいです。", de: "Ich möchte gut in Japanisch werden." }
     ]
   },
   {
@@ -425,6 +735,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: どこに行くんですか。", reading: "A: どこにいくんですか。", de: "A: Wohin gehen Sie?" },
       { jp: "B: 本を買いに書店に行きます。", reading: "B: ほんをかいにしょてんにいきます。", de: "B: Ich gehe in die Buchhandlung, um ein Buch zu kaufen." }
+    ],
+    examples: [
+      { jp: "ご飯を食べに行きます。", reading: "ごはんをたべにいきます。", de: "Ich gehe essen." },
+      { jp: "映画を見に行きます。", reading: "えいがをみにいきます。", de: "Ich gehe einen Film sehen." },
+      { jp: "友達は日本へ日本語を勉強しに来ました。", reading: "ともだちはにほんへにほんごをべんきょうしにきました。", de: "Mein Freund ist nach Japan gekommen, um Japanisch zu lernen." },
+      { jp: "本を買いに行きます。", reading: "ほんをかいにいきます。", de: "Ich gehe ein Buch kaufen." },
+      { jp: "母は買い物に行きました。", reading: "はははかいものにいきました。", de: "Meine Mutter ist einkaufen gegangen." },
+      { jp: "海へ泳ぎに行きたいです。", reading: "うみへおよぎにいきたいです。", de: "Ich möchte ans Meer schwimmen gehen." },
+      { jp: "昼ご飯を食べに家へ帰ります。", reading: "ひるごはんをたべにいえへかえります。", de: "Ich gehe nach Hause, um Mittag zu essen." },
+      { jp: "公園へ散歩に行きます。", reading: "こうえんへさんぽにいきます。", de: "Ich gehe in den Park spazieren." }
     ]
   },
 
@@ -440,6 +760,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: どうして早く帰るんですか。", reading: "A: どうしてはやくかえるんですか。", de: "A: Warum gehen Sie früh nach Hause?" },
       { jp: "B: 子供が熱があるから、早く帰ります。", reading: "B: こどもがねつがあるから、はやくかえります。", de: "B: Weil mein Kind Fieber hat, gehe ich früh." }
+    ],
+    examples: [
+      { jp: "眠いから、寝ます。", reading: "ねむいから、ねます。", de: "Weil ich müde bin, gehe ich schlafen." },
+      { jp: "今日は寒いから、コートを着ます。", reading: "きょうはさむいから、コートをきます。", de: "Weil es heute kalt ist, ziehe ich einen Mantel an." },
+      { jp: "時間がないから、急ぎます。", reading: "じかんがないから、いそぎます。", de: "Weil ich keine Zeit habe, beeile ich mich." },
+      { jp: "おいしいから、よく食べます。", reading: "おいしいから、よくたべます。", de: "Weil es lecker ist, esse ich es oft." },
+      { jp: "明日は休みだから、遅くまで起きます。", reading: "あしたはやすみだから、おそくまでおきます。", de: "Weil morgen frei ist, bleibe ich lange wach." },
+      { jp: "雨が降っているから、行きません。", reading: "あめがふっているから、いきません。", de: "Weil es regnet, gehe ich nicht." },
+      { jp: "お金がないから、買いません。", reading: "おかねがないから、かいません。", de: "Weil ich kein Geld habe, kaufe ich es nicht." },
+      { jp: "日本語が好きだから、毎日勉強します。", reading: "にほんごがすきだから、まいにちべんきょうします。", de: "Weil ich Japanisch mag, lerne ich jeden Tag." }
     ]
   },
   {
@@ -453,6 +783,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: その映画はどうでしたか。", reading: "A: そのえいがはどうでしたか。", de: "A: Wie war der Film?" },
       { jp: "B: 面白かったけど、ちょっと長かったです。", reading: "B: おもしろかったけど、ちょっとながかったです。", de: "B: Interessant, aber etwas zu lang." }
+    ],
+    examples: [
+      { jp: "日本語は好きですが、難しいです。", reading: "にほんごはすきですが、むずかしいです。", de: "Ich mag Japanisch, aber es ist schwierig." },
+      { jp: "この店は安いですが、おいしくないです。", reading: "このみせはやすいですが、おいしくないです。", de: "Dieser Laden ist billig, aber nicht lecker." },
+      { jp: "行きたいけど、時間がないです。", reading: "いきたいけど、じかんがないです。", de: "Ich möchte gehen, aber ich habe keine Zeit." },
+      { jp: "天気はいいですが、寒いです。", reading: "てんきはいいですが、さむいです。", de: "Das Wetter ist gut, aber es ist kalt." },
+      { jp: "この本は面白いけど、長いです。", reading: "このほんはおもしろいけど、ながいです。", de: "Dieses Buch ist interessant, aber lang." },
+      { jp: "彼は若いですが、まじめです。", reading: "かれはわかいですが、まじめです。", de: "Er ist jung, aber gewissenhaft." },
+      { jp: "すしは好きだけど、高いです。", reading: "すしはすきだけど、たかいです。", de: "Ich mag Sushi, aber es ist teuer." },
+      { jp: "勉強しましたが、テストは難しかったです。", reading: "べんきょうしましたが、テストはむずかしかったです。", de: "Ich habe gelernt, aber der Test war schwierig." }
     ]
   },
 
@@ -469,6 +809,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 寝る前に何かしますか。", reading: "A: ねるまえになにかしますか。", de: "A: Machen Sie etwas, bevor Sie schlafen?" },
       { jp: "B: はい、お茶を飲みます。", reading: "B: はい、おちゃをのみます。", de: "B: Ja, ich trinke Tee." }
+    ],
+    examples: [
+      { jp: "寝る前に、歯を磨きます。", reading: "ねるまえに、はをみがきます。", de: "Bevor ich schlafe, putze ich die Zähne." },
+      { jp: "ご飯を食べる前に、手を洗います。", reading: "ごはんをたべるまえに、てをあらいます。", de: "Bevor ich esse, wasche ich mir die Hände." },
+      { jp: "出かける前に、電気を消します。", reading: "でかけるまえに、でんきをけします。", de: "Bevor ich ausgehe, mache ich das Licht aus." },
+      { jp: "テストの前に、よく勉強します。", reading: "テストのまえに、よくべんきょうします。", de: "Vor dem Test lerne ich viel." },
+      { jp: "日本に来る前に、日本語を勉強しました。", reading: "にほんにくるまえに、にほんごをべんきょうしました。", de: "Bevor ich nach Japan kam, habe ich Japanisch gelernt." },
+      { jp: "会議の前に、コーヒーを飲みます。", reading: "かいぎのまえに、コーヒーをのみます。", de: "Vor der Besprechung trinke ich Kaffee." },
+      { jp: "買い物に行く前に、お金を取ります。", reading: "かいものにいくまえに、おかねをとります。", de: "Bevor ich einkaufen gehe, nehme ich Geld mit." },
+      { jp: "寝る前に、本を読みます。", reading: "ねるまえに、ほんをよみます。", de: "Bevor ich schlafe, lese ich ein Buch." }
     ]
   },
   {
@@ -483,6 +833,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: いつ電話しますか。", reading: "A: いつでんわしますか。", de: "A: Wann rufen Sie an?" },
       { jp: "B: 会議が終わってから、電話します。", reading: "B: かいぎがおわってから、でんわします。", de: "B: Ich rufe an, nachdem das Meeting vorbei ist." }
+    ],
+    examples: [
+      { jp: "ご飯を食べた後で、散歩します。", reading: "ごはんをたべたあとで、さんぽします。", de: "Nachdem ich gegessen habe, mache ich einen Spaziergang." },
+      { jp: "宿題をしてから、テレビを見ます。", reading: "しゅくだいをしてから、テレビをみます。", de: "Nachdem ich die Hausaufgaben gemacht habe, sehe ich fern." },
+      { jp: "仕事が終わった後で、買い物に行きます。", reading: "しごとがおわったあとで、かいものにいきます。", de: "Nach der Arbeit gehe ich einkaufen." },
+      { jp: "手を洗ってから、ご飯を食べます。", reading: "てをあらってから、ごはんをたべます。", de: "Nachdem ich mir die Hände gewaschen habe, esse ich." },
+      { jp: "映画を見た後で、お茶を飲みました。", reading: "えいがをみたあとで、おちゃをのみました。", de: "Nach dem Film haben wir Tee getrunken." },
+      { jp: "学校が終わってから、友達と遊びます。", reading: "がっこうがおわってから、ともだちとあそびます。", de: "Nach der Schule spiele ich mit Freunden." },
+      { jp: "シャワーを浴びた後で、寝ます。", reading: "シャワーをあびたあとで、ねます。", de: "Nachdem ich geduscht habe, gehe ich schlafen." },
+      { jp: "勉強してから、ゲームをします。", reading: "べんきょうしてから、ゲームをします。", de: "Nachdem ich gelernt habe, spiele ich ein Spiel." }
     ]
   },
   {
@@ -496,6 +856,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 何時ごろ家に帰りますか。", reading: "A: なんじごろいえにかえりますか。", de: "A: Gegen wie viel Uhr kommen Sie nach Hause?" },
       { jp: "B: 夜七時ごろだと思います。", reading: "B: よるしちじごろだとおもいます。", de: "B: So gegen 19 Uhr, glaube ich." }
+    ],
+    examples: [
+      { jp: "七時ごろ、起きます。", reading: "しちじごろ、おきます。", de: "Ich stehe ungefähr um 7 Uhr auf." },
+      { jp: "十二時ごろ、昼ご飯を食べます。", reading: "じゅうにじごろ、ひるごはんをたべます。", de: "Gegen 12 Uhr esse ich Mittag." },
+      { jp: "八時ごろ、家を出ます。", reading: "はちじごろ、いえをでます。", de: "Gegen 8 Uhr verlasse ich das Haus." },
+      { jp: "三時ごろ、お茶を飲みます。", reading: "さんじごろ、おちゃをのみます。", de: "Gegen 15 Uhr trinke ich Tee." },
+      { jp: "十一時ごろ、寝ます。", reading: "じゅういちじごろ、ねます。", de: "Gegen 23 Uhr gehe ich schlafen." },
+      { jp: "六時ごろ、家に帰ります。", reading: "ろくじごろ、いえにかえります。", de: "Gegen 18 Uhr komme ich nach Hause." },
+      { jp: "九時ごろ、会社に着きます。", reading: "くじごろ、かいしゃにつきます。", de: "Gegen 9 Uhr komme ich in der Firma an." },
+      { jp: "五時ごろ、友達に会います。", reading: "ごじごろ、ともだちにあいます。", de: "Gegen 17 Uhr treffe ich einen Freund." }
     ]
   },
 
@@ -511,6 +881,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: その映画は面白いですか。", reading: "A: そのえいがはおもしろいですか。", de: "A: Ist der Film interessant?" },
       { jp: "B: 面白いですよ。でも、ちょっと怖いです。", reading: "B: おもしろいですよ。でも、ちょっとこわいです。", de: "B: Ja, schon. Aber etwas gruselig." }
+    ],
+    examples: [
+      { jp: "このりんごは高くないです。", reading: "このりんごはたかくないです。", de: "Dieser Apfel ist nicht teuer." },
+      { jp: "今日は暑いです。", reading: "きょうはあついです。", de: "Heute ist es heiß." },
+      { jp: "昨日は寒かったです。", reading: "きのうはさむかったです。", de: "Gestern war es kalt." },
+      { jp: "この映画は面白くなかったです。", reading: "このえいがはおもしろくなかったです。", de: "Dieser Film war nicht interessant." },
+      { jp: "この部屋は広くて、明るいです。", reading: "このへやはひろくて、あかるいです。", de: "Dieses Zimmer ist groß und hell." },
+      { jp: "天気がよくないです。", reading: "てんきがよくないです。", de: "Das Wetter ist nicht gut." },
+      { jp: "そのかばんは新しいです。", reading: "そのかばんはあたらしいです。", de: "Diese Tasche ist neu." },
+      { jp: "ラーメンは安くておいしいです。", reading: "ラーメンはやすくておいしいです。", de: "Ramen ist billig und lecker." }
     ]
   },
   {
@@ -524,6 +904,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 田中さんはどんな人ですか。", reading: "A: たなかさんはどんなひとですか。", de: "A: Was für ein Mensch ist Frau Tanaka?" },
       { jp: "B: とても親切で、まじめな人です。", reading: "B: とてもしんせつで、まじめなひとです。", de: "B: Sie ist sehr freundlich und gewissenhaft." }
+    ],
+    examples: [
+      { jp: "あの人はきれいです。", reading: "あのひとはきれいです。", de: "Diese Person ist schön." },
+      { jp: "田中さんは親切な人です。", reading: "たなかさんはしんせつなひとです。", de: "Herr Tanaka ist ein freundlicher Mensch." },
+      { jp: "この町は静かです。", reading: "このまちはしずかです。", de: "Diese Stadt ist ruhig." },
+      { jp: "彼女は有名な歌手です。", reading: "かのじょはゆうめいなかしゅです。", de: "Sie ist eine berühmte Sängerin." },
+      { jp: "この問題は簡単です。", reading: "このもんだいはかんたんです。", de: "Diese Aufgabe ist einfach." },
+      { jp: "日本語の勉強は大変ですが、楽しいです。", reading: "にほんごのべんきょうはたいへんですが、たのしいです。", de: "Japanisch lernen ist anstrengend, aber macht Spaß." },
+      { jp: "ここは便利な所です。", reading: "ここはべんりなところです。", de: "Das hier ist ein praktischer Ort." },
+      { jp: "私の部屋はきれいじゃないです。", reading: "わたしのへやはきれいじゃないです。", de: "Mein Zimmer ist nicht sauber." }
     ]
   },
   {
@@ -537,6 +927,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: バスと電車、どちらが速いですか。", reading: "A: バスとでんしゃ、どちらがはやいですか。", de: "A: Was ist schneller, der Bus oder die Bahn?" },
       { jp: "B: 電車はバスより速いです。", reading: "B: でんしゃはバスよりはやいです。", de: "B: Die Bahn ist schneller als der Bus." }
+    ],
+    examples: [
+      { jp: "東京は大阪より大きいです。", reading: "とうきょうはおおさかよりおおきいです。", de: "Tokio ist größer als Osaka." },
+      { jp: "今日は昨日より寒いです。", reading: "きょうはきのうよりさむいです。", de: "Heute ist es kälter als gestern." },
+      { jp: "飛行機は電車より速いです。", reading: "ひこうきはでんしゃよりはやいです。", de: "Das Flugzeug ist schneller als der Zug." },
+      { jp: "この店はあの店より安いです。", reading: "このみせはあのみせよりやすいです。", de: "Dieser Laden ist billiger als jener." },
+      { jp: "兄は私より背が高いです。", reading: "あにはわたしよりせがたかいです。", de: "Mein großer Bruder ist größer als ich." },
+      { jp: "日本語は英語より難しいです。", reading: "にほんごはえいごよりむずかしいです。", de: "Japanisch ist schwieriger als Englisch." },
+      { jp: "夏は冬より暑いです。", reading: "なつはふゆよりあついです。", de: "Der Sommer ist heißer als der Winter." },
+      { jp: "この本はあの本より面白いです。", reading: "このほんはあのほんよりおもしろいです。", de: "Dieses Buch ist interessanter als jenes." }
     ]
   },
   {
@@ -551,6 +951,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: コーヒーとお茶、どちらが好きですか。", reading: "A: コーヒーとおちゃ、どちらがすきですか。", de: "A: Was mögen Sie lieber, Kaffee oder Tee?" },
       { jp: "B: コーヒーよりお茶の方が好きです。", reading: "B: コーヒーよりおちゃのほうがすきです。", de: "B: Ich mag Tee lieber als Kaffee." }
+    ],
+    examples: [
+      { jp: "コーヒーよりお茶の方が好きです。", reading: "コーヒーよりおちゃのほうがすきです。", de: "Ich mag Tee lieber als Kaffee." },
+      { jp: "電車の方がバスより速いです。", reading: "でんしゃのほうがバスよりはやいです。", de: "Die Bahn ist schneller als der Bus." },
+      { jp: "夏より冬の方が好きです。", reading: "なつよりふゆのほうがすきです。", de: "Ich mag den Winter lieber als den Sommer." },
+      { jp: "この店の方があの店より安いです。", reading: "このみせのほうがあのみせよりやすいです。", de: "Dieser Laden ist billiger als jener." },
+      { jp: "肉より魚の方が好きです。", reading: "にくよりさかなのほうがすきです。", de: "Ich mag Fisch lieber als Fleisch." },
+      { jp: "犬の方が猫より好きです。", reading: "いぬのほうがねこよりすきです。", de: "Ich mag Hunde lieber als Katzen." },
+      { jp: "東京の方が大阪より大きいです。", reading: "とうきょうのほうがおおさかよりおおきいです。", de: "Tokio ist größer als Osaka." },
+      { jp: "今日の方が昨日より暖かいです。", reading: "きょうのほうがきのうよりあたたかいです。", de: "Heute ist es wärmer als gestern." }
     ]
   },
   {
@@ -565,6 +975,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 四季の中で何が一番好きですか。", reading: "A: しきのなかでなにがいちばんすきですか。", de: "A: Welche Jahreszeit mögen Sie am liebsten?" },
       { jp: "B: 秋が一番好きです。涼しくてきれいですから。", reading: "B: あきがいちばんすきです。すずしくてきれいですから。", de: "B: Ich mag Herbst am liebsten. Weil er kühl und schön ist." }
+    ],
+    examples: [
+      { jp: "果物の中でりんごが一番好きです。", reading: "くだもののなかでりんごがいちばんすきです。", de: "Von allen Früchten mag ich Äpfel am liebsten." },
+      { jp: "クラスの中で田中さんが一番背が高いです。", reading: "クラスのなかでたなかさんがいちばんせがたかいです。", de: "In der Klasse ist Herr Tanaka am größten." },
+      { jp: "一年の中で八月が一番暑いです。", reading: "いちねんのなかではちがつがいちばんあついです。", de: "Im Jahr ist der August am heißesten." },
+      { jp: "スポーツの中でサッカーが一番好きです。", reading: "スポーツのなかでサッカーがいちばんすきです。", de: "Von allen Sportarten mag ich Fußball am liebsten." },
+      { jp: "日本の中で東京が一番大きいです。", reading: "にほんのなかでとうきょうがいちばんおおきいです。", de: "In Japan ist Tokio am größten." },
+      { jp: "家族の中で父が一番早く起きます。", reading: "かぞくのなかでちちがいちばんはやくおきます。", de: "In der Familie steht mein Vater am frühesten auf." },
+      { jp: "飲み物の中でお茶が一番好きです。", reading: "のみもののなかでおちゃがいちばんすきです。", de: "Von allen Getränken mag ich Tee am liebsten." },
+      { jp: "四季の中で春が一番好きです。", reading: "しきのなかではるがいちばんすきです。", de: "Von allen Jahreszeiten mag ich den Frühling am liebsten." }
     ]
   },
   {
@@ -577,6 +997,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: いらっしゃいませ。何になさいますか。", reading: "A: いらっしゃいませ。なにになさいますか。", de: "A: Willkommen! Was darf es sein?" },
       { jp: "B: コーヒーとサンドイッチをください。", de: "B: Einen Kaffee und ein Sandwich bitte." }
+    ],
+    examples: [
+      { jp: "コーヒーをください。", reading: "コーヒーをください。", de: "Einen Kaffee bitte." },
+      { jp: "水を一杯ください。", reading: "みずをいっぱいください。", de: "Ein Glas Wasser bitte." },
+      { jp: "これを三つください。", reading: "これをみっつください。", de: "Geben Sie mir bitte drei davon." },
+      { jp: "その本をください。", reading: "そのほんをください。", de: "Geben Sie mir bitte das Buch." },
+      { jp: "りんごを五つください。", reading: "りんごをいつつください。", de: "Fünf Äpfel bitte." },
+      { jp: "切符を二枚ください。", reading: "きっぷをにまいください。", de: "Zwei Fahrkarten bitte." },
+      { jp: "お茶をください。", reading: "おちゃをください。", de: "Einen Tee bitte." },
+      { jp: "メニューをください。", reading: "メニューをください。", de: "Die Speisekarte bitte." }
     ]
   },
   {
@@ -590,6 +1020,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 少し疲れましたね。休憩はどうですか。", reading: "A: すこしつかれましたね。きゅうけいはどうですか。", de: "A: Sie sehen etwas müde aus. Wie wäre es mit einer Pause?" },
       { jp: "B: いいですね。ありがとうございます。", de: "B: Gute Idee. Danke schön." }
+    ],
+    examples: [
+      { jp: "お茶はどうですか。", reading: "おちゃはどうですか。", de: "Wie wäre es mit Tee?" },
+      { jp: "この映画はどうですか。", reading: "このえいがはどうですか。", de: "Wie ist dieser Film?" },
+      { jp: "明日はどうですか。", reading: "あしたはどうですか。", de: "Wie wäre es mit morgen?" },
+      { jp: "日本の生活はどうですか。", reading: "にほんのせいかつはどうですか。", de: "Wie ist das Leben in Japan?" },
+      { jp: "新しい仕事はどうですか。", reading: "あたらしいしごとはどうですか。", de: "Wie ist die neue Arbeit?" },
+      { jp: "この店はどうですか。", reading: "このみせはどうですか。", de: "Wie wäre es mit diesem Laden?" },
+      { jp: "コーヒーをもう一杯はどうですか。", reading: "コーヒーをもういっぱいはどうですか。", de: "Wie wäre es mit noch einer Tasse Kaffee?" },
+      { jp: "週末の旅行はどうですか。", reading: "しゅうまつのりょこうはどうですか。", de: "Wie wäre es mit einer Reise am Wochenende?" }
     ]
   },
   {
@@ -603,6 +1043,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: もっと食べませんか。", reading: "A: もっとたべませんか。", de: "A: Möchten Sie nicht mehr essen?" },
       { jp: "B: ありがとう。もう少しだけいただきます。", reading: "B: ありがとう。もうすこしだけいただきます。", de: "B: Danke. Ich nehme nur noch ein kleines bisschen." }
+    ],
+    examples: [
+      { jp: "少しだけ食べます。", reading: "すこしだけたべます。", de: "Ich esse nur ein bisschen." },
+      { jp: "水だけください。", reading: "みずだけください。", de: "Nur Wasser bitte." },
+      { jp: "一人だけ来ました。", reading: "ひとりだけきました。", de: "Nur eine Person ist gekommen." },
+      { jp: "今日は少しだけ勉強しました。", reading: "きょうはすこしだけべんきょうしました。", de: "Heute habe ich nur ein bisschen gelernt." },
+      { jp: "私だけ日本語が分かります。", reading: "わたしだけにほんごがわかります。", de: "Nur ich verstehe Japanisch." },
+      { jp: "コーヒーを一杯だけ飲みます。", reading: "コーヒーをいっぱいだけのみます。", de: "Ich trinke nur eine Tasse Kaffee." },
+      { jp: "これだけ買います。", reading: "これだけかいます。", de: "Ich kaufe nur das." },
+      { jp: "週末だけ休みます。", reading: "しゅうまつだけやすみます。", de: "Nur am Wochenende mache ich frei." }
     ]
   },
   {
@@ -617,6 +1067,16 @@ const GRAMMAR = [
     dialogue: [
       { jp: "A: 何かお入り用ですか。", reading: "A: なにかおいりようですか。", de: "A: Brauchen Sie etwas?" },
       { jp: "B: えんぴつを二本と、ノートを一冊ください。", reading: "B: えんぴつをにほんと、ノートをいっさつください。", de: "B: Bitte zwei Bleistifte und ein Heft." }
+    ],
+    examples: [
+      { jp: "えんぴつを三本ください。", reading: "えんぴつをさんぼんください。", de: "Bitte drei Bleistifte." },
+      { jp: "切手を五枚買いました。", reading: "きってをごまいかいました。", de: "Ich habe fünf Briefmarken gekauft." },
+      { jp: "りんごを二個ください。", reading: "りんごをにこください。", de: "Bitte zwei Äpfel." },
+      { jp: "犬が三匹います。", reading: "いぬがさんびきいます。", de: "Es sind drei Hunde da." },
+      { jp: "学生が五人います。", reading: "がくせいがごにんいます。", de: "Es sind fünf Studenten da." },
+      { jp: "車が二台あります。", reading: "くるまがにだいあります。", de: "Es sind zwei Autos da." },
+      { jp: "ビールを一本ください。", reading: "ビールをいっぽんください。", de: "Ein Bier bitte." },
+      { jp: "紙を三枚ください。", reading: "かみをさんまいください。", de: "Bitte drei Blatt Papier." }
     ]
   },
 ];
