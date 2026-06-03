@@ -4,6 +4,17 @@
 
 ---
 
+## [2.19.0] — 2026-06-03
+
+### Geändert
+
+- **Sanfter Tagesplan statt Rückstand-Zahl** — der Hero zeigte „Heute fällig: 495 Karten" (jede noch nie gesehene Karte zählte als fällig). Jetzt baut die App einen gemischten Tagesplan: alle echten Wiederholungen plus höchstens 20 neue Karten pro Tag (`DAILY_NEW`), alle Decks durchmischt. Der Hero zeigt nur diesen Plan, nie den Gesamt-Rückstand. Ein Tipp startet direkt (ohne Konfig-Dialog).
+- **Deck-Karten entrümpelt** — die fünf Deck-Karten zeigen nur noch Schriftzeichen + Name, keine Fällig-/Gesamt-Zahlen mehr. Kürzer, ruhiger, und der Home-Screen passt jetzt ohne Scrollen auf einen Bildschirm. Deck-Karten bleiben freies, ungedeckeltes Üben; der Hero ist der gedeckelte Tagespfad.
+
+### Behoben
+
+- Neue Karten werden pro Tag gezählt (`localStorage`), damit der Rückstand nicht mehr auf einen Schlag hereinbricht, sondern mit ~20/Tag hereinrieselt. Zähler ist Undo-fest.
+
 ## [2.18.0] — 2026-06-03
 
 ### Behoben

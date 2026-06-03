@@ -11,6 +11,7 @@ const state = {
   flipped: false,
   stats: { nochmal: 0, richtig: 0 },
   srs: {},
+  daily: { date: null, newCount: 0 },
   lastDeck: null,
   pendingDeck: null,
   dueTotal: 0,
@@ -19,6 +20,10 @@ const state = {
 
 // Cap each session so a fresh deck (everything due) stays finite and reachable.
 const SESSION_CAP = 20;
+
+// Max brand-new cards introduced per day. Keeps the daily plan gentle instead of
+// dumping the whole untouched corpus as "due" on day one.
+const DAILY_NEW = 20;
 
 const MODAL_PREFS_KEY = 'n5_modal_prefs';
 const ONBOARD_KEY = 'n5_onboarded';
@@ -145,6 +150,25 @@ function saveSRS() {
   localStorage.setItem(SRS_KEY, JSON.stringify(state.srs));
 }
 
+const DAILY_KEY = 'n5_daily';
+
+// Tracks how many new cards were introduced today so the daily plan can cap intake.
+function loadDaily() {
+  let d;
+  try { d = JSON.parse(localStorage.getItem(DAILY_KEY) || 'null'); } catch { d = null; }
+  const today = todayStr();
+  if (!d || d.date !== today) d = { date: today, newCount: 0 };
+  state.daily = d;
+}
+
+function saveDaily() {
+  localStorage.setItem(DAILY_KEY, JSON.stringify(state.daily));
+}
+
+function newAllowance() {
+  return Math.max(0, DAILY_NEW - state.daily.newCount);
+}
+
 function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -216,8 +240,27 @@ function getDueCards(deck, direction, level) {
   return shuffle(cards);
 }
 
-function countDue(deck, direction, level) {
-  return getDueCards(deck, direction, level).length;
+// The gentle daily plan: every due review (cards already seen) plus a capped trickle
+// of new cards, all decks interleaved. Never the raw untouched backlog.
+function getDailyQueue(direction, level) {
+  const today = todayStr();
+  const dir = direction === 'jp-de' ? 'fwd' : 'rev';
+  const reviews = [];
+  const news = [];
+
+  allItems('all', level).forEach(({ item, type }) => {
+    const id = `${item.id}-${dir}`;
+    const srsCard = getSRSCard(id);
+    const card = { item, type, dir, id, srsCard };
+    if (id in state.srs) {
+      if (state.srs[id].due <= today) reviews.push(card);
+    } else {
+      news.push(card);
+    }
+  });
+
+  const newCards = shuffle(news).slice(0, newAllowance());
+  return shuffle([...reviews, ...newCards]);
 }
 
 function shuffle(arr) {
@@ -253,34 +296,21 @@ function updateTabbar(name) {
 // ===== HOME SCREEN =====
 function renderHome() {
   showScreen('home');
+  loadDaily();
 
-  const decks = ['kanji', 'vocab', 'grammar', 'basics', 'all'];
+  // Daily-action hero: today's capped, interleaved plan, not the raw backlog.
   const prefs = loadModalPrefs();
-  decks.forEach(deck => {
-    const level = (deck === 'vocab' || deck === 'all') ? ((prefs[deck] && prefs[deck].level) || 'easy') : 'easy';
-    const due = countDue(deck, state.direction, level);
-    const el = document.getElementById(`due-${deck}`);
-    if (el) el.textContent = due;
-    const card = document.querySelector(`.deck-card[data-deck="${deck}"]`);
-    if (card) card.classList.toggle('deck-card--done', due === 0);
-  });
+  const allPrefs = prefs.all || {};
+  const dir = ['jp-de', 'de-jp'].includes(allPrefs.direction) ? allPrefs.direction : state.direction;
+  const level = ['easy', 'adv'].includes(allPrefs.level) ? allPrefs.level : 'easy';
+  const plan = getDailyQueue(dir, level);
 
-  // Update totals dynamically
-  document.getElementById('total-kanji').textContent   = `/ ${KANJI.length}`;
-  document.getElementById('total-vocab').textContent    = `/ ${VOCAB.length}`;
-  document.getElementById('total-grammar').textContent  = `/ ${GRAMMAR.length}`;
-  document.getElementById('total-basics').textContent   = `/ ${BASICS.length}`;
-  document.getElementById('total-all').textContent      = '';
-
-  // Daily-action hero: total due across everything
-  const allLevel = (prefs['all'] && prefs['all'].level) || 'easy';
-  const totalDue = countDue('all', state.direction, allLevel);
   const hero = document.getElementById('daily-hero');
   const heroDue = document.getElementById('hero-due');
   const heroLabel = document.getElementById('hero-label');
-  if (heroDue) heroDue.textContent = totalDue;
-  if (hero) hero.classList.toggle('daily-hero--done', totalDue === 0);
-  if (heroLabel) heroLabel.textContent = totalDue === 0 ? 'Für heute geschafft' : 'Heute fällig';
+  if (heroDue) heroDue.textContent = plan.length;
+  if (hero) hero.classList.toggle('daily-hero--done', plan.length === 0);
+  if (heroLabel) heroLabel.textContent = plan.length === 0 ? 'Für heute geschafft' : 'Heute dran';
 
   const onboardPanel = document.getElementById('onboard-panel');
   if (onboardPanel) onboardPanel.classList.toggle('hidden', !!localStorage.getItem(ONBOARD_KEY));
@@ -307,6 +337,35 @@ function dismissRatingHint() {
 }
 
 // ===== SESSION START =====
+// Hero entry point: one tap into today's gentle, capped, interleaved plan.
+function startDailySession() {
+  loadDaily();
+  const prefs = loadModalPrefs().all || {};
+  state.mode = (DECK_MODES.all.includes(prefs.mode)) ? prefs.mode : 'flashcard';
+  state.direction = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : state.direction;
+  state.level = ['easy', 'adv'].includes(prefs.level) ? prefs.level : 'easy';
+
+  const queue = getDailyQueue(state.direction, state.level);
+  if (queue.length === 0) {
+    showToast('Für heute geschafft. Gut gemacht! 🎉');
+    renderHome();
+    return;
+  }
+
+  state.deck = 'all';
+  state.dueTotal = queue.length;
+  state.session = queue.slice(0, SESSION_CAP);
+  state.sessionIdx = 0;
+  state.flipped = false;
+  state.stats = { nochmal: 0, richtig: 0 };
+  state.lastDeck = 'all';
+  state.lastAction = null;
+
+  document.getElementById('session-deck-label').textContent = 'Heute';
+  showScreen('session');
+  renderCurrentCard();
+}
+
 function startSession(deck, direction) {
   const cards = getDueCards(deck, direction, state.level);
   if (cards.length === 0) {
@@ -819,11 +878,13 @@ function rateCard(rating) {
   dismissRatingHint();
   const card = state.session[state.sessionIdx];
   const next = calcNextReview(card.srsCard, rating);
+  const wasNew = !state.srs[card.id];
 
   // Snapshot so a misclicked rating can be undone (state + scheduling).
   state.lastAction = {
     cardId: card.id,
     prevSrs: state.srs[card.id] ? { ...state.srs[card.id] } : null,
+    wasNew,
     sessionIdx: state.sessionIdx,
     session: [...state.session],
     stats: { ...state.stats },
@@ -831,6 +892,13 @@ function rateCard(rating) {
 
   state.srs[card.id] = next;
   saveSRS();
+
+  // Count first-ever introductions against today's new-card cap.
+  if (wasNew) {
+    if (state.daily.date !== todayStr()) loadDaily();
+    state.daily.newCount++;
+    saveDaily();
+  }
 
   const key = rating === 1 ? 'nochmal' : 'richtig';
   if (key) state.stats[key]++;
@@ -864,6 +932,11 @@ function undoLastRating() {
   if (a.prevSrs) state.srs[a.cardId] = a.prevSrs;
   else delete state.srs[a.cardId];
   saveSRS();
+
+  if (a.wasNew && state.daily.newCount > 0) {
+    state.daily.newCount--;
+    saveDaily();
+  }
   state.session = a.session;
   state.sessionIdx = a.sessionIdx;
   state.stats = a.stats;
@@ -1499,9 +1572,9 @@ function initEvents() {
   document.getElementById('onboard-start').addEventListener('click', dismissOnboard);
   document.getElementById('onboard-close').addEventListener('click', dismissOnboard);
 
-  // Daily-action hero opens the start config for the full deck
+  // Daily-action hero: one tap straight into today's plan, no config detour
   const dailyHero = document.getElementById('daily-hero');
-  if (dailyHero) dailyHero.addEventListener('click', () => openStartModal('all'));
+  if (dailyHero) dailyHero.addEventListener('click', startDailySession);
 
   // Bottom nav
   document.querySelectorAll('.tab').forEach(tab => {
@@ -1616,6 +1689,7 @@ function initEvents() {
 // ===== INIT =====
 function init() {
   loadSRS();
+  loadDaily();
   initEvents();
   renderHome();
 }
