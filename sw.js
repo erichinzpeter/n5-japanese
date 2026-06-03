@@ -1,9 +1,10 @@
-const CACHE = 'n5-v42';
+const CACHE = 'n5-v43';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './app.js',
+  './pos.js',
   './data/kanji.js',
   './data/vocab.js',
   './data/grammar.js',

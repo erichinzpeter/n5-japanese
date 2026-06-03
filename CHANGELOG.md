@@ -4,6 +4,26 @@
 
 ---
 
+## [3.1.0] — 2026-06-03
+
+Decks nach Wortart aufgeteilt, Grammatik-Multiple-Choice repariert.
+
+### Geändert
+
+- **Vokabeln & Alltag ersetzt** — statt der zwei Decks gibt es jetzt vier nach Wortart: **Nomen**, **Verben**, **Adjektive**, **Sonstiges**. Die bisherigen Alltag-Einträge wandern nach Wortart in die neuen Decks; keine Daten verloren.
+- **„Alles" ohne Grammatik** — übt jetzt Kanji + alle vier Vokabel-Decks. Grammatik bleibt ein eigenes Deck (der Lernmodus ist zu anders).
+- **Größere Deck-Karten** auf dem Startbildschirm; der Untertitel „JLPT N5 — Karteikarten" entfällt zugunsten von mehr Platz. Jedes Deck hat eine eigene Farbe.
+
+### Behoben
+
+- **Multiple Choice im Grammatik-Deck** funktioniert wieder. Es übt jetzt den gesamten Muster-Pool (Muster ↔ Erklärung); der Drill eines einzelnen Musters bleibt den Karteikarten vorbehalten.
+
+### Intern
+
+- Neue reine Funktion `posCategory` (`pos.js`) ordnet jedes Wort einer der vier Wortart-Kategorien zu, mit Unit-Test `pos.test.mjs`.
+
+---
+
 ## [3.0.0] — 2026-06-03
 
 Großer Umbau: von Fortschritts-Tracker zu reinem Daily-Practice-Tool.

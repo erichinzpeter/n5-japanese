@@ -25,12 +25,18 @@ const ONBOARD_KEY = 'n5_onboarded';
 const RATING_HINT_KEY = 'n5_rating_hint_seen';
 
 const DECK_MODES = {
-  kanji:   ['flashcard', 'mc'],
-  vocab:   ['flashcard', 'mc', 'conjugation'],
-  grammar: ['flashcard', 'mc'],
-  basics:  ['flashcard', 'mc'],
-  all:     ['flashcard', 'mc'],
+  kanji:     ['flashcard', 'mc'],
+  nomen:     ['flashcard', 'mc'],
+  verben:    ['flashcard', 'mc', 'conjugation'],
+  adjektive: ['flashcard', 'mc', 'conjugation'],
+  sonstiges: ['flashcard', 'mc'],
+  grammar:   ['flashcard', 'mc'],
+  all:       ['flashcard', 'mc', 'conjugation'],
 };
+
+// Decks whose pool comes from VOCAB + BASICS (the part-of-speech split).
+// Used by collectDeckCards and the level-toggle visibility.
+const VOCAB_CATEGORIES = ['nomen', 'verben', 'adjektive', 'sonstiges'];
 
 const MODE_LABELS = {
   flashcard:   'Karteikarten',
@@ -40,9 +46,11 @@ const MODE_LABELS = {
 
 const DECK_TITLES = {
   kanji: 'Kanji üben',
-  vocab: 'Vokabeln üben',
+  nomen: 'Nomen üben',
+  verben: 'Verben üben',
+  adjektive: 'Adjektive üben',
+  sonstiges: 'Sonstiges üben',
   grammar: 'Grammatik üben',
-  basics: 'Alltag üben',
   all: 'Alles üben',
 };
 
@@ -114,8 +122,8 @@ function openStartModal(deck) {
 
 function updateLevelVisibility(deck) {
   const wrap = document.getElementById('modal-level-wrap');
-  if (deck === 'vocab' || deck === 'all') wrap.classList.remove('hidden');
-  else wrap.classList.add('hidden');
+  const isVocabDeck = VOCAB_CATEGORIES.includes(deck) || deck === 'all';
+  wrap.classList.toggle('hidden', !isVocabDeck);
 }
 
 function closeStartModal() {
@@ -165,23 +173,25 @@ function collectDeckCards(deck) {
   if (deck === 'kanji' || deck === 'all') {
     KANJI.forEach(k => cards.push({ item: k, type: 'kanji', dir, id: `${k.id}-${dir}` }));
   }
-  if (deck === 'vocab' || deck === 'all') {
-    let vocabItems = vocabForLevel(state.level);
-    // Conjugation mode: keep only items that produce forms (verbs + adjectives).
+
+  if (VOCAB_CATEGORIES.includes(deck) || deck === 'all') {
+    // VOCAB respects the level toggle; BASICS items carry no `level` field, so they aren't filtered by difficulty.
+    const pool = [...vocabForLevel(state.level), ...BASICS];
+    const wanted = deck === 'all' ? null : deck; // 'all' spans every category, so no single filter
+    let items = pool.filter(v => wanted === null || posCategory(v.pos) === wanted);
     if (state.mode === 'conjugation') {
-      // Need at least one non-dictionary form to ask about, so require >= 2 forms.
-      vocabItems = vocabItems.filter(v => {
+      // Keep only items that produce at least one non-dictionary form.
+      items = items.filter(v => {
         const c = conjugate(v.word, v.reading, v.pos);
         return c !== null && c.forms.length >= 2;
       });
     }
-    vocabItems.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+    items.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
   }
-  if (deck === 'grammar' || deck === 'all') {
+
+  // Grammar is its own deck only — never part of "Alles".
+  if (deck === 'grammar') {
     GRAMMAR.forEach(g => cards.push({ item: g, type: 'grammar', dir, id: `${g.id}-${dir}` }));
-  }
-  if (deck === 'basics' || deck === 'all') {
-    BASICS.forEach(b => cards.push({ item: b, type: 'vocab', dir, id: `${b.id}-${dir}` }));
   }
 
   return cards;
@@ -223,7 +233,11 @@ function buildGrammarRound(patternId, size) {
 // Build a fresh round: N random cards from the deck pool. No persistence.
 function buildRound(deck, size) {
   // When a specific grammar pattern is chosen from the picker, drill only its examples.
-  if (deck === 'grammar' && state.grammarPatternId) {
+  // Pattern-drill (one pattern's example sentences) is flashcard-only — example
+  // sentences have no meaningful MC distractors. In MC mode we fall through to
+  // collectDeckCards('grammar'), which yields type:'grammar' cards that
+  // generateChoices already handles (pattern <-> explanation choices).
+  if (deck === 'grammar' && state.grammarPatternId && state.mode !== 'mc') {
     return buildGrammarRound(state.grammarPatternId, size);
   }
   const pool = collectDeckCards(deck);
@@ -346,7 +360,7 @@ function startSession(deck, direction) {
   state.deck = deck;
   state.lastDeck = deck;
 
-  const deckLabels = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', basics: 'Alltag', all: 'Alles' };
+  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');

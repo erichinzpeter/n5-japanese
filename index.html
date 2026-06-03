@@ -30,7 +30,6 @@
         </div>
         <div class="fuji-title">日本語</div>
       </div>
-      <div class="home-subtitle">JLPT N5 — Karteikarten</div>
     </header>
 
     <div id="onboard-panel" class="onboard-panel hidden">
@@ -51,19 +50,29 @@
         <div class="deck-name">Kanji</div>
       </button>
 
-      <button class="deck-card" data-deck="vocab">
-        <div class="deck-kanji-preview">語</div>
-        <div class="deck-name">Vokabeln</div>
+      <button class="deck-card" data-deck="nomen">
+        <div class="deck-kanji-preview">名</div>
+        <div class="deck-name">Nomen</div>
+      </button>
+
+      <button class="deck-card" data-deck="verben">
+        <div class="deck-kanji-preview">動</div>
+        <div class="deck-name">Verben</div>
+      </button>
+
+      <button class="deck-card" data-deck="adjektive">
+        <div class="deck-kanji-preview">形</div>
+        <div class="deck-name">Adjektive</div>
+      </button>
+
+      <button class="deck-card" data-deck="sonstiges">
+        <div class="deck-kanji-preview">他</div>
+        <div class="deck-name">Sonstiges</div>
       </button>
 
       <button class="deck-card" data-deck="grammar">
         <div class="deck-kanji-preview">文</div>
         <div class="deck-name">Grammatik</div>
-      </button>
-
-      <button class="deck-card" data-deck="basics">
-        <div class="deck-kanji-preview">常</div>
-        <div class="deck-name">Alltag</div>
       </button>
 
       <button class="deck-card deck-card--all" data-deck="all">
@@ -73,7 +82,7 @@
     </div>
 
     <div class="home-footer">
-      <div class="app-version">v3.0.0</div>
+      <div class="app-version">v3.1.0</div>
     </div>
   </div>
 
@@ -254,6 +263,7 @@
   <script src="data/basics.js"></script>
   <script src="data/concepts.js"></script>
   <script src="conjugate.js"></script>
+  <script src="pos.js"></script>
   <script src="app.js"></script>
 
   <div id="update-toast" class="update-toast" role="button" tabindex="0">
