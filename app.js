@@ -168,7 +168,11 @@ function collectDeckCards(deck) {
     let vocabItems = vocabForLevel(state.level);
     // Conjugation mode: keep only items that produce forms (verbs + adjectives).
     if (state.mode === 'conjugation') {
-      vocabItems = vocabItems.filter(v => conjugate(v.word, v.reading, v.pos) !== null);
+      // Need at least one non-dictionary form to ask about, so require >= 2 forms.
+      vocabItems = vocabItems.filter(v => {
+        const c = conjugate(v.word, v.reading, v.pos);
+        return c !== null && c.forms.length >= 2;
+      });
     }
     vocabItems.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
   }
@@ -192,11 +196,12 @@ function shuffle(arr) {
 }
 
 // Conjugation drill card: picks a random non-dictionary target form from the item.
-function makeConjugationCard(item) {
+// Pool is pre-filtered to items with >= 2 forms, so index 1.. is always valid.
+function makeConjugationCard(item, dir) {
   const c = conjugate(item.word, item.reading, item.pos);
   // Skip index 0 (辞書形/Grundform — that's the known base form, not a test target).
   const target = c.forms[1 + Math.floor(Math.random() * (c.forms.length - 1))];
-  return { item, type: 'conjugation', id: item.id, target, all: c };
+  return { item, type: 'conjugation', dir, id: item.id, target, all: c };
 }
 
 // Build a fresh round: N random cards from the deck pool. No persistence.
@@ -206,7 +211,7 @@ function buildRound(deck, size) {
   if (state.mode === 'conjugation') {
     // Replace each vocab card with a conjugation card that carries a target form.
     return shuffled.map(card =>
-      card.type === 'vocab' ? makeConjugationCard(card.item) : card
+      card.type === 'vocab' ? makeConjugationCard(card.item, card.dir) : card
     );
   }
   return shuffled;
