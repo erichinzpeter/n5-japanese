@@ -25,12 +25,18 @@ const ONBOARD_KEY = 'n5_onboarded';
 const RATING_HINT_KEY = 'n5_rating_hint_seen';
 
 const DECK_MODES = {
-  kanji:   ['flashcard', 'mc'],
-  vocab:   ['flashcard', 'mc', 'conjugation'],
-  grammar: ['flashcard', 'mc'],
-  basics:  ['flashcard', 'mc'],
-  all:     ['flashcard', 'mc'],
+  kanji:     ['flashcard', 'mc'],
+  nomen:     ['flashcard', 'mc'],
+  verben:    ['flashcard', 'mc', 'conjugation'],
+  adjektive: ['flashcard', 'mc', 'conjugation'],
+  sonstiges: ['flashcard', 'mc'],
+  grammar:   ['flashcard', 'mc'],
+  all:       ['flashcard', 'mc', 'conjugation'],
 };
+
+// Decks whose pool comes from VOCAB + BASICS (the part-of-speech split).
+// Used by collectDeckCards and the level-toggle visibility.
+const VOCAB_CATEGORIES = ['nomen', 'verben', 'adjektive', 'sonstiges'];
 
 const MODE_LABELS = {
   flashcard:   'Karteikarten',
@@ -40,9 +46,11 @@ const MODE_LABELS = {
 
 const DECK_TITLES = {
   kanji: 'Kanji üben',
-  vocab: 'Vokabeln üben',
+  nomen: 'Nomen üben',
+  verben: 'Verben üben',
+  adjektive: 'Adjektive üben',
+  sonstiges: 'Sonstiges üben',
   grammar: 'Grammatik üben',
-  basics: 'Alltag üben',
   all: 'Alles üben',
 };
 
@@ -346,7 +354,7 @@ function startSession(deck, direction) {
   state.deck = deck;
   state.lastDeck = deck;
 
-  const deckLabels = { kanji: 'Kanji', vocab: 'Vokabeln', grammar: 'Grammatik', basics: 'Alltag', all: 'Alles' };
+  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
