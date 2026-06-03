@@ -173,23 +173,25 @@ function collectDeckCards(deck) {
   if (deck === 'kanji' || deck === 'all') {
     KANJI.forEach(k => cards.push({ item: k, type: 'kanji', dir, id: `${k.id}-${dir}` }));
   }
-  if (deck === 'vocab' || deck === 'all') {
-    let vocabItems = vocabForLevel(state.level);
-    // Conjugation mode: keep only items that produce forms (verbs + adjectives).
+
+  if (VOCAB_CATEGORIES.includes(deck) || deck === 'all') {
+    // VOCAB respects the level toggle; BASICS items have no level and always show.
+    const pool = [...vocabForLevel(state.level), ...BASICS];
+    const wanted = deck === 'all' ? null : deck; // null = accept any category
+    let items = pool.filter(v => wanted === null || posCategory(v.pos) === wanted);
     if (state.mode === 'conjugation') {
-      // Need at least one non-dictionary form to ask about, so require >= 2 forms.
-      vocabItems = vocabItems.filter(v => {
+      // Keep only items that produce at least one non-dictionary form.
+      items = items.filter(v => {
         const c = conjugate(v.word, v.reading, v.pos);
         return c !== null && c.forms.length >= 2;
       });
     }
-    vocabItems.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+    items.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
   }
-  if (deck === 'grammar' || deck === 'all') {
+
+  // Grammar is its own deck only — never part of "Alles".
+  if (deck === 'grammar') {
     GRAMMAR.forEach(g => cards.push({ item: g, type: 'grammar', dir, id: `${g.id}-${dir}` }));
-  }
-  if (deck === 'basics' || deck === 'all') {
-    BASICS.forEach(b => cards.push({ item: b, type: 'vocab', dir, id: `${b.id}-${dir}` }));
   }
 
   return cards;
