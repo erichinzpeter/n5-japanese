@@ -103,17 +103,6 @@ body {
   animation: fadeDown 0.6s ease both;
 }
 
-.home-subtitle {
-  font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: 6px;
-  animation: fadeDown 0.6s 0.1s ease both;
-}
-
 .app-version {
   font-family: var(--font-ui);
   font-size: 10px;
@@ -328,7 +317,7 @@ body {
 .deck-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 10px;
   animation: fadeUp 0.5s 0.2s ease both;
 }
@@ -337,24 +326,27 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px 16px;
+  padding: 17px 18px;
   cursor: pointer;
   transition: transform var(--transition), background var(--transition), border-color var(--transition);
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 14px;
   position: relative;
   overflow: hidden;
 }
 
 /* Each deck owns one hue; tint and glyph derive from it at a fixed
-   lightness/chroma so all five stay harmonized against the warm-dark base. */
-.deck-card[data-deck="kanji"]   { --deck-h: 250; }  /* blue   */
-.deck-card[data-deck="vocab"]   { --deck-h: 195; }  /* teal   */
-.deck-card[data-deck="grammar"] { --deck-h: 78;  }  /* amber  */
-.deck-card[data-deck="basics"]  { --deck-h: 150; }  /* green  */
-.deck-card[data-deck="all"]     { --deck-h: 300; }  /* violet */
+   lightness/chroma so all seven stay harmonized against the warm-dark base.
+   Hues are spread ~40°+ apart so adjacent cards never read as the same color. */
+.deck-card[data-deck="kanji"]     { --deck-h: 250; }  /* blue       */
+.deck-card[data-deck="nomen"]     { --deck-h: 195; }  /* teal       */
+.deck-card[data-deck="verben"]    { --deck-h: 150; }  /* green      */
+.deck-card[data-deck="adjektive"] { --deck-h: 25;  }  /* terracotta */
+.deck-card[data-deck="sonstiges"] { --deck-h: 345; }  /* rose       */
+.deck-card[data-deck="grammar"]   { --deck-h: 78;  }  /* amber      */
+.deck-card[data-deck="all"]       { --deck-h: 300; }  /* violet     */
 
 .deck-card[data-deck]                     { background: oklch(0.235 0.03 var(--deck-h)); }
 .deck-card[data-deck]:hover               { background: oklch(0.28 0.042 var(--deck-h)); }
@@ -366,13 +358,13 @@ body {
   grid-column: span 2;
 }
 
-.deck-card--all .deck-kanji-preview { font-size: 38px; }
+.deck-card--all .deck-kanji-preview { font-size: 42px; }
 .deck-card--all .deck-name { font-size: 16px; }
 
 .deck-kanji-preview {
   flex: none;
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 36px;
   color: var(--text);
   line-height: 1;
 }
@@ -1802,7 +1794,7 @@ body {
   /* Tightened so the whole home stack fits one screen without scrolling on tall phones */
   .home-header { margin-bottom: 10px; }
   .fuji-banner { margin-bottom: 8px; max-height: 150px; }
-  .deck-card { padding: 13px 16px; }
+  .deck-card { padding: 15px 16px; }
   .liste-btn { margin-bottom: 14px; }
   .home-footer { margin-top: auto; }
   .keyboard-hint { display: none; }
@@ -2066,8 +2058,6 @@ body {
   z-index: 4;
   pointer-events: none;
 }
-
-.home-header .home-subtitle { margin-top: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   .fuji-bird,
