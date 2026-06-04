@@ -296,20 +296,40 @@ function dismissRatingHint() {
 }
 
 // ===== SESSION START =====
-function startSession(deck, direction) {
-  state.direction = direction;
-  state.session = buildRound(deck, state.roundSize);
+// Shared session launcher: takes a prebuilt card list and shows the session screen.
+function launchSession(deck, sessionCards) {
+  state.session = sessionCards;
+  state.scheduledThisRound = new Set();
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
   state.deck = deck;
   state.lastDeck = deck;
+  state.caughtUp = false;
 
   const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
   renderCurrentCard();
+}
+
+function startSession(deck, direction) {
+  state.direction = direction; // set before buildRound — collectDeckCards reads it
+  const session = buildRound(deck, state.roundSize);
+  if (session.length === 0) {
+    state.deck = deck;
+    state.lastDeck = deck;
+    renderCaughtUp(deck);
+    return;
+  }
+  launchSession(deck, session);
+}
+
+// "Trotzdem üben" from the caught-up screen: a random round ignoring due dates,
+// still writes SRS on each rating.
+function startFreeRound(deck) {
+  launchSession(deck, shuffle(collectDeckCards(deck)).slice(0, state.roundSize));
 }
 
 function renderCurrentCard() {
