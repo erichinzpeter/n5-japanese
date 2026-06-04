@@ -102,3 +102,36 @@ test('buildQueue: nothing due and nothing new returns empty', () => {
   const q = srs.buildQueue([{ id: 'a' }], state, '2026-06-04', 20);
   assert.deepEqual(q, []);
 });
+
+// Minimal localStorage stub for Node (the app uses the real one in the browser).
+function withLocalStorage(value, fn) {
+  const store = { [srs.SRS_KEY]: value };
+  globalThis.localStorage = {
+    getItem: k => (k in store ? store[k] : null),
+    setItem: (k, v) => { store[k] = v; },
+  };
+  try { return fn(store); } finally { delete globalThis.localStorage; }
+}
+
+test('loadSRS returns empty state when nothing stored', () => {
+  withLocalStorage(null, () => {
+    assert.deepEqual(srs.loadSRS(), { v: 1, cards: {} });
+  });
+});
+
+test('loadSRS returns empty state on corrupt JSON (no throw)', () => {
+  withLocalStorage('{not valid json', () => {
+    assert.deepEqual(srs.loadSRS(), { v: 1, cards: {} });
+  });
+});
+
+test('loadSRS returns empty state when no localStorage exists', () => {
+  assert.deepEqual(srs.loadSRS(), { v: 1, cards: {} });
+});
+
+test('saveSRS round-trips through loadSRS', () => {
+  withLocalStorage(null, () => {
+    srs.saveSRS({ v: 1, cards: { x: { box: 2, seen: '2026-06-04', due: '2026-06-06' } } });
+    assert.equal(srs.loadSRS().cards.x.box, 2);
+  });
+});

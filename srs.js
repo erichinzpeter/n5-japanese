@@ -76,6 +76,35 @@ function buildQueue(deckCards, srsState, today, roundSize) {
   return queue;
 }
 
+// ===== STORAGE (browser-only, never throws) =====
+function loadSRS() {
+  try {
+    if (typeof localStorage === 'undefined') return { v: 1, cards: {} };
+    const raw = localStorage.getItem(SRS_KEY);
+    if (!raw) return { v: 1, cards: {} };
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || typeof parsed.cards !== 'object') {
+      return { v: 1, cards: {} };
+    }
+    return parsed;
+  } catch (e) {
+    return { v: 1, cards: {} };
+  }
+}
+
+function saveSRS(state) {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(SRS_KEY, JSON.stringify(state));
+    }
+  } catch (e) {
+    // quota exceeded / private mode — ignore; app degrades to random rounds
+  }
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { SRS_KEY, BOX_DAYS, MAX_BOX, NEW_PER_ROUND, todayStr, addDays, isDueOn, rate, buildQueue };
+  module.exports = {
+    SRS_KEY, BOX_DAYS, MAX_BOX, NEW_PER_ROUND,
+    todayStr, addDays, isDueOn, rate, buildQueue, loadSRS, saveSRS,
+  };
 }
