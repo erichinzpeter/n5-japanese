@@ -31,6 +31,16 @@ function isDueOn(entry, today) {
   return !!entry && entry.due <= today;
 }
 
+// ===== CORE: rate one card =====
+// Absent entry is treated as a Box 1 baseline, then this rating is applied.
+function rate(state, id, knewIt, today) {
+  const cur = state.cards[id];
+  let box = cur ? cur.box : 1;
+  box = knewIt ? Math.min(MAX_BOX, box + 1) : Math.max(1, box - 1);
+  state.cards[id] = { box, seen: today, due: addDays(today, BOX_DAYS[box]) };
+  return state;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { SRS_KEY, BOX_DAYS, MAX_BOX, NEW_PER_ROUND, todayStr, addDays, isDueOn };
+  module.exports = { SRS_KEY, BOX_DAYS, MAX_BOX, NEW_PER_ROUND, todayStr, addDays, isDueOn, rate };
 }
