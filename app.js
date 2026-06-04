@@ -13,6 +13,8 @@ const state = {
   roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
+  scheduledThisRound: null, // Set<cardId> persisted this round (first rating only)
+  caughtUp: false,          // true while the reused done screen shows "Für heute durch"
 };
 
 // Fixed round-size presets shown in the start dialog.
@@ -223,9 +225,17 @@ function makeConjugationCard(item, dir) {
   return { item, type: 'conjugation', dir, id: item.id, target, all: c };
 }
 
-// Build a fresh round: N random cards from the deck pool. No persistence.
+// Kanji + Vocab cards have stable per-direction ids, so they get Leitner scheduling.
+// Grammar (cloze) and Conjugation drills keep the random-round behavior.
+function usesSRS(deck, mode) {
+  return mode !== 'conjugation' && deck !== 'grammar';
+}
+
 function buildRound(deck, size) {
   const pool = collectDeckCards(deck);
+  if (usesSRS(deck, state.mode)) {
+    return buildQueue(pool, loadSRS(), todayStr(), size);
+  }
   const shuffled = shuffle(pool).slice(0, size);
   if (state.mode === 'conjugation') {
     // Replace each vocab card with a conjugation card that carries a target form.
