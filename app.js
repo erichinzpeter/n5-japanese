@@ -785,7 +785,23 @@ function rateCard(rating) {
 }
 
 // ===== DONE SCREEN =====
+// Reuses the #screen-done markup to show "nothing due today".
+function renderCaughtUp(deck) {
+  state.caughtUp = true;
+  document.getElementById('done-stats').innerHTML = '';
+  const remaining = document.getElementById('done-remaining');
+  if (remaining) remaining.textContent = 'Keine Karten fällig.';
+  const title = document.querySelector('#screen-done .done-title');
+  if (title) title.textContent = 'Für heute durch';
+  document.getElementById('done-again-btn').textContent = 'Trotzdem üben';
+  showScreen('done');
+}
+
 function renderDone() {
+  state.caughtUp = false;
+  const doneTitle = document.querySelector('#screen-done .done-title');
+  if (doneTitle) doneTitle.textContent = 'Session abgeschlossen';
+  document.getElementById('done-again-btn').textContent = 'Nochmal';
   const s = state.stats;
 
   const statsEl = document.getElementById('done-stats');
@@ -1409,6 +1425,7 @@ function initEvents() {
   });
 
   document.getElementById('done-again-btn').addEventListener('click', () => {
+    if (state.caughtUp && state.lastDeck) { startFreeRound(state.lastDeck); return; }
     if (state.lastDeck) startSession(state.lastDeck, state.direction);
     else renderHome();
   });
