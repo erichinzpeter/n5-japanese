@@ -329,7 +329,11 @@ function startSession(deck, direction) {
 // "Trotzdem üben" from the caught-up screen: a random round ignoring due dates,
 // still writes SRS on each rating.
 function startFreeRound(deck) {
-  launchSession(deck, shuffle(collectDeckCards(deck)).slice(0, state.roundSize));
+  const round = shuffle(collectDeckCards(deck)).slice(0, state.roundSize);
+  const cards = state.mode === 'conjugation'
+    ? round.map(c => c.type === 'vocab' ? makeConjugationCard(c.item, c.dir) : c)
+    : round;
+  launchSession(deck, cards);
 }
 
 function renderCurrentCard() {
