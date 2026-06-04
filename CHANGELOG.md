@@ -4,6 +4,17 @@
 
 ---
 
+## [3.5.0] — 2026-06-04
+
+Multiple-Choice-Runden bewerten sich jetzt selbst — keine doppelte Eingabe mehr, falsche Karten blockieren die Runde nicht länger.
+
+### Geändert
+
+- Nach einer MC-Antwort entfällt die zusätzliche „Wusste ich / Wusste ich nicht"-Abfrage. Die Antwort selbst legt die SRS-Box fest (richtig = hoch, falsch = runter) und ein „Weiter"-Button geht zur nächsten Karte.
+- Falsch beantwortete MC-Karten kommen in derselben Runde **nicht** mehr zurück. Jede Karte wird genau einmal gezeigt; die Wiederholungsfrequenz steuert nur das SRS für folgende Sessions.
+- Fortschrittsbalken zählt in MC jede beantwortete Karte (richtig wie falsch), damit die Runde zuverlässig 100 % erreicht.
+- Karteikarten-Modus (Selbstbewertung) bleibt unverändert.
+
 ## [3.4.0] — 2026-06-04
 
 Spaced-Repetition-System (Leitner) für Kanji und Vokabeln — Lernfortschritt wird in localStorage gespeichert.

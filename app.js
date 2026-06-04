@@ -677,6 +677,7 @@ function renderMCCard() {
   // Reset state
   inner.classList.remove('flipped');
   state.flipped = false;
+  state.mcPicked = false;
 
   // Animate entry
   const flashcard = document.getElementById('flashcard');
@@ -684,9 +685,9 @@ function renderMCCard() {
   void flashcard.offsetWidth;
   flashcard.classList.add('card-enter');
 
-  // Progress: base total on distinct card ids so requeued cards don't inflate the count.
+  // Progress: every MC card is answered exactly once (no requeue), so count both outcomes.
   const distinctTotal = new Set(state.session.map(c => c.id)).size;
-  const erledigt = state.stats.richtig;
+  const erledigt = state.stats.richtig + state.stats.nochmal;
   document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
   document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
@@ -725,8 +726,12 @@ function renderMCCard() {
 }
 
 function handleMCAnswer(clickedBtn, correct) {
+  if (state.flipped) return; // already answered this card
   const picked = clickedBtn.dataset.choice;
   const isCorrect = picked === correct;
+  state.mcPicked = true;
+  state.mcCorrect = isCorrect;
+
   const resultEl = document.getElementById('mc-result');
   resultEl.classList.remove('correct', 'wrong');
   resultEl.classList.add(isCorrect ? 'correct' : 'wrong');
@@ -734,6 +739,28 @@ function handleMCAnswer(clickedBtn, correct) {
     ? `<span class="mc-result-mark">✓ Richtig</span>`
     : `<span class="mc-result-mark">✗ Falsch</span> <span class="mc-result-pick">Deine Antwort: ${escHtml(picked)}</span>`;
   flipCard();
+}
+
+// Record one MC outcome: SRS schedule (tracked decks) + round stats. Once per card.
+function recordMCAnswer(isCorrect) {
+  const card = state.session[state.sessionIdx];
+  const isTracked = card.type === 'kanji' || card.type === 'vocab';
+  if (isTracked && state.scheduledThisRound && !state.scheduledThisRound.has(card.id)) {
+    const srs = loadSRS();
+    rate(srs, card.id, isCorrect, todayStr());
+    saveSRS(srs);
+    state.scheduledThisRound.add(card.id);
+  }
+  if (isCorrect) state.stats.richtig++;
+  else state.stats.nochmal++;
+}
+
+// Swap the rating-wrap footer between flip-mode (self-assessment) and MC (single Weiter).
+function setMCContinueMode(isMC) {
+  const wrap = document.getElementById('rating-wrap');
+  wrap.querySelector('.rating-hint').style.display = isMC ? 'none' : '';
+  wrap.querySelector('.rating-buttons').style.display = isMC ? 'none' : '';
+  document.getElementById('mc-continue-btn').style.display = isMC ? '' : 'none';
 }
 
 // ===== FLIP =====
@@ -754,7 +781,23 @@ function flipCard() {
   if (currentCard) speakJapanese(getJapaneseText(currentCard));
 
   document.getElementById('rating-wrap').style.display = '';
-  showRatingHintOnce();
+
+  if (state.mode === 'mc') {
+    // Revealing without picking (Leertaste) counts as not-known.
+    recordMCAnswer(state.mcPicked ? state.mcCorrect : false);
+    setMCContinueMode(true);
+  } else {
+    setMCContinueMode(false);
+    showRatingHintOnce();
+  }
+}
+
+// MC advance: no requeue — every card is shown once, the answer only sets its SRS box.
+function advanceCard() {
+  dismissRatingHint();
+  state.sessionIdx++;
+  if (state.sessionIdx >= state.session.length) renderDone();
+  else renderCurrentCard();
 }
 
 // ===== RATE & ADVANCE =====
@@ -1399,6 +1442,9 @@ function initEvents() {
   // Flip button
   document.getElementById('flip-btn').addEventListener('click', flipCard);
 
+  // MC "Weiter" — advance after an answer is revealed
+  document.getElementById('mc-continue-btn').addEventListener('click', advanceCard);
+
   // Flashcard click / Enter to flip (MC flips itself after an answer)
   const flashcardEl = document.getElementById('flashcard');
   flashcardEl.addEventListener('click', () => {
@@ -1494,8 +1540,10 @@ function initEvents() {
     if (screen.id === 'screen-session') {
       if (state.mode === 'mc') {
         if (state.flipped) {
-          if (e.key === '1') rateCard(1);
-          if (e.key === '3') rateCard(3);
+          if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            advanceCard();
+          }
         } else {
           if (e.code === 'Space' || e.key === ' ') {
             e.preventDefault();
