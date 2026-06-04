@@ -758,6 +758,15 @@ function rateCard(rating) {
   dismissRatingHint();
   const card = state.session[state.sessionIdx];
 
+  // Persist Leitner state once per card per round (tracked types only).
+  const isTracked = card.type === 'kanji' || card.type === 'vocab';
+  if (isTracked && state.scheduledThisRound && !state.scheduledThisRound.has(card.id)) {
+    const srs = loadSRS();
+    rate(srs, card.id, rating === 3, todayStr());
+    saveSRS(srs);
+    state.scheduledThisRound.add(card.id);
+  }
+
   if (rating === 1) {
     // Wusste ich nicht: requeue to end of round
     state.session.push(card);
