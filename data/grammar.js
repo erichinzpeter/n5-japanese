@@ -1300,10 +1300,10 @@ const GRAMMAR = [
   },
   {
     id: "g040b",
-    pattern: "〜のほうが〜より〜 (Präferenz: X ist besser/lieber als Y)",
-    reading: "〜のほうが〜より〜",
+    pattern: "〜より〜のほうが〜 (Präferenz: X ist besser/lieber als Y)",
+    reading: "〜より〜のほうが〜",
     situation: "Du möchtest ausdrücken, welche von zwei Optionen du bevorzugst.",
-    explanation: "Drückt Präferenz oder Überlegenheit aus: 'X ist [Adj]-er als Y' / 'X mag ich lieber als Y'. のほうが hebt hervor, was bevorzugt wird — のほうが steht beim Favoriten, より beim Vergleichsobjekt. Struktur: [Favorit] のほうが [Vergleich] より [Adjektiv] です.",
+    explanation: "Drückt Präferenz oder Überlegenheit aus: 'X ist [Adj]-er als Y' / 'X mag ich lieber als Y'. のほうが hebt hervor, was bevorzugt wird — のほうが steht beim Favoriten, より beim Vergleichsobjekt. Struktur: [Vergleich] より [Favorit] のほうが [Adjektiv] です. Die Reihenfolge ist flexibel — auch [Favorit] のほうが [Vergleich] より geht.",
     example_jp: "コーヒーよりお茶のほうが好きです。",
     example_reading: "コーヒーよりおちゃのほうがすきです。",
     example_de: "Ich mag Tee lieber als Kaffee.",
