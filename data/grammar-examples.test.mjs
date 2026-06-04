@@ -14,7 +14,7 @@ for (const g of GRAMMAR) {
     if (!ex.reading || !kana.test(ex.reading)) { failures++; console.log(`FAIL ${g.id}: reading not kana "${ex.reading}"`); }
   }
 }
-const GAP = '＿＿';
+const GAP = '＿';
 for (const g of GRAMMAR) {
   const c = g.cloze;
   if (!c || !Array.isArray(c.items) || c.items.length < 3) {
