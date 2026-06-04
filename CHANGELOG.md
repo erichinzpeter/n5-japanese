@@ -4,6 +4,19 @@
 
 ---
 
+## [3.3.0] — 2026-06-04
+
+Grammatik-Üben umgebaut auf Lückentext (Cloze).
+
+### Geändert
+
+- Grammatik-Üben ist jetzt Lückentext: richtiges Token in die Lücke wählen statt Muster benennen (Multiple Choice und Karteikarten).
+- Grammatik ist richtungs-unabhängig (immer japanischer Satz mit Lücke); Richtungs-Umschalter bei Grammatik ausgeblendet.
+
+### Entfernt
+
+- Muster-Picker — ein einzelnes Muster vorzuwählen machte den Test trivial. Grammatik nachschlagen läuft über die Konzepte.
+
 ## [3.2.0] — 2026-06-04
 
 Karten aufgeräumt, Grammatik-Erklärungen für Anfänger ausgebaut.
