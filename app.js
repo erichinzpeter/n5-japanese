@@ -13,7 +13,6 @@ const state = {
   roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
-  grammarPatternId: null,  // set when a specific pattern is chosen from the picker
 };
 
 // Fixed round-size presets shown in the start dialog.
@@ -111,6 +110,8 @@ function openStartModal(deck) {
   });
 
   updateLevelVisibility(deck);
+  document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar');
+  if (deck === 'grammar') state.direction = 'jp-de';
 
   const modal = document.getElementById('start-modal');
   modal.classList.remove('hidden');
@@ -190,8 +191,15 @@ function collectDeckCards(deck) {
   }
 
   // Grammar is its own deck only — never part of "Alles".
+  // One card per cloze item; grammar is direction-independent (always JP gap sentence).
   if (deck === 'grammar') {
-    GRAMMAR.forEach(g => cards.push({ item: g, type: 'grammar', dir, id: `${g.id}-${dir}` }));
+    GRAMMAR.forEach(g => g.cloze.items.forEach((it, i) => {
+      cards.push({
+        item: { text: it.text, answer: it.answer, de: it.de, pattern: g.pattern,
+                explanation: g.explanation, distractors: it.distractors ?? g.cloze.distractors },
+        type: 'grammar', dir: 'fwd', id: `${g.id}-c${i}`,
+      });
+    }));
   }
 
   return cards;
@@ -215,31 +223,8 @@ function makeConjugationCard(item, dir) {
   return { item, type: 'conjugation', dir, id: item.id, target, all: c };
 }
 
-// Build a round from a single grammar pattern's examples array.
-// Each example becomes a grammar-ex card; direction comes from state at call time.
-function buildGrammarRound(patternId, size) {
-  const g = GRAMMAR.find(p => p.id === patternId);
-  if (!g) return [];
-  const dir = state.direction === 'jp-de' ? 'fwd' : 'rev';
-  const cards = g.examples.map((ex, i) => ({
-    item: { ...ex, pattern: g.pattern },
-    type: 'grammar-ex',
-    dir,
-    id: `${g.id}-${i}`,
-  }));
-  return shuffle(cards).slice(0, size);
-}
-
 // Build a fresh round: N random cards from the deck pool. No persistence.
 function buildRound(deck, size) {
-  // When a specific grammar pattern is chosen from the picker, drill only its examples.
-  // Pattern-drill (one pattern's example sentences) is flashcard-only — example
-  // sentences have no meaningful MC distractors. In MC mode we fall through to
-  // collectDeckCards('grammar'), which yields type:'grammar' cards that
-  // generateChoices already handles (pattern <-> explanation choices).
-  if (deck === 'grammar' && state.grammarPatternId && state.mode !== 'mc') {
-    return buildGrammarRound(state.grammarPatternId, size);
-  }
   const pool = collectDeckCards(deck);
   const shuffled = shuffle(pool).slice(0, size);
   if (state.mode === 'conjugation') {
@@ -270,56 +255,6 @@ function updateTabbar(name) {
   bar.querySelectorAll('.tab').forEach(t =>
     t.classList.toggle('active', t.dataset.nav === navName)
   );
-}
-
-let grammarPatternSearchQuery = '';
-
-// Render the tappable list of grammar patterns for the drill picker.
-function renderGrammarPatternsScreen() {
-  showScreen('grammar-patterns');
-  grammarPatternSearchQuery = '';
-  const searchEl = document.getElementById('grammar-pattern-search');
-  if (searchEl) searchEl.value = '';
-  renderGrammarPatternsList('');
-}
-
-function renderGrammarPatternsList(query) {
-  const q = query.toLowerCase();
-  let items = GRAMMAR;
-  if (q) {
-    items = items.filter(g =>
-      g.pattern.toLowerCase().includes(q) || g.situation.toLowerCase().includes(q)
-    );
-  }
-  const container = document.getElementById('grammar-patterns-content');
-  if (items.length === 0) {
-    container.innerHTML = `<div class="list-no-results">Keine Ergebnisse für „${escHtml(query)}"</div>`;
-    return;
-  }
-  container.innerHTML = items.map(g => `
-    <div class="grammar-pattern-row list-row concept-nav-row" data-pattern-id="${g.id}" tabindex="0" role="button">
-      <div class="list-row-summary">
-        <div class="list-row-main">
-          <div class="list-jp-line">
-            <span class="list-jp grammar-pattern-primary">${escHtml(g.pattern)}</span>
-          </div>
-          <div class="list-de grammar-pattern-situation">${escHtml(g.situation)}</div>
-        </div>
-        <span class="list-chevron concept-chevron">›</span>
-      </div>
-    </div>`).join('');
-
-  container.querySelectorAll('.grammar-pattern-row').forEach(row => {
-    const open = () => {
-      state.grammarPatternId = row.dataset.patternId;
-      state.pendingDeck = 'grammar';
-      openStartModal('grammar');
-    };
-    row.addEventListener('click', open);
-    row.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-    });
-  });
 }
 
 // ===== HOME SCREEN =====
@@ -369,10 +304,8 @@ function startSession(deck, direction) {
 
 function renderCurrentCard() {
   const card = state.session[state.sessionIdx];
-  // grammar-ex cards are always shown as flashcards — no distractors exist
-  // for individual example sentences, so MC would produce misleading choices.
-  if (state.mode === 'mc' && card && card.type !== 'grammar-ex') renderMCCard();
-  else renderCard(); // covers flashcard, conjugation, and grammar-ex
+  if (state.mode === 'mc' && card) renderMCCard();
+  else renderCard(); // covers flashcard and conjugation
 }
 
 // ===== CARD RENDERING =====
@@ -406,8 +339,6 @@ function renderCard() {
     renderKanjiCard(card, front, back);
   } else if (card.type === 'vocab') {
     renderVocabCard(card, front, back);
-  } else if (card.type === 'grammar-ex') {
-    renderGrammarExCard(card, front, back);
   } else {
     renderGrammarCard(card, front, back);
   }
@@ -621,123 +552,35 @@ function renderConjugationCard(card, front, back) {
     ${renderFormsTable(item)}`;
 }
 
-function stripPatternHint(pattern) {
-  return pattern.replace(/\s*[\(（].*$/, '').trim();
-}
-
-function cleanExplanation(text) {
-  // Drop leading list-number "1) " / "2) " etc.; take first sentence; trim.
-  return text.replace(/^\s*\d+\)\s*/, '').split('.')[0].trim();
+// ＿ → blank span (question) or highlighted answer (solution).
+function renderClozeText(text, fill) {
+  const slot = fill
+    ? `<span class="cloze-fill">${escHtml(fill)}</span>`
+    : `<span class="cloze-gap">＿</span>`;
+  return escHtml(text).replace('＿', slot);
 }
 
 function renderGrammarCard(card, front, back) {
-  const g = card.item;
-
-  if (card.dir === 'fwd') {
-    // JP → DE: front = Grammar pattern (German hint stripped so MC answers don't leak)
-    front.innerHTML = `
-      <div class="card-type-label">Grammatik</div>
-      <div class="card-pattern-main">${escHtml(stripPatternHint(g.pattern))}</div>`;
-    back.innerHTML = `
-      <div class="back-section">
-        <span class="back-label">Muster</span>
-        <div style="font-family:var(--font-display);font-size:22px;color:var(--accent)">${escHtml(g.pattern)}</div>
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Erklärung</span>
-        <div class="back-explanation">${escHtml(g.explanation)}</div>
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Beispiel</span>
-        <div class="back-example-jp">${escHtml(g.example_jp)}</div>
-        ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
-        <div class="back-example-de">${escHtml(g.example_de)}</div>
-      </div>
-      ${g.dialogue ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Dialog</span>
-        ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
-          <div class="dialogue-line">
-            <div class="dialogue-jp">${escHtml(l.jp)}</div>
-            ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
-            <div class="dialogue-de">${escHtml(l.de)}</div>
-          </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
-      </div>` : ''}`;
-  } else {
-    // DE → JP: front = German example sentence (cloze-style — no keyword leak from pattern label)
-    front.innerHTML = `
-      <div class="card-type-label">Grammatik — welches Muster?</div>
-      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(g.example_de)}</div>`;
-    back.innerHTML = `
-      <div class="back-section">
-        <span class="back-label">Muster</span>
-        <div style="font-family:var(--font-display);font-size:28px;color:var(--accent)">${escHtml(g.pattern)}</div>
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Erklärung</span>
-        <div class="back-explanation">${escHtml(g.explanation)}</div>
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Beispiel</span>
-        <div class="back-example-jp">${escHtml(g.example_jp)}</div>
-        ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
-        <div class="back-example-de">${escHtml(g.example_de)}</div>
-      </div>
-      ${g.dialogue ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Dialog</span>
-        ${collapsibleDialogue('Dialog anzeigen', `<div class="dialogue-box">${g.dialogue.map(l => `
-          <div class="dialogue-line">
-            <div class="dialogue-jp">${escHtml(l.jp)}</div>
-            ${l.reading ? `<div class="dialogue-reading">${escHtml(l.reading)}</div>` : ''}
-            <div class="dialogue-de">${escHtml(l.de)}</div>
-          </div>`).join('')}</div>`, g.dialogue.map(l => l.jp).join(' '))}
-      </div>` : ''}`;
-  }
-}
-
-// Render one example sentence from a grammar-ex drill card.
-// Direction-aware: fwd = JP→DE, rev = DE→JP.
-// MC mode is not supported; the caller falls back to flashcard for this type.
-function renderGrammarExCard(card, front, back) {
-  const ex = card.item;  // { jp, reading, de, pattern }
-
-  const patternCaption = `<div class="card-type-label">Grammatik — ${escHtml(ex.pattern)}</div>`;
-
-  // Back reveals the full sentence either way: Japanese (with reading + audio) then German.
+  const c = card.item;  // { text, answer, de, pattern, explanation, distractors }
+  front.innerHTML = `
+    <div class="card-type-label">Grammatik — was fehlt?</div>
+    <div class="card-cloze-jp">${renderClozeText(c.text, null)}</div>
+    <div class="card-cloze-de">${escHtml(c.de)}</div>`;
   back.innerHTML = `
     <div class="back-section">
-      <span class="back-label">Japanisch</span>
-      <div class="back-main-row">
-        <div class="back-example-jp">${escHtml(ex.jp)}</div>
-        ${speakBtn(ex.reading || ex.jp, 'btn-speak-word')}
-      </div>
-      ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
+      <span class="back-label">Lösung</span>
+      <div class="card-cloze-jp">${renderClozeText(c.text, c.answer)}</div>
     </div>
     <div class="back-divider"></div>
     <div class="back-section">
-      <span class="back-label">Deutsch</span>
-      <div class="back-example-de">${escHtml(ex.de)}</div>
+      <span class="back-label">Muster</span>
+      <div style="font-family:var(--font-display);font-size:22px;color:var(--accent)">${escHtml(c.pattern)}</div>
+    </div>
+    <div class="back-divider"></div>
+    <div class="back-section">
+      <span class="back-label">Erklärung</span>
+      <div class="back-explanation">${escHtml(c.explanation)}</div>
     </div>`;
-
-  if (card.dir === 'fwd') {
-    // JP → DE: front shows the Japanese sentence to translate
-    front.innerHTML = `
-      ${patternCaption}
-      <div class="card-example-jp" style="font-size:22px;line-height:1.5">${escHtml(ex.jp)}</div>
-      ${ex.reading ? `<div class="card-furigana">${escHtml(ex.reading)}</div>` : ''}`;
-  } else {
-    // DE → JP: front shows the German sentence to translate
-    front.innerHTML = `
-      ${patternCaption}
-      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(ex.de)}</div>`;
-  }
 }
 
 // ===== MULTIPLE CHOICE =====
@@ -769,17 +612,10 @@ function generateChoices(card) {
       getLabel = v => v.word;
     }
   } else {
-    // grammar
-    pool = GRAMMAR.filter(g => g.id !== item.id);
-    if (dir === 'fwd') {
-      correct = cleanExplanation(item.explanation);
-      getLabel = g => cleanExplanation(g.explanation);
-    } else {
-      // DE→JP: answers are pattern strings with German hint stripped, so the German
-      // parenthetical inside `pattern` can't leak when the question is a DE sentence.
-      correct = stripPatternHint(item.pattern);
-      getLabel = g => stripPatternHint(g.pattern);
-    }
+    // grammar cloze: answer token vs. its (item-resolved) distractors
+    const distractors = item.distractors.slice(0, 3);
+    const choices = shuffle([item.answer, ...distractors]);
+    return { choices, correct: item.answer, readings: null };
   }
 
   const shuffled = shuffle([...pool]).slice(0, 3);
@@ -827,16 +663,6 @@ function renderMCCard() {
     renderVocabCard(card, front, back);
   } else {
     renderGrammarCard(card, front, back);
-  }
-
-  // Grammar JP→DE MC: ask with the pattern in context (a sentence), not the bare
-  // skeleton — particles in a lone pattern telegraph the correct explanation.
-  if (card.type === 'grammar' && card.dir === 'fwd') {
-    const g = card.item;
-    front.innerHTML = `
-      <div class="card-type-label">Grammatik — was passt?</div>
-      <div class="card-example-jp">${escHtml(g.example_jp)}</div>
-      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}`;
   }
 
   // Hide flip button + card-controls in MC (user clicks card to flip)
@@ -891,9 +717,7 @@ function flipCard() {
   }
 
   const currentCard = state.session[state.sessionIdx];
-  // Speak on flip for all types except the bare-pattern grammar cards (those lack a
-  // natural sentence reading); grammar-ex cards have ex.reading so they do speak.
-  if (currentCard && currentCard.type !== 'grammar') speakJapanese(getJapaneseText(currentCard));
+  if (currentCard) speakJapanese(getJapaneseText(currentCard));
 
   document.getElementById('rating-wrap').style.display = '';
   showRatingHintOnce();
@@ -960,8 +784,7 @@ function kanjiSpeakIsWord(k) {
 function getJapaneseText(card) {
   const { item, type } = card;
   if (type === 'kanji')       return kanjiReading(item);
-  if (type === 'grammar')     return item.pattern;
-  if (type === 'grammar-ex')  return item.reading || item.jp;
+  if (type === 'grammar')     return item.text.replace('＿', item.answer);
   if (type === 'conjugation') return card.target.reading;
   return item.reading || item.word;   // vocab + basics
 }
@@ -1466,17 +1289,9 @@ function initEvents() {
     speakJapanese(el.dataset.speak);
   }, true);
 
-  // Deck cards: grammar opens the pattern picker; all others go straight to the start modal.
+  // Deck cards open the start modal directly.
   document.querySelectorAll('.deck-card').forEach(card => {
-    card.addEventListener('click', () => {
-      if (card.dataset.deck === 'grammar') {
-        renderGrammarPatternsScreen();
-      } else {
-        // Clear any leftover pattern so buildRound uses the full pool.
-        state.grammarPatternId = null;
-        openStartModal(card.dataset.deck);
-      }
-    });
+    card.addEventListener('click', () => openStartModal(card.dataset.deck));
   });
 
   // Start modal: close (×, backdrop, Esc), trap Tab while open
@@ -1578,16 +1393,6 @@ function initEvents() {
     renderHome();
   });
   document.getElementById('concept-detail-back-btn').addEventListener('click', renderConceptsScreen);
-
-  // Grammar patterns picker: back returns home; search filters the list.
-  document.getElementById('grammar-patterns-back-btn').addEventListener('click', renderHome);
-  const grammarPatternSearchEl = document.getElementById('grammar-pattern-search');
-  if (grammarPatternSearchEl) {
-    grammarPatternSearchEl.addEventListener('input', e => {
-      grammarPatternSearchQuery = e.target.value.trim();
-      renderGrammarPatternsList(grammarPatternSearchQuery);
-    });
-  }
 
   // List back button
   document.getElementById('list-back-btn').addEventListener('click', () => renderHome());
