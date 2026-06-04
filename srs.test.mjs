@@ -58,3 +58,47 @@ test('rate: box 1 not known stays box 1 (floor), due +1d', () => {
   assert.equal(s.cards.x.box, 1);
   assert.equal(s.cards.x.due, '2026-06-05');
 });
+
+// Helper: make N cards with ids c0..c{N-1}
+function cards(n) {
+  return Array.from({ length: n }, (_, i) => ({ id: 'c' + i, type: 'kanji' }));
+}
+
+test('buildQueue: all-new pool caps new cards at NEW_PER_ROUND', () => {
+  const q = srs.buildQueue(cards(50), { v: 1, cards: {} }, '2026-06-04', 20);
+  assert.equal(q.length, 10);
+});
+
+test('buildQueue: full due backlog fills with due only, no new', () => {
+  const state = { v: 1, cards: {} };
+  for (let i = 0; i < 25; i++) state.cards['c' + i] = { box: 1, seen: '2026-06-01', due: '2026-06-02' };
+  const q = srs.buildQueue(cards(40), state, '2026-06-04', 20);
+  assert.equal(q.length, 20);
+  assert.ok(q.every(c => state.cards[c.id]), 'every queued card is a due (seen) card');
+});
+
+test('buildQueue: few due tops up with capped new', () => {
+  const state = { v: 1, cards: {} };
+  for (let i = 0; i < 5; i++) state.cards['c' + i] = { box: 1, seen: '2026-06-01', due: '2026-06-02' };
+  const q = srs.buildQueue(cards(55), state, '2026-06-04', 20);
+  assert.equal(q.length, 15); // 5 due + 10 new (cap)
+});
+
+test('buildQueue: due cards ordered weakest-first (lower box, then older due)', () => {
+  const state = { v: 1, cards: {
+    a: { box: 3, seen: '', due: '2026-06-01' },
+    b: { box: 1, seen: '', due: '2026-06-03' },
+    c: { box: 1, seen: '', due: '2026-06-02' },
+  } };
+  const pool = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+  const q = srs.buildQueue(pool, state, '2026-06-04', 20);
+  assert.deepEqual(q.map(x => x.id), ['c', 'b', 'a']); // box1 older-due, box1 newer-due, box3
+});
+
+test('buildQueue: nothing due and nothing new returns empty', () => {
+  const state = { v: 1, cards: {
+    a: { box: 2, seen: '', due: '2026-06-10' },
+  } };
+  const q = srs.buildQueue([{ id: 'a' }], state, '2026-06-04', 20);
+  assert.deepEqual(q, []);
+});

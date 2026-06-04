@@ -41,6 +41,41 @@ function rate(state, id, knewIt, today) {
   return state;
 }
 
+// ===== SELECTION: build one round =====
+// Local helper (NOT named `shuffle` — app.js already declares a global `shuffle`
+// and both files share one script scope).
+function shuffleQueue(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// deckCards: [{ id, ... }] candidates. srsState: loadSRS() result.
+// Due cards first (weakest-first), then new cards capped at NEW_PER_ROUND.
+function buildQueue(deckCards, srsState, today, roundSize) {
+  const due = [];
+  const fresh = [];
+  for (const card of deckCards) {
+    const entry = srsState.cards[card.id];
+    if (!entry) fresh.push(card);
+    else if (isDueOn(entry, today)) due.push({ card, entry });
+  }
+  due.sort((a, b) =>
+    a.entry.box - b.entry.box ||
+    (a.entry.due < b.entry.due ? -1 : a.entry.due > b.entry.due ? 1 : 0)
+  );
+  const queue = due.slice(0, roundSize).map(d => d.card);
+  const slots = roundSize - queue.length;
+  if (slots > 0 && fresh.length > 0) {
+    const take = Math.min(slots, NEW_PER_ROUND, fresh.length);
+    queue.push(...shuffleQueue(fresh).slice(0, take));
+  }
+  return queue;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { SRS_KEY, BOX_DAYS, MAX_BOX, NEW_PER_ROUND, todayStr, addDays, isDueOn, rate };
+  module.exports = { SRS_KEY, BOX_DAYS, MAX_BOX, NEW_PER_ROUND, todayStr, addDays, isDueOn, rate, buildQueue };
 }
