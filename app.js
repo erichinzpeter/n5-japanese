@@ -13,6 +13,8 @@ const state = {
   roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
+  scheduledThisRound: null, // Set<cardId> persisted this round (first rating only)
+  caughtUp: false,          // true while the reused done screen shows "Für heute durch"
 };
 
 // Fixed round-size presets shown in the start dialog.
@@ -223,9 +225,17 @@ function makeConjugationCard(item, dir) {
   return { item, type: 'conjugation', dir, id: item.id, target, all: c };
 }
 
-// Build a fresh round: N random cards from the deck pool. No persistence.
+// Kanji + Vocab cards have stable per-direction ids, so they get Leitner scheduling.
+// Grammar (cloze) and Conjugation drills keep the random-round behavior.
+function usesSRS(deck, mode) {
+  return mode !== 'conjugation' && deck !== 'grammar';
+}
+
 function buildRound(deck, size) {
   const pool = collectDeckCards(deck);
+  if (usesSRS(deck, state.mode)) {
+    return buildQueue(pool, loadSRS(), todayStr(), size);
+  }
   const shuffled = shuffle(pool).slice(0, size);
   if (state.mode === 'conjugation') {
     // Replace each vocab card with a conjugation card that carries a target form.
@@ -286,20 +296,44 @@ function dismissRatingHint() {
 }
 
 // ===== SESSION START =====
-function startSession(deck, direction) {
-  state.direction = direction;
-  state.session = buildRound(deck, state.roundSize);
+// Shared session launcher: takes a prebuilt card list and shows the session screen.
+function launchSession(deck, sessionCards) {
+  state.session = sessionCards;
+  state.scheduledThisRound = new Set();
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
   state.deck = deck;
   state.lastDeck = deck;
+  state.caughtUp = false;
 
   const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Alles' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
   renderCurrentCard();
+}
+
+function startSession(deck, direction) {
+  state.direction = direction; // set before buildRound — collectDeckCards reads it
+  const session = buildRound(deck, state.roundSize);
+  if (session.length === 0) {
+    state.deck = deck;
+    state.lastDeck = deck;
+    renderCaughtUp(deck);
+    return;
+  }
+  launchSession(deck, session);
+}
+
+// "Trotzdem üben" from the caught-up screen: a random round ignoring due dates,
+// still writes SRS on each rating.
+function startFreeRound(deck) {
+  const round = shuffle(collectDeckCards(deck)).slice(0, state.roundSize);
+  const cards = state.mode === 'conjugation'
+    ? round.map(c => c.type === 'vocab' ? makeConjugationCard(c.item, c.dir) : c)
+    : round;
+  launchSession(deck, cards);
 }
 
 function renderCurrentCard() {
@@ -728,6 +762,15 @@ function rateCard(rating) {
   dismissRatingHint();
   const card = state.session[state.sessionIdx];
 
+  // Persist Leitner state once per card per round (tracked types only).
+  const isTracked = card.type === 'kanji' || card.type === 'vocab';
+  if (isTracked && state.scheduledThisRound && !state.scheduledThisRound.has(card.id)) {
+    const srs = loadSRS();
+    rate(srs, card.id, rating === 3, todayStr());
+    saveSRS(srs);
+    state.scheduledThisRound.add(card.id);
+  }
+
   if (rating === 1) {
     // Wusste ich nicht: requeue to end of round
     state.session.push(card);
@@ -746,7 +789,23 @@ function rateCard(rating) {
 }
 
 // ===== DONE SCREEN =====
+// Reuses the #screen-done markup to show "nothing due today".
+function renderCaughtUp(deck) {
+  state.caughtUp = true;
+  document.getElementById('done-stats').innerHTML = '';
+  const remaining = document.getElementById('done-remaining');
+  if (remaining) remaining.textContent = 'Keine Karten fällig.';
+  const title = document.querySelector('#screen-done .done-title');
+  if (title) title.textContent = 'Für heute durch';
+  document.getElementById('done-again-btn').textContent = 'Trotzdem üben';
+  showScreen('done');
+}
+
 function renderDone() {
+  state.caughtUp = false;
+  const doneTitle = document.querySelector('#screen-done .done-title');
+  if (doneTitle) doneTitle.textContent = 'Session abgeschlossen';
+  document.getElementById('done-again-btn').textContent = 'Nochmal';
   const s = state.stats;
 
   const statsEl = document.getElementById('done-stats');
@@ -1370,6 +1429,7 @@ function initEvents() {
   });
 
   document.getElementById('done-again-btn').addEventListener('click', () => {
+    if (state.caughtUp && state.lastDeck) { startFreeRound(state.lastDeck); return; }
     if (state.lastDeck) startSession(state.lastDeck, state.direction);
     else renderHome();
   });
