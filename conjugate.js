@@ -26,7 +26,7 @@ function conjugate(word, reading, pos) {
 }
 
 function conjugateVerb(word, reading, pos) {
-  const dict = { label: '辞書形', word, reading };
+  const dict = { label: 'Wörterbuchform', word, reading };
 
   // する and compound する-verbs (勉強する): conjugate the trailing する.
   if (pos.includes('する-Verb') || (word.endsWith('する') && reading.endsWith('する'))) {
@@ -35,10 +35,10 @@ function conjugateVerb(word, reading, pos) {
       kind: 'verb', group: 3,
       forms: [
         dict,
-        { label: 'ます形', word: w + 'します',  reading: r + 'します' },
-        { label: 'て形',   word: w + 'して',    reading: r + 'して' },
-        { label: 'た形',   word: w + 'した',    reading: r + 'した' },
-        { label: 'ない形', word: w + 'しない',  reading: r + 'しない' },
+        { label: 'ます-Form', word: w + 'します',  reading: r + 'します' },
+        { label: 'て-Form',   word: w + 'して',    reading: r + 'して' },
+        { label: 'た-Form',   word: w + 'した',    reading: r + 'した' },
+        { label: 'ない-Form', word: w + 'しない',  reading: r + 'しない' },
       ],
     };
   }
@@ -49,10 +49,10 @@ function conjugateVerb(word, reading, pos) {
       kind: 'verb', group: 3,
       forms: [
         dict,
-        { label: 'ます形', word: '来ます', reading: 'きます' },
-        { label: 'て形',   word: '来て',   reading: 'きて' },
-        { label: 'た形',   word: '来た',   reading: 'きた' },
-        { label: 'ない形', word: '来ない', reading: 'こない' },
+        { label: 'ます-Form', word: '来ます', reading: 'きます' },
+        { label: 'て-Form',   word: '来て',   reading: 'きて' },
+        { label: 'た-Form',   word: '来た',   reading: 'きた' },
+        { label: 'ない-Form', word: '来ない', reading: 'こない' },
       ],
     };
   }
@@ -63,10 +63,10 @@ function conjugateVerb(word, reading, pos) {
       kind: 'verb', group: 2,
       forms: [
         dict,
-        { label: 'ます形', ...apply('ます') },
-        { label: 'て形',   ...apply('て') },
-        { label: 'た形',   ...apply('た') },
-        { label: 'ない形', ...apply('ない') },
+        { label: 'ます-Form', ...apply('ます') },
+        { label: 'て-Form',   ...apply('て') },
+        { label: 'た-Form',   ...apply('た') },
+        { label: 'ない-Form', ...apply('ない') },
       ],
     };
   }
@@ -85,10 +85,10 @@ function conjugateVerb(word, reading, pos) {
     kind: 'verb', group: 1,
     forms: [
       dict,
-      { label: 'ます形', word: wStem + GODAN_I[k] + 'ます', reading: rStem + GODAN_I[k] + 'ます' },
-      { label: 'て形',   word: wStem + te,                  reading: rStem + te },
-      { label: 'た形',   word: wStem + ta,                  reading: rStem + ta },
-      { label: 'ない形', word: wStem + GODAN_A[k] + 'ない', reading: rStem + GODAN_A[k] + 'ない' },
+      { label: 'ます-Form', word: wStem + GODAN_I[k] + 'ます', reading: rStem + GODAN_I[k] + 'ます' },
+      { label: 'て-Form',   word: wStem + te,                  reading: rStem + te },
+      { label: 'た-Form',   word: wStem + ta,                  reading: rStem + ta },
+      { label: 'ない-Form', word: wStem + GODAN_A[k] + 'ない', reading: rStem + GODAN_A[k] + 'ない' },
     ],
   };
 }
