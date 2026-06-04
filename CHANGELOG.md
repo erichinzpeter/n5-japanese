@@ -4,6 +4,18 @@
 
 ---
 
+## [3.4.0] — 2026-06-04
+
+Spaced-Repetition-System (Leitner) für Kanji und Vokabeln — Lernfortschritt wird in localStorage gespeichert.
+
+### Neu
+
+- Spaced repetition (Leitner) für Kanji und Nomen/Vokabeln: Lernfortschritt wird pro Karte und Richtung in localStorage gespeichert und übersteht das Neuladen.
+- 5 Boxen mit Intervallen 1/2/4/7/14 Tage. „Wusste ich" stuft hoch, „Wusste ich nicht" eine Box runter (kein kompletter Reset).
+- Runden zeigen zuerst fällige Karten (schwächste zuerst), füllen mit max. 10 neuen Karten auf.
+- Neuer „Für heute durch"-Zustand, wenn nichts fällig ist — mit „Trotzdem üben" für eine freie Runde.
+- Grammatik- und Konjugations-Drills bleiben wie bisher zufällig (ohne SRS).
+
 ## [3.3.0] — 2026-06-04
 
 Grammatik-Üben umgebaut auf Lückentext (Cloze).
