@@ -4,6 +4,12 @@
 
 ---
 
+## [3.5.1] — 2026-06-04
+
+### Behoben
+
+- Grammatik „〜より〜のほうが〜" (Präferenz): Muster, Erklärung und Beispiel widersprachen sich bei der Reihenfolge von のほうが und より. Muster und Struktur jetzt an das Beispiel (より zuerst, z. B. 肉より魚のほうが好きです) angeglichen, mit Hinweis dass die Reihenfolge flexibel ist.
+
 ## [3.5.0] — 2026-06-04
 
 Multiple-Choice-Runden bewerten sich jetzt selbst — keine doppelte Eingabe mehr, falsche Karten blockieren die Runde nicht länger.
