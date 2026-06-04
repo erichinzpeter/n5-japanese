@@ -399,18 +399,17 @@ function renderCard() {
   document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
   // Render front & back
-  const dirLabel = card.dir === 'fwd' ? 'JP → DE' : 'DE → JP';
 
   if (card.type === 'conjugation') {
     renderConjugationCard(card, front, back);
   } else if (card.type === 'kanji') {
-    renderKanjiCard(card, front, back, dirLabel);
+    renderKanjiCard(card, front, back);
   } else if (card.type === 'vocab') {
-    renderVocabCard(card, front, back, dirLabel);
+    renderVocabCard(card, front, back);
   } else if (card.type === 'grammar-ex') {
-    renderGrammarExCard(card, front, back, dirLabel);
+    renderGrammarExCard(card, front, back);
   } else {
-    renderGrammarCard(card, front, back, dirLabel);
+    renderGrammarCard(card, front, back);
   }
 
   // Show flip button, hide ratings and other mode elements
@@ -425,7 +424,7 @@ function renderCard() {
   resultEl.classList.remove('correct', 'wrong');
 }
 
-function renderKanjiCard(card, front, back, dirLabel) {
+function renderKanjiCard(card, front, back) {
   const k = card.item;
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
@@ -452,10 +451,8 @@ function renderKanjiCard(card, front, back, dirLabel) {
     // JP → DE: front = Kanji
     front.innerHTML = `
       <div class="card-type-label">Kanji</div>
-      <div class="card-kanji-main">${k.char}</div>
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      <div class="card-kanji-main">${k.char}</div>`;
     back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
@@ -493,10 +490,8 @@ function renderKanjiCard(card, front, back, dirLabel) {
     // DE → JP: front = German meaning
     front.innerHTML = `
       <div class="card-type-label">Kanji — Bedeutung</div>
-      <div class="card-german-main">${k.meaning.join(', ')}</div>
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      <div class="card-german-main">${k.meaning.join(', ')}</div>`;
     back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Kanji</span>
         <div class="back-main-row">
@@ -529,7 +524,7 @@ function renderKanjiCard(card, front, back, dirLabel) {
   }
 }
 
-function renderVocabCard(card, front, back, dirLabel) {
+function renderVocabCard(card, front, back) {
   const v = card.item;
   const showReading = v.word !== v.reading;
 
@@ -553,10 +548,8 @@ function renderVocabCard(card, front, back, dirLabel) {
     front.innerHTML = `
       <div class="card-type-label">Vokabel</div>
       <div class="card-word-main">${v.word}</div>
-      ${showReading ? `<div class="card-furigana">${v.reading}</div>` : ''}
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      ${showReading ? `<div class="card-furigana">${v.reading}</div>` : ''}`;
     back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Wort</span>
         <div class="back-main-row">
@@ -582,10 +575,8 @@ function renderVocabCard(card, front, back, dirLabel) {
     // DE → JP: front = German meaning
     front.innerHTML = `
       <div class="card-type-label">Vokabel — Deutsch</div>
-      <div class="card-german-main">${escHtml(v.meaning)}</div>
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      <div class="card-german-main">${escHtml(v.meaning)}</div>`;
     back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Japanisch</span>
         <div class="back-main-row">
@@ -639,17 +630,15 @@ function cleanExplanation(text) {
   return text.replace(/^\s*\d+\)\s*/, '').split('.')[0].trim();
 }
 
-function renderGrammarCard(card, front, back, dirLabel) {
+function renderGrammarCard(card, front, back) {
   const g = card.item;
 
   if (card.dir === 'fwd') {
     // JP → DE: front = Grammar pattern (German hint stripped so MC answers don't leak)
     front.innerHTML = `
       <div class="card-type-label">Grammatik</div>
-      <div class="card-pattern-main">${escHtml(stripPatternHint(g.pattern))}</div>
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      <div class="card-pattern-main">${escHtml(stripPatternHint(g.pattern))}</div>`;
     back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Muster</span>
         <div style="font-family:var(--font-display);font-size:22px;color:var(--accent)">${escHtml(g.pattern)}</div>
@@ -681,10 +670,8 @@ function renderGrammarCard(card, front, back, dirLabel) {
     // DE → JP: front = German example sentence (cloze-style — no keyword leak from pattern label)
     front.innerHTML = `
       <div class="card-type-label">Grammatik — welches Muster?</div>
-      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(g.example_de)}</div>
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(g.example_de)}</div>`;
     back.innerHTML = `
-      <div class="card-direction-badge">${dirLabel}</div>
       <div class="back-section">
         <span class="back-label">Muster</span>
         <div style="font-family:var(--font-display);font-size:28px;color:var(--accent)">${escHtml(g.pattern)}</div>
@@ -718,14 +705,13 @@ function renderGrammarCard(card, front, back, dirLabel) {
 // Render one example sentence from a grammar-ex drill card.
 // Direction-aware: fwd = JP→DE, rev = DE→JP.
 // MC mode is not supported; the caller falls back to flashcard for this type.
-function renderGrammarExCard(card, front, back, dirLabel) {
+function renderGrammarExCard(card, front, back) {
   const ex = card.item;  // { jp, reading, de, pattern }
 
   const patternCaption = `<div class="card-type-label">Grammatik — ${escHtml(ex.pattern)}</div>`;
 
   // Back reveals the full sentence either way: Japanese (with reading + audio) then German.
   back.innerHTML = `
-    <div class="card-direction-badge">${dirLabel}</div>
     <div class="back-section">
       <span class="back-label">Japanisch</span>
       <div class="back-main-row">
@@ -745,14 +731,12 @@ function renderGrammarExCard(card, front, back, dirLabel) {
     front.innerHTML = `
       ${patternCaption}
       <div class="card-example-jp" style="font-size:22px;line-height:1.5">${escHtml(ex.jp)}</div>
-      ${ex.reading ? `<div class="card-furigana">${escHtml(ex.reading)}</div>` : ''}
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      ${ex.reading ? `<div class="card-furigana">${escHtml(ex.reading)}</div>` : ''}`;
   } else {
     // DE → JP: front shows the German sentence to translate
     front.innerHTML = `
       ${patternCaption}
-      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(ex.de)}</div>
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      <div class="card-german-main" style="font-size:22px;font-style:normal">${escHtml(ex.de)}</div>`;
   }
 }
 
@@ -837,13 +821,12 @@ function renderMCCard() {
   document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
   // Render question on front only (no flip)
-  const dirLabel = card.dir === 'fwd' ? 'JP → DE' : 'DE → JP';
   if (card.type === 'kanji') {
-    renderKanjiCard(card, front, back, dirLabel);
+    renderKanjiCard(card, front, back);
   } else if (card.type === 'vocab') {
-    renderVocabCard(card, front, back, dirLabel);
+    renderVocabCard(card, front, back);
   } else {
-    renderGrammarCard(card, front, back, dirLabel);
+    renderGrammarCard(card, front, back);
   }
 
   // Grammar JP→DE MC: ask with the pattern in context (a sentence), not the bare
@@ -853,8 +836,7 @@ function renderMCCard() {
     front.innerHTML = `
       <div class="card-type-label">Grammatik — was passt?</div>
       <div class="card-example-jp">${escHtml(g.example_jp)}</div>
-      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}
-      <div class="card-direction-badge">${dirLabel}</div>`;
+      ${g.example_reading ? `<div class="sentence-reading">${escHtml(g.example_reading)}</div>` : ''}`;
   }
 
   // Hide flip button + card-controls in MC (user clicks card to flip)

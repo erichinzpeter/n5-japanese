@@ -746,15 +746,6 @@ body {
 }
 
 /* Card Content Styles */
-.card-direction-badge {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 20px;
-  align-self: flex-start;
-}
-
 .card-type-label {
   font-size: 10px;
   letter-spacing: 0.15em;

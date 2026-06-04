@@ -164,7 +164,7 @@ const GRAMMAR = [
     id: "g008",
     pattern: "に (Richtung / Zeit / Empfänger)",
     situation: "Du möchtest sagen, wohin du gehst, zu welchem Zeitpunkt etwas passiert, oder wem du etwas gibst.",
-    explanation: "1) Richtung/Ziel bei gehen/kommen. 2) Zeitpunkt. 3) Empfänger bei geben/schicken. 4) Existenz-Ort bei ある/いる.",
+    explanation: "1) Richtung/Ziel bei gehen/kommen. 2) Zeitpunkt. 3) Empfänger bei geben/schicken. 4) Existenz-Ort bei ある/いる. Für Richtung/Ziel (Fall 1) ist に oft mit へ austauschbar — へ wird in dieser Rolle „e“ gesprochen: 学校に行きます = 学校へ行きます.",
     example_jp: "学校に行きます。/ 三時に起きます。",
     example_reading: "がっこうにいきます。／さんじにおきます。",
     example_de: "Ich gehe zur Schule. / Ich stehe um 3 Uhr auf.",
@@ -174,6 +174,7 @@ const GRAMMAR = [
     ],
     examples: [
       { jp: "学校に行きます。", reading: "がっこうにいきます。", de: "Ich gehe zur Schule." },
+      { jp: "学校へ行きます。", reading: "がっこうへいきます。", de: "Ich gehe zur Schule. (Richtung mit へ statt に)" },
       { jp: "七時に起きます。", reading: "しちじにおきます。", de: "Ich stehe um 7 Uhr auf." },
       { jp: "友達に手紙を書きます。", reading: "ともだちにてがみをかきます。", de: "Ich schreibe einem Freund einen Brief." },
       { jp: "日曜日に映画を見ます。", reading: "にちようびにえいがをみます。", de: "Am Sonntag sehe ich einen Film." },
@@ -941,26 +942,26 @@ const GRAMMAR = [
   },
   {
     id: "g040b",
-    pattern: "〜の方が〜より〜 (Präferenz: X ist besser/lieber als Y)",
+    pattern: "〜のほうが〜より〜 (Präferenz: X ist besser/lieber als Y)",
     reading: "〜のほうが〜より〜",
     situation: "Du möchtest ausdrücken, welche von zwei Optionen du bevorzugst.",
-    explanation: "Drückt Präferenz oder Überlegenheit aus: 'X ist [Adj]-er als Y' / 'X mag ich lieber als Y'. の方が hebt hervor, was bevorzugt wird — の方が steht beim Favoriten, より beim Vergleichsobjekt. Struktur: [Favorit] の方が [Vergleich] より [Adjektiv] です.",
-    example_jp: "コーヒーよりお茶の方が好きです。",
+    explanation: "Drückt Präferenz oder Überlegenheit aus: 'X ist [Adj]-er als Y' / 'X mag ich lieber als Y'. のほうが hebt hervor, was bevorzugt wird — のほうが steht beim Favoriten, より beim Vergleichsobjekt. Struktur: [Favorit] のほうが [Vergleich] より [Adjektiv] です.",
+    example_jp: "コーヒーよりお茶のほうが好きです。",
     example_reading: "コーヒーよりおちゃのほうがすきです。",
     example_de: "Ich mag Tee lieber als Kaffee.",
     dialogue: [
       { jp: "A: コーヒーとお茶、どちらが好きですか。", reading: "A: コーヒーとおちゃ、どちらがすきですか。", de: "A: Was mögen Sie lieber, Kaffee oder Tee?" },
-      { jp: "B: コーヒーよりお茶の方が好きです。", reading: "B: コーヒーよりおちゃのほうがすきです。", de: "B: Ich mag Tee lieber als Kaffee." }
+      { jp: "B: コーヒーよりお茶のほうが好きです。", reading: "B: コーヒーよりおちゃのほうがすきです。", de: "B: Ich mag Tee lieber als Kaffee." }
     ],
     examples: [
-      { jp: "コーヒーよりお茶の方が好きです。", reading: "コーヒーよりおちゃのほうがすきです。", de: "Ich mag Tee lieber als Kaffee." },
-      { jp: "電車の方がバスより速いです。", reading: "でんしゃのほうがバスよりはやいです。", de: "Die Bahn ist schneller als der Bus." },
-      { jp: "夏より冬の方が好きです。", reading: "なつよりふゆのほうがすきです。", de: "Ich mag den Winter lieber als den Sommer." },
-      { jp: "この店の方があの店より安いです。", reading: "このみせのほうがあのみせよりやすいです。", de: "Dieser Laden ist billiger als jener." },
-      { jp: "肉より魚の方が好きです。", reading: "にくよりさかなのほうがすきです。", de: "Ich mag Fisch lieber als Fleisch." },
-      { jp: "犬の方が猫より好きです。", reading: "いぬのほうがねこよりすきです。", de: "Ich mag Hunde lieber als Katzen." },
-      { jp: "東京の方が大阪より大きいです。", reading: "とうきょうのほうがおおさかよりおおきいです。", de: "Tokio ist größer als Osaka." },
-      { jp: "今日の方が昨日より暖かいです。", reading: "きょうのほうがきのうよりあたたかいです。", de: "Heute ist es wärmer als gestern." }
+      { jp: "コーヒーよりお茶のほうが好きです。", reading: "コーヒーよりおちゃのほうがすきです。", de: "Ich mag Tee lieber als Kaffee." },
+      { jp: "電車のほうがバスより速いです。", reading: "でんしゃのほうがバスよりはやいです。", de: "Die Bahn ist schneller als der Bus." },
+      { jp: "夏より冬のほうが好きです。", reading: "なつよりふゆのほうがすきです。", de: "Ich mag den Winter lieber als den Sommer." },
+      { jp: "この店のほうがあの店より安いです。", reading: "このみせのほうがあのみせよりやすいです。", de: "Dieser Laden ist billiger als jener." },
+      { jp: "肉より魚のほうが好きです。", reading: "にくよりさかなのほうがすきです。", de: "Ich mag Fisch lieber als Fleisch." },
+      { jp: "犬のほうが猫より好きです。", reading: "いぬのほうがねこよりすきです。", de: "Ich mag Hunde lieber als Katzen." },
+      { jp: "東京のほうが大阪より大きいです。", reading: "とうきょうのほうがおおさかよりおおきいです。", de: "Tokio ist größer als Osaka." },
+      { jp: "今日のほうが昨日より暖かいです。", reading: "きょうのほうがきのうよりあたたかいです。", de: "Heute ist es wärmer als gestern." }
     ]
   },
   {

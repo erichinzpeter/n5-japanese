@@ -4,6 +4,20 @@
 
 ---
 
+## [3.2.0] — 2026-06-04
+
+Karten aufgeräumt, Grammatik-Erklärungen für Anfänger ausgebaut.
+
+### Geändert
+
+- **Kein Richtungs-Badge mehr auf den Karteikarten** — das „JP → DE" / „DE → JP"-Etikett auf der Karte entfällt. Der Richtungs-Modus im Start-Dialog bleibt unverändert.
+- **の方が ausgeschrieben** — der Vergleich „X ist lieber/besser als Y" wird jetzt durchgängig als のほうが in Hiragana gezeigt (Muster, Erklärung und Beispielsätze), nicht mehr mit dem Kanji 方.
+- **Richtung auch mit へ** — die に-Lektion (Richtung) weist jetzt auf die austauschbare Partikel へ hin (学校に行きます = 学校へ行きます), inklusive Beispiel.
+- **Verbformen ausführlicher erklärt** — die Konzept-Screens (Verbgruppen, ます-, て-, た-, ない-, なかった-Form, Wörterbuchform) haben jetzt Schritt-für-Schritt-Bildung und mehr Beispiele auf Anfängerniveau.
+- **Konjugations-Frage auf Deutsch** — die abgefragte Form heißt jetzt „ます-Form", „て-Form", „た-Form", „ない-Form" bzw. „Wörterbuchform" statt der Kanji-Bezeichnung (て形 usw.).
+
+---
+
 ## [3.1.0] — 2026-06-03
 
 Decks nach Wortart aufgeteilt, Grammatik-Multiple-Choice repariert.
