@@ -557,6 +557,11 @@ function renderVocabCard(card, front, back) {
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
       </div>
+      <div class="back-divider"></div>
+      <div class="back-section">
+        <span class="back-label">Bedeutung</span>
+        <div class="back-meanings">${escHtml(v.meaning)}</div>
+      </div>
       ${v.examples && v.examples.length ? `
       <div class="back-divider"></div>
       <div class="back-section">
