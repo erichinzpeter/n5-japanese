@@ -17,7 +17,10 @@
   --btn-nochmal:  #d56450;
   --btn-gut:      #5aa873;
 
-  --font-display: 'Shippori Mincho B1', 'Noto Serif JP', serif;
+  /* Gothic for all learning content — Mincho's decorative strokes hurt
+     legibility at quiz sizes. Banner keeps Mincho for character. */
+  --font-display: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  --font-banner:  'Shippori Mincho B1', 'Noto Serif JP', serif;
   --font-ui:      'Outfit', system-ui, sans-serif;
 
   --radius:       16px;
@@ -2090,7 +2093,7 @@ body {
   position: absolute;
   left: 16px;
   bottom: 12px;
-  font-family: var(--font-display);
+  font-family: var(--font-banner);
   font-size: 36px;
   font-weight: 800;
   color: #fff;
