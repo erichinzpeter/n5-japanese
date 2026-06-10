@@ -728,11 +728,19 @@ function renderMCCard() {
 }
 
 function handleMCAnswer(clickedBtn, correct) {
-  if (state.flipped) return; // already answered this card
+  if (state.flipped || state.mcPicked) return; // already answered this card
   const picked = clickedBtn.dataset.choice;
   const isCorrect = picked === correct;
   state.mcPicked = true;
   state.mcCorrect = isCorrect;
+
+  // Verdict on the buttons first, flip after a beat — longer on a miss so the
+  // highlighted correct answer registers before the back takes over.
+  document.querySelectorAll('.mc-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.dataset.choice === correct) btn.classList.add('correct');
+  });
+  if (!isCorrect) clickedBtn.classList.add('wrong');
 
   const resultEl = document.getElementById('mc-result');
   resultEl.classList.remove('correct', 'wrong');
@@ -740,7 +748,7 @@ function handleMCAnswer(clickedBtn, correct) {
   resultEl.innerHTML = isCorrect
     ? `<span class="mc-result-mark">✓ Richtig</span>`
     : `<span class="mc-result-mark">✗ Falsch</span> <span class="mc-result-pick">Deine Antwort: ${escHtml(picked)}</span>`;
-  flipCard();
+  setTimeout(flipCard, isCorrect ? 400 : 800);
 }
 
 // Record one MC outcome: SRS schedule (tracked decks) + round stats. Once per card.
