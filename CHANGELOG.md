@@ -4,6 +4,19 @@
 
 ---
 
+## [3.7.0] — 2026-06-10
+
+Flüssigere Übergänge und Animationen in der ganzen App.
+
+### Geändert
+
+- Bildschirmwechsel blenden sanft ein statt hart umzuschalten.
+- Multiple Choice: nach der Antwort färben sich erst die Buttons (richtige Antwort grün, falsche Wahl rot), die Karte dreht sich einen Moment später — bei Fehlern mit längerer Pause, damit die richtige Antwort hängen bleibt.
+- Kartenflip langsamer und natürlicher (0,5 s mit Ease-out-Kurve), Bewertungsleiste gleitet nach dem Umdrehen ein.
+- Listen-Details und Übungs-Dialog öffnen mit kurzer Einblendung, ✓/✗-Ergebnis ploppt dezent auf.
+- Alle primären Buttons reagieren auf Antippen mit leichtem Eindrücken.
+- `prefers-reduced-motion` wird weiterhin respektiert (Animationen aus).
+
 ## [3.6.0] — 2026-06-10
 
 Klarere Schrift, größere Bedienelemente und zwei Fehlerbehebungen.
