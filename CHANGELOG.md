@@ -4,6 +4,21 @@
 
 ---
 
+## [3.6.0] — 2026-06-10
+
+Klarere Schrift, größere Bedienelemente und zwei Fehlerbehebungen.
+
+### Geändert
+
+- Japanischer Text nutzt jetzt Noto Sans JP (klare Gothic-Schrift) statt der verschnörkelten Shippori Mincho — nur der 日本語-Banner behält die Serifenschrift.
+- Größere, fettere Bedienelemente: MC-Antworten 17 px mit 56 px Touch-Zielen, Umdrehen-/Bewertungs-Buttons größer mit sichtbarem Rand, Listen-Japanisch 24 px, Labels auf Karten besser lesbar.
+- Vokabelkarten zeigen die Wortart-Zeile nicht mehr — weniger Ballast auf der Rückseite.
+
+### Behoben
+
+- Session-Statistik zählte eine falsch beantwortete Karte doppelt: einmal als „Wusste ich nicht" und nach der Wiederholung nochmal als „Wusste ich" (z. B. 10 richtig / 1 falsch bei 10 Karten). Jetzt zählt nur die erste Bewertung pro Karte.
+- iOS-PWA: schwarzer Streifen am unteren Bildschirmrand nach dem App-Start — Hintergrund deckt jetzt die gesamte Fläche.
+
 ## [3.5.1] — 2026-06-04
 
 ### Behoben
