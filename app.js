@@ -10,10 +10,12 @@ const state = {
   sessionIdx: 0,
   flipped: false,
   stats: { nochmal: 0, richtig: 0 },
+  completedCount: 0,        // distinct cards finished this round — drives the progress bar
   roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
   scheduledThisRound: null, // Set<cardId> persisted this round (first rating only)
+  ratedThisRound: null,     // Set<cardId> counted in stats (first rating only — requeues don't recount)
   caughtUp: false,          // true while the reused done screen shows "Für heute durch"
 };
 
@@ -300,9 +302,11 @@ function dismissRatingHint() {
 function launchSession(deck, sessionCards) {
   state.session = sessionCards;
   state.scheduledThisRound = new Set();
+  state.ratedThisRound = new Set();
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
+  state.completedCount = 0;
   state.deck = deck;
   state.lastDeck = deck;
   state.caughtUp = false;
@@ -361,7 +365,7 @@ function renderCard() {
 
   // Progress: base total on distinct card ids so requeued cards don't inflate the count.
   const distinctTotal = new Set(state.session.map(c => c.id)).size;
-  const erledigt = state.stats.richtig;
+  const erledigt = state.completedCount;
   document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
   document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
@@ -814,13 +818,21 @@ function rateCard(rating) {
     state.scheduledThisRound.add(card.id);
   }
 
+  // Stats reflect the FIRST rating per card — a requeued card answered right
+  // later must not also count as "Wusste ich" (would show 10 richtig on a
+  // 10-card round with one miss).
+  if (state.ratedThisRound && !state.ratedThisRound.has(card.id)) {
+    if (rating === 1) state.stats.nochmal++;
+    else state.stats.richtig++;
+    state.ratedThisRound.add(card.id);
+  }
+
   if (rating === 1) {
     // Wusste ich nicht: requeue to end of round
     state.session.push(card);
-    state.stats.nochmal++;
   } else {
     // Wusste ich: card is done
-    state.stats.richtig++;
+    state.completedCount++;
   }
   state.sessionIdx++;
 
