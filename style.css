@@ -27,6 +27,11 @@
   --radius-sm:    8px;
   --radius-pill:  999px;
   --transition:   0.2s ease;
+
+  /* Motion: exponential ease-outs only — no bounce, no elastic */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ===== Reset & Base ===== */
@@ -72,6 +77,12 @@ body {
 .screen.active {
   display: flex;
   flex-direction: column;
+  animation: screenIn 0.28s var(--ease-out-quint) both;
+}
+
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Keyboard focus ring — never remove outline without a replacement.
@@ -697,7 +708,7 @@ body {
   height: 100%;
   background: var(--accent);
   border-radius: 2px;
-  transition: width 0.4s ease;
+  transition: width 0.4s var(--ease-out-quart);
   width: 0%;
 }
 
@@ -723,7 +734,7 @@ body {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.32s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transition: transform 0.5s var(--ease-out-expo);
 }
 
 .card-inner.flipped {
@@ -1107,6 +1118,9 @@ body {
 /* Rating Buttons */
 .rating-wrap {
   padding: 0 20px 48px;
+  /* Re-shown via display toggle on every flip — animation restarts each time.
+     Slight delay so it lands while the card back is revealing. */
+  animation: fadeUp 0.3s 0.12s var(--ease-out-quint) both;
 }
 
 .mc-result {
@@ -1118,6 +1132,16 @@ body {
 }
 .mc-result.correct { color: var(--btn-gut); }
 .mc-result.wrong   { color: var(--btn-nochmal); }
+
+.mc-result-mark {
+  display: inline-block;
+  animation: markPop 0.25s var(--ease-out-quint) both;
+}
+
+@keyframes markPop {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
 .mc-result-pick {
   font-weight: 400;
   color: var(--text-muted);
@@ -1291,6 +1315,17 @@ body {
 }
 
 /* ===== Animations ===== */
+/* Touch acknowledgment: every primary tap target compresses slightly on press. */
+.deck-card:active,
+.rating-btn:active,
+.flip-btn:active,
+.mc-continue-btn:active,
+.done-btn:active,
+.modal-start-btn:active,
+.tab:active {
+  transform: scale(0.97);
+}
+
 @keyframes fadeDown {
   from { opacity: 0; transform: translateY(-16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -1307,7 +1342,7 @@ body {
 }
 
 .card-enter {
-  animation: cardEnter 0.25s ease both;
+  animation: cardEnter 0.3s var(--ease-out-quint) both;
 }
 
 /* ===== Multiple Choice ===== */
@@ -1600,6 +1635,12 @@ body {
 
 .list-row-detail.visible {
   display: block;
+  animation: detailIn 0.22s var(--ease-out-quint) both;
+}
+
+@keyframes detailIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .list-detail-reading {
@@ -1888,6 +1929,12 @@ body {
   max-width: 420px;
   position: relative;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  animation: modalCardIn 0.24s var(--ease-out-quint);
+}
+
+@keyframes modalCardIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .modal-close {
