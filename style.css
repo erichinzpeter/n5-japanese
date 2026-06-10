@@ -757,7 +757,7 @@ body {
 
 /* Card Content Styles */
 .card-type-label {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -865,7 +865,7 @@ body {
 }
 
 .back-label {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -890,8 +890,8 @@ body {
 
 .back-meanings {
   font-family: var(--font-ui);
-  font-size: 22px;
-  font-weight: 400;
+  font-size: 24px;
+  font-weight: 500;
   color: var(--text);
   line-height: 1.4;
 }
@@ -904,7 +904,7 @@ body {
 
 .back-examples {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-muted);
   line-height: 1.8;
 }
@@ -1093,13 +1093,13 @@ body {
 .flip-btn {
   background: none;
   border: 1px solid var(--border-light);
-  color: var(--text-muted);
+  color: var(--text);
   font-family: var(--font-ui);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   letter-spacing: 0.04em;
-  padding: 12px 36px;
-  min-height: 44px;
+  padding: 14px 40px;
+  min-height: 52px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: var(--transition);
@@ -1118,7 +1118,7 @@ body {
 .mc-result {
   text-align: center;
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -1148,7 +1148,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 14px 8px;
+  padding: 16px 8px;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
   background: var(--surface);
@@ -1162,16 +1162,16 @@ body {
 }
 
 .rating-label {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   letter-spacing: 0.02em;
 }
 
-.rating-nochmal { color: var(--btn-nochmal); background: color-mix(in oklab, var(--btn-nochmal) 10%, transparent); }
-.rating-nochmal:hover { background: color-mix(in oklab, var(--btn-nochmal) 18%, transparent); }
+.rating-nochmal { color: var(--btn-nochmal); background: color-mix(in oklab, var(--btn-nochmal) 12%, transparent); border-color: color-mix(in oklab, var(--btn-nochmal) 45%, transparent); }
+.rating-nochmal:hover { background: color-mix(in oklab, var(--btn-nochmal) 20%, transparent); }
 
-.rating-richtig { color: var(--btn-gut); background: color-mix(in oklab, var(--btn-gut) 10%, transparent); }
-.rating-richtig:hover { background: color-mix(in oklab, var(--btn-gut) 18%, transparent); }
+.rating-richtig { color: var(--btn-gut); background: color-mix(in oklab, var(--btn-gut) 12%, transparent); border-color: color-mix(in oklab, var(--btn-gut) 45%, transparent); }
+.rating-richtig:hover { background: color-mix(in oklab, var(--btn-gut) 20%, transparent); }
 
 .mc-continue-btn {
   width: 100%;
@@ -1333,9 +1333,10 @@ body {
   border-radius: var(--radius);
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.4;
-  padding: 12px 14px;
+  padding: 14px 16px;
+  min-height: 56px;
   cursor: pointer;
   text-align: left;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
@@ -1353,7 +1354,7 @@ body {
 
 .mc-num {
   flex-shrink: 0;
-  font-size: 11px;
+  font-size: 12px;
   font-family: var(--font-ui);
   color: var(--text-dim);
   background: var(--surface-2);
@@ -1371,6 +1372,7 @@ body {
 
 .mc-word {
   font-family: var(--font-display);
+  font-weight: 500;
 }
 
 .mc-reading {
@@ -1564,7 +1566,7 @@ body {
 
 .list-jp {
   font-family: var(--font-display);
-  font-size: 21px;
+  font-size: 24px;
   color: var(--text);
   overflow-wrap: break-word;
   min-width: 0;
@@ -1572,14 +1574,14 @@ body {
 
 .list-reading {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text-muted);
   flex-shrink: 0;
 }
 
 .list-de {
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text-muted);
   line-height: 1.4;
 }
