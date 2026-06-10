@@ -531,7 +531,6 @@ function renderVocabCard(card, front, back) {
       <div class="back-section">
         <span class="back-label">Bedeutung</span>
         <div class="back-meanings">${escHtml(v.meaning)}</div>
-        <div class="back-pos">${escHtml(v.pos)}</div>
       </div>
       ${v.examples && v.examples.length ? `
       <div class="back-divider"></div>
@@ -553,11 +552,6 @@ function renderVocabCard(card, front, back) {
           ${speakBtn(vocabSpeakText, 'btn-speak-word')}
         </div>
         ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Wortart</span>
-        <div class="back-pos" style="font-size:15px; color:var(--text-muted)">${escHtml(v.pos)}</div>
       </div>
       ${v.examples && v.examples.length ? `
       <div class="back-divider"></div>
