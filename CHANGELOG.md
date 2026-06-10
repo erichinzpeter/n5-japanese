@@ -13,6 +13,7 @@ Klarere Schrift, größere Bedienelemente und zwei Fehlerbehebungen.
 - Japanischer Text nutzt jetzt Noto Sans JP (klare Gothic-Schrift) statt der verschnörkelten Shippori Mincho — nur der 日本語-Banner behält die Serifenschrift.
 - Größere, fettere Bedienelemente: MC-Antworten 17 px mit 56 px Touch-Zielen, Umdrehen-/Bewertungs-Buttons größer mit sichtbarem Rand, Listen-Japanisch 24 px, Labels auf Karten besser lesbar.
 - Vokabelkarten zeigen die Wortart-Zeile nicht mehr — weniger Ballast auf der Rückseite.
+- Kanji-Karten in Richtung DE → JP zeigen die deutsche Bedeutung jetzt auch auf der Rückseite (vorher verschwand sie mit dem Umdrehen).
 
 ### Behoben
 
