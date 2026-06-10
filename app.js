@@ -478,6 +478,10 @@ function renderKanjiCard(card, front, back) {
         <span class="back-label">Kun'yomi</span>
         <div class="back-readings">${kunStr}</div>
       </div>
+      <div class="back-section">
+        <span class="back-label">Bedeutung</span>
+        <div class="back-meanings">${k.meaning.join(', ')}</div>
+      </div>
       ${k.examples.length ? `
       <div class="back-divider"></div>
       <div class="back-section">
