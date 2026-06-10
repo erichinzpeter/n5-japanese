@@ -4,6 +4,13 @@
 
 ---
 
+## [3.7.1] — 2026-06-10
+
+### Behoben
+
+- iOS-PWA: schwarzer Streifen am unteren Rand (zweiter Anlauf). Mit black-translucent-Statusleiste berechnet iOS die Seitenhöhe um die Statusleistenhöhe zu kurz; `html` wird jetzt um `safe-area-inset-top` verlängert.
+- Vokabel-Karten (Nomen, Verben, Adjektive, Sonstiges) in Richtung DE → JP zeigen die deutsche Bedeutung jetzt auch auf der Rückseite — wie zuvor schon die Kanji-Karten.
+
 ## [3.7.0] — 2026-06-10
 
 Flüssigere Übergänge und Animationen in der ganzen App.

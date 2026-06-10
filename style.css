@@ -46,11 +46,13 @@ html, body {
   min-height: 100%;
 }
 
-/* iOS standalone PWA can mis-measure the window at cold launch, leaving an
-   unpainted band under the fixed tabbar. Painting html in the app color
-   makes any such gap invisible. */
+/* iOS standalone PWA with black-translucent status bar sizes the page one
+   status-bar-height too short, leaving a black band above the home indicator.
+   Extending html by the top inset makes the page cover the full screen;
+   the background paint covers any remaining mis-measure. */
 html {
   background-color: var(--bg);
+  min-height: calc(100% + env(safe-area-inset-top));
 }
 
 body {
