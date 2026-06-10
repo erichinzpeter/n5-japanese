@@ -38,6 +38,13 @@ html, body {
   min-height: 100%;
 }
 
+/* iOS standalone PWA can mis-measure the window at cold launch, leaving an
+   unpainted band under the fixed tabbar. Painting html in the app color
+   makes any such gap invisible. */
+html {
+  background-color: var(--bg);
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
