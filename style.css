@@ -1,3 +1,26 @@
+/* ===== Fonts (self-hosted, subset to the app's glyph set — no external requests) ===== */
+@font-face {
+  font-family: 'Noto Sans JP';
+  src: url('fonts/noto-sans-jp.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: url('fonts/outfit.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Shippori Mincho B1';
+  src: url('fonts/shippori-mincho-b1.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== CSS Variables ===== */
 :root {
   /* Modern warm-dark identity. Neutrals tinted toward the amber accent hue (~70). */
@@ -12,7 +35,6 @@
   --accent:       oklch(0.80 0.145 78);
   --accent-hover: oklch(0.86 0.13 80);
   --on-accent:    oklch(0.20 0.02 70);
-  --accent-glow:  oklch(0.80 0.145 78 / 0.14);
 
   --btn-nochmal:  #d56450;
   --btn-gut:      #5aa873;
@@ -351,7 +373,7 @@ body {
   border-radius: var(--radius);
   padding: 17px 18px;
   cursor: pointer;
-  transition: transform var(--transition), background var(--transition), border-color var(--transition);
+  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
   text-align: left;
   display: flex;
   align-items: center;
@@ -371,9 +393,24 @@ body {
 .deck-card[data-deck="grammar"]   { --deck-h: 78;  }  /* amber      */
 .deck-card[data-deck="all"]       { --deck-h: 300; }  /* violet     */
 
-.deck-card[data-deck]                     { background: oklch(0.235 0.03 var(--deck-h)); }
-.deck-card[data-deck]:hover               { background: oklch(0.28 0.042 var(--deck-h)); }
-.deck-card[data-deck] .deck-kanji-preview { color: oklch(0.75 0.115 var(--deck-h)); }
+/* Lit from above: top-edge highlight + tinted cast shadow lift each card off
+   the near-black base so the grid reads as objects, not a flat document. */
+.deck-card[data-deck] {
+  background: linear-gradient(160deg, oklch(0.29 0.05 var(--deck-h)), oklch(0.225 0.038 var(--deck-h)));
+  border-color: oklch(0.36 0.045 var(--deck-h));
+  box-shadow:
+    inset 0 1px 0 oklch(0.52 0.06 var(--deck-h) / 0.4),
+    0 2px 4px rgba(0,0,0,0.3),
+    0 8px 20px rgba(0,0,0,0.26);
+}
+.deck-card[data-deck]:hover {
+  background: linear-gradient(160deg, oklch(0.335 0.062 var(--deck-h)), oklch(0.26 0.046 var(--deck-h)));
+  box-shadow:
+    inset 0 1px 0 oklch(0.56 0.07 var(--deck-h) / 0.5),
+    0 4px 8px rgba(0,0,0,0.32),
+    0 16px 32px rgba(0,0,0,0.34);
+}
+.deck-card[data-deck] .deck-kanji-preview { color: oklch(0.8 0.135 var(--deck-h)); }
 
 .deck-card:hover { transform: translateY(-2px); }
 
@@ -749,7 +786,8 @@ body {
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  background: var(--surface);
+  background: linear-gradient(165deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -758,7 +796,12 @@ body {
   padding: 36px 28px;
   text-align: center;
   overflow-y: auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.10);
+  /* Visible lift against the near-black session bg: top-edge highlight reads as
+     a light source, the deep cast shadow gives the card real elevation. */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 2px 6px rgba(0,0,0,0.35),
+    0 18px 44px rgba(0,0,0,0.42);
 }
 
 .card-back {
@@ -875,6 +918,95 @@ body {
 
 .back-section:last-child {
   margin-bottom: 0;
+}
+
+/* Header band: groups the character with its meaning as the card's payload,
+   lifted on a faint accent-tinted panel so the back reads as a composed face
+   rather than a stacked form. */
+.back-head {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  background: linear-gradient(158deg, oklch(0.275 0.022 78), oklch(0.225 0.012 70));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.back-head-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-head-char {
+  font-family: var(--font-display);
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+
+.back-head-word {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.back-head-reading {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+}
+
+.back-head-gloss {
+  font-family: var(--font-ui);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  margin-top: 10px;
+}
+
+/* Readings as side-by-side tiles instead of stacked label/value rows. */
+.reading-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.reading-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.reading-tile--wide {
+  grid-column: span 2;
+}
+
+.reading-tile-label {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.reading-tile-val {
+  font-family: var(--font-display);
+  font-size: 19px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
 }
 
 .back-label {

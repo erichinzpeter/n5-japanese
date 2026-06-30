@@ -4,6 +4,22 @@
 
 ---
 
+## [3.8.0] — 2026-06-30
+
+### Geändert
+
+- Karteikarten-Modus zählt jetzt jede Karte genau einmal — wie der Multiple-Choice-Modus. „Wusste ich nicht" wird als Fehler gewertet und die Karte wird nicht mehr ans Rundenende gehängt. Der Fortschrittsbalken (X / Gesamt) bewegt sich dadurch bei jeder Antwort, auch bei Fehlern.
+- Mehr Tiefe statt flacher Flächen: Deck-Karten haben jetzt sichtbare Farb-Identität (jedes Deck eine Farbe), eine Lichtkante oben und einen getönten Schatten — sie wirken wie greifbare Objekte. Die Lernkarte hebt sich mit Schatten und Lichtkante klar vom Hintergrund ab.
+- Kartenrückseite (Kanji & Vokabeln) neu gestaltet: Zeichen und Bedeutung sitzen jetzt zusammen in einem hervorgehobenen Kopfbereich, On'yomi und Kun'yomi stehen als zwei Kacheln nebeneinander statt als gestapelte Formularzeilen.
+- Bewertungs-Hinweis angepasst (Karte wird nicht mehr in derselben Runde wiederholt).
+- Schriften (Noto Sans JP, Outfit, Shippori Mincho B1) werden jetzt lokal ausgeliefert, auf den Zeichensatz der App reduziert (~480 KB). Keine Anfrage mehr an Google Fonts — schnellerer Start und voll offline-fähig.
+
+### Behoben
+
+- `conjugate.js` fehlte im Service-Worker-Cache und wurde offline nicht geladen — jetzt mit aufgenommen.
+- Kanji 二 (zwei): falsche On-Lesung `じ` entfernt — N5-konform nur noch `に`.
+- Kanji 何 (was): On-/Kun-Lesungen waren identisch (`なに`/`なん` in beiden Feldern). On-Lesung jetzt korrekt `か`, Kun bleibt `なに`/`なん`.
+
 ## [3.7.1] — 2026-06-10
 
 ### Behoben

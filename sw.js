@@ -1,11 +1,15 @@
-const CACHE = 'n5-v52';
+const CACHE = 'n5-v54';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './app.js',
+  './conjugate.js',
   './pos.js',
   './srs.js',
+  './fonts/noto-sans-jp.woff2',
+  './fonts/outfit.woff2',
+  './fonts/shippori-mincho-b1.woff2',
   './data/kanji.js',
   './data/vocab.js',
   './data/grammar.js',
@@ -40,18 +44,10 @@ self.addEventListener('fetch', e => {
 
   const url = new URL(req.url);
   const isAsset = /\.(js|css|html|json)$/.test(url.pathname) || req.mode === 'navigate';
-  const isFont = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
 
-  if (isFont) {
-    // Cache-first so the kanji font paints instantly on repeat loads (no swap flash).
-    e.respondWith(
-      caches.match(req).then(c => c || fetch(req).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(req, copy));
-        return res;
-      }))
-    );
-  } else if (isAsset) {
+  // Self-hosted fonts (.woff2) are precached, so they fall through to the
+  // cache-first branch below and paint instantly on every load.
+  if (isAsset) {
     e.respondWith(
       fetch(req).then(res => {
         const copy = res.clone();

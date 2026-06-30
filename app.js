@@ -10,12 +10,11 @@ const state = {
   sessionIdx: 0,
   flipped: false,
   stats: { nochmal: 0, richtig: 0 },
-  completedCount: 0,        // distinct cards finished this round — drives the progress bar
+  completedCount: 0,        // cards answered this round — drives the progress bar
   roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
   scheduledThisRound: null, // Set<cardId> persisted this round (first rating only)
-  ratedThisRound: null,     // Set<cardId> counted in stats (first rating only — requeues don't recount)
   caughtUp: false,          // true while the reused done screen shows "Für heute durch"
 };
 
@@ -302,7 +301,6 @@ function dismissRatingHint() {
 function launchSession(deck, sessionCards) {
   state.session = sessionCards;
   state.scheduledThisRound = new Set();
-  state.ratedThisRound = new Set();
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
@@ -363,7 +361,7 @@ function renderCard() {
   void flashcard.offsetWidth; // reflow
   flashcard.classList.add('card-enter');
 
-  // Progress: base total on distinct card ids so requeued cards don't inflate the count.
+  // Progress: every card is answered exactly once (no requeue), so count both outcomes.
   const distinctTotal = new Set(state.session.map(c => c.id)).size;
   const erledigt = state.completedCount;
   document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
@@ -393,18 +391,18 @@ function renderCard() {
   resultEl.classList.remove('correct', 'wrong');
 }
 
-function renderKanjiCard(card, front, back) {
-  const k = card.item;
+// Shared back face for both directions — a header band (kanji + meaning) over
+// reading tiles, so the readings read as objects instead of stacked form rows.
+function kanjiBackHtml(k) {
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
-  const kanjiSpeakText = kanjiReading(k);
-  const beispielwortHtml = kanjiSpeakIsWord(k)
-    ? `<div class="back-section">
-        <span class="back-label">Beispielwort</span>
-        <div class="back-readings">${escHtml(k.speak)}</div>
+  const beispielwort = kanjiSpeakIsWord(k)
+    ? `<div class="reading-tile reading-tile--wide">
+        <span class="reading-tile-label">Beispielwort</span>
+        <span class="reading-tile-val">${escHtml(k.speak)}</span>
       </div>`
     : '';
-  const kanjiSentencesHtml = k.sentences && k.sentences.length
+  const sentencesHtml = k.sentences && k.sentences.length
     ? `<div class="dialogue-box">${k.sentences.map(s => `
         <div class="dialogue-line">
           <div class="dialogue-line-top">
@@ -415,94 +413,57 @@ function renderKanjiCard(card, front, back) {
           <div class="dialogue-de">${escHtml(s.de)}</div>
         </div>`).join('')}</div>`
     : '';
+  return `
+    <div class="back-head">
+      <div class="back-head-main">
+        <span class="back-head-char">${k.char}</span>
+        ${speakBtn(kanjiReading(k), 'btn-speak-word')}
+      </div>
+      <div class="back-head-gloss">${k.meaning.join(', ')}</div>
+    </div>
+    <div class="reading-grid">
+      <div class="reading-tile">
+        <span class="reading-tile-label">On'yomi</span>
+        <span class="reading-tile-val">${onStr}</span>
+      </div>
+      <div class="reading-tile">
+        <span class="reading-tile-label">Kun'yomi</span>
+        <span class="reading-tile-val">${kunStr}</span>
+      </div>
+      ${beispielwort}
+    </div>
+    ${k.examples.length ? `
+    <div class="back-section">
+      <span class="back-label">Wörter</span>
+      <div class="back-examples">${k.examples.map(e => escHtml(e)).join('<br>')}</div>
+    </div>` : ''}
+    ${k.sentences && k.sentences.length ? `
+    <div class="back-section">
+      <span class="back-label">Sätze</span>
+      ${collapsibleDialogue('Sätze anzeigen', sentencesHtml)}
+    </div>` : ''}`;
+}
 
+function renderKanjiCard(card, front, back) {
+  const k = card.item;
   if (card.dir === 'fwd') {
     // JP → DE: front = Kanji
     front.innerHTML = `
       <div class="card-type-label">Kanji</div>
       <div class="card-kanji-main">${k.char}</div>`;
-    back.innerHTML = `
-      <div class="back-section">
-        <span class="back-label">Kanji</span>
-        <div class="back-main-row">
-          <div class="back-main">${k.char}</div>
-          ${speakBtn(kanjiSpeakText, 'btn-speak-word')}
-        </div>
-      </div>
-      ${beispielwortHtml}
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">On'yomi</span>
-        <div class="back-readings">${onStr}</div>
-      </div>
-      <div class="back-section">
-        <span class="back-label">Kun'yomi</span>
-        <div class="back-readings">${kunStr}</div>
-      </div>
-      <div class="back-section">
-        <span class="back-label">Bedeutung</span>
-        <div class="back-meanings">${k.meaning.join(', ')}</div>
-      </div>
-      ${k.examples.length ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Wörter</span>
-        <div class="back-examples">${k.examples.map(e => escHtml(e)).join('<br>')}</div>
-      </div>` : ''}
-      ${k.sentences && k.sentences.length ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Sätze</span>
-        ${collapsibleDialogue('Sätze anzeigen', kanjiSentencesHtml)}
-      </div>` : ''}`;
   } else {
     // DE → JP: front = German meaning
     front.innerHTML = `
       <div class="card-type-label">Kanji — Bedeutung</div>
       <div class="card-german-main">${k.meaning.join(', ')}</div>`;
-    back.innerHTML = `
-      <div class="back-section">
-        <span class="back-label">Kanji</span>
-        <div class="back-main-row">
-          <div class="back-main">${k.char}</div>
-          ${speakBtn(kanjiSpeakText, 'btn-speak-word')}
-        </div>
-      </div>
-      ${beispielwortHtml}
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">On'yomi</span>
-        <div class="back-readings">${onStr}</div>
-      </div>
-      <div class="back-section">
-        <span class="back-label">Kun'yomi</span>
-        <div class="back-readings">${kunStr}</div>
-      </div>
-      <div class="back-section">
-        <span class="back-label">Bedeutung</span>
-        <div class="back-meanings">${k.meaning.join(', ')}</div>
-      </div>
-      ${k.examples.length ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Wörter</span>
-        <div class="back-examples">${k.examples.map(e => escHtml(e)).join('<br>')}</div>
-      </div>` : ''}
-      ${k.sentences && k.sentences.length ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Sätze</span>
-        ${collapsibleDialogue('Sätze anzeigen', kanjiSentencesHtml)}
-      </div>` : ''}`;
   }
+  back.innerHTML = kanjiBackHtml(k);
 }
 
-function renderVocabCard(card, front, back) {
-  const v = card.item;
+function vocabBackHtml(v) {
   const showReading = v.word !== v.reading;
-
-  const vocabSpeakText = v.reading || v.word;
-  const vocabExamplesHtml = v.examples && v.examples.length
+  const speakText = v.reading || v.word;
+  const examplesHtml = v.examples && v.examples.length
     ? `<div class="dialogue-box">${v.examples.map(ex => `
         <div class="dialogue-line">
           <div class="dialogue-line-top">
@@ -513,63 +474,39 @@ function renderVocabCard(card, front, back) {
           <div class="dialogue-de">${escHtml(ex.de)}</div>
         </div>`).join('')}</div>`
     : '';
+  return `
+    <div class="back-head">
+      <div class="back-head-main">
+        <span class="back-head-word">${v.word}</span>
+        ${speakBtn(speakText, 'btn-speak-word')}
+      </div>
+      ${showReading ? `<div class="back-head-reading">${v.reading}</div>` : ''}
+      <div class="back-head-gloss">${escHtml(v.meaning)}</div>
+    </div>
+    ${v.examples && v.examples.length ? `
+    <div class="back-section">
+      <span class="back-label">Beispiele</span>
+      ${collapsibleDialogue('Beispiele anzeigen', examplesHtml)}
+    </div>` : ''}
+    ${renderFormsTable(v)}`;
+}
 
-  const formsHtml = renderFormsTable(v);
-
+function renderVocabCard(card, front, back) {
+  const v = card.item;
+  const showReading = v.word !== v.reading;
   if (card.dir === 'fwd') {
     // JP → DE: front = Japanese word + reading
     front.innerHTML = `
       <div class="card-type-label">Vokabel</div>
       <div class="card-word-main">${v.word}</div>
       ${showReading ? `<div class="card-furigana">${v.reading}</div>` : ''}`;
-    back.innerHTML = `
-      <div class="back-section">
-        <span class="back-label">Wort</span>
-        <div class="back-main-row">
-          <div class="back-main" style="font-size:32px">${v.word}</div>
-          ${speakBtn(vocabSpeakText, 'btn-speak-word')}
-        </div>
-        ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Bedeutung</span>
-        <div class="back-meanings">${escHtml(v.meaning)}</div>
-      </div>
-      ${v.examples && v.examples.length ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Beispiele</span>
-        ${collapsibleDialogue('Beispiele anzeigen', vocabExamplesHtml)}
-      </div>` : ''}
-      ${formsHtml}`;
   } else {
     // DE → JP: front = German meaning
     front.innerHTML = `
       <div class="card-type-label">Vokabel — Deutsch</div>
       <div class="card-german-main">${escHtml(v.meaning)}</div>`;
-    back.innerHTML = `
-      <div class="back-section">
-        <span class="back-label">Japanisch</span>
-        <div class="back-main-row">
-          <div class="back-main" style="font-size:36px">${v.word}</div>
-          ${speakBtn(vocabSpeakText, 'btn-speak-word')}
-        </div>
-        ${showReading ? `<div class="back-readings">${v.reading}</div>` : ''}
-      </div>
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Bedeutung</span>
-        <div class="back-meanings">${escHtml(v.meaning)}</div>
-      </div>
-      ${v.examples && v.examples.length ? `
-      <div class="back-divider"></div>
-      <div class="back-section">
-        <span class="back-label">Beispiele</span>
-        ${collapsibleDialogue('Beispiele anzeigen', vocabExamplesHtml)}
-      </div>` : ''}
-      ${formsHtml}`;
   }
+  back.innerHTML = vocabBackHtml(v);
 }
 
 function renderConjugationCard(card, front, back) {
@@ -829,22 +766,11 @@ function rateCard(rating) {
     state.scheduledThisRound.add(card.id);
   }
 
-  // Stats reflect the FIRST rating per card — a requeued card answered right
-  // later must not also count as "Wusste ich" (would show 10 richtig on a
-  // 10-card round with one miss).
-  if (state.ratedThisRound && !state.ratedThisRound.has(card.id)) {
-    if (rating === 1) state.stats.nochmal++;
-    else state.stats.richtig++;
-    state.ratedThisRound.add(card.id);
-  }
+  if (rating === 1) state.stats.nochmal++;
+  else state.stats.richtig++;
 
-  if (rating === 1) {
-    // Wusste ich nicht: requeue to end of round
-    state.session.push(card);
-  } else {
-    // Wusste ich: card is done
-    state.completedCount++;
-  }
+  // Every card is shown once, no requeue — both outcomes advance progress.
+  state.completedCount++;
   state.sessionIdx++;
 
   if (state.sessionIdx >= state.session.length) {
