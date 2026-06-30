@@ -4,7 +4,7 @@ const KANJI = [
     { jp: "りんごを一つください。", reading: "りんごをひとつください。", de: "Geben Sie mir bitte einen Apfel." },
     { jp: "一月はとても寒いです。", reading: "いちがつはとてもさむいです。", de: "Der Januar ist sehr kalt." }
   ]},
-  { id: "k002", char: "二", meaning: ["zwei", "2"], speak: "に", on: ["に", "じ"], kun: ["ふた", "ふたつ"], examples: ["二月 (にがつ) — Februar", "二つ (ふたつ) — zwei Dinge"], sentences: [
+  { id: "k002", char: "二", meaning: ["zwei", "2"], speak: "に", on: ["に"], kun: ["ふた", "ふたつ"], examples: ["二月 (にがつ) — Februar", "二つ (ふたつ) — zwei Dinge"], sentences: [
     { jp: "コーヒーを二つお願いします。", reading: "コーヒーをふたつおねがいします。", de: "Zwei Kaffee bitte." },
     { jp: "二月に誕生日があります。", reading: "にがつにたんじょうびがあります。", de: "Mein Geburtstag ist im Februar." }
   ]},
@@ -90,7 +90,7 @@ const KANJI = [
     { jp: "今、何をしていますか。", reading: "いま、なにをしていますか。", de: "Was machen Sie gerade?" },
     { jp: "今日は学校があります。", reading: "きょうはがっこうがあります。", de: "Heute habe ich Schule." }
   ]},
-  { id: "k022", char: "何", meaning: ["was", "welche", "wie viele"], on: ["なに", "なん"], kun: ["なに", "なん"], examples: ["何時 (なんじ) — wie viel Uhr?", "何 (なに) — was?"], sentences: [
+  { id: "k022", char: "何", meaning: ["was", "welche", "wie viele"], on: ["か"], kun: ["なに", "なん"], examples: ["何時 (なんじ) — wie viel Uhr?", "何 (なに) — was?"], sentences: [
     { jp: "今日は何を食べますか。", reading: "きょうはなにをたべますか。", de: "Was essen Sie heute?" },
     { jp: "何時に起きますか。", reading: "なんじにおきますか。", de: "Um wie viel Uhr stehen Sie auf?" }
   ]},
