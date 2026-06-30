@@ -4,6 +4,16 @@
 
 ---
 
+## [3.8.2] — 2026-06-30
+
+### Behoben
+
+- Update-Toast erschien nie: Der neue Service Worker rief beim `install` sofort `skipWaiting()` auf und erreichte so nie den „waiting"-Zustand, auf den der Toast wartet. Entfernt — neue Versionen zeigen jetzt zuverlässig „Neue Version verfügbar – Tippen zum Aktualisieren".
+
+### Geändert
+
+- Homescreen-Name jetzt „ビジさん" (Biji in Katakana + さん als Hiragana). Installationsname: „ビジさん — N5 Japanisch".
+
 ## [3.8.1] — 2026-06-30
 
 ### Geändert

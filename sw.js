@@ -1,4 +1,4 @@
-const CACHE = 'n5-v55';
+const CACHE = 'n5-v56';
 const ASSETS = [
   './',
   './index.html',
@@ -24,7 +24,8 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', e => {
-  self.skipWaiting();
+  // No skipWaiting here: the new worker must WAIT so the in-app update toast
+  // can appear. Activation happens only when the user taps it (SKIP_WAITING).
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(ASSETS))
   );
