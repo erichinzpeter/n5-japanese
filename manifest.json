@@ -1,6 +1,6 @@
 {
-  "name": "N5 Japanisch",
-  "short_name": "日本語 N5",
+  "name": "Bijisan — N5 Japanisch",
+  "short_name": "Bijisan",
   "description": "JLPT N5 Karteikarten mit Spaced Repetition — Kanji, Vokabeln, Grammatik",
   "start_url": "./",
   "scope": "./",
