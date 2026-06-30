@@ -998,7 +998,7 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 let listSearchQuery = '';
 let pendingExpandKey = '';
 
-const TAB_LABELS = { kanji: 'Kanji', vocab: 'Vokabeln', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
+const TAB_LABELS = { kanji: 'Kanji', vocab: 'Nomen & Verben', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
 
 function isAltag(item) {
   return item.pos && (item.pos.includes('Adjektiv') || item.pos.includes('Adverb'));
