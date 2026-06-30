@@ -4,6 +4,12 @@
 
 ---
 
+## [3.8.3] — 2026-06-30
+
+### Geändert
+
+- Homescreen-Name jetzt „Go ビジさん!". Installationsname: „Go ビジさん! — N5 Japanisch".
+
 ## [3.8.2] — 2026-06-30
 
 ### Behoben

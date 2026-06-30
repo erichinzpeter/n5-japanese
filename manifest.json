@@ -1,6 +1,6 @@
 {
-  "name": "ビジさん — N5 Japanisch",
-  "short_name": "ビジさん",
+  "name": "Go ビジさん! — N5 Japanisch",
+  "short_name": "Go ビジさん!",
   "description": "JLPT N5 Karteikarten mit Spaced Repetition — Kanji, Vokabeln, Grammatik",
   "start_url": "./",
   "scope": "./",
