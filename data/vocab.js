@@ -1526,4 +1526,82 @@ const VOCAB = [
     { jp: "病気のとき、薬を飲みます。", reading: "びょうきのとき、くすりをのみます。", de: "Wenn ich krank bin, nehme ich Medizin." },
     { jp: "この薬は一日三回飲みます。", reading: "このくすりはいちにちさんかいのみます。", de: "Diese Medizin nehme ich dreimal am Tag." }
   ]},
+
+  // Alltagsausdrücke & höfliche Floskeln
+  { id: "v371", word: "いってきます", reading: "いってきます", meaning: "bis später / ich gehe dann (beim Weggehen)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "「いってきます」と言って、家を出ました。", reading: "「いってきます」といって、いえをでました。", de: "\"Bis später\", sagte ich und ging aus dem Haus." },
+    { jp: "毎朝、いってきますと言います。", reading: "まいあさ、いってきますといいます。", de: "Jeden Morgen sage ich \"ich gehe dann\"." }
+  ]},
+  { id: "v372", word: "いってらっしゃい", reading: "いってらっしゃい", meaning: "komm gut wieder (zum Weggehenden)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "母がいってらっしゃいと言いました。", reading: "ははがいってらっしゃいといいました。", de: "Meine Mutter sagte \"komm gut wieder\"." },
+    { jp: "子供にいってらっしゃいと言います。", reading: "こどもにいってらっしゃいといいます。", de: "Ich sage dem Kind \"komm gut wieder\"." }
+  ]},
+  { id: "v373", word: "ただいま", reading: "ただいま", meaning: "ich bin wieder da (beim Heimkommen)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "家に帰って、ただいまと言いました。", reading: "いえにかえって、ただいまといいました。", de: "Ich kam nach Hause und sagte \"ich bin wieder da\"." },
+    { jp: "ただいま、お腹が空きました。", reading: "ただいま、おなかがすきました。", de: "Ich bin wieder da, ich habe Hunger." }
+  ]},
+  { id: "v374", word: "おかえりなさい", reading: "おかえりなさい", meaning: "willkommen zurück", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "父におかえりなさいと言いました。", reading: "ちちにおかえりなさいといいました。", de: "Ich sagte zu meinem Vater \"willkommen zurück\"." },
+    { jp: "おかえりなさい、今日はどうでしたか。", reading: "おかえりなさい、きょうはどうでしたか。", de: "Willkommen zurück, wie war dein Tag?" }
+  ]},
+  { id: "v375", word: "しつれいします", reading: "しつれいします", meaning: "mit Verlaub / Entschuldigung (Raum betreten / verlassen)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "部屋に入る前に、失礼しますと言います。", reading: "へやにはいるまえに、しつれいしますといいます。", de: "Bevor ich das Zimmer betrete, sage ich \"mit Verlaub\"." },
+    { jp: "お先に失礼します。", reading: "おさきにしつれいします。", de: "Entschuldigung, ich gehe schon mal (vor Ihnen)." }
+  ]},
+  { id: "v376", word: "おじゃまします", reading: "おじゃまします", meaning: "Entschuldigung die Störung (fremde Wohnung betreten)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "友達の家に入る時、おじゃましますと言いました。", reading: "ともだちのいえにはいるとき、おじゃましますといいました。", de: "Als ich die Wohnung meines Freundes betrat, sagte ich \"Entschuldigung die Störung\"." },
+    { jp: "「どうぞ。」「では、おじゃまします。」", reading: "「どうぞ。」「では、おじゃまします。」", de: "\"Bitte herein.\" \"Dann komme ich herein.\"" }
+  ]},
+  { id: "v377", word: "いらっしゃいませ", reading: "いらっしゃいませ", meaning: "willkommen (Begrüßung im Laden)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "店員がいらっしゃいませと言いました。", reading: "てんいんがいらっしゃいませといいました。", de: "Der Verkäufer sagte \"willkommen\"." },
+    { jp: "店に入ると、いらっしゃいませと言われました。", reading: "みせにはいると、いらっしゃいませといわれました。", de: "Als ich den Laden betrat, hieß man mich willkommen." }
+  ]},
+  { id: "v378", word: "おつかれさまでした", reading: "おつかれさまでした", meaning: "gute Arbeit / danke für die Mühe", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "仕事の後で、おつかれさまでしたと言いました。", reading: "しごとのあとで、おつかれさまでしたといいました。", de: "Nach der Arbeit sagte ich \"gute Arbeit\"." },
+    { jp: "皆さん、今日もおつかれさまでした。", reading: "みなさん、きょうもおつかれさまでした。", de: "Alle zusammen, auch heute gute Arbeit." }
+  ]},
+  { id: "v379", word: "おひさしぶりです", reading: "おひさしぶりです", meaning: "lange nicht gesehen", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "友達に会って、おひさしぶりですと言いました。", reading: "ともだちにあって、おひさしぶりですといいました。", de: "Ich traf meinen Freund und sagte \"lange nicht gesehen\"." },
+    { jp: "おひさしぶりです。お元気でしたか。", reading: "おひさしぶりです。おげんきでしたか。", de: "Lange nicht gesehen. Ging es Ihnen gut?" }
+  ]},
+  { id: "v380", word: "おめでとうございます", reading: "おめでとうございます", meaning: "herzlichen Glückwunsch", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "誕生日おめでとうございます。", reading: "たんじょうびおめでとうございます。", de: "Herzlichen Glückwunsch zum Geburtstag." },
+    { jp: "合格おめでとうございますと言いました。", reading: "ごうかくおめでとうございますといいました。", de: "Ich sagte \"Glückwunsch zum Bestehen\"." }
+  ]},
+  { id: "v381", word: "きをつけて", reading: "きをつけて", meaning: "pass auf dich auf / fahr vorsichtig", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "「さようなら、気をつけて。」", reading: "「さようなら、きをつけて。」", de: "\"Auf Wiedersehen, pass auf dich auf.\"" },
+    { jp: "道が暗いから、気をつけてください。", reading: "みちがくらいから、きをつけてください。", de: "Der Weg ist dunkel, sei bitte vorsichtig." }
+  ]},
+  { id: "v382", word: "おだいじに", reading: "おだいじに", meaning: "gute Besserung", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "医者がおだいじにと言いました。", reading: "いしゃがおだいじにといいました。", de: "Der Arzt sagte \"gute Besserung\"." },
+    { jp: "風邪ですね。おだいじに。", reading: "かぜですね。おだいじに。", de: "Sie haben eine Erkältung. Gute Besserung." }
+  ]},
+  { id: "v383", word: "だいじょうぶです", reading: "だいじょうぶです", meaning: "alles ok / kein Problem", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "「大丈夫ですか。」「はい、大丈夫です。」", reading: "「だいじょうぶですか。」「はい、だいじょうぶです。」", de: "\"Geht es Ihnen gut?\" \"Ja, alles ok.\"" },
+    { jp: "心配しないで、大丈夫です。", reading: "しんぱいしないで、だいじょうぶです。", de: "Mach dir keine Sorgen, alles ok." }
+  ]},
+  { id: "v384", word: "がんばってください", reading: "がんばってください", meaning: "viel Erfolg / streng dich an", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "試験、がんばってください。", reading: "しけん、がんばってください。", de: "Viel Erfolg bei der Prüfung." },
+    { jp: "みんなが、がんばってと言ってくれました。", reading: "みんなが、がんばってといってくれました。", de: "Alle sagten mir \"streng dich an\"." }
+  ]},
+  { id: "v385", word: "もしもし", reading: "もしもし", meaning: "hallo (am Telefon)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "電話に出て、もしもしと言いました。", reading: "でんわにでて、もしもしといいました。", de: "Ich ging ans Telefon und sagte \"hallo\"." },
+    { jp: "もしもし、田中さんですか。", reading: "もしもし、たなかさんですか。", de: "Hallo, sind Sie Herr Tanaka?" }
+  ]},
+  { id: "v386", word: "ようこそ", reading: "ようこそ", meaning: "herzlich willkommen", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "日本へようこそ。", reading: "にほんへようこそ。", de: "Herzlich willkommen in Japan." },
+    { jp: "ようこそ、いらっしゃいました。", reading: "ようこそ、いらっしゃいました。", de: "Herzlich willkommen, schön dass Sie da sind." }
+  ]},
+  { id: "v387", word: "かしこまりました", reading: "かしこまりました", meaning: "sehr wohl / verstanden (höfliche Zusage)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "店員が「かしこまりました」と言いました。", reading: "てんいんが「かしこまりました」といいました。", de: "Der Angestellte sagte \"sehr wohl\"." },
+    { jp: "ご注文、かしこまりました。", reading: "ごちゅうもん、かしこまりました。", de: "Ihre Bestellung, sehr wohl." }
+  ]},
+  { id: "v388", word: "おまたせしました", reading: "おまたせしました", meaning: "Entschuldigung die Wartezeit / danke fürs Warten", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "おまたせしました、どうぞ。", reading: "おまたせしました、どうぞ。", de: "Entschuldigung die Wartezeit, bitte sehr." },
+    { jp: "長くおまたせしました。", reading: "ながくおまたせしました。", de: "Entschuldigen Sie die lange Wartezeit." }
+  ]},
+  { id: "v389", word: "しつれいしました", reading: "しつれいしました", meaning: "Entschuldigung (für etwas Geschehenes)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "間違えて、失礼しましたと言いました。", reading: "まちがえて、しつれいしましたといいました。", de: "Ich machte einen Fehler und sagte \"Entschuldigung\"." },
+    { jp: "お名前を間違えて、失礼しました。", reading: "おなまえをまちがえて、しつれいしました。", de: "Entschuldigung, dass ich Ihren Namen verwechselt habe." }
+  ]}
 ];
