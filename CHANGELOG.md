@@ -4,6 +4,12 @@
 
 ---
 
+## [3.8.1] — 2026-06-30
+
+### Geändert
+
+- Name unter dem Homescreen-Icon ist jetzt einheitlich „Bijisan" (vorher iOS „N5 日本語", Android „日本語 N5"). Installationsname: „Bijisan — N5 Japanisch".
+
 ## [3.8.0] — 2026-06-30
 
 ### Geändert
