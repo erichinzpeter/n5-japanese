@@ -176,7 +176,7 @@ function collectDeckCards(deck) {
   if (deck === 'grammar') {
     GRAMMAR.forEach(g => g.cloze.items.forEach((it, i) => {
       cards.push({
-        item: { text: it.text, answer: it.answer, de: it.de, pattern: g.pattern,
+        item: { text: it.text, reading: it.reading, answer: it.answer, de: it.de, pattern: g.pattern,
                 explanation: g.explanation, distractors: it.distractors ?? g.cloze.distractors },
         type: 'grammar', dir: 'fwd', id: `${g.id}-c${i}`,
       });
@@ -517,15 +517,21 @@ function renderClozeText(text, fill) {
 }
 
 function renderGrammarCard(card, front, back) {
-  const c = card.item;  // { text, answer, de, pattern, explanation, distractors }
+  const c = card.item;  // { text, reading, answer, de, pattern, explanation, distractors }
+  // Furigana aid for the sentence skeleton; always gapped since the answer may be
+  // kanji (前に, 本, …) and would break the all-kana reading line.
+  const readingLine = c.reading
+    ? `<div class="card-cloze-reading">${renderClozeText(c.reading, null)}</div>` : '';
   front.innerHTML = `
     <div class="card-type-label">Grammatik — was fehlt?</div>
     <div class="card-cloze-jp">${renderClozeText(c.text, null)}</div>
+    ${readingLine}
     <div class="card-cloze-de">${escHtml(c.de)}</div>`;
   back.innerHTML = `
     <div class="back-head">
       <span class="back-label">Lösung</span>
       <div class="card-cloze-jp">${renderClozeText(c.text, c.answer)}</div>
+      ${readingLine}
     </div>
     <div class="back-section">
       <span class="back-label">Muster</span>
