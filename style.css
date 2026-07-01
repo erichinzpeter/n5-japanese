@@ -761,7 +761,7 @@ body {
 /* Marks a card that came back after a miss — tells the user why they see it again. */
 .requeue-chip {
   position: absolute;
-  top: 4px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;

@@ -4,6 +4,12 @@
 
 ---
 
+## [3.12.4] — 2026-07-01
+
+### Geändert
+
+- „↻ Wiederholung"-Badge tiefer gesetzt (top 4px → 20px), damit es nicht mehr an der Progress Bar klebt.
+
 ## [3.12.3] — 2026-07-01
 
 ### Geändert
