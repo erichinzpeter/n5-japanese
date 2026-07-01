@@ -4,6 +4,16 @@
 
 ---
 
+## [3.12.1] — 2026-07-01
+
+### Behoben
+
+- Im „Alles"-Deck war der Modus „Konjugation" wählbar, obwohl Kanji sich nicht konjugieren lassen — die Runde zeigte dann trotzdem Kanji-Karten. Konjugation ist für dieses Deck entfernt (nur noch Karteikarten & Multiple Choice).
+
+### Geändert
+
+- „Alles"-Deck heißt jetzt „ビジさん Zufalls-Quiz" (in der Session-Kopfzeile kurz „Zufalls-Quiz").
+
 ## [3.12.0] — 2026-07-01
 
 ### Neu
