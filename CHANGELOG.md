@@ -4,6 +4,18 @@
 
 ---
 
+## [3.12.0] — 2026-07-01
+
+### Neu
+
+- Falsch beantwortete Karten fallen nicht mehr weg, sondern kommen innerhalb derselben Runde wieder (Flashcard & MC). Eine verpasste Karte wird 3–5 Karten später neu eingeschoben und muss einmal richtig beantwortet werden, um die Runde zu verlassen (spaced retrieval statt Wegfallen).
+- Wiederkehrende Karten tragen einen dezenten „↻ Wiederholung"-Chip, damit klar ist, warum sie erneut erscheinen.
+- Der Fortschrittsbalken zählt jetzt nur richtig beantwortete Karten. Ein Fehler bewegt den Balken nicht, bis die Karte zurückkommt und sitzt.
+
+### Geändert
+
+- SRS-Einordnung und Runden-Statistik richten sich weiterhin nach dem **ersten** Versuch pro Karte. Ein Requeue-Wiederholversuch zählt weder doppelt noch überschreibt er die Leitner-Box.
+
 ## [3.11.0] — 2026-07-01
 
 ### Behoben
