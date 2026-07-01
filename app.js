@@ -525,6 +525,7 @@ function renderConjugationCard(card, front, back) {
         ${speakBtn(target.reading, 'btn-speak-word')}
       </div>
       <div class="back-head-reading">${target.reading}</div>
+      <div class="back-head-gloss">${escHtml(item.meaning)}</div>
     </div>
     ${renderFormsTable(item)}`;
 }
@@ -996,7 +997,7 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 let listSearchQuery = '';
 let pendingExpandKey = '';
 
-const TAB_LABELS = { kanji: 'Kanji', vocab: 'Nomen & Verben', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
+const TAB_LABELS = { kanji: 'Kanji', vocab: 'Wörter', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
 
 function isAltag(item) {
   return item.pos && (item.pos.includes('Adjektiv') || item.pos.includes('Adverb'));
