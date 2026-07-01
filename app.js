@@ -32,7 +32,7 @@ const DECK_MODES = {
   adjektive: ['flashcard', 'mc', 'conjugation'],
   sonstiges: ['flashcard', 'mc'],
   grammar:   ['flashcard', 'mc'],
-  all:       ['flashcard', 'mc', 'conjugation'],
+  all:       ['flashcard', 'mc'],
 };
 
 // Decks whose pool comes from VOCAB + BASICS (the part-of-speech split).
@@ -51,7 +51,7 @@ const DECK_TITLES = {
   adjektive: 'Adjektive üben',
   sonstiges: 'Sonstiges üben',
   grammar: 'Grammatik üben',
-  all: 'Alles üben',
+  all: 'ビジさん Zufalls-Quiz',
 };
 
 function loadModalPrefs() {
@@ -287,7 +287,7 @@ function launchSession(deck, sessionCards) {
   state.lastDeck = deck;
   state.caughtUp = false;
 
-  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Alles' };
+  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Zufalls-Quiz' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
