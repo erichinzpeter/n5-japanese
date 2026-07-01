@@ -4,6 +4,17 @@
 
 ---
 
+## [3.9.0] — 2026-07-01
+
+### Geändert
+
+- Neue Farbwelt: kühle Sumi-Tinte statt Erdbraun, ein Vermilion-Akzent (Torii-Rot). „Nochmal" jetzt Krapprot, damit es sich vom Akzent abhebt.
+- Konjugations- und Grammatik-Rückseiten auf den gleichen Karten-Standard wie Kanji/Vokabel gebracht: Antwort in getöntem Kopfband, Konjugationsformen als Kachelraster statt gedrängter Tabelle.
+
+### Behoben
+
+- Verb-Multiple-Choice: leere Lücke nach dem Aufdecken entfernt — die Auflösung sitzt jetzt direkt unter der Karte.
+
 ## [3.8.3] — 2026-06-30
 
 ### Geändert

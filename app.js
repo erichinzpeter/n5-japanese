@@ -155,10 +155,10 @@ function renderFormsTable(item) {
   const c = conjugate(item.word, item.reading, item.pos);
   if (!c) return '';
   const groupLabel = c.group ? `Gruppe ${c.group}` : '';
-  const rows = c.forms.map(f =>
-    `<tr><td class="form-label">${f.label}</td><td class="form-word">${f.word}</td><td class="form-reading">${f.reading}</td></tr>`
+  const tiles = c.forms.map(f =>
+    `<div class="form-tile"><span class="form-tile-label">${f.label}</span><span class="form-tile-word">${f.word}</span><span class="form-tile-reading">${f.reading}</span></div>`
   ).join('');
-  return `<div class="forms-block">${groupLabel ? `<div class="forms-group">${groupLabel}</div>` : ''}<table class="forms-table">${rows}</table></div>`;
+  return `<div class="forms-block">${groupLabel ? `<div class="forms-group">${groupLabel}</div>` : ''}<div class="forms-grid">${tiles}</div></div>`;
 }
 
 // ===== SESSION BUILDING =====
@@ -518,15 +518,14 @@ function renderConjugationCard(card, front, back) {
     <div class="card-furigana">${item.reading}</div>
     <div class="conj-prompt">${escHtml(target.label)}?</div>`;
   back.innerHTML = `
-    <div class="back-section">
+    <div class="back-head">
       <span class="back-label">${escHtml(target.label)}</span>
-      <div class="back-main-row">
-        <div class="back-main" style="font-size:32px">${target.word}</div>
+      <div class="back-head-main">
+        <span class="back-head-word">${target.word}</span>
         ${speakBtn(target.reading, 'btn-speak-word')}
       </div>
-      <div class="back-readings">${target.reading}</div>
+      <div class="back-head-reading">${target.reading}</div>
     </div>
-    <div class="back-divider"></div>
     ${renderFormsTable(item)}`;
 }
 
@@ -545,14 +544,13 @@ function renderGrammarCard(card, front, back) {
     <div class="card-cloze-jp">${renderClozeText(c.text, null)}</div>
     <div class="card-cloze-de">${escHtml(c.de)}</div>`;
   back.innerHTML = `
-    <div class="back-section">
+    <div class="back-head">
       <span class="back-label">Lösung</span>
       <div class="card-cloze-jp">${renderClozeText(c.text, c.answer)}</div>
     </div>
-    <div class="back-divider"></div>
     <div class="back-section">
       <span class="back-label">Muster</span>
-      <div style="font-family:var(--font-display);font-size:22px;color:var(--accent)">${escHtml(c.pattern)}</div>
+      <div class="back-pattern">${escHtml(c.pattern)}</div>
     </div>
     <div class="back-divider"></div>
     <div class="back-section">
@@ -723,10 +721,10 @@ function flipCard() {
   document.getElementById('card-inner').classList.add('flipped');
   document.getElementById('card-controls').style.display = 'none';
 
-  // In MC: keep mc-choices container's space so card doesn't shift; just hide its content
+  // In MC: collapse the choices on reveal so the footer sits directly under the card.
   const mcEl = document.getElementById('mc-choices');
   if (state.mode === 'mc' && mcEl.style.display !== 'none') {
-    mcEl.style.visibility = 'hidden';
+    mcEl.style.display = 'none';
   }
 
   const currentCard = state.session[state.sessionIdx];
