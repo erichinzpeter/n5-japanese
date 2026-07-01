@@ -9,11 +9,11 @@ const state = {
   sessionIdx: 0,
   flipped: false,
   stats: { nochmal: 0, richtig: 0 },
-  completedCount: 0,        // cards answered this round — drives the progress bar
   roundSize: 20,
   lastDeck: null,
   pendingDeck: null,
-  scheduledThisRound: null, // Set<cardId> persisted this round (first rating only)
+  scheduledThisRound: null, // Set<cardId>: first-attempt outcome recorded this round (SRS + stats)
+  graduated: null,          // Set<cardId>: answered correctly this round — drives the progress bar
   caughtUp: false,          // true while the reused done screen shows "Für heute durch"
 };
 
@@ -279,10 +279,10 @@ function dismissRatingHint() {
 function launchSession(deck, sessionCards) {
   state.session = sessionCards;
   state.scheduledThisRound = new Set();
+  state.graduated = new Set();
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
-  state.completedCount = 0;
   state.deck = deck;
   state.lastDeck = deck;
   state.caughtUp = false;
@@ -318,6 +318,8 @@ function startFreeRound(deck) {
 
 function renderCurrentCard() {
   const card = state.session[state.sessionIdx];
+  const chip = document.getElementById('requeue-chip');
+  if (chip) chip.classList.toggle('hidden', !(card && card.isRequeue));
   if (state.mode === 'mc' && card) renderMCCard();
   else renderCard(); // covers flashcard and conjugation
 }
@@ -339,9 +341,10 @@ function renderCard() {
   void flashcard.offsetWidth; // reflow
   flashcard.classList.add('card-enter');
 
-  // Progress: every card is answered exactly once (no requeue), so count both outcomes.
+  // Progress counts distinct cards that have been answered correctly (graduated);
+  // a missed card is requeued and only advances the bar once it comes back right.
   const distinctTotal = new Set(state.session.map(c => c.id)).size;
-  const erledigt = state.completedCount;
+  const erledigt = state.graduated.size;
   document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
   document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
@@ -612,9 +615,10 @@ function renderMCCard() {
   void flashcard.offsetWidth;
   flashcard.classList.add('card-enter');
 
-  // Progress: every MC card is answered exactly once (no requeue), so count both outcomes.
+  // Progress counts distinct cards answered correctly (graduated); a miss requeues the
+  // card and only moves the bar once it returns and is answered right.
   const distinctTotal = new Set(state.session.map(c => c.id)).size;
-  const erledigt = state.stats.richtig + state.stats.nochmal;
+  const erledigt = state.graduated.size;
   document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
   document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
 
@@ -676,19 +680,6 @@ function handleMCAnswer(clickedBtn, correct) {
   setTimeout(flipCard, isCorrect ? 400 : 800);
 }
 
-// Record one MC outcome: SRS schedule (tracked decks) + round stats. Once per card.
-function recordMCAnswer(isCorrect) {
-  const card = state.session[state.sessionIdx];
-  const isTracked = card.type === 'kanji' || card.type === 'vocab';
-  if (isTracked && state.scheduledThisRound && !state.scheduledThisRound.has(card.id)) {
-    const srs = loadSRS();
-    rate(srs, card.id, isCorrect, todayStr());
-    saveSRS(srs);
-    state.scheduledThisRound.add(card.id);
-  }
-  if (isCorrect) state.stats.richtig++;
-  else state.stats.nochmal++;
-}
 
 // Swap the rating-wrap footer between flip-mode (self-assessment) and MC (single Weiter).
 function setMCContinueMode(isMC) {
@@ -719,7 +710,8 @@ function flipCard() {
 
   if (state.mode === 'mc') {
     // Revealing without picking (Leertaste) counts as not-known.
-    recordMCAnswer(state.mcPicked ? state.mcCorrect : false);
+    state.mcOutcome = state.mcPicked ? state.mcCorrect : false;
+    recordFirstOutcome(state.session[state.sessionIdx], state.mcOutcome);
     setMCContinueMode(true);
   } else {
     setMCContinueMode(false);
@@ -727,9 +719,38 @@ function flipCard() {
   }
 }
 
-// MC advance: no requeue — every card is shown once, the answer only sets its SRS box.
+// A missed card is re-inserted a few cards ahead so it comes back within the same
+// round — spaced retrieval beats dropping it. It must be answered correctly to leave.
+const REQUEUE_GAP_MIN = 3;
+const REQUEUE_GAP_MAX = 5;
+function requeueCard(card) {
+  const span = REQUEUE_GAP_MAX - REQUEUE_GAP_MIN + 1;
+  const gap = REQUEUE_GAP_MIN + Math.floor(Math.random() * span);
+  const pos = Math.min(state.sessionIdx + 1 + gap, state.session.length);
+  state.session.splice(pos, 0, { ...card, isRequeue: true });
+}
+
+// SRS box + round stats reflect the FIRST attempt only (once per card id). A requeued
+// re-answer changes neither — it just decides whether the card graduates out of the round.
+function recordFirstOutcome(card, isCorrect) {
+  if (!state.scheduledThisRound || state.scheduledThisRound.has(card.id)) return;
+  const isTracked = card.type === 'kanji' || card.type === 'vocab';
+  if (isTracked) {
+    const srs = loadSRS();
+    rate(srs, card.id, isCorrect, todayStr());
+    saveSRS(srs);
+  }
+  if (isCorrect) state.stats.richtig++;
+  else state.stats.nochmal++;
+  state.scheduledThisRound.add(card.id);
+}
+
+// MC advance (the "Weiter" button): correct graduates the card, a miss requeues it.
 function advanceCard() {
   dismissRatingHint();
+  const card = state.session[state.sessionIdx];
+  if (state.mcOutcome) state.graduated.add(card.id);
+  else requeueCard(card);
   state.sessionIdx++;
   if (state.sessionIdx >= state.session.length) renderDone();
   else renderCurrentCard();
@@ -739,23 +760,14 @@ function advanceCard() {
 function rateCard(rating) {
   dismissRatingHint();
   const card = state.session[state.sessionIdx];
+  const isCorrect = rating === 3;
 
-  // Persist Leitner state once per card per round (tracked types only).
-  const isTracked = card.type === 'kanji' || card.type === 'vocab';
-  if (isTracked && state.scheduledThisRound && !state.scheduledThisRound.has(card.id)) {
-    const srs = loadSRS();
-    rate(srs, card.id, rating === 3, todayStr());
-    saveSRS(srs);
-    state.scheduledThisRound.add(card.id);
-  }
+  recordFirstOutcome(card, isCorrect);
 
-  if (rating === 1) state.stats.nochmal++;
-  else state.stats.richtig++;
+  if (isCorrect) state.graduated.add(card.id);
+  else requeueCard(card);
 
-  // Every card is shown once, no requeue — both outcomes advance progress.
-  state.completedCount++;
   state.sessionIdx++;
-
   if (state.sessionIdx >= state.session.length) {
     renderDone();
   } else {

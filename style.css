@@ -755,6 +755,30 @@ body {
   justify-content: center;
   padding: 16px 20px 8px;
   perspective: 1200px;
+  position: relative;
+}
+
+/* Marks a card that came back after a miss — tells the user why they see it again. */
+.requeue-chip {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.requeue-chip.hidden {
+  display: none;
 }
 
 .card {
