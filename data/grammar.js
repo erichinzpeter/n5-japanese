@@ -25,9 +25,9 @@ const GRAMMAR = [
       distractors: ["でした", "ですか", "じゃないです"],
       items: [
         { text: "これはペン＿。", answer: "です", de: "Das ist ein Stift." },
-        { text: "私は田中＿。", answer: "です", de: "Ich bin Tanaka." },
-        { text: "あの人は先生＿。", answer: "です", de: "Diese Person ist Lehrer." },
-        { text: "今日は月曜日＿。", answer: "です", de: "Heute ist Montag." }
+        { text: "私は田中＿。", reading: "わたしはたなか＿。", answer: "です", de: "Ich bin Tanaka." },
+        { text: "あの人は先生＿。", reading: "あのひとはせんせい＿。", answer: "です", de: "Diese Person ist Lehrer." },
+        { text: "今日は月曜日＿。", reading: "きょうはげつようび＿。", answer: "です", de: "Heute ist Montag." }
       ]
     }
   },
@@ -55,10 +55,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["です", "でした", "ですか"],
       items: [
-        { text: "私は学生＿。", answer: "じゃないです", de: "Ich bin kein Student." },
-        { text: "これは私の本＿。", answer: "じゃないです", de: "Das ist nicht mein Buch." },
-        { text: "今日は休み＿。", answer: "じゃないです", de: "Heute ist nicht frei." },
-        { text: "それはお茶＿。", answer: "じゃないです", de: "Das ist kein Tee." }
+        { text: "私は学生＿。", reading: "わたしはがくせい＿。", answer: "じゃないです", de: "Ich bin kein Student." },
+        { text: "これは私の本＿。", reading: "これはわたしのほん＿。", answer: "じゃないです", de: "Das ist nicht mein Buch." },
+        { text: "今日は休み＿。", reading: "きょうはやすみ＿。", answer: "じゃないです", de: "Heute ist nicht frei." },
+        { text: "それはお茶＿。", reading: "それはおちゃ＿。", answer: "じゃないです", de: "Das ist kein Tee." }
       ]
     }
   },
@@ -86,10 +86,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["です", "でした", "じゃないです"],
       items: [
-        { text: "あなたは学生＿。", answer: "ですか", de: "Sind Sie Student?" },
-        { text: "これはあなたの本＿。", answer: "ですか", de: "Ist das Ihr Buch?" },
-        { text: "今日は水曜日＿。", answer: "ですか", de: "Ist heute Mittwoch?" },
-        { text: "あれは富士山＿。", answer: "ですか", de: "Ist das der Fuji?" }
+        { text: "あなたは学生＿。", reading: "あなたはがくせい＿。", answer: "ですか", de: "Sind Sie Student?" },
+        { text: "これはあなたの本＿。", reading: "これはあなたのほん＿。", answer: "ですか", de: "Ist das Ihr Buch?" },
+        { text: "今日は水曜日＿。", reading: "きょうはすいようび＿。", answer: "ですか", de: "Ist heute Mittwoch?" },
+        { text: "あれは富士山＿。", reading: "あれはふじさん＿。", answer: "ですか", de: "Ist das der Fuji?" }
       ]
     }
   },
@@ -118,11 +118,11 @@ const GRAMMAR = [
     cloze: {
       distractors: ["です", "じゃないです", "ですか"],
       items: [
-        { text: "昨日は雨＿。", answer: "でした", de: "Gestern war es regnerisch." },
-        { text: "先週は休み＿。", answer: "でした", de: "Letzte Woche war frei." },
-        { text: "おとといは日曜日＿。", answer: "でした", de: "Vorgestern war Sonntag." },
-        { text: "テストは簡単＿。", answer: "じゃなかったです", distractors: ["でした", "です", "じゃないです"], de: "Der Test war nicht einfach." },
-        { text: "あの店は休み＿。", answer: "じゃなかったです", distractors: ["でした", "です", "じゃないです"], de: "Der Laden war nicht geschlossen." }
+        { text: "昨日は雨＿。", reading: "きのうはあめ＿。", answer: "でした", de: "Gestern war es regnerisch." },
+        { text: "先週は休み＿。", reading: "せんしゅうはやすみ＿。", answer: "でした", de: "Letzte Woche war frei." },
+        { text: "おとといは日曜日＿。", reading: "おとといはにちようび＿。", answer: "でした", de: "Vorgestern war Sonntag." },
+        { text: "テストは簡単＿。", reading: "テストはかんたん＿。", answer: "じゃなかったです", distractors: ["でした", "です", "じゃないです"], de: "Der Test war nicht einfach." },
+        { text: "あの店は休み＿。", reading: "あのみせはやすみ＿。", answer: "じゃなかったです", distractors: ["でした", "です", "じゃないです"], de: "Der Laden war nicht geschlossen." }
       ]
     }
   },
@@ -153,10 +153,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["が", "を", "に"],
       items: [
-        { text: "私＿日本語を勉強します。", answer: "は", de: "Ich lerne Japanisch." },
-        { text: "今日＿天気がいいです。", answer: "は", de: "Heute ist das Wetter gut." },
-        { text: "この本＿面白いです。", answer: "は", de: "Dieses Buch ist interessant." },
-        { text: "私の父＿会社員です。", answer: "は", de: "Mein Vater ist Angestellter." }
+        { text: "私＿日本語を勉強します。", reading: "わたし＿にほんごをべんきょうします。", answer: "は", de: "Ich lerne Japanisch." },
+        { text: "今日＿天気がいいです。", reading: "きょう＿てんきがいいです。", answer: "は", de: "Heute ist das Wetter gut." },
+        { text: "この本＿面白いです。", reading: "このほん＿おもしろいです。", answer: "は", de: "Dieses Buch ist interessant." },
+        { text: "私の父＿会社員です。", reading: "わたしのちち＿かいしゃいんです。", answer: "は", de: "Mein Vater ist Angestellter." }
       ]
     }
   },
@@ -185,10 +185,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["は", "を", "に"],
       items: [
-        { text: "庭に犬＿います。", answer: "が", de: "Im Garten ist ein Hund." },
-        { text: "机の上に本＿あります。", answer: "が", de: "Auf dem Tisch liegt ein Buch." },
-        { text: "私は日本語＿分かります。", answer: "が", de: "Ich verstehe Japanisch." },
-        { text: "誰＿来ましたか。", answer: "が", de: "Wer ist gekommen?" }
+        { text: "庭に犬＿います。", reading: "にわにいぬ＿います。", answer: "が", de: "Im Garten ist ein Hund." },
+        { text: "机の上に本＿あります。", reading: "つくえのうえにほん＿あります。", answer: "が", de: "Auf dem Tisch liegt ein Buch." },
+        { text: "私は日本語＿分かります。", reading: "わたしはにほんご＿わかります。", answer: "が", de: "Ich verstehe Japanisch." },
+        { text: "誰＿来ましたか。", reading: "だれ＿きましたか。", answer: "が", de: "Wer ist gekommen?" }
       ]
     }
   },
@@ -217,10 +217,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["は", "が", "に"],
       items: [
-        { text: "りんご＿食べます。", answer: "を", de: "Ich esse einen Apfel." },
-        { text: "テレビ＿見ます。", answer: "を", de: "Ich sehe fern." },
-        { text: "水＿飲みます。", answer: "を", de: "Ich trinke Wasser." },
-        { text: "音楽＿聞きます。", answer: "を", de: "Ich höre Musik." }
+        { text: "りんご＿食べます。", reading: "りんご＿たべます。", answer: "を", de: "Ich esse einen Apfel." },
+        { text: "テレビ＿見ます。", reading: "テレビ＿みます。", answer: "を", de: "Ich sehe fern." },
+        { text: "水＿飲みます。", reading: "みず＿のみます。", answer: "を", de: "Ich trinke Wasser." },
+        { text: "音楽＿聞きます。", reading: "おんがく＿ききます。", answer: "を", de: "Ich höre Musik." }
       ]
     }
   },
@@ -250,10 +250,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["で", "を", "は"],
       items: [
-        { text: "七時＿起きます。", answer: "に", de: "Ich stehe um 7 Uhr auf." },
-        { text: "友達＿手紙を書きます。", answer: "に", de: "Ich schreibe einem Freund einen Brief." },
-        { text: "部屋＿猫がいます。", answer: "に", de: "Im Zimmer ist eine Katze." },
-        { text: "先生＿質問します。", answer: "に", de: "Ich stelle dem Lehrer eine Frage." }
+        { text: "七時＿起きます。", reading: "しちじ＿おきます。", answer: "に", de: "Ich stehe um 7 Uhr auf." },
+        { text: "友達＿手紙を書きます。", reading: "ともだち＿てがみをかきます。", answer: "に", de: "Ich schreibe einem Freund einen Brief." },
+        { text: "部屋＿猫がいます。", reading: "へや＿ねこがいます。", answer: "に", de: "Im Zimmer ist eine Katze." },
+        { text: "先生＿質問します。", reading: "せんせい＿しつもんします。", answer: "に", de: "Ich stelle dem Lehrer eine Frage." }
       ]
     }
   },
@@ -282,10 +282,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["に", "を", "は"],
       items: [
-        { text: "図書館＿勉強します。", answer: "で", de: "Ich lerne in der Bibliothek." },
-        { text: "はし＿ご飯を食べます。", answer: "で", de: "Ich esse Reis mit Stäbchen." },
-        { text: "日本語＿メールを書きます。", answer: "で", de: "Ich schreibe die Mail auf Japanisch." },
-        { text: "スーパー＿野菜を買いました。", answer: "で", de: "Ich habe im Supermarkt Gemüse gekauft." }
+        { text: "図書館＿勉強します。", reading: "としょかん＿べんきょうします。", answer: "で", de: "Ich lerne in der Bibliothek." },
+        { text: "はし＿ご飯を食べます。", reading: "はし＿ごはんをたべます。", answer: "で", de: "Ich esse Reis mit Stäbchen." },
+        { text: "日本語＿メールを書きます。", reading: "にほんご＿メールをかきます。", answer: "で", de: "Ich schreibe die Mail auf Japanisch." },
+        { text: "スーパー＿野菜を買いました。", reading: "スーパー＿やさいをかいました。", answer: "で", de: "Ich habe im Supermarkt Gemüse gekauft." }
       ]
     }
   },
@@ -314,10 +314,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["は", "を", "に"],
       items: [
-        { text: "これは私＿本です。", answer: "の", de: "Das ist mein Buch." },
-        { text: "母＿料理はおいしいです。", answer: "の", de: "Das Essen meiner Mutter ist lecker." },
-        { text: "これは日本＿地図です。", answer: "の", de: "Das ist eine Karte von Japan." },
-        { text: "日本語＿先生は親切です。", answer: "の", de: "Der Japanischlehrer ist freundlich." }
+        { text: "これは私＿本です。", reading: "これはわたし＿ほんです。", answer: "の", de: "Das ist mein Buch." },
+        { text: "母＿料理はおいしいです。", reading: "はは＿りょうりはおいしいです。", answer: "の", de: "Das Essen meiner Mutter ist lecker." },
+        { text: "これは日本＿地図です。", reading: "これはにほん＿ちずです。", answer: "の", de: "Das ist eine Karte von Japan." },
+        { text: "日本語＿先生は親切です。", reading: "にほんご＿せんせいはしんせつです。", answer: "の", de: "Der Japanischlehrer ist freundlich." }
       ]
     }
   },
@@ -346,10 +346,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["で", "を", "は"],
       items: [
-        { text: "東京＿行きます。", answer: "へ", de: "Ich gehe nach Tokio." },
-        { text: "家＿帰ります。", answer: "へ", de: "Ich gehe nach Hause." },
-        { text: "右＿曲がってください。", answer: "へ", de: "Bitte biegen Sie nach rechts ab." },
-        { text: "来週、海外＿行きます。", answer: "へ", de: "Nächste Woche reise ich ins Ausland." }
+        { text: "東京＿行きます。", reading: "とうきょう＿いきます。", answer: "へ", de: "Ich gehe nach Tokio." },
+        { text: "家＿帰ります。", reading: "いえ＿かえります。", answer: "へ", de: "Ich gehe nach Hause." },
+        { text: "右＿曲がってください。", reading: "みぎ＿まがってください。", answer: "へ", de: "Bitte biegen Sie nach rechts ab." },
+        { text: "来週、海外＿行きます。", reading: "らいしゅう、かいがい＿いきます。", answer: "へ", de: "Nächste Woche reise ich ins Ausland." }
       ]
     }
   },
@@ -378,10 +378,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["で", "に", "も"],
       items: [
-        { text: "友達＿映画を見ます。", answer: "と", de: "Ich sehe mit einem Freund einen Film." },
-        { text: "母＿買い物に行きました。", answer: "と", de: "Ich war mit meiner Mutter einkaufen." },
-        { text: "犬＿猫がいます。", answer: "と", de: "Es gibt einen Hund und eine Katze." },
-        { text: "パン＿たまごを買いました。", answer: "と", de: "Ich habe Brot und Eier gekauft." }
+        { text: "友達＿映画を見ます。", reading: "ともだち＿えいがをみます。", answer: "と", de: "Ich sehe mit einem Freund einen Film." },
+        { text: "母＿買い物に行きました。", reading: "はは＿かいものにいきました。", answer: "と", de: "Ich war mit meiner Mutter einkaufen." },
+        { text: "犬＿猫がいます。", reading: "いぬ＿ねこがいます。", answer: "と", de: "Es gibt einen Hund und eine Katze." },
+        { text: "パン＿たまごを買いました。", reading: "パン＿たまごをかいました。", answer: "と", de: "Ich habe Brot und Eier gekauft." }
       ]
     }
   },
@@ -410,10 +410,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["は", "が", "を"],
       items: [
-        { text: "私＿学生です。", answer: "も", de: "Ich bin auch Student." },
-        { text: "田中さん＿日本人です。", answer: "も", de: "Herr Tanaka ist auch Japaner." },
-        { text: "今日＿暑いです。", answer: "も", de: "Heute ist es auch heiß." },
-        { text: "妹＿来ます。", answer: "も", de: "Meine kleine Schwester kommt auch." }
+        { text: "私＿学生です。", reading: "わたし＿がくせいです。", answer: "も", de: "Ich bin auch Student." },
+        { text: "田中さん＿日本人です。", reading: "たなかさん＿にほんじんです。", answer: "も", de: "Herr Tanaka ist auch Japaner." },
+        { text: "今日＿暑いです。", reading: "きょう＿あついです。", answer: "も", de: "Heute ist es auch heiß." },
+        { text: "妹＿来ます。", reading: "いもうと＿きます。", answer: "も", de: "Meine kleine Schwester kommt auch." }
       ]
     }
   },
@@ -442,10 +442,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["から", "に", "で"],
       items: [
-        { text: "月曜日から金曜日＿働きます。", answer: "まで", de: "Ich arbeite von Montag bis Freitag." },
-        { text: "九時から五時＿勉強します。", answer: "まで", de: "Ich lerne von 9 bis 17 Uhr." },
-        { text: "家から駅＿歩きます。", answer: "まで", de: "Vom Haus bis zum Bahnhof gehe ich zu Fuß." },
-        { text: "朝から晩＿雨でした。", answer: "まで", de: "Von morgens bis abends hat es geregnet." }
+        { text: "月曜日から金曜日＿働きます。", reading: "げつようびからきんようび＿はたらきます。", answer: "まで", de: "Ich arbeite von Montag bis Freitag." },
+        { text: "九時から五時＿勉強します。", reading: "くじからごじ＿べんきょうします。", answer: "まで", de: "Ich lerne von 9 bis 17 Uhr." },
+        { text: "家から駅＿歩きます。", reading: "いえからえき＿あるきます。", answer: "まで", de: "Vom Haus bis zum Bahnhof gehe ich zu Fuß." },
+        { text: "朝から晩＿雨でした。", reading: "あさからばん＿あめでした。", answer: "まで", de: "Von morgens bis abends hat es geregnet." }
       ]
     }
   },
@@ -474,10 +474,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["と", "も", "か"],
       items: [
-        { text: "りんご＿バナナなどを買いました。", answer: "や", de: "Ich habe Äpfel, Bananen usw. gekauft." },
-        { text: "机の上にペン＿ノートなどがあります。", answer: "や", de: "Auf dem Tisch liegen Stifte, Hefte usw." },
-        { text: "朝はパン＿たまごなどを食べます。", answer: "や", de: "Morgens esse ich Brot, Eier usw." },
-        { text: "かばんに財布＿かぎなどがあります。", answer: "や", de: "In der Tasche sind Geldbeutel, Schlüssel usw." }
+        { text: "りんご＿バナナなどを買いました。", reading: "りんご＿バナナなどをかいました。", answer: "や", de: "Ich habe Äpfel, Bananen usw. gekauft." },
+        { text: "机の上にペン＿ノートなどがあります。", reading: "つくえのうえにペン＿ノートなどがあります。", answer: "や", de: "Auf dem Tisch liegen Stifte, Hefte usw." },
+        { text: "朝はパン＿たまごなどを食べます。", reading: "あさはパン＿たまごなどをたべます。", answer: "や", de: "Morgens esse ich Brot, Eier usw." },
+        { text: "かばんに財布＿かぎなどがあります。", reading: "かばんにさいふ＿かぎなどがあります。", answer: "や", de: "In der Tasche sind Geldbeutel, Schlüssel usw." }
       ]
     }
   },
@@ -508,10 +508,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["これ", "それ", "あれ"],
       items: [
-        { text: "＿は何ですか。", answer: "これ", distractors: ["それ", "あれ", "どれ"], de: "Was ist das hier?" },
-        { text: "＿は私のかさです。", answer: "それ", distractors: ["これ", "あれ", "どれ"], de: "Das (bei dir) ist mein Regenschirm." },
-        { text: "＿は新しいビルです。", answer: "あれ", distractors: ["これ", "それ", "どれ"], de: "Das dort drüben ist ein neues Gebäude." },
-        { text: "＿があなたの本ですか。", answer: "どれ", distractors: ["これ", "それ", "あれ"], de: "Welches ist Ihr Buch?" }
+        { text: "＿は何ですか。", reading: "＿はなんですか。", answer: "これ", distractors: ["それ", "あれ", "どれ"], de: "Was ist das hier?" },
+        { text: "＿は私のかさです。", reading: "＿はわたしのかさです。", answer: "それ", distractors: ["これ", "あれ", "どれ"], de: "Das (bei dir) ist mein Regenschirm." },
+        { text: "＿は新しいビルです。", reading: "＿はあたらしいビルです。", answer: "あれ", distractors: ["これ", "それ", "どれ"], de: "Das dort drüben ist ein neues Gebäude." },
+        { text: "＿があなたの本ですか。", reading: "＿があなたのほんですか。", answer: "どれ", distractors: ["これ", "それ", "あれ"], de: "Welches ist Ihr Buch?" }
       ]
     }
   },
@@ -540,10 +540,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["この", "その", "あの"],
       items: [
-        { text: "＿本は面白いです。", answer: "この", distractors: ["その", "あの", "どの"], de: "Dieses Buch ist interessant." },
-        { text: "＿車は新しいです。", answer: "その", distractors: ["この", "あの", "どの"], de: "Das Auto (dort bei dir) ist neu." },
-        { text: "＿人は田中さんです。", answer: "あの", distractors: ["この", "その", "どの"], de: "Diese Person dort drüben ist Herr Tanaka." },
-        { text: "＿店がいいですか。", answer: "どの", distractors: ["この", "その", "あの"], de: "Welcher Laden ist gut?" }
+        { text: "＿本は面白いです。", reading: "＿ほんはおもしろいです。", answer: "この", distractors: ["その", "あの", "どの"], de: "Dieses Buch ist interessant." },
+        { text: "＿車は新しいです。", reading: "＿くるまはあたらしいです。", answer: "その", distractors: ["この", "あの", "どの"], de: "Das Auto (dort bei dir) ist neu." },
+        { text: "＿人は田中さんです。", reading: "＿ひとはたなかさんです。", answer: "あの", distractors: ["この", "その", "どの"], de: "Diese Person dort drüben ist Herr Tanaka." },
+        { text: "＿店がいいですか。", reading: "＿みせがいいですか。", answer: "どの", distractors: ["この", "その", "あの"], de: "Welcher Laden ist gut?" }
       ]
     }
   },
@@ -572,9 +572,9 @@ const GRAMMAR = [
       distractors: ["ここ", "そこ", "あそこ"],
       items: [
         { text: "トイレは＿ですか。", answer: "どこ", distractors: ["ここ", "そこ", "あそこ"], de: "Wo ist die Toilette?" },
-        { text: "＿で待ってください。", answer: "ここ", distractors: ["そこ", "あそこ", "どこ"], de: "Bitte warten Sie hier." },
-        { text: "＿に駅があります。", answer: "あそこ", distractors: ["ここ", "そこ", "どこ"], de: "Dort drüben ist der Bahnhof." },
-        { text: "＿に私のかばんがあります。", answer: "そこ", distractors: ["ここ", "あそこ", "どこ"], de: "Dort (bei dir) ist meine Tasche." }
+        { text: "＿で待ってください。", reading: "＿でまってください。", answer: "ここ", distractors: ["そこ", "あそこ", "どこ"], de: "Bitte warten Sie hier." },
+        { text: "＿に駅があります。", reading: "＿にえきがあります。", answer: "あそこ", distractors: ["ここ", "そこ", "どこ"], de: "Dort drüben ist der Bahnhof." },
+        { text: "＿に私のかばんがあります。", reading: "＿にわたしのかばんがあります。", answer: "そこ", distractors: ["ここ", "あそこ", "どこ"], de: "Dort (bei dir) ist meine Tasche." }
       ]
     }
   },
@@ -605,10 +605,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["います", "ありません", "いません"],
       items: [
-        { text: "机の上に本が＿。", answer: "あります", de: "Auf dem Tisch liegt ein Buch." },
-        { text: "冷蔵庫にたまごが＿。", answer: "あります", de: "Im Kühlschrank sind Eier." },
-        { text: "部屋に猫が＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Im Zimmer ist eine Katze." },
-        { text: "公園に子供が＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Im Park sind Kinder." }
+        { text: "机の上に本が＿。", reading: "つくえのうえにほんが＿。", answer: "あります", de: "Auf dem Tisch liegt ein Buch." },
+        { text: "冷蔵庫にたまごが＿。", reading: "れいぞうこにたまごが＿。", answer: "あります", de: "Im Kühlschrank sind Eier." },
+        { text: "部屋に猫が＿。", reading: "へやにねこが＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Im Zimmer ist eine Katze." },
+        { text: "公園に子供が＿。", reading: "こうえんにこどもが＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Im Park sind Kinder." }
       ]
     }
   },
@@ -637,10 +637,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["います", "ありません", "いません"],
       items: [
-        { text: "本は机の上に＿。", answer: "あります", de: "Das Buch ist auf dem Tisch." },
-        { text: "かぎはかばんの中に＿。", answer: "あります", de: "Der Schlüssel ist in der Tasche." },
-        { text: "猫は部屋に＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Die Katze ist im Zimmer." },
-        { text: "山田さんは会議室に＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Frau Yamada ist im Besprechungsraum." }
+        { text: "本は机の上に＿。", reading: "ほんはつくえのうえに＿。", answer: "あります", de: "Das Buch ist auf dem Tisch." },
+        { text: "かぎはかばんの中に＿。", reading: "かぎはかばんのなかに＿。", answer: "あります", de: "Der Schlüssel ist in der Tasche." },
+        { text: "猫は部屋に＿。", reading: "ねこはへやに＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Die Katze ist im Zimmer." },
+        { text: "山田さんは会議室に＿。", reading: "やまださんはかいぎしつに＿。", answer: "います", distractors: ["あります", "ありません", "いません"], de: "Frau Yamada ist im Besprechungsraum." }
       ]
     }
   },
@@ -671,10 +671,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ません", "ました", "ませんでした"],
       items: [
-        { text: "毎日日本語を勉強し＿。", answer: "ます", de: "Ich lerne jeden Tag Japanisch." },
-        { text: "毎朝コーヒーを飲み＿。", answer: "ます", de: "Jeden Morgen trinke ich Kaffee." },
-        { text: "私はお酒を飲み＿。", answer: "ません", distractors: ["ます", "ました", "ませんでした"], de: "Ich trinke keinen Alkohol." },
-        { text: "日曜日は働き＿。", answer: "ません", distractors: ["ます", "ました", "ませんでした"], de: "Sonntags arbeite ich nicht." }
+        { text: "毎日日本語を勉強し＿。", reading: "まいにちにほんごをべんきょうし＿。", answer: "ます", de: "Ich lerne jeden Tag Japanisch." },
+        { text: "毎朝コーヒーを飲み＿。", reading: "まいあさコーヒーをのみ＿。", answer: "ます", de: "Jeden Morgen trinke ich Kaffee." },
+        { text: "私はお酒を飲み＿。", reading: "わたしはおさけをのみ＿。", answer: "ません", distractors: ["ます", "ました", "ませんでした"], de: "Ich trinke keinen Alkohol." },
+        { text: "日曜日は働き＿。", reading: "にちようびははたらき＿。", answer: "ません", distractors: ["ます", "ました", "ませんでした"], de: "Sonntags arbeite ich nicht." }
       ]
     }
   },
@@ -703,10 +703,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ませんでした", "ます", "ません"],
       items: [
-        { text: "昨日映画を見＿。", answer: "ました", de: "Gestern habe ich einen Film gesehen." },
-        { text: "先週、京都に行き＿。", answer: "ました", de: "Letzte Woche bin ich nach Kyoto gefahren." },
-        { text: "朝ごはんを食べ＿。", answer: "ませんでした", distractors: ["ました", "ます", "ません"], de: "Ich habe nicht gefrühstückt." },
-        { text: "週末は何もし＿。", answer: "ませんでした", distractors: ["ました", "ます", "ません"], de: "Am Wochenende habe ich nichts gemacht." }
+        { text: "昨日映画を見＿。", reading: "きのうえいがをみ＿。", answer: "ました", de: "Gestern habe ich einen Film gesehen." },
+        { text: "先週、京都に行き＿。", reading: "せんしゅう、きょうとにいき＿。", answer: "ました", de: "Letzte Woche bin ich nach Kyoto gefahren." },
+        { text: "朝ごはんを食べ＿。", reading: "あさごはんをたべ＿。", answer: "ませんでした", distractors: ["ました", "ます", "ません"], de: "Ich habe nicht gefrühstückt." },
+        { text: "週末は何もし＿。", reading: "しゅうまつはなにもし＿。", answer: "ませんでした", distractors: ["ました", "ます", "ません"], de: "Am Wochenende habe ich nichts gemacht." }
       ]
     }
   },
@@ -737,10 +737,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ましょう", "ますか", "ください"],
       items: [
-        { text: "一緒に映画を見＿。", answer: "ませんか", de: "Wollen wir nicht zusammen einen Film sehen?" },
-        { text: "お茶を飲み＿。", answer: "ませんか", de: "Wollen wir nicht einen Tee trinken?" },
-        { text: "公園を散歩し＿。", answer: "ませんか", de: "Wollen wir nicht im Park spazieren gehen?" },
-        { text: "今晩、うちに来＿。", answer: "ませんか", de: "Wollen Sie heute Abend nicht zu mir kommen?" }
+        { text: "一緒に映画を見＿。", reading: "いっしょにえいがをみ＿。", answer: "ませんか", de: "Wollen wir nicht zusammen einen Film sehen?" },
+        { text: "お茶を飲み＿。", reading: "おちゃをのみ＿。", answer: "ませんか", de: "Wollen wir nicht einen Tee trinken?" },
+        { text: "公園を散歩し＿。", reading: "こうえんをさんぽし＿。", answer: "ませんか", de: "Wollen wir nicht im Park spazieren gehen?" },
+        { text: "今晩、うちに来＿。", reading: "こんばん、うちにき＿。", answer: "ませんか", de: "Wollen Sie heute Abend nicht zu mir kommen?" }
       ]
     }
   },
@@ -769,10 +769,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ませんか", "ます", "ください"],
       items: [
-        { text: "そろそろ始め＿。", answer: "ましょう", de: "Lass uns langsam anfangen." },
-        { text: "一緒に昼ごはんを食べ＿。", answer: "ましょう", de: "Lass uns zusammen Mittagessen." },
-        { text: "窓を開け＿。", answer: "ましょうか", de: "Soll ich das Fenster öffnen?" },
-        { text: "手伝い＿。", answer: "ましょうか", de: "Soll ich helfen?" }
+        { text: "そろそろ始め＿。", reading: "そろそろはじめ＿。", answer: "ましょう", de: "Lass uns langsam anfangen." },
+        { text: "一緒に昼ごはんを食べ＿。", reading: "いっしょにひるごはんをたべ＿。", answer: "ましょう", de: "Lass uns zusammen Mittagessen." },
+        { text: "窓を開け＿。", reading: "まどをあけ＿。", answer: "ましょうか", de: "Soll ich das Fenster öffnen?" },
+        { text: "手伝い＿。", reading: "てつだい＿。", answer: "ましょうか", de: "Soll ich helfen?" }
       ]
     }
   },
@@ -803,10 +803,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["はいけません", "もいいですか", "から"],
       items: [
-        { text: "ゆっくり話して＿。", answer: "ください", de: "Bitte sprechen Sie langsam." },
-        { text: "もう一度言って＿。", answer: "ください", de: "Bitte sagen Sie das noch einmal." },
-        { text: "ちょっと待って＿。", answer: "ください", de: "Bitte warten Sie kurz." },
-        { text: "窓を開けて＿。", answer: "ください", de: "Bitte öffnen Sie das Fenster." }
+        { text: "ゆっくり話して＿。", reading: "ゆっくりはなして＿。", answer: "ください", de: "Bitte sprechen Sie langsam." },
+        { text: "もう一度言って＿。", reading: "もういちどいって＿。", answer: "ください", de: "Bitte sagen Sie das noch einmal." },
+        { text: "ちょっと待って＿。", reading: "ちょっとまって＿。", answer: "ください", de: "Bitte warten Sie kurz." },
+        { text: "窓を開けて＿。", reading: "まどをあけて＿。", answer: "ください", de: "Bitte öffnen Sie das Fenster." }
       ]
     }
   },
@@ -835,10 +835,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ください", "はいけません", "から"],
       items: [
-        { text: "ここに座って＿。", answer: "もいいですか", de: "Darf ich mich hier hinsetzen?" },
-        { text: "写真を撮って＿。", answer: "もいいですか", de: "Darf ich ein Foto machen?" },
-        { text: "トイレを使って＿。", answer: "もいいですか", de: "Darf ich die Toilette benutzen?" },
-        { text: "ここで食べて＿。", answer: "もいいですか", de: "Darf ich hier essen?" }
+        { text: "ここに座って＿。", reading: "ここにすわって＿。", answer: "もいいですか", de: "Darf ich mich hier hinsetzen?" },
+        { text: "写真を撮って＿。", reading: "しゃしんをとって＿。", answer: "もいいですか", de: "Darf ich ein Foto machen?" },
+        { text: "トイレを使って＿。", reading: "トイレをつかって＿。", answer: "もいいですか", de: "Darf ich die Toilette benutzen?" },
+        { text: "ここで食べて＿。", reading: "ここでたべて＿。", answer: "もいいですか", de: "Darf ich hier essen?" }
       ]
     }
   },
@@ -867,10 +867,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ください", "もいいですか", "から"],
       items: [
-        { text: "ここで写真を撮って＿。", answer: "はいけません", de: "Hier darf man keine Fotos machen." },
-        { text: "図書館で話して＿。", answer: "はいけません", de: "In der Bibliothek darf man nicht reden." },
-        { text: "ここでたばこを吸って＿。", answer: "はいけません", de: "Hier darf man nicht rauchen." },
-        { text: "ここで遊んで＿。", answer: "はいけません", de: "Hier darf man nicht spielen." }
+        { text: "ここで写真を撮って＿。", reading: "ここでしゃしんをとって＿。", answer: "はいけません", de: "Hier darf man keine Fotos machen." },
+        { text: "図書館で話して＿。", reading: "としょかんではなして＿。", answer: "はいけません", de: "In der Bibliothek darf man nicht reden." },
+        { text: "ここでたばこを吸って＿。", reading: "ここでたばこをすって＿。", answer: "はいけません", de: "Hier darf man nicht rauchen." },
+        { text: "ここで遊んで＿。", reading: "ここであそんで＿。", answer: "はいけません", de: "Hier darf man nicht spielen." }
       ]
     }
   },
@@ -899,9 +899,9 @@ const GRAMMAR = [
     cloze: {
       distractors: ["てください", "ましょう", "たいです"],
       items: [
-        { text: "ここで食べ＿。", answer: "ないでください", de: "Bitte essen Sie hier nicht." },
-        { text: "心配し＿。", answer: "ないでください", de: "Bitte machen Sie sich keine Sorgen." },
-        { text: "ドアを閉め＿。", answer: "ないでください", de: "Bitte schließen Sie die Tür nicht." }
+        { text: "ここで食べ＿。", reading: "ここでたべ＿。", answer: "ないでください", de: "Bitte essen Sie hier nicht." },
+        { text: "心配し＿。", reading: "しんぱいし＿。", answer: "ないでください", de: "Bitte machen Sie sich keine Sorgen." },
+        { text: "ドアを閉め＿。", reading: "ドアをしめ＿。", answer: "ないでください", de: "Bitte schließen Sie die Tür nicht." }
       ]
     }
   },
@@ -930,10 +930,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ください", "から", "もいいですか"],
       items: [
-        { text: "今、テレビを見て＿。", answer: "います", de: "Ich sehe gerade fern." },
-        { text: "弟は今、寝て＿。", answer: "います", de: "Mein kleiner Bruder schläft gerade." },
-        { text: "雨が降って＿。", answer: "います", de: "Es regnet gerade." },
-        { text: "父は新聞を読んで＿。", answer: "います", de: "Mein Vater liest gerade die Zeitung." }
+        { text: "今、テレビを見て＿。", reading: "いま、テレビをみて＿。", answer: "います", de: "Ich sehe gerade fern." },
+        { text: "弟は今、寝て＿。", reading: "おとうとはいま、ねて＿。", answer: "います", de: "Mein kleiner Bruder schläft gerade." },
+        { text: "雨が降って＿。", reading: "あめがふって＿。", answer: "います", de: "Es regnet gerade." },
+        { text: "父は新聞を読んで＿。", reading: "ちちはしんぶんをよんで＿。", answer: "います", de: "Mein Vater liest gerade die Zeitung." }
       ]
     }
   },
@@ -962,9 +962,9 @@ const GRAMMAR = [
     cloze: {
       distractors: ["てから", "たり", "ながら"],
       items: [
-        { text: "朝ごはんを食べ＿、学校に行きます。", answer: "て", de: "Ich frühstücke und gehe dann zur Schule." },
-        { text: "シャワーを浴び＿、出かけます。", answer: "て", de: "Ich dusche und gehe dann aus dem Haus." },
-        { text: "宿題をし＿、寝ます。", answer: "て", de: "Ich mache die Hausaufgaben und gehe dann schlafen." }
+        { text: "朝ごはんを食べ＿、学校に行きます。", reading: "あさごはんをたべ＿、がっこうにいきます。", answer: "て", de: "Ich frühstücke und gehe dann zur Schule." },
+        { text: "シャワーを浴び＿、出かけます。", reading: "シャワーをあび＿、でかけます。", answer: "て", de: "Ich dusche und gehe dann aus dem Haus." },
+        { text: "宿題をし＿、寝ます。", reading: "しゅくだいをし＿、ねます。", answer: "て", de: "Ich mache die Hausaufgaben und gehe dann schlafen." }
       ]
     }
   },
@@ -995,10 +995,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ます", "ました", "ませんか"],
       items: [
-        { text: "日本に行き＿。", answer: "たいです", de: "Ich möchte nach Japan fahren." },
-        { text: "すしを食べ＿。", answer: "たいです", de: "Ich möchte Sushi essen." },
-        { text: "映画を見＿。", answer: "たいです", de: "Ich möchte einen Film sehen." },
-        { text: "新しい車を買い＿。", answer: "たいです", de: "Ich möchte ein neues Auto kaufen." }
+        { text: "日本に行き＿。", reading: "にほんにいき＿。", answer: "たいです", de: "Ich möchte nach Japan fahren." },
+        { text: "すしを食べ＿。", reading: "すしをたべ＿。", answer: "たいです", de: "Ich möchte Sushi essen." },
+        { text: "映画を見＿。", reading: "えいがをみ＿。", answer: "たいです", de: "Ich möchte einen Film sehen." },
+        { text: "新しい車を買い＿。", reading: "あたらしいくるまをかい＿。", answer: "たいです", de: "Ich möchte ein neues Auto kaufen." }
       ]
     }
   },
@@ -1028,10 +1028,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["へ", "で", "を"],
       items: [
-        { text: "ご飯を食べ＿行きます。", answer: "に", de: "Ich gehe essen." },
-        { text: "映画を見＿行きます。", answer: "に", de: "Ich gehe einen Film sehen." },
-        { text: "本を買い＿行きます。", answer: "に", de: "Ich gehe ein Buch kaufen." },
-        { text: "公園へ散歩＿行きます。", answer: "に", de: "Ich gehe in den Park spazieren." }
+        { text: "ご飯を食べ＿行きます。", reading: "ごはんをたべ＿いきます。", answer: "に", de: "Ich gehe essen." },
+        { text: "映画を見＿行きます。", reading: "えいがをみ＿いきます。", answer: "に", de: "Ich gehe einen Film sehen." },
+        { text: "本を買い＿行きます。", reading: "ほんをかい＿いきます。", answer: "に", de: "Ich gehe ein Buch kaufen." },
+        { text: "公園へ散歩＿行きます。", reading: "こうえんへさんぽ＿いきます。", answer: "に", de: "Ich gehe in den Park spazieren." }
       ]
     }
   },
@@ -1062,10 +1062,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["けど", "まで", "より"],
       items: [
-        { text: "眠い＿、寝ます。", answer: "から", de: "Weil ich müde bin, gehe ich schlafen." },
-        { text: "今日は寒い＿、コートを着ます。", answer: "から", de: "Weil es heute kalt ist, ziehe ich einen Mantel an." },
-        { text: "時間がない＿、急ぎます。", answer: "から", de: "Weil ich keine Zeit habe, beeile ich mich." },
-        { text: "お金がない＿、買いません。", answer: "から", de: "Weil ich kein Geld habe, kaufe ich es nicht." }
+        { text: "眠い＿、寝ます。", reading: "ねむい＿、ねます。", answer: "から", de: "Weil ich müde bin, gehe ich schlafen." },
+        { text: "今日は寒い＿、コートを着ます。", reading: "きょうはさむい＿、コートをきます。", answer: "から", de: "Weil es heute kalt ist, ziehe ich einen Mantel an." },
+        { text: "時間がない＿、急ぎます。", reading: "じかんがない＿、いそぎます。", answer: "から", de: "Weil ich keine Zeit habe, beeile ich mich." },
+        { text: "お金がない＿、買いません。", reading: "おかねがない＿、かいません。", answer: "から", de: "Weil ich kein Geld habe, kaufe ich es nicht." }
       ]
     }
   },
@@ -1094,10 +1094,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["から", "まで", "ので"],
       items: [
-        { text: "日本語は好きです＿、難しいです。", answer: "が", de: "Ich mag Japanisch, aber es ist schwierig." },
-        { text: "天気はいいです＿、寒いです。", answer: "が", de: "Das Wetter ist gut, aber es ist kalt." },
-        { text: "この店は安いです＿、おいしくないです。", answer: "が", de: "Dieser Laden ist billig, aber nicht lecker." },
-        { text: "彼は若いです＿、まじめです。", answer: "が", de: "Er ist jung, aber gewissenhaft." }
+        { text: "日本語は好きです＿、難しいです。", reading: "にほんごはすきです＿、むずかしいです。", answer: "が", de: "Ich mag Japanisch, aber es ist schwierig." },
+        { text: "天気はいいです＿、寒いです。", reading: "てんきはいいです＿、さむいです。", answer: "が", de: "Das Wetter ist gut, aber es ist kalt." },
+        { text: "この店は安いです＿、おいしくないです。", reading: "このみせはやすいです＿、おいしくないです。", answer: "が", de: "Dieser Laden ist billig, aber nicht lecker." },
+        { text: "彼は若いです＿、まじめです。", reading: "かれはわかいです＿、まじめです。", answer: "が", de: "Er ist jung, aber gewissenhaft." }
       ]
     }
   },
@@ -1129,10 +1129,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["後で", "時", "まで"],
       items: [
-        { text: "寝る＿、歯を磨きます。", answer: "前に", de: "Bevor ich schlafe, putze ich die Zähne." },
-        { text: "ご飯を食べる＿、手を洗います。", answer: "前に", de: "Bevor ich esse, wasche ich mir die Hände." },
-        { text: "出かける＿、電気を消します。", answer: "前に", de: "Bevor ich ausgehe, mache ich das Licht aus." },
-        { text: "寝る＿、本を読みます。", answer: "前に", de: "Bevor ich schlafe, lese ich ein Buch." }
+        { text: "寝る＿、歯を磨きます。", reading: "ねる＿、はをみがきます。", answer: "前に", de: "Bevor ich schlafe, putze ich die Zähne." },
+        { text: "ご飯を食べる＿、手を洗います。", reading: "ごはんをたべる＿、てをあらいます。", answer: "前に", de: "Bevor ich esse, wasche ich mir die Hände." },
+        { text: "出かける＿、電気を消します。", reading: "でかける＿、でんきをけします。", answer: "前に", de: "Bevor ich ausgehe, mache ich das Licht aus." },
+        { text: "寝る＿、本を読みます。", reading: "ねる＿、ほんをよみます。", answer: "前に", de: "Bevor ich schlafe, lese ich ein Buch." }
       ]
     }
   },
@@ -1162,10 +1162,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["前に", "時", "まで"],
       items: [
-        { text: "ご飯を食べた＿、散歩します。", answer: "後で", de: "Nachdem ich gegessen habe, mache ich einen Spaziergang." },
-        { text: "仕事が終わった＿、買い物に行きます。", answer: "後で", de: "Nach der Arbeit gehe ich einkaufen." },
-        { text: "映画を見た＿、お茶を飲みました。", answer: "後で", de: "Nach dem Film haben wir Tee getrunken." },
-        { text: "シャワーを浴びた＿、寝ます。", answer: "後で", de: "Nachdem ich geduscht habe, gehe ich schlafen." }
+        { text: "ご飯を食べた＿、散歩します。", reading: "ごはんをたべた＿、さんぽします。", answer: "後で", de: "Nachdem ich gegessen habe, mache ich einen Spaziergang." },
+        { text: "仕事が終わった＿、買い物に行きます。", reading: "しごとがおわった＿、かいものにいきます。", answer: "後で", de: "Nach der Arbeit gehe ich einkaufen." },
+        { text: "映画を見た＿、お茶を飲みました。", reading: "えいがをみた＿、おちゃをのみました。", answer: "後で", de: "Nach dem Film haben wir Tee getrunken." },
+        { text: "シャワーを浴びた＿、寝ます。", reading: "シャワーをあびた＿、ねます。", answer: "後で", de: "Nachdem ich geduscht habe, gehe ich schlafen." }
       ]
     }
   },
@@ -1194,10 +1194,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["ぐらい", "まで", "から"],
       items: [
-        { text: "七時＿、起きます。", answer: "ごろ", de: "Ich stehe gegen 7 Uhr auf." },
-        { text: "八時＿、家を出ます。", answer: "ごろ", de: "Gegen 8 Uhr verlasse ich das Haus." },
-        { text: "十一時＿、寝ます。", answer: "ごろ", de: "Gegen 23 Uhr gehe ich schlafen." },
-        { text: "六時＿、家に帰ります。", answer: "ごろ", de: "Gegen 18 Uhr komme ich nach Hause." }
+        { text: "七時＿、起きます。", reading: "しちじ＿、おきます。", answer: "ごろ", de: "Ich stehe gegen 7 Uhr auf." },
+        { text: "八時＿、家を出ます。", reading: "はちじ＿、いえをでます。", answer: "ごろ", de: "Gegen 8 Uhr verlasse ich das Haus." },
+        { text: "十一時＿、寝ます。", reading: "じゅういちじ＿、ねます。", answer: "ごろ", de: "Gegen 23 Uhr gehe ich schlafen." },
+        { text: "六時＿、家に帰ります。", reading: "ろくじ＿、いえにかえります。", answer: "ごろ", de: "Gegen 18 Uhr komme ich nach Hause." }
       ]
     }
   },
@@ -1228,10 +1228,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["いです", "かったです", "くないです"],
       items: [
-        { text: "このりんごは高＿。", answer: "くないです", distractors: ["いです", "かったです", "くなかったです"], de: "Dieser Apfel ist nicht teuer." },
-        { text: "昨日は寒＿。", answer: "かったです", distractors: ["いです", "くないです", "くなかったです"], de: "Gestern war es kalt." },
-        { text: "この映画は面白＿。", answer: "くなかったです", distractors: ["いです", "かったです", "くないです"], de: "Dieser Film war nicht interessant." },
-        { text: "今日は暑＿。", answer: "いです", distractors: ["かったです", "くないです", "くなかったです"], de: "Heute ist es heiß." }
+        { text: "このりんごは高＿。", reading: "このりんごはたか＿。", answer: "くないです", distractors: ["いです", "かったです", "くなかったです"], de: "Dieser Apfel ist nicht teuer." },
+        { text: "昨日は寒＿。", reading: "きのうはさむ＿。", answer: "かったです", distractors: ["いです", "くないです", "くなかったです"], de: "Gestern war es kalt." },
+        { text: "この映画は面白＿。", reading: "このえいがはおもしろ＿。", answer: "くなかったです", distractors: ["いです", "かったです", "くないです"], de: "Dieser Film war nicht interessant." },
+        { text: "今日は暑＿。", reading: "きょうはあつ＿。", answer: "いです", distractors: ["かったです", "くないです", "くなかったです"], de: "Heute ist es heiß." }
       ]
     }
   },
@@ -1260,9 +1260,9 @@ const GRAMMAR = [
     cloze: {
       distractors: ["の", "い", "だ"],
       items: [
-        { text: "田中さんは親切＿人です。", answer: "な", de: "Herr Tanaka ist ein freundlicher Mensch." },
-        { text: "彼女は有名＿歌手です。", answer: "な", de: "Sie ist eine berühmte Sängerin." },
-        { text: "ここは便利＿所です。", answer: "な", de: "Das hier ist ein praktischer Ort." }
+        { text: "田中さんは親切＿人です。", reading: "たなかさんはしんせつ＿ひとです。", answer: "な", de: "Herr Tanaka ist ein freundlicher Mensch." },
+        { text: "彼女は有名＿歌手です。", reading: "かのじょはゆうめい＿かしゅです。", answer: "な", de: "Sie ist eine berühmte Sängerin." },
+        { text: "ここは便利＿所です。", reading: "ここはべんり＿ところです。", answer: "な", de: "Das hier ist ein praktischer Ort." }
       ]
     }
   },
@@ -1291,10 +1291,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["から", "まで", "と"],
       items: [
-        { text: "東京は大阪＿大きいです。", answer: "より", de: "Tokio ist größer als Osaka." },
-        { text: "今日は昨日＿寒いです。", answer: "より", de: "Heute ist es kälter als gestern." },
-        { text: "飛行機は電車＿速いです。", answer: "より", de: "Das Flugzeug ist schneller als der Zug." },
-        { text: "日本語は英語＿難しいです。", answer: "より", de: "Japanisch ist schwieriger als Englisch." }
+        { text: "東京は大阪＿大きいです。", reading: "とうきょうはおおさか＿おおきいです。", answer: "より", de: "Tokio ist größer als Osaka." },
+        { text: "今日は昨日＿寒いです。", reading: "きょうはきのう＿さむいです。", answer: "より", de: "Heute ist es kälter als gestern." },
+        { text: "飛行機は電車＿速いです。", reading: "ひこうきはでんしゃ＿はやいです。", answer: "より", de: "Das Flugzeug ist schneller als der Zug." },
+        { text: "日本語は英語＿難しいです。", reading: "にほんごはえいご＿むずかしいです。", answer: "より", de: "Japanisch ist schwieriger als Englisch." }
       ]
     }
   },
@@ -1324,9 +1324,9 @@ const GRAMMAR = [
     cloze: {
       distractors: ["より", "から", "まで"],
       items: [
-        { text: "コーヒーよりお茶＿好きです。", answer: "のほうが", de: "Ich mag Tee lieber als Kaffee." },
-        { text: "夏より冬＿好きです。", answer: "のほうが", de: "Ich mag den Winter lieber als den Sommer." },
-        { text: "肉より魚＿好きです。", answer: "のほうが", de: "Ich mag Fisch lieber als Fleisch." }
+        { text: "コーヒーよりお茶＿好きです。", reading: "コーヒーよりおちゃ＿すきです。", answer: "のほうが", de: "Ich mag Tee lieber als Kaffee." },
+        { text: "夏より冬＿好きです。", reading: "なつよりふゆ＿すきです。", answer: "のほうが", de: "Ich mag den Winter lieber als den Sommer." },
+        { text: "肉より魚＿好きです。", reading: "にくよりさかな＿すきです。", answer: "のほうが", de: "Ich mag Fisch lieber als Fleisch." }
       ]
     }
   },
@@ -1356,10 +1356,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["とても", "もっと", "よく"],
       items: [
-        { text: "果物の中でりんごが＿好きです。", answer: "一番", de: "Von allen Früchten mag ich Äpfel am liebsten." },
-        { text: "スポーツの中でサッカーが＿好きです。", answer: "一番", de: "Von allen Sportarten mag ich Fußball am liebsten." },
-        { text: "一年の中で八月が＿暑いです。", answer: "一番", de: "Im Jahr ist der August am heißesten." },
-        { text: "飲み物の中でお茶が＿好きです。", answer: "一番", de: "Von allen Getränken mag ich Tee am liebsten." }
+        { text: "果物の中でりんごが＿好きです。", reading: "くだもののなかでりんごが＿すきです。", answer: "一番", de: "Von allen Früchten mag ich Äpfel am liebsten." },
+        { text: "スポーツの中でサッカーが＿好きです。", reading: "スポーツのなかでサッカーが＿すきです。", answer: "一番", de: "Von allen Sportarten mag ich Fußball am liebsten." },
+        { text: "一年の中で八月が＿暑いです。", reading: "いちねんのなかではちがつが＿あついです。", answer: "一番", de: "Im Jahr ist der August am heißesten." },
+        { text: "飲み物の中でお茶が＿好きです。", reading: "のみもののなかでおちゃが＿すきです。", answer: "一番", de: "Von allen Getränken mag ich Tee am liebsten." }
       ]
     }
   },
@@ -1388,9 +1388,9 @@ const GRAMMAR = [
       distractors: ["はどうですか", "がいいです", "でした"],
       items: [
         { text: "コーヒー＿。", answer: "をください", de: "Einen Kaffee bitte." },
-        { text: "お茶＿。", answer: "をください", de: "Einen Tee bitte." },
+        { text: "お茶＿。", reading: "おちゃ＿。", answer: "をください", de: "Einen Tee bitte." },
         { text: "メニュー＿。", answer: "をください", de: "Die Speisekarte bitte." },
-        { text: "その本＿。", answer: "をください", de: "Geben Sie mir das Buch bitte." }
+        { text: "その本＿。", reading: "そのほん＿。", answer: "をください", de: "Geben Sie mir das Buch bitte." }
       ]
     }
   },
@@ -1419,10 +1419,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["をください", "がいいです", "でした"],
       items: [
-        { text: "お茶＿。", answer: "はどうですか", de: "Wie wäre es mit Tee?" },
-        { text: "この映画＿。", answer: "はどうですか", de: "Wie ist dieser Film?" },
-        { text: "新しい仕事＿。", answer: "はどうですか", de: "Wie ist die neue Arbeit?" },
-        { text: "明日＿。", answer: "はどうですか", de: "Wie wäre es mit morgen?" }
+        { text: "お茶＿。", reading: "おちゃ＿。", answer: "はどうですか", de: "Wie wäre es mit Tee?" },
+        { text: "この映画＿。", reading: "このえいが＿。", answer: "はどうですか", de: "Wie ist dieser Film?" },
+        { text: "新しい仕事＿。", reading: "あたらしいしごと＿。", answer: "はどうですか", de: "Wie ist die neue Arbeit?" },
+        { text: "明日＿。", reading: "あした＿。", answer: "はどうですか", de: "Wie wäre es mit morgen?" }
       ]
     }
   },
@@ -1451,10 +1451,10 @@ const GRAMMAR = [
     cloze: {
       distractors: ["も", "は", "まで"],
       items: [
-        { text: "少し＿食べます。", answer: "だけ", de: "Ich esse nur ein bisschen." },
-        { text: "水＿ください。", answer: "だけ", de: "Nur Wasser bitte." },
-        { text: "一人＿来ました。", answer: "だけ", de: "Nur eine Person ist gekommen." },
-        { text: "これ＿買います。", answer: "だけ", de: "Ich kaufe nur das." }
+        { text: "少し＿食べます。", reading: "すこし＿たべます。", answer: "だけ", de: "Ich esse nur ein bisschen." },
+        { text: "水＿ください。", reading: "みず＿ください。", answer: "だけ", de: "Nur Wasser bitte." },
+        { text: "一人＿来ました。", reading: "ひとり＿きました。", answer: "だけ", de: "Nur eine Person ist gekommen." },
+        { text: "これ＿買います。", reading: "これ＿かいます。", answer: "だけ", de: "Ich kaufe nur das." }
       ]
     }
   },
@@ -1484,12 +1484,12 @@ const GRAMMAR = [
     cloze: {
       distractors: ["枚", "個", "匹"],
       items: [
-        { text: "えんぴつを三＿ください。", answer: "本", de: "Bitte drei Bleistifte." },
-        { text: "切手を五＿買いました。", answer: "枚", distractors: ["本", "個", "台"], de: "Ich habe fünf Briefmarken gekauft." },
-        { text: "りんごを二＿ください。", answer: "個", distractors: ["本", "枚", "匹"], de: "Bitte zwei Äpfel." },
-        { text: "犬が三＿います。", answer: "匹", distractors: ["本", "人", "台"], de: "Es sind drei Hunde da." },
-        { text: "学生が五＿います。", answer: "人", distractors: ["匹", "枚", "台"], de: "Es sind fünf Studenten da." },
-        { text: "車が二＿あります。", answer: "台", distractors: ["本", "匹", "人"], de: "Es sind zwei Autos da." }
+        { text: "えんぴつを三＿ください。", reading: "えんぴつをさん＿ください。", answer: "本", de: "Bitte drei Bleistifte." },
+        { text: "切手を五＿買いました。", reading: "きってをご＿かいました。", answer: "枚", distractors: ["本", "個", "台"], de: "Ich habe fünf Briefmarken gekauft." },
+        { text: "りんごを二＿ください。", reading: "りんごをに＿ください。", answer: "個", distractors: ["本", "枚", "匹"], de: "Bitte zwei Äpfel." },
+        { text: "犬が三＿います。", reading: "いぬがさん＿います。", answer: "匹", distractors: ["本", "人", "台"], de: "Es sind drei Hunde da." },
+        { text: "学生が五＿います。", reading: "がくせいがご＿います。", answer: "人", distractors: ["匹", "枚", "台"], de: "Es sind fünf Studenten da." },
+        { text: "車が二＿あります。", reading: "くるまがに＿あります。", answer: "台", distractors: ["本", "匹", "人"], de: "Es sind zwei Autos da." }
       ]
     }
   },

@@ -4,6 +4,12 @@
 
 ---
 
+## [3.11.0] — 2026-07-01
+
+### Behoben
+
+- Grammatik-Karten (Flashcard & MC) zeigen jetzt die Lesung (Hiragana) unter dem Satz. Vorher standen Sätze mit Kanji ohne Furigana da und waren für Anfänger nicht lesbar. 179 Lückensätze mit Kanji haben eine Kana-Lesung erhalten.
+
 ## [3.10.0] — 2026-07-01
 
 ### Entfernt
