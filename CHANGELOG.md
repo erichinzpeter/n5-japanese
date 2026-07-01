@@ -4,6 +4,12 @@
 
 ---
 
+## [3.10.0] — 2026-07-01
+
+### Entfernt
+
+- „Niveau"-Umschalter (Einfach/Fortgeschritten) aus dem Start-Modal entfernt. Vokabel-Runden nutzen jetzt immer den kompletten Wortschatz. „Fortgeschritten" war nur ein Superset von „Einfach" — die Trennung stiftete mehr Verwirrung als Nutzen.
+
 ## [3.9.1] — 2026-07-01
 
 ### Geändert

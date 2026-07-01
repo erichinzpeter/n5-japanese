@@ -4,7 +4,6 @@
 const state = {
   direction: 'jp-de',
   mode: 'flashcard',  // 'flashcard' | 'mc'
-  level: 'easy',      // 'easy' | 'adv' — vocab difficulty (vocab/all decks)
   deck: null,
   session: [],
   sessionIdx: 0,
@@ -37,7 +36,6 @@ const DECK_MODES = {
 };
 
 // Decks whose pool comes from VOCAB + BASICS (the part-of-speech split).
-// Used by collectDeckCards and the level-toggle visibility.
 const VOCAB_CATEGORIES = ['nomen', 'verben', 'adjektive', 'sonstiges'];
 
 const MODE_LABELS = {
@@ -61,9 +59,9 @@ function loadModalPrefs() {
   catch { return {}; }
 }
 
-function saveModalPrefs(deck, mode, direction, level, count) {
+function saveModalPrefs(deck, mode, direction, count) {
   const prefs = loadModalPrefs();
-  prefs[deck] = { mode, direction, level, count };
+  prefs[deck] = { mode, direction, count };
   localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
 }
 
@@ -75,12 +73,10 @@ function openStartModal(deck) {
   const allowedModes = DECK_MODES[deck] || ['flashcard', 'mc'];
   const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
   const initialDir = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : 'jp-de';
-  const initialLevel = ['easy', 'adv'].includes(prefs.level) ? prefs.level : 'easy';
   const initialCount = ROUND_SIZES.includes(prefs.count) ? prefs.count : DEFAULT_ROUND;
 
   state.mode = initialMode;
   state.direction = initialDir;
-  state.level = initialLevel;
   state.roundSize = initialCount;
 
   document.getElementById('start-modal-title').textContent = DECK_TITLES[deck] || 'Üben';
@@ -104,15 +100,10 @@ function openStartModal(deck) {
     b.classList.toggle('active', b.dataset.dir === initialDir);
   });
 
-  document.querySelectorAll('#start-modal .lvl-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.level === initialLevel);
-  });
-
   document.querySelectorAll('#start-modal .count-btn').forEach(b => {
     b.classList.toggle('active', parseInt(b.dataset.count) === initialCount);
   });
 
-  updateLevelVisibility(deck);
   document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar');
   if (deck === 'grammar') state.direction = 'jp-de';
 
@@ -122,12 +113,6 @@ function openStartModal(deck) {
 
   modalLastFocus = document.activeElement;
   (modal.querySelector('.mode-btn.active') || document.getElementById('modal-start-btn')).focus();
-}
-
-function updateLevelVisibility(deck) {
-  const wrap = document.getElementById('modal-level-wrap');
-  const isVocabDeck = VOCAB_CATEGORIES.includes(deck) || deck === 'all';
-  wrap.classList.toggle('hidden', !isVocabDeck);
 }
 
 function closeStartModal() {
@@ -162,12 +147,6 @@ function renderFormsTable(item) {
 }
 
 // ===== SESSION BUILDING =====
-// Vocab slice for the active difficulty. Easy = early-lesson words only;
-// advanced = all vocab. Only the vocab/all decks ever read this.
-function vocabForLevel(level) {
-  return level === 'easy' ? VOCAB.filter(v => v.level === 'easy') : VOCAB;
-}
-
 // Collect all candidate cards for a deck. Returns plain objects { item, type, dir, id }
 // with no SR data — direction comes from state at call time.
 function collectDeckCards(deck) {
@@ -179,8 +158,7 @@ function collectDeckCards(deck) {
   }
 
   if (VOCAB_CATEGORIES.includes(deck) || deck === 'all') {
-    // VOCAB respects the level toggle; BASICS items carry no `level` field, so they aren't filtered by difficulty.
-    const pool = [...vocabForLevel(state.level), ...BASICS];
+    const pool = [...VOCAB, ...BASICS];
     const wanted = deck === 'all' ? null : deck; // 'all' spans every category, so no single filter
     let items = pool.filter(v => wanted === null || posCategory(v.pos) === wanted);
     if (state.mode === 'conjugation') {
@@ -578,7 +556,7 @@ function generateChoices(card) {
     }
   } else if (type === 'vocab') {
     // Pool includes BASICS items too so distractors come from the same broad vocab space
-    const vocabPool = [...vocabForLevel(state.level), ...BASICS].filter(v => v.id !== item.id);
+    const vocabPool = [...VOCAB, ...BASICS].filter(v => v.id !== item.id);
     pool = vocabPool;
     if (dir === 'fwd') {
       correct = item.meaning;
@@ -1360,15 +1338,6 @@ function initEvents() {
     });
   });
 
-  // Start modal: level toggle
-  document.querySelectorAll('#start-modal .lvl-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#start-modal .lvl-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      state.level = btn.dataset.level;
-    });
-  });
-
   // Start modal: count toggle
   document.querySelectorAll('#start-modal .count-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1382,7 +1351,7 @@ function initEvents() {
   document.getElementById('modal-start-btn').addEventListener('click', () => {
     const deck = state.pendingDeck;
     if (!deck) return;
-    saveModalPrefs(deck, state.mode, state.direction, state.level, state.roundSize);
+    saveModalPrefs(deck, state.mode, state.direction, state.roundSize);
     closeStartModal();
     startSession(deck, state.direction);
   });
