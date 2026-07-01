@@ -51,7 +51,7 @@ const DECK_TITLES = {
   adjektive: 'Adjektive üben',
   sonstiges: 'Sonstiges üben',
   grammar: 'Grammatik üben',
-  all: 'ビジさん Zufalls-Quiz',
+  all: 'Zufall üben',
 };
 
 function loadModalPrefs() {
@@ -287,7 +287,7 @@ function launchSession(deck, sessionCards) {
   state.lastDeck = deck;
   state.caughtUp = false;
 
-  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Zufalls-Quiz' };
+  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Zufall' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   showScreen('session');
