@@ -1,4 +1,4 @@
-const CACHE = 'n5-v64';
+const CACHE = 'n5-v65';
 const ASSETS = [
   './',
   './index.html',
@@ -49,8 +49,10 @@ self.addEventListener('fetch', e => {
   // Self-hosted fonts (.woff2) are precached, so they fall through to the
   // cache-first branch below and paint instantly on every load.
   if (isAsset) {
+    // no-store: bypass the browser HTTP cache so a cold launch always pulls the
+    // freshest app shell (iOS Safari otherwise serves the 600s-cached copy).
     e.respondWith(
-      fetch(req).then(res => {
+      fetch(req, { cache: 'no-store' }).then(res => {
         const copy = res.clone();
         caches.open(CACHE).then(c => c.put(req, copy));
         return res;

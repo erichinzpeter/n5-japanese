@@ -4,6 +4,12 @@
 
 ---
 
+## [3.12.2] — 2026-07-01
+
+### Behoben
+
+- Updates kamen auf iOS-PWAs oft nicht an. Der Service Worker holt die App-Shell (HTML/JS/CSS) jetzt mit `cache: 'no-store'`, sodass ein Kaltstart immer die frischeste Version aus dem Netz zieht statt der bis zu 600 s alten HTTP-Cache-Kopie. Zusätzlich wird der Worker mit `updateViaCache: 'none'` registriert, damit neue Versionen bei jedem Start erkannt werden. Lernfortschritt (SRS) liegt in localStorage und ist davon unberührt.
+
 ## [3.12.1] — 2026-07-01
 
 ### Behoben

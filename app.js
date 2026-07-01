@@ -1517,7 +1517,9 @@ init();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('./sw.js');
+      // updateViaCache 'none': never serve sw.js (or its imports) from the HTTP
+      // cache during update checks, so a new worker is detected on every launch.
+      const reg = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
 
       if (reg.waiting && navigator.serviceWorker.controller) {
         showUpdateToast(reg.waiting);
