@@ -4,6 +4,13 @@
 
 ---
 
+## [3.9.1] — 2026-07-01
+
+### Geändert
+
+- Konjugations-Lösung zeigt jetzt auch die Bedeutung des Worts.
+- Listen-Rubrik „Nomen & Verben" → „Wörter": kürzer (kein seitliches Scrollen) und ehrlicher — der Reiter enthält auch Wörter wie „heute", die weder Nomen noch Verb sind.
+
 ## [3.9.0] — 2026-07-01
 
 ### Geändert
