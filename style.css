@@ -308,8 +308,7 @@ body {
   color: var(--text);
 }
 
-.direction-toggle,
-.level-toggle {
+.direction-toggle {
   display: flex;
   gap: 4px;
   margin-bottom: 24px;
@@ -319,8 +318,7 @@ body {
   animation: fadeUp 0.5s 0.15s ease both;
 }
 
-.dir-btn,
-.lvl-btn {
+.dir-btn {
   flex: 1;
   padding: 8px 12px;
   border: none;
@@ -334,15 +332,13 @@ body {
   transition: var(--transition);
 }
 
-.dir-btn.active,
-.lvl-btn.active {
+.dir-btn.active {
   background: var(--accent);
   color: var(--on-accent);
   font-weight: 600;
 }
 
-.dir-btn:hover:not(.active),
-.lvl-btn:hover:not(.active) {
+.dir-btn:hover:not(.active) {
   color: var(--text);
 }
 
@@ -2104,7 +2100,6 @@ body {
 
 .modal-section .mode-toggle,
 .modal-section .direction-toggle,
-.modal-section .level-toggle,
 .modal-section .count-toggle {
   margin-bottom: 0;
   animation: none;
