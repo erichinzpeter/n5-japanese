@@ -23,20 +23,20 @@
 
 /* ===== CSS Variables ===== */
 :root {
-  /* Modern warm-dark identity. Neutrals tinted toward the amber accent hue (~70). */
-  --bg:           oklch(0.18 0.008 70);
-  --surface:      oklch(0.225 0.011 70);
-  --surface-2:    oklch(0.28 0.014 68);
-  --border:       oklch(0.30 0.014 68);
-  --border-light: oklch(0.37 0.016 68);
-  --text:         oklch(0.95 0.008 75);
-  --text-muted:   oklch(0.74 0.018 72);
-  --text-dim:     oklch(0.635 0.02 72);
-  --accent:       oklch(0.80 0.145 78);
-  --accent-hover: oklch(0.86 0.13 80);
-  --on-accent:    oklch(0.20 0.02 70);
+  /* Sumi-ink identity: cool near-black neutrals (hue ~260), single vermilion accent. */
+  --bg:           oklch(0.17 0.012 260);
+  --surface:      oklch(0.215 0.015 260);
+  --surface-2:    oklch(0.265 0.018 258);
+  --border:       oklch(0.30 0.018 258);
+  --border-light: oklch(0.37 0.020 258);
+  --text:         oklch(0.96 0.006 260);
+  --text-muted:   oklch(0.75 0.016 258);
+  --text-dim:     oklch(0.635 0.018 258);
+  --accent:       oklch(0.68 0.19 35);
+  --accent-hover: oklch(0.73 0.185 37);
+  --on-accent:    oklch(0.20 0.015 260);
 
-  --btn-nochmal:  #d56450;
+  --btn-nochmal:  #c74b4b;
   --btn-gut:      #5aa873;
 
   /* Gothic for all learning content — Mincho's decorative strokes hurt
@@ -249,7 +249,7 @@ body {
   border: none;
   border-radius: var(--radius-pill);
   background: var(--accent);
-  color: #131211;
+  color: var(--on-accent);
   font-family: var(--font-ui);
   font-size: 15px;
   font-weight: 600;
@@ -337,7 +337,7 @@ body {
 .dir-btn.active,
 .lvl-btn.active {
   background: var(--accent);
-  color: #131211;
+  color: var(--on-accent);
   font-weight: 600;
 }
 
@@ -929,7 +929,7 @@ body {
   margin-bottom: 14px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-light);
-  background: linear-gradient(158deg, oklch(0.275 0.022 78), oklch(0.225 0.012 70));
+  background: linear-gradient(158deg, oklch(0.285 0.028 35), oklch(0.225 0.012 260));
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
@@ -1018,19 +1018,17 @@ body {
   display: block;
 }
 
-.back-main {
-  font-family: var(--font-display);
-  font-size: 40px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.2;
-}
-
 .back-readings {
   font-size: 18px;
   color: var(--accent);
   font-family: var(--font-display);
   letter-spacing: 0.06em;
+}
+
+.back-pattern {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--accent);
 }
 
 .back-meanings {
@@ -1204,10 +1202,10 @@ body {
   color: var(--accent);
 }
 
-/* Bottom slot: card-controls, mc-choices, tiles, rating-wrap stack here.
-   mc-choices sits in flow and defines container height in MC mode;
-   on flip, mc-choices uses visibility:hidden to preserve space so card doesn't shift.
-   In flashcard mode, min-height matches rating-wrap height so flip-btn area = rating-wrap area. */
+/* Bottom slot: card-controls, mc-choices, rating-wrap stack here.
+   mc-choices sits in flow and defines container height in MC mode; on flip it
+   collapses (display:none) so the reveal footer sits directly under the card.
+   min-height keeps the flip-btn / rating-wrap area stable in flashcard mode. */
 .card-bottom {
   position: relative;
   min-height: 140px;
@@ -1443,9 +1441,9 @@ body {
 }
 
 .done-btn--primary:hover {
-  background: #d4b45a;
-  border-color: #d4b45a;
-  color: var(--bg);
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--on-accent);
 }
 
 /* ===== Animations ===== */
@@ -1662,7 +1660,7 @@ body {
 
 .list-tab.active {
   background: var(--accent);
-  color: #131211;
+  color: var(--on-accent);
   font-weight: 600;
 }
 
@@ -1854,12 +1852,6 @@ body {
   line-height: 1.5;
 }
 
-.back-main-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .btn-speak-word {
   background: none;
   border: none;
@@ -1933,40 +1925,43 @@ body {
   margin-bottom: 6px;
 }
 
-.forms-table {
+/* Form tiles mirror .reading-grid so conjugation reads as objects, not a table. */
+.forms-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
   width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
 }
 
-.forms-table tr + tr td {
-  border-top: 1px solid var(--border);
+.form-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
 }
 
-.forms-table td {
-  padding: 5px 6px;
-  vertical-align: middle;
-}
-
-.form-label {
+.form-tile-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--text-dim);
-  font-size: 12px;
-  white-space: nowrap;
-  width: 30%;
 }
 
-.form-word {
+.form-tile-word {
   font-family: var(--font-display);
-  font-size: 17px;
-  color: var(--text);
+  font-size: 18px;
   font-weight: 600;
-  width: 35%;
+  color: var(--text);
 }
 
-.form-reading {
+.form-tile-reading {
   font-family: var(--font-display);
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--accent);
+  letter-spacing: 0.04em;
 }
 
 /* Conjugation drill front */
@@ -2155,7 +2150,7 @@ body {
 
 .count-btn.active {
   background: var(--accent);
-  color: #131211;
+  color: var(--on-accent);
   font-weight: 600;
 }
 
@@ -2168,7 +2163,7 @@ body {
   padding: 14px;
   margin-top: 8px;
   background: var(--accent);
-  color: #131211;
+  color: var(--on-accent);
   font-family: var(--font-ui);
   font-size: 15px;
   font-weight: 600;
