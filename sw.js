@@ -1,4 +1,4 @@
-const CACHE = 'n5-v67';
+const CACHE = 'n5-v68';
 const ASSETS = [
   './',
   './index.html',
@@ -24,8 +24,10 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', e => {
-  // No skipWaiting here: the new worker must WAIT so the in-app update toast
-  // can appear. Activation happens only when the user taps it (SKIP_WAITING).
+  // skipWaiting so a new worker activates immediately, even for legacy clients
+  // whose old app.js has no update handling. Without this, such clients keep an
+  // ancient worker alive forever and never see new versions.
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(ASSETS))
   );
@@ -61,8 +63,4 @@ self.addEventListener('fetch', e => {
   } else {
     e.respondWith(caches.match(req).then(c => c || fetch(req)));
   }
-});
-
-self.addEventListener('message', e => {
-  if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });
