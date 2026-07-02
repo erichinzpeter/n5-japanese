@@ -4,6 +4,18 @@
 
 ---
 
+## [3.12.5] — 2026-07-02
+
+### Behoben
+
+- Service Worker aktiviert neue Versionen jetzt sofort (`skipWaiting`), statt auf einen Tap zu warten. Uralt-Clients (z. B. eine alte Android-PWA) blieben sonst dauerhaft auf einer sehr alten Version hängen, weil ihr altes `app.js` den wartenden Worker nie aktivieren konnte. Updates kommen jetzt zuverlässig per Auto-Reload an.
+
+### Entfernt
+
+- „Neue Version verfügbar – Tippen zum Aktualisieren"-Toast (durch `skipWaiting` obsolet).
+
+---
+
 ## [3.12.4] — 2026-07-01
 
 ### Geändert

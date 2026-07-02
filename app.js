@@ -1521,24 +1521,12 @@ if ('serviceWorker' in navigator) {
       // cache during update checks, so a new worker is detected on every launch.
       const reg = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
 
-      if (reg.waiting && navigator.serviceWorker.controller) {
-        showUpdateToast(reg.waiting);
-      }
-
-      reg.addEventListener('updatefound', () => {
-        const sw = reg.installing;
-        if (!sw) return;
-        sw.addEventListener('statechange', () => {
-          if (sw.state === 'installed' && navigator.serviceWorker.controller) {
-            showUpdateToast(sw);
-          }
-        });
-      });
-
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') reg.update();
       });
 
+      // A new worker calls skipWaiting + claims clients, firing controllerchange.
+      // Reload once so the fresh app shell paints without user action.
       let reloading = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (reloading) return;
@@ -1547,11 +1535,4 @@ if ('serviceWorker' in navigator) {
       });
     } catch (_) {}
   });
-}
-
-function showUpdateToast(sw) {
-  const el = document.getElementById('update-toast');
-  if (!el) return;
-  el.classList.add('visible');
-  el.onclick = () => sw.postMessage('SKIP_WAITING');
 }

@@ -2380,31 +2380,6 @@ body {
 }
 
 /* ===== Update Toast ===== */
-.update-toast {
-  position: fixed;
-  bottom: max(16px, env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%) translateY(180%);
-  background: var(--text);
-  color: var(--bg);
-  padding: 12px 20px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-ui);
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-  cursor: pointer;
-  z-index: 9999;
-  transition: transform 0.35s ease;
-  max-width: calc(100vw - 32px);
-  text-align: center;
-  pointer-events: none;
-}
-.update-toast.visible {
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
-}
-
 /* Transient feedback toast (no due cards, undo, …) */
 .toast {
   position: fixed;
