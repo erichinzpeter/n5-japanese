@@ -992,15 +992,16 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 // ===== LIST MODE =====
 let listSearchQuery = '';
 let pendingExpandKey = '';
+let updateTabScrollFades = () => {};
 
-const TAB_LABELS = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive & Adverbien', ausdruecke: 'Ausdrücke' };
+const TAB_LABELS = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', adverbien: 'Adverbien', ausdruecke: 'Ausdrücke' };
 
-// Maps an item to its list tab, mirroring the practice decks' posCategory.
-// Adverbs fold into the adjective tab (too few for their own); the remaining
-// sonstiges (Partikel/Konjunktion/Ausdruck/Fragewort) become Ausdrücke.
+// Maps an item to its list tab, refining the decks' posCategory: the deck's
+// broad "sonstiges" splits here into Adverbien (pure Adverb pos) and Ausdrücke
+// (Partikel/Konjunktion/Ausdruck/Fragewort). Nomen/Adverb stays Nomen.
 function listCategory(item) {
   const c = posCategory(item.pos);
-  if (c === 'sonstiges') return /Adverb/.test(item.pos || '') ? 'adjektive' : 'ausdruecke';
+  if (c === 'sonstiges') return /Adverb/.test(item.pos || '') ? 'adverbien' : 'ausdruecke';
   return c;
 }
 
@@ -1173,7 +1174,7 @@ function renderSearchAllTabs() {
   const q = listSearchQuery.toLowerCase();
   const rows = [];
 
-  ['kanji', 'nomen', 'verben', 'adjektive', 'ausdruecke'].forEach(tab => {
+  ['kanji', 'nomen', 'verben', 'adjektive', 'adverbien', 'ausdruecke'].forEach(tab => {
     getItemsForTab(tab)
       .filter(item => matchesSearch(item, q))
       .forEach((item, i) => {
@@ -1221,6 +1222,9 @@ function showListScreen() {
   const firstTab = document.querySelector('.list-tab[data-list-tab="kanji"]');
   document.querySelectorAll('.list-tab').forEach(t => t.classList.remove('active'));
   if (firstTab) firstTab.classList.add('active');
+  const scroller = document.getElementById('list-tabs');
+  if (scroller) scroller.scrollLeft = 0;
+  updateTabScrollFades();
   renderListTab('kanji');
 }
 
@@ -1450,9 +1454,23 @@ function initEvents() {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.list-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
+      tab.scrollIntoView({ inline: 'nearest', block: 'nearest' });
       renderListTab(tab.dataset.listTab);
     });
   });
+
+  const tabScroller = document.getElementById('list-tabs');
+  if (tabScroller) {
+    const wrap = tabScroller.parentElement;
+    updateTabScrollFades = () => {
+      const max = tabScroller.scrollWidth - tabScroller.clientWidth;
+      wrap.classList.toggle('can-scroll-left', tabScroller.scrollLeft > 1);
+      wrap.classList.toggle('can-scroll-right', tabScroller.scrollLeft < max - 1);
+    };
+    tabScroller.addEventListener('scroll', updateTabScrollFades, { passive: true });
+    window.addEventListener('resize', updateTabScrollFades);
+    updateTabScrollFades();
+  }
 
   // Keyboard shortcuts
   document.addEventListener('keydown', e => {

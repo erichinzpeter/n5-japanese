@@ -1697,16 +1697,50 @@ body {
   border-color: var(--accent);
 }
 
+.list-tabs-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Edge fades cue that the tab row scrolls; toggled per scroll position in JS. */
+.list-tabs-wrap::before,
+.list-tabs-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 12px;
+  width: 36px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.list-tabs-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+
+.list-tabs-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+
+.list-tabs-wrap.can-scroll-left::before,
+.list-tabs-wrap.can-scroll-right::after {
+  opacity: 1;
+}
+
 .list-tabs {
   display: flex;
   gap: 6px;
   padding: 4px 20px 12px;
   overflow-x: auto;
   flex-wrap: nowrap;
+  scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
   background: var(--bg);
-  flex-shrink: 0;
 }
 
 .list-tabs::-webkit-scrollbar {

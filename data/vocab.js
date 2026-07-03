@@ -1603,5 +1603,93 @@ const VOCAB = [
   { id: "v389", word: "しつれいしました", reading: "しつれいしました", meaning: "Entschuldigung (für etwas Geschehenes)", pos: "Ausdruck", level: "adv", examples: [
     { jp: "間違えて、失礼しましたと言いました。", reading: "まちがえて、しつれいしましたといいました。", de: "Ich machte einen Fehler und sagte \"Entschuldigung\"." },
     { jp: "お名前を間違えて、失礼しました。", reading: "おなまえをまちがえて、しつれいしました。", de: "Entschuldigung, dass ich Ihren Namen verwechselt habe." }
+  ]},
+  { id: "v390", word: "あまり", reading: "あまり", meaning: "nicht besonders / kaum (mit Verneinung)", pos: "Adverb", level: "easy", examples: [
+    { jp: "このコーヒーはあまり熱くありません。", reading: "このコーヒーはあまりあつくありません。", de: "Dieser Kaffee ist nicht besonders heiß." },
+    { jp: "昨日はあまり寝ませんでした。", reading: "きのうはあまりねませんでした。", de: "Gestern habe ich kaum geschlafen." }
+  ]},
+  { id: "v391", word: "ちょっと", reading: "ちょっと", meaning: "ein wenig / kurz", pos: "Adverb", level: "easy", examples: [
+    { jp: "ちょっと待ってください。", reading: "ちょっとまってください。", de: "Warten Sie bitte kurz." },
+    { jp: "この料理はちょっと辛いです。", reading: "このりょうりはちょっとからいです。", de: "Dieses Gericht ist ein wenig scharf." }
+  ]},
+  { id: "v392", word: "だいたい", reading: "だいたい", meaning: "ungefähr / im Großen und Ganzen", pos: "Adverb", level: "easy", examples: [
+    { jp: "だいたい分かりました。", reading: "だいたいわかりました。", de: "Ich habe es im Großen und Ganzen verstanden." },
+    { jp: "駅までだいたい十分かかります。", reading: "えきまでだいたいじゅっぷんかかります。", de: "Bis zum Bahnhof dauert es ungefähr zehn Minuten." }
+  ]},
+  { id: "v393", word: "たいてい", reading: "たいてい", meaning: "meistens / gewöhnlich", pos: "Adverb", level: "easy", examples: [
+    { jp: "週末はたいてい家にいます。", reading: "しゅうまつはたいていいえにいます。", de: "Am Wochenende bin ich meistens zu Hause." },
+    { jp: "朝はたいていパンを食べます。", reading: "あさはたいていパンをたべます。", de: "Morgens esse ich gewöhnlich Brot." }
+  ]},
+  { id: "v394", word: "すぐに", reading: "すぐに", meaning: "sofort / gleich", pos: "Adverb", level: "easy", examples: [
+    { jp: "すぐに行きます。", reading: "すぐにいきます。", de: "Ich komme sofort." },
+    { jp: "電話をもらったら、すぐに返事します。", reading: "でんわをもらったら、すぐにへんじします。", de: "Wenn ich einen Anruf bekomme, antworte ich gleich." }
+  ]},
+  { id: "v395", word: "もっと", reading: "もっと", meaning: "mehr / noch mehr", pos: "Adverb", level: "easy", examples: [
+    { jp: "もっと日本語を勉強したいです。", reading: "もっとにほんごをべんきょうしたいです。", de: "Ich möchte mehr Japanisch lernen." },
+    { jp: "もっとゆっくり話してください。", reading: "もっとゆっくりはなしてください。", de: "Bitte sprechen Sie noch langsamer." }
+  ]},
+  { id: "v396", word: "一番", reading: "いちばん", meaning: "am meisten / am besten", pos: "Adverb", level: "easy", examples: [
+    { jp: "夏が一番好きです。", reading: "なつがいちばんすきです。", de: "Den Sommer mag ich am liebsten." },
+    { jp: "この店のラーメンが一番おいしいです。", reading: "このみせのラーメンがいちばんおいしいです。", de: "Der Ramen in diesem Laden schmeckt am besten." }
+  ]},
+  { id: "v397", word: "全部", reading: "ぜんぶ", meaning: "alles / ganz", pos: "Adverb", level: "easy", examples: [
+    { jp: "宿題を全部やりました。", reading: "しゅくだいをぜんぶやりました。", de: "Ich habe die ganzen Hausaufgaben gemacht." },
+    { jp: "ケーキを全部食べました。", reading: "ケーキをぜんぶたべました。", de: "Ich habe den ganzen Kuchen gegessen." }
+  ]},
+  { id: "v398", word: "だんだん", reading: "だんだん", meaning: "allmählich / nach und nach", pos: "Adverb", level: "adv", examples: [
+    { jp: "だんだん寒くなってきました。", reading: "だんだんさむくなってきました。", de: "Es ist allmählich kalt geworden." },
+    { jp: "日本語がだんだん分かるようになりました。", reading: "にほんごがだんだんわかるようになりました。", de: "Ich verstehe nach und nach Japanisch." }
+  ]},
+  { id: "v399", word: "ちょうど", reading: "ちょうど", meaning: "genau / gerade", pos: "Adverb", level: "easy", examples: [
+    { jp: "今ちょうど三時です。", reading: "いまちょうどさんじです。", de: "Es ist jetzt genau drei Uhr." },
+    { jp: "ちょうど家を出るところです。", reading: "ちょうどいえをでるところです。", de: "Ich bin gerade dabei, das Haus zu verlassen." }
+  ]},
+  { id: "v400", word: "まっすぐ", reading: "まっすぐ", meaning: "geradeaus / direkt", pos: "Adverb", level: "easy", examples: [
+    { jp: "この道をまっすぐ行ってください。", reading: "このみちをまっすぐいってください。", de: "Gehen Sie diese Straße geradeaus." },
+    { jp: "仕事の後、まっすぐ家に帰りました。", reading: "しごとのあと、まっすぐいえにかえりました。", de: "Nach der Arbeit bin ich direkt nach Hause gegangen." }
+  ]},
+  { id: "v401", word: "きっと", reading: "きっと", meaning: "bestimmt / sicherlich", pos: "Adverb", level: "easy", examples: [
+    { jp: "明日はきっと晴れます。", reading: "あしたはきっとはれます。", de: "Morgen wird es bestimmt sonnig." },
+    { jp: "彼はきっと来ます。", reading: "かれはきっときます。", de: "Er kommt sicherlich." }
+  ]},
+  { id: "v402", word: "早く", reading: "はやく", meaning: "schnell / früh", pos: "Adverb", level: "easy", examples: [
+    { jp: "今朝は早く起きました。", reading: "けさははやくおきました。", de: "Heute Morgen bin ich früh aufgestanden." },
+    { jp: "もっと早く歩いてください。", reading: "もっとはやくあるいてください。", de: "Bitte gehen Sie schneller." }
+  ]},
+  { id: "v403", word: "ずっと", reading: "ずっと", meaning: "die ganze Zeit / weitaus", pos: "Adverb", level: "easy", examples: [
+    { jp: "一日中ずっと家にいました。", reading: "いちにちじゅうずっといえにいました。", de: "Ich war den ganzen Tag zu Hause." },
+    { jp: "こっちのほうがずっといいです。", reading: "こっちのほうがずっといいです。", de: "Dieses hier ist weitaus besser." }
+  ]},
+  { id: "v404", word: "ほとんど", reading: "ほとんど", meaning: "fast / beinahe (mit Verneinung: kaum)", pos: "Adverb", level: "adv", examples: [
+    { jp: "仕事はほとんど終わりました。", reading: "しごとはほとんどおわりました。", de: "Die Arbeit ist fast fertig." },
+    { jp: "お金はほとんど残っていません。", reading: "おかねはほとんどのこっていません。", de: "Es ist kaum Geld übrig." }
+  ]},
+  { id: "v405", word: "特に", reading: "とくに", meaning: "besonders", pos: "Adverb", level: "adv", examples: [
+    { jp: "果物、特にりんごが好きです。", reading: "くだもの、とくにりんごがすきです。", de: "Ich mag Obst, besonders Äpfel." },
+    { jp: "今日は特に忙しいです。", reading: "きょうはとくにいそがしいです。", de: "Heute bin ich besonders beschäftigt." }
+  ]},
+  { id: "v406", word: "なかなか", reading: "なかなか", meaning: "ziemlich / (mit Verneinung) nicht so leicht", pos: "Adverb", level: "adv", examples: [
+    { jp: "この本はなかなか面白いです。", reading: "このほんはなかなかおもしろいです。", de: "Dieses Buch ist ziemlich interessant." },
+    { jp: "バスがなかなか来ません。", reading: "バスがなかなかきません。", de: "Der Bus kommt einfach nicht." }
+  ]},
+  { id: "v407", word: "結構", reading: "けっこう", meaning: "ziemlich / ganz schön", pos: "Adverb", level: "adv", examples: [
+    { jp: "この問題は結構難しいです。", reading: "このもんだいはけっこうむずかしいです。", de: "Diese Aufgabe ist ziemlich schwer." },
+    { jp: "駅まで結構歩きました。", reading: "えきまでけっこうあるきました。", de: "Bis zum Bahnhof bin ich ganz schön viel gelaufen." }
+  ]},
+  { id: "v408", word: "そろそろ", reading: "そろそろ", meaning: "allmählich / bald (es wird Zeit)", pos: "Adverb", level: "adv", examples: [
+    { jp: "そろそろ帰りましょう。", reading: "そろそろかえりましょう。", de: "Lass uns allmählich nach Hause gehen." },
+    { jp: "そろそろ電車が来る時間です。", reading: "そろそろでんしゃがくるじかんです。", de: "Es ist bald Zeit, dass der Zug kommt." }
+  ]},
+  { id: "v409", word: "やっぱり", reading: "やっぱり", meaning: "doch / wie erwartet", pos: "Adverb", level: "adv", examples: [
+    { jp: "やっぱりこれにします。", reading: "やっぱりこれにします。", de: "Ich nehme doch dieses." },
+    { jp: "やっぱり彼は来ませんでした。", reading: "やっぱりかれはきませんでした。", de: "Wie erwartet ist er nicht gekommen." }
+  ]},
+  { id: "v410", word: "しばらく", reading: "しばらく", meaning: "eine Weile / eine Zeitlang", pos: "Adverb", level: "adv", examples: [
+    { jp: "しばらくお待ちください。", reading: "しばらくおまちください。", de: "Warten Sie bitte eine Weile." },
+    { jp: "しばらく日本に住んでいました。", reading: "しばらくにほんにすんでいました。", de: "Ich habe eine Zeitlang in Japan gewohnt." }
+  ]},
+  { id: "v411", word: "さっき", reading: "さっき", meaning: "vorhin / gerade eben", pos: "Adverb", level: "easy", examples: [
+    { jp: "さっき電話がありました。", reading: "さっきでんわがありました。", de: "Vorhin gab es einen Anruf." },
+    { jp: "さっきここに来たばかりです。", reading: "さっきここにきたばかりです。", de: "Ich bin gerade eben erst hergekommen." }
   ]}
 ];
