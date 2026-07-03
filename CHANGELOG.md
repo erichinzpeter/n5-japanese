@@ -4,6 +4,15 @@
 
 ---
 
+## [3.15.0] — 2026-07-03
+
+### Neu
+
+- Eigener **Adverbien**-Tab im Listen-Modus. Adverbien (bisher im Adjektive-Tab) sind jetzt getrennt; dafür 22 gängige N5-Adverbien ergänzt (z. B. あまり, ちょっと, だいたい, すぐに, もっと, ずっと, 特に, さっき) — insgesamt ~37.
+- Tab-Leiste zeigt jetzt einen weichen Farbverlauf am Rand, wenn weitere Kategorien seitlich weiterscrollen — Hinweis, dass die Leiste scrollbar ist. Aktiver Tab scrollt beim Antippen in den sichtbaren Bereich.
+
+---
+
 ## [3.14.0] — 2026-07-03
 
 ### Geändert
