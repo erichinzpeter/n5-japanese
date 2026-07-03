@@ -4,6 +4,14 @@
 
 ---
 
+## [3.13.2] — 2026-07-03
+
+### Behoben
+
+- Splash flackerte auf dem Gerät weiterhin nur kurz: die ab Seitenladen gemessene Mindestzeit fiel bei schnellen/PWA-Reload-Starts auf ~0 (verstrichene Zeit schon größer). Jetzt feste Haltezeit von 1000ms ab `init()`, damit das Icon zuverlässig sichtbar ist.
+
+---
+
 ## [3.13.1] — 2026-07-03
 
 ### Geändert
