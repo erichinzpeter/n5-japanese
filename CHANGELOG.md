@@ -4,6 +4,14 @@
 
 ---
 
+## [3.13.1] — 2026-07-03
+
+### Geändert
+
+- Splash beim Laden wirkte wie ein kurzes Flackern. Icon wird jetzt mindestens ~600ms gehalten (gemessen ab Seitenladen, verzögert also langsame Kaltstarts nicht zusätzlich) und blendet mit sanftem Scale/Fade ein und aus — liest sich als bewusster Moment, nicht als Bug.
+
+---
+
 ## [3.13.0] — 2026-07-03
 
 ### Neu
