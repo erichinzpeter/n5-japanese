@@ -1510,6 +1510,9 @@ function initEvents() {
 function init() {
   initEvents();
   renderHome();
+  // rAF guarantees one painted frame at full opacity so the icon fades, not snaps
+  const splash = document.getElementById('splash');
+  if (splash) requestAnimationFrame(() => splash.classList.add('hidden'));
 }
 
 init();
