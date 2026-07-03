@@ -1510,9 +1510,14 @@ function initEvents() {
 function init() {
   initEvents();
   renderHome();
-  // rAF guarantees one painted frame at full opacity so the icon fades, not snaps
+  // Hold the splash a minimum time so it reads as an intentional brand moment,
+  // not a one-frame flicker. Measured from page load, so a slow cold start eats
+  // into the floor instead of adding to it (no extra delay when already slow).
   const splash = document.getElementById('splash');
-  if (splash) requestAnimationFrame(() => splash.classList.add('hidden'));
+  if (splash) {
+    const SPLASH_MIN_MS = 600;
+    setTimeout(() => splash.classList.add('hidden'), Math.max(0, SPLASH_MIN_MS - performance.now()));
+  }
 }
 
 init();

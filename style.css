@@ -135,18 +135,29 @@ body {
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  transition: opacity 0.3s var(--ease-out-quart);
+  transition: opacity 0.35s var(--ease-out-quart);
 }
 
 #splash img {
   width: 96px;
   height: 96px;
   border-radius: 22px;
+  animation: splashIn 0.45s var(--ease-out-quart) both;
+  transition: transform 0.35s var(--ease-out-quart);
 }
 
 #splash.hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+#splash.hidden img {
+  transform: scale(1.08);
+}
+
+@keyframes splashIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 /* ===== HOME SCREEN ===== */
