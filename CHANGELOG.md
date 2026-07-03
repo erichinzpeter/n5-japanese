@@ -4,6 +4,23 @@
 
 ---
 
+## [3.13.0] — 2026-07-03
+
+### Neu
+
+- Splash beim Laden: App-Icon erscheint zentriert und blendet sanft aus, sobald die App bereit ist. Füllt nur die ohnehin leere Ladelücke — keine künstliche Verzögerung, Icon liegt bereits im Service-Worker-Cache.
+
+### Geändert
+
+- Abstand über der ersten Zeile („On'yomi" u. a.) in den ausklappbaren Listen-Details vergrößert (padding-top 0 → 10px), damit der Inhalt nicht mehr am Tap-Bereich klebt.
+- Tab-Buttons (Listen-Tabs, Richtungs-Umschalter) auf 44px Mindesthöhe angehoben (Touch-Target-Standard).
+
+### Behoben
+
+- Suchfeld hatte kein Label für Screenreader (`aria-label="Suchen"` ergänzt).
+
+---
+
 ## [3.12.5] — 2026-07-02
 
 ### Behoben
