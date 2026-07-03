@@ -1510,13 +1510,13 @@ function initEvents() {
 function init() {
   initEvents();
   renderHome();
-  // Hold the splash a minimum time so it reads as an intentional brand moment,
-  // not a one-frame flicker. Measured from page load, so a slow cold start eats
-  // into the floor instead of adding to it (no extra delay when already slow).
+  // Hold the splash a fixed time from here so the icon is clearly visible as an
+  // intentional brand moment. A navigation-relative floor collapsed to ~0 on
+  // fast/PWA-reload launches (elapsed already exceeded it) → one-frame flicker.
   const splash = document.getElementById('splash');
   if (splash) {
-    const SPLASH_MIN_MS = 600;
-    setTimeout(() => splash.classList.add('hidden'), Math.max(0, SPLASH_MIN_MS - performance.now()));
+    const SPLASH_HOLD_MS = 1000;
+    setTimeout(() => splash.classList.add('hidden'), SPLASH_HOLD_MS);
   }
 }
 
