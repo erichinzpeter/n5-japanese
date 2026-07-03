@@ -993,20 +993,15 @@ function collapsibleDialogue(label, innerHtml, speakText) {
 let listSearchQuery = '';
 let pendingExpandKey = '';
 
-const TAB_LABELS = { kanji: 'Kanji', vocab: 'Wörter', adjektive: 'Adjektive', ausdruecke: 'Ausdrücke' };
+const TAB_LABELS = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive & Adverbien', ausdruecke: 'Ausdrücke' };
 
-function isAltag(item) {
-  return item.pos && (item.pos.includes('Adjektiv') || item.pos.includes('Adverb'));
-}
-function isNutzwort(item) {
-  return item.pos && (
-    item.pos.startsWith('Partikel') ||
-    item.pos.startsWith('Konjunktion') ||
-    item.pos === 'Ausdruck'
-  );
-}
-function isVocabMain(item) {
-  return !isAltag(item) && !isNutzwort(item);
+// Maps an item to its list tab, mirroring the practice decks' posCategory.
+// Adverbs fold into the adjective tab (too few for their own); the remaining
+// sonstiges (Partikel/Konjunktion/Ausdruck/Fragewort) become Ausdrücke.
+function listCategory(item) {
+  const c = posCategory(item.pos);
+  if (c === 'sonstiges') return /Adverb/.test(item.pos || '') ? 'adjektive' : 'ausdruecke';
+  return c;
 }
 
 function renderListDetail(item, tab) {
@@ -1070,9 +1065,7 @@ function dedupByWord(items) {
 
 function getItemsForTab(tab) {
   if (tab === 'kanji')     return KANJI;
-  if (tab === 'vocab')     return VOCAB.filter(isVocabMain);
-  if (tab === 'adjektive') return dedupByWord([...BASICS, ...VOCAB].filter(isAltag));
-  return dedupByWord([...BASICS, ...VOCAB].filter(isNutzwort));
+  return dedupByWord([...BASICS, ...VOCAB].filter(v => listCategory(v) === tab));
 }
 
 function matchesSearch(item, q) {
@@ -1180,7 +1173,7 @@ function renderSearchAllTabs() {
   const q = listSearchQuery.toLowerCase();
   const rows = [];
 
-  ['kanji', 'vocab', 'adjektive', 'ausdruecke'].forEach(tab => {
+  ['kanji', 'nomen', 'verben', 'adjektive', 'ausdruecke'].forEach(tab => {
     getItemsForTab(tab)
       .filter(item => matchesSearch(item, q))
       .forEach((item, i) => {

@@ -4,6 +4,18 @@
 
 ---
 
+## [3.14.0] — 2026-07-03
+
+### Geändert
+
+- Listen-Tabs spiegeln jetzt die Übungs-Decks: statt „Wörter“ (Nomen + Verben gemischt) gibt es getrennte Tabs **Nomen** und **Verben**. Kategorisierung nutzt dieselbe `posCategory`-Logik wie die Decks.
+
+### Behoben
+
+- Adverbien (z. B. „manchmal“, „gar nicht“) lagen fälschlich als eigene Einträge im Adjektive-Tab ohne Kennzeichnung. Tab heißt jetzt ehrlich **Adjektive & Adverbien**; Adverbien werden bewusst dort einsortiert (zu wenige für eine eigene Kategorie).
+
+---
+
 ## [3.13.2] — 2026-07-03
 
 ### Behoben
