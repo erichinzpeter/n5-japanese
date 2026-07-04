@@ -1855,6 +1855,15 @@ body {
   line-height: 1.4;
 }
 
+/* German gloss under a concept title in the Konzepte list (own line, small). */
+.concept-gloss {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
 .list-chevron {
   font-size: 11px;
   color: var(--text-dim);

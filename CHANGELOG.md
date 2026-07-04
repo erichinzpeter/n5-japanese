@@ -4,6 +4,17 @@
 
 ---
 
+## [3.17.0] — 2026-07-04
+
+### Geändert
+
+- **Konzepte-Screen** ("Grammatik verstehen") überarbeitet: japanisches Konzept in Zeile 1, kurze deutsche Bedeutung als eigene kleine Zeile darunter (vorher inline). Einheitliches zweizeiliges Layout für alle Karten.
+- Konzepte nun **funktional gruppiert** in 10 Abschnitte nach Sprechabsicht (Grundlagen, Partikel, Adjektive & Adverbien, Verbformen & Zeiten, Bitten/Vorschläge/Ratschläge, Wünsche/Absichten/Entscheidungen, Vergleiche & Grad, Gründe & Verbindungen, Geben/Erfahrung/Veränderung, Zeit/Menge/Bewegung) statt der bisherigen grammatiktyp-Töpfe.
+
+### Behoben
+
+- Die 17 neuen Konzepte (v3.16.0) zeigten Deutsch in großer Schrift im Titel und eine redundante Hiragana-Zeile. Titel jetzt nur Japanisch, Untertitel = kurze deutsche Bedeutung.
+
 ## [3.16.0] — 2026-07-04
 
 ### Neu
