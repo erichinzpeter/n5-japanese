@@ -1692,4 +1692,2383 @@ const VOCAB = [
     { jp: "さっき電話がありました。", reading: "さっきでんわがありました。", de: "Vorhin gab es einen Anruf." },
     { jp: "さっきここに来たばかりです。", reading: "さっきここにきたばかりです。", de: "Ich bin gerade eben erst hergekommen." }
   ]}
+,
+
+  // ===== Ergänzungen aus Wörterbuch-Glossaren (JP→DE), 2026-07 =====
+  { id: "v412", word: "あいさつ", reading: "あいさつ", meaning: "Gruß / Begrüßung", pos: "Nomen", level: "adv", examples: [
+    { jp: "朝、先生にあいさつをします。", reading: "あさ、せんせいにあいさつをします。", de: "Morgens grüße ich den Lehrer." },
+    { jp: "あいさつは大切です。", reading: "あいさつはたいせつです。", de: "Grüßen ist wichtig." }
+  ]},
+  { id: "v413", word: "アイスクリーム", reading: "アイスクリーム", meaning: "Eiscreme", pos: "Nomen", level: "easy", examples: [
+    { jp: "夏にアイスクリームを食べます。", reading: "なつにアイスクリームをたべます。", de: "Im Sommer esse ich Eis." },
+    { jp: "子供はアイスクリームが好きです。", reading: "こどもはアイスクリームがすきです。", de: "Kinder mögen Eis." }
+  ]},
+  { id: "v414", word: "青い", reading: "あおい", meaning: "blau", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "空が青いです。", reading: "そらがあおいです。", de: "Der Himmel ist blau." },
+    { jp: "青いシャツを買いました。", reading: "あおいシャツをかいました。", de: "Ich habe ein blaues Hemd gekauft." }
+  ]},
+  { id: "v415", word: "赤い", reading: "あかい", meaning: "rot", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "赤いりんごを食べます。", reading: "あかいりんごをたべます。", de: "Ich esse einen roten Apfel." },
+    { jp: "彼女は赤いドレスを着ています。", reading: "かのじょはあかいドレスをきています。", de: "Sie trägt ein rotes Kleid." }
+  ]},
+  { id: "v416", word: "赤ちゃん", reading: "あかちゃん", meaning: "Baby", pos: "Nomen", level: "easy", examples: [
+    { jp: "赤ちゃんが寝ています。", reading: "あかちゃんがねています。", de: "Das Baby schläft." },
+    { jp: "友達に赤ちゃんが生まれました。", reading: "ともだちにあかちゃんがうまれました。", de: "Meine Freundin hat ein Baby bekommen." }
+  ]},
+  { id: "v417", word: "あげる", reading: "あげる", meaning: "geben (jemandem)", pos: "Verb (Ichidan)", level: "easy", examples: [
+    { jp: "友達にプレゼントをあげます。", reading: "ともだちにプレゼントをあげます。", de: "Ich gebe meinem Freund ein Geschenk." },
+    { jp: "妹に本をあげました。", reading: "いもうとにほんをあげました。", de: "Ich habe meiner Schwester ein Buch gegeben." }
+  ]},
+  { id: "v418", word: "朝ごはん", reading: "あさごはん", meaning: "Frühstück", pos: "Nomen", level: "easy", examples: [
+    { jp: "毎朝、朝ごはんを食べます。", reading: "まいあさ、あさごはんをたべます。", de: "Jeden Morgen esse ich Frühstück." },
+    { jp: "今日の朝ごはんはパンです。", reading: "きょうのあさごはんはパンです。", de: "Das Frühstück heute ist Brot." }
+  ]},
+  { id: "v419", word: "あさって", reading: "あさって", meaning: "übermorgen", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "あさって東京に行きます。", reading: "あさってとうきょうにいきます。", de: "Übermorgen fahre ich nach Tōkyō." },
+    { jp: "あさっては休みです。", reading: "あさってはやすみです。", de: "Übermorgen ist frei." }
+  ]},
+  { id: "v420", word: "あそこ", reading: "あそこ", meaning: "dort (drüben)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "あそこに駅があります。", reading: "あそこにえきがあります。", de: "Dort ist ein Bahnhof." },
+    { jp: "トイレはあそこです。", reading: "トイレはあそこです。", de: "Die Toilette ist dort." }
+  ]},
+  { id: "v421", word: "あちら", reading: "あちら", meaning: "dort drüben / diese Richtung (höflich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "あちらへどうぞ。", reading: "あちらへどうぞ。", de: "Hier entlang, bitte." },
+    { jp: "あちらは山田さんです。", reading: "あちらはやまださんです。", de: "Das dort ist Herr Yamada." }
+  ]},
+  { id: "v422", word: "あと", reading: "あと", meaning: "Rest / noch (übrig)", pos: "Nomen", level: "adv", examples: [
+    { jp: "あと三十分待ちます。", reading: "あとさんじゅっぷんまちます。", de: "Ich warte noch dreißig Minuten." },
+    { jp: "あと少しで終わります。", reading: "あとすこしでおわります。", de: "Es ist gleich fertig." }
+  ]},
+  { id: "v423", word: "後で", reading: "あとで", meaning: "später, danach", pos: "Adverb", level: "easy", examples: [
+    { jp: "後で電話します。", reading: "あとででんわします。", de: "Ich rufe später an." },
+    { jp: "宿題は後でします。", reading: "しゅくだいはあとでします。", de: "Die Hausaufgaben mache ich später." }
+  ]},
+  { id: "v424", word: "あなた", reading: "あなた", meaning: "du, Sie", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "あなたは学生ですか。", reading: "あなたはがくせいですか。", de: "Sind Sie Student?" },
+    { jp: "これはあなたの本ですか。", reading: "これはあなたのほんですか。", de: "Ist das dein Buch?" }
+  ]},
+  { id: "v425", word: "兄", reading: "あに", meaning: "älterer Bruder (eigener)", pos: "Nomen", level: "easy", examples: [
+    { jp: "兄は東京にいます。", reading: "あにはとうきょうにいます。", de: "Mein älterer Bruder ist in Tōkyō." },
+    { jp: "私の兄は先生です。", reading: "わたしのあにはせんせいです。", de: "Mein älterer Bruder ist Lehrer." }
+  ]},
+  { id: "v426", word: "姉", reading: "あね", meaning: "ältere Schwester (eigene)", pos: "Nomen", level: "easy", examples: [
+    { jp: "姉は二十歳です。", reading: "あねははたちです。", de: "Meine ältere Schwester ist zwanzig." },
+    { jp: "姉と買い物に行きます。", reading: "あねとかいものにいきます。", de: "Ich gehe mit meiner Schwester einkaufen." }
+  ]},
+  { id: "v427", word: "あの", reading: "あの", meaning: "jene(r/s) (dort)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "あの人は誰ですか。", reading: "あのひとはだれですか。", de: "Wer ist die Person dort?" },
+    { jp: "あの店は安いです。", reading: "あのみせはやすいです。", de: "Der Laden dort ist günstig." }
+  ]},
+  { id: "v428", word: "あのう", reading: "あのう", meaning: "ähm, hm (Zögern)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "あのう、すみません。", reading: "あのう、すみません。", de: "Ähm, Entschuldigung." },
+    { jp: "あのう、質問があります。", reading: "あのう、しつもんがあります。", de: "Ähm, ich habe eine Frage." }
+  ]},
+  { id: "v429", word: "アパート", reading: "アパート", meaning: "Wohnung, Apartment", pos: "Nomen", level: "easy", examples: [
+    { jp: "東京のアパートに住んでいます。", reading: "とうきょうのアパートにすんでいます。", de: "Ich wohne in einer Wohnung in Tōkyō." },
+    { jp: "新しいアパートを探しています。", reading: "あたらしいアパートをさがしています。", de: "Ich suche eine neue Wohnung." }
+  ]},
+  { id: "v430", word: "浴びる", reading: "あびる", meaning: "duschen / (Wasser) über sich gießen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "朝、シャワーを浴びます。", reading: "あさ、シャワーをあびます。", de: "Morgens dusche ich." },
+    { jp: "運動の後でシャワーを浴びました。", reading: "うんどうのあとでシャワーをあびました。", de: "Nach dem Sport habe ich geduscht." }
+  ]},
+  { id: "v431", word: "アメリカ", reading: "アメリカ", meaning: "Amerika, USA", pos: "Nomen", level: "easy", examples: [
+    { jp: "来年アメリカに行きます。", reading: "らいねんアメリカにいきます。", de: "Nächstes Jahr fahre ich nach Amerika." },
+    { jp: "アメリカは大きい国です。", reading: "アメリカはおおきいくにです。", de: "Amerika ist ein großes Land." }
+  ]},
+  { id: "v432", word: "アメリカ人", reading: "アメリカじん", meaning: "Amerikaner(in)", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼はアメリカ人です。", reading: "かれはアメリカじんです。", de: "Er ist Amerikaner." },
+    { jp: "アメリカ人の友達がいます。", reading: "アメリカじんのともだちがいます。", de: "Ich habe einen amerikanischen Freund." }
+  ]},
+  { id: "v433", word: "ある", reading: "ある", meaning: "es gibt / vorhanden sein (Sachen)", pos: "Verb (Godan, る)*", level: "easy", examples: [
+    { jp: "机の上に本があります。", reading: "つくえのうえにほんがあります。", de: "Auf dem Tisch liegt ein Buch." },
+    { jp: "時間がありますか。", reading: "じかんがありますか。", de: "Haben Sie Zeit?" }
+  ]},
+  { id: "v434", word: "アルバム", reading: "アルバム", meaning: "Fotoalbum", pos: "Nomen", level: "adv", examples: [
+    { jp: "古いアルバムを見ました。", reading: "ふるいアルバムをみました。", de: "Ich habe ein altes Album angeschaut." },
+    { jp: "写真をアルバムに入れます。", reading: "しゃしんをアルバムにいれます。", de: "Ich lege die Fotos ins Album." }
+  ]},
+  { id: "v435", word: "あれ", reading: "あれ", meaning: "das dort (drüben)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "あれは何ですか。", reading: "あれはなんですか。", de: "Was ist das dort?" },
+    { jp: "あれは私のかばんです。", reading: "あれはわたしのかばんです。", de: "Das dort ist meine Tasche." }
+  ]},
+  { id: "v436", word: "安心", reading: "あんしん", meaning: "Erleichterung, Beruhigung", pos: "Nomen", level: "adv", examples: [
+    { jp: "試験が終わって安心しました。", reading: "しけんがおわってあんしんしました。", de: "Nach der Prüfung war ich erleichtert." },
+    { jp: "家族が元気で安心です。", reading: "かぞくがげんきであんしんです。", de: "Ich bin beruhigt, dass die Familie gesund ist." }
+  ]},
+  { id: "v437", word: "安全な", reading: "あんぜんな", meaning: "sicher", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "ここは安全な場所です。", reading: "ここはあんぜんなばしょです。", de: "Das hier ist ein sicherer Ort." },
+    { jp: "夜は安全に運転してください。", reading: "よるはあんぜんにうんてんしてください。", de: "Fahren Sie nachts bitte sicher." }
+  ]},
+  { id: "v438", word: "案内", reading: "あんない", meaning: "Führung / Wegweisung", pos: "Nomen", level: "adv", examples: [
+    { jp: "駅まで案内します。", reading: "えきまであんないします。", de: "Ich bringe Sie zum Bahnhof." },
+    { jp: "町を案内してくれました。", reading: "まちをあんないしてくれました。", de: "Er hat mir die Stadt gezeigt." }
+  ]},
+  { id: "v439", word: "イーメール", reading: "イーメール", meaning: "E-Mail", pos: "Nomen", level: "adv", examples: [
+    { jp: "友達にイーメールを送ります。", reading: "ともだちにイーメールをおくります。", de: "Ich schicke meinem Freund eine E-Mail." },
+    { jp: "毎日イーメールを見ます。", reading: "まいにちイーメールをみます。", de: "Ich schaue jeden Tag meine E-Mails an." }
+  ]},
+  { id: "v440", word: "いかが", reading: "いかが", meaning: "wie (höflich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "お茶はいかがですか。", reading: "おちゃはいかがですか。", de: "Wie wäre es mit Tee?" },
+    { jp: "ご気分はいかがですか。", reading: "ごきぶんはいかがですか。", de: "Wie fühlen Sie sich?" }
+  ]},
+  { id: "v441", word: "いけばな", reading: "いけばな", meaning: "Ikebana (Blumensteckkunst)", pos: "Nomen", level: "adv", examples: [
+    { jp: "母はいけばなを習っています。", reading: "ははのいけばなをならっています。", de: "Meine Mutter lernt Ikebana." },
+    { jp: "いけばなは日本の文化です。", reading: "いけばなはにほんのぶんかです。", de: "Ikebana ist japanische Kultur." }
+  ]},
+  { id: "v442", word: "医者", reading: "いしゃ", meaning: "Arzt", pos: "Nomen", level: "easy", examples: [
+    { jp: "医者になりたいです。", reading: "いしゃになりたいです。", de: "Ich möchte Arzt werden." },
+    { jp: "病気のとき医者に行きます。", reading: "びょうきのときいしゃにいきます。", de: "Wenn ich krank bin, gehe ich zum Arzt." }
+  ]},
+  { id: "v443", word: "いただく", reading: "いただく", meaning: "essen / erhalten (höflich)", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "お茶をいただきます。", reading: "おちゃをいただきます。", de: "Ich trinke (dankend) einen Tee." },
+    { jp: "先生に本をいただきました。", reading: "せんせいにほんをいただきました。", de: "Ich habe vom Lehrer ein Buch bekommen." }
+  ]},
+  { id: "v444", word: "一度", reading: "いちど", meaning: "einmal", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "一度、日本に行きたいです。", reading: "いちど、にほんにいきたいです。", de: "Ich möchte einmal nach Japan reisen." },
+    { jp: "もう一度言ってください。", reading: "もういちどいってください。", de: "Sagen Sie es bitte noch einmal." }
+  ]},
+  { id: "v445", word: "いっぱい", reading: "いっぱい", meaning: "voll / eine Tasse (voll)", pos: "Adverb", level: "adv", examples: [
+    { jp: "水を一杯ください。", reading: "みずをいっぱいください。", de: "Bitte ein Glas Wasser." },
+    { jp: "お腹がいっぱいです。", reading: "おなかがいっぱいです。", de: "Ich bin satt." }
+  ]},
+  { id: "v446", word: "いとこ", reading: "いとこ", meaning: "Cousin, Cousine", pos: "Nomen", level: "adv", examples: [
+    { jp: "いとこは大学生です。", reading: "いとこはだいがくせいです。", de: "Mein Cousin ist Student." },
+    { jp: "夏にいとこと遊びます。", reading: "なつにいとことあそびます。", de: "Im Sommer spiele ich mit meinem Cousin." }
+  ]},
+  { id: "v447", word: "いる", reading: "いる", meaning: "sein, sich befinden (Lebewesen)", pos: "Verb (Ichidan)", level: "easy", examples: [
+    { jp: "部屋に猫がいます。", reading: "へやにねこがいます。", de: "Im Zimmer ist eine Katze." },
+    { jp: "教室に学生がいます。", reading: "きょうしつにがくせいがいます。", de: "Im Klassenzimmer sind Studenten." }
+  ]},
+  { id: "v448", word: "色", reading: "いろ", meaning: "Farbe", pos: "Nomen", level: "easy", examples: [
+    { jp: "好きな色は青です。", reading: "すきないろはあおです。", de: "Meine Lieblingsfarbe ist Blau." },
+    { jp: "この色がきれいです。", reading: "このいろがきれいです。", de: "Diese Farbe ist schön." }
+  ]},
+  { id: "v449", word: "いろいろな", reading: "いろいろな", meaning: "verschiedene, allerlei", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "店にいろいろな物があります。", reading: "みせにいろいろなものがあります。", de: "Im Laden gibt es verschiedene Dinge." },
+    { jp: "いろいろな国に行きたいです。", reading: "いろいろなくににいきたいです。", de: "Ich möchte in verschiedene Länder reisen." }
+  ]},
+  { id: "v450", word: "インターナショナル", reading: "インターナショナル", meaning: "international", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "インターナショナルな会社で働きます。", reading: "インターナショナルなかいしゃではたらきます。", de: "Ich arbeite in einer internationalen Firma." },
+    { jp: "この学校はインターナショナルです。", reading: "このがっこうはインターナショナルです。", de: "Diese Schule ist international." }
+  ]},
+  { id: "v451", word: "ウィスキー", reading: "ウィスキー", meaning: "Whisky", pos: "Nomen", level: "adv", examples: [
+    { jp: "父はウィスキーが好きです。", reading: "ちちはウィスキーがすきです。", de: "Mein Vater mag Whisky." },
+    { jp: "ウィスキーを少し飲みました。", reading: "ウィスキーをすこしのみました。", de: "Ich habe etwas Whisky getrunken." }
+  ]},
+  { id: "v452", word: "ウール", reading: "ウール", meaning: "Wolle", pos: "Nomen", level: "adv", examples: [
+    { jp: "ウールのセーターは暖かいです。", reading: "ウールのセーターはあたたかいです。", de: "Der Wollpullover ist warm." },
+    { jp: "冬にウールのコートを着ます。", reading: "ふゆにウールのコートをきます。", de: "Im Winter trage ich einen Wollmantel." }
+  ]},
+  { id: "v453", word: "上", reading: "うえ", meaning: "auf, über, oben", pos: "Nomen", level: "easy", examples: [
+    { jp: "机の上に本があります。", reading: "つくえのうえにほんがあります。", de: "Auf dem Tisch liegt ein Buch." },
+    { jp: "棚の上にかばんを置きます。", reading: "たなのうえにかばんをおきます。", de: "Ich stelle die Tasche auf das Regal." }
+  ]},
+  { id: "v454", word: "ウエイトレス", reading: "ウエイトレス", meaning: "Kellnerin", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼女はウエイトレスです。", reading: "かのじょはウエイトレスです。", de: "Sie ist Kellnerin." },
+    { jp: "ウエイトレスに水を頼みました。", reading: "ウエイトレスにみずをたのみました。", de: "Ich habe die Kellnerin um Wasser gebeten." }
+  ]},
+  { id: "v455", word: "うきよえ", reading: "うきよえ", meaning: "Ukiyoe (Holzschnitte)", pos: "Nomen", level: "adv", examples: [
+    { jp: "うきよえは有名です。", reading: "うきよえはゆうめいです。", de: "Ukiyoe sind berühmt." },
+    { jp: "美術館でうきよえを見ました。", reading: "びじゅつかんでうきよえをみました。", de: "Im Museum habe ich Ukiyoe gesehen." }
+  ]},
+  { id: "v456", word: "受付", reading: "うけつけ", meaning: "Empfang, Rezeption", pos: "Nomen", level: "adv", examples: [
+    { jp: "受付で聞いてください。", reading: "うけつけできいてください。", de: "Fragen Sie bitte an der Rezeption." },
+    { jp: "ホテルの受付は一階です。", reading: "ホテルのうけつけはいっかいです。", de: "Die Rezeption des Hotels ist im Erdgeschoss." }
+  ]},
+  { id: "v457", word: "受ける", reading: "うける", meaning: "(Prüfung) ablegen / empfangen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "来週、試験を受けます。", reading: "らいしゅう、しけんをうけます。", de: "Nächste Woche lege ich eine Prüfung ab." },
+    { jp: "日本語のテストを受けました。", reading: "にほんごのテストをうけました。", de: "Ich habe einen Japanisch-Test gemacht." }
+  ]},
+  { id: "v458", word: "動く", reading: "うごく", meaning: "sich bewegen / funktionieren", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "この時計は動きません。", reading: "このとけいはうごきません。", de: "Diese Uhr geht nicht." },
+    { jp: "電車が動き始めました。", reading: "でんしゃがうごきはじめました。", de: "Der Zug hat sich in Bewegung gesetzt." }
+  ]},
+  { id: "v459", word: "後ろ", reading: "うしろ", meaning: "hinten, Rückseite", pos: "Nomen", level: "easy", examples: [
+    { jp: "家の後ろに公園があります。", reading: "いえのうしろにこうえんがあります。", de: "Hinter dem Haus ist ein Park." },
+    { jp: "私の後ろに座ってください。", reading: "わたしのうしろにすわってください。", de: "Setzen Sie sich bitte hinter mich." }
+  ]},
+  { id: "v460", word: "歌", reading: "うた", meaning: "Lied", pos: "Nomen", level: "easy", examples: [
+    { jp: "日本の歌を歌います。", reading: "にほんのうたをうたいます。", de: "Ich singe ein japanisches Lied." },
+    { jp: "この歌が好きです。", reading: "このうたがすきです。", de: "Ich mag dieses Lied." }
+  ]},
+  { id: "v461", word: "うち", reading: "うち", meaning: "Zuhause, Heim", pos: "Nomen", level: "easy", examples: [
+    { jp: "うちに帰ります。", reading: "うちにかえります。", de: "Ich gehe nach Hause." },
+    { jp: "うちは駅の近くです。", reading: "うちはえきのちかくです。", de: "Mein Zuhause ist in der Nähe des Bahnhofs." }
+  ]},
+  { id: "v462", word: "馬", reading: "うま", meaning: "Pferd", pos: "Nomen", level: "adv", examples: [
+    { jp: "馬が走っています。", reading: "うまがはしっています。", de: "Ein Pferd läuft." },
+    { jp: "牧場で馬を見ました。", reading: "ぼくじょうでうまをみました。", de: "Auf der Weide habe ich Pferde gesehen." }
+  ]},
+  { id: "v463", word: "生まれる", reading: "うまれる", meaning: "geboren werden", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "赤ちゃんが生まれました。", reading: "あかちゃんがうまれました。", de: "Das Baby ist geboren." },
+    { jp: "私は東京で生まれました。", reading: "わたしはとうきょうでうまれました。", de: "Ich bin in Tōkyō geboren." }
+  ]},
+  { id: "v464", word: "売り切れ", reading: "うりきれ", meaning: "ausverkauft", pos: "Nomen", level: "adv", examples: [
+    { jp: "チケットは売り切れです。", reading: "チケットはうりきれです。", de: "Die Tickets sind ausverkauft." },
+    { jp: "この本は売り切れました。", reading: "このほんはうりきれました。", de: "Dieses Buch ist ausverkauft." }
+  ]},
+  { id: "v465", word: "売り場", reading: "うりば", meaning: "Verkaufsstelle, Abteilung", pos: "Nomen", level: "adv", examples: [
+    { jp: "切符売り場はどこですか。", reading: "きっぷうりばはどこですか。", de: "Wo ist der Fahrkartenschalter?" },
+    { jp: "くつ売り場は三階です。", reading: "くつうりばはさんがいです。", de: "Die Schuhabteilung ist im dritten Stock." }
+  ]},
+  { id: "v466", word: "運転", reading: "うんてん", meaning: "das Fahren, Steuern", pos: "Nomen", level: "adv", examples: [
+    { jp: "車の運転は難しいです。", reading: "くるまのうんてんはむずかしいです。", de: "Autofahren ist schwierig." },
+    { jp: "毎日運転します。", reading: "まいにちうんてんします。", de: "Ich fahre jeden Tag." }
+  ]},
+  { id: "v467", word: "運転手", reading: "うんてんしゅ", meaning: "Fahrer, Chauffeur", pos: "Nomen", level: "adv", examples: [
+    { jp: "タクシーの運転手に道を聞きました。", reading: "タクシーのうんてんしゅにみちをききました。", de: "Ich habe den Taxifahrer nach dem Weg gefragt." },
+    { jp: "バスの運転手は親切です。", reading: "バスのうんてんしゅはしんせつです。", de: "Der Busfahrer ist freundlich." }
+  ]},
+  { id: "v468", word: "絵", reading: "え", meaning: "Bild, Gemälde", pos: "Nomen", level: "easy", examples: [
+    { jp: "壁に絵をかけます。", reading: "かべにえをかけます。", de: "Ich hänge ein Bild an die Wand." },
+    { jp: "子供が絵をかいています。", reading: "こどもがえをかいています。", de: "Das Kind malt ein Bild." }
+  ]},
+  { id: "v469", word: "エアコン", reading: "エアコン", meaning: "Klimaanlage", pos: "Nomen", level: "adv", examples: [
+    { jp: "暑いのでエアコンをつけます。", reading: "あついのでエアコンをつけます。", de: "Weil es heiß ist, schalte ich die Klimaanlage ein." },
+    { jp: "この部屋にはエアコンがあります。", reading: "このへやにはエアコンがあります。", de: "In diesem Zimmer gibt es eine Klimaanlage." }
+  ]},
+  { id: "v470", word: "英語", reading: "えいご", meaning: "Englisch", pos: "Nomen", level: "easy", examples: [
+    { jp: "英語を勉強しています。", reading: "えいごをべんきょうしています。", de: "Ich lerne Englisch." },
+    { jp: "彼は英語が上手です。", reading: "かれはえいごがじょうずです。", de: "Er kann gut Englisch." }
+  ]},
+  { id: "v471", word: "ええ", reading: "ええ", meaning: "ja (höflich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "ええ、そうです。", reading: "ええ、そうです。", de: "Ja, genau." },
+    { jp: "ええ、いいですよ。", reading: "ええ、いいですよ。", de: "Ja, das ist in Ordnung." }
+  ]},
+  { id: "v472", word: "選ぶ", reading: "えらぶ", meaning: "auswählen", pos: "Verb (Godan, ぶ)", level: "adv", examples: [
+    { jp: "好きな色を選んでください。", reading: "すきないろをえらんでください。", de: "Wählen Sie bitte Ihre Lieblingsfarbe." },
+    { jp: "プレゼントを選びました。", reading: "プレゼントをえらびました。", de: "Ich habe ein Geschenk ausgewählt." }
+  ]},
+  { id: "v473", word: "円", reading: "えん", meaning: "Yen", pos: "Nomen", level: "easy", examples: [
+    { jp: "この本は千円です。", reading: "このほんはせんえんです。", de: "Dieses Buch kostet 1000 Yen." },
+    { jp: "百円を貸してください。", reading: "ひゃくえんをかしてください。", de: "Leih mir bitte 100 Yen." }
+  ]},
+  { id: "v474", word: "おいくつ", reading: "おいくつ", meaning: "wie alt? (höflich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "失礼ですが、おいくつですか。", reading: "しつれいですが、おいくつですか。", de: "Entschuldigung, wie alt sind Sie?" },
+    { jp: "お子さんはおいくつですか。", reading: "おこさんはおいくつですか。", de: "Wie alt ist Ihr Kind?" }
+  ]},
+  { id: "v475", word: "おおぜい", reading: "おおぜい", meaning: "(Menschen-)Menge, viele Leute", pos: "Nomen", level: "adv", examples: [
+    { jp: "公園に人がおおぜいいます。", reading: "こうえんにひとがおおぜいいます。", de: "Im Park sind viele Leute." },
+    { jp: "おおぜいの前で話しました。", reading: "おおぜいのまえではなしました。", de: "Ich habe vor vielen Leuten gesprochen." }
+  ]},
+  { id: "v476", word: "おかげさまで", reading: "おかげさまで", meaning: "Danke der Nachfrage / dank Ihrer Hilfe", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "おかげさまで元気です。", reading: "おかげさまでげんきです。", de: "Danke der Nachfrage, mir geht es gut." },
+    { jp: "おかげさまで試験に合格しました。", reading: "おかげさまでしけんにごうかくしました。", de: "Dank Ihrer Hilfe habe ich die Prüfung bestanden." }
+  ]},
+  { id: "v477", word: "お客さん", reading: "おきゃくさん", meaning: "Gast, Kunde", pos: "Nomen", level: "easy", examples: [
+    { jp: "今日はお客さんが来ます。", reading: "きょうはおきゃくさんがきます。", de: "Heute kommt Besuch." },
+    { jp: "お客さんに飲み物を出します。", reading: "おきゃくさんにのみものをだします。", de: "Ich serviere den Gästen Getränke." }
+  ]},
+  { id: "v478", word: "置く", reading: "おく", meaning: "stellen, legen", pos: "Verb (Godan, く)", level: "easy", examples: [
+    { jp: "机の上に本を置きます。", reading: "つくえのうえにほんをおきます。", de: "Ich lege das Buch auf den Tisch." },
+    { jp: "かばんをここに置いてください。", reading: "かばんをここにおいてください。", de: "Stellen Sie die Tasche bitte hierhin." }
+  ]},
+  { id: "v479", word: "奥さん", reading: "おくさん", meaning: "Ehefrau (eines anderen)", pos: "Nomen", level: "easy", examples: [
+    { jp: "田中さんの奥さんは先生です。", reading: "たなかさんのおくさんはせんせいです。", de: "Herrn Tanakas Frau ist Lehrerin." },
+    { jp: "奥さんによろしく。", reading: "おくさんによろしく。", de: "Grüßen Sie Ihre Frau von mir." }
+  ]},
+  { id: "v480", word: "遅れる", reading: "おくれる", meaning: "sich verspäten", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "電車が遅れています。", reading: "でんしゃがおくれています。", de: "Der Zug hat Verspätung." },
+    { jp: "会議に遅れました。", reading: "かいぎにおくれました。", de: "Ich bin zu spät zur Besprechung gekommen." }
+  ]},
+  { id: "v481", word: "お子さん", reading: "おこさん", meaning: "Kind (eines anderen)", pos: "Nomen", level: "adv", examples: [
+    { jp: "お子さんは何歳ですか。", reading: "おこさんはなんさいですか。", de: "Wie alt ist Ihr Kind?" },
+    { jp: "お子さんはかわいいですね。", reading: "おこさんはかわいいですね。", de: "Ihr Kind ist ja süß." }
+  ]},
+  { id: "v482", word: "怒る", reading: "おこる", meaning: "böse werden, schimpfen", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "父が怒りました。", reading: "ちちがおこりました。", de: "Mein Vater wurde böse." },
+    { jp: "先生は学生を怒りました。", reading: "せんせいはがくせいをおこりました。", de: "Der Lehrer hat den Studenten geschimpft." }
+  ]},
+  { id: "v483", word: "おじいさん", reading: "おじいさん", meaning: "Großvater / alter Mann", pos: "Nomen", level: "easy", examples: [
+    { jp: "おじいさんは八十歳です。", reading: "おじいさんははちじゅっさいです。", de: "Mein Großvater ist achtzig Jahre alt." },
+    { jp: "おじいさんと散歩します。", reading: "おじいさんとさんぽします。", de: "Ich gehe mit meinem Großvater spazieren." }
+  ]},
+  { id: "v484", word: "おじさん", reading: "おじさん", meaning: "Onkel / älterer Mann", pos: "Nomen", level: "easy", examples: [
+    { jp: "おじさんは大阪に住んでいます。", reading: "おじさんはおおさかにすんでいます。", de: "Mein Onkel wohnt in Ōsaka." },
+    { jp: "おじさんに手紙を書きます。", reading: "おじさんにてがみをかきます。", de: "Ich schreibe meinem Onkel einen Brief." }
+  ]},
+  { id: "v485", word: "おしゃべりする", reading: "おしゃべりする", meaning: "plaudern, tratschen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "友達とおしゃべりします。", reading: "ともだちとおしゃべりします。", de: "Ich plaudere mit meinen Freunden." },
+    { jp: "カフェで長くおしゃべりしました。", reading: "カフェでながくおしゃべりしました。", de: "Wir haben lange im Café geplaudert." }
+  ]},
+  { id: "v486", word: "お嬢さん", reading: "おじょうさん", meaning: "Tochter (eines anderen), junge Dame", pos: "Nomen", level: "adv", examples: [
+    { jp: "お嬢さんは大学生ですか。", reading: "おじょうさんはだいがくせいですか。", de: "Ist Ihre Tochter Studentin?" },
+    { jp: "きれいなお嬢さんですね。", reading: "きれいなおじょうさんですね。", de: "Was für eine hübsche junge Dame." }
+  ]},
+  { id: "v487", word: "おたく", reading: "おたく", meaning: "Ihr Haus / Sie (höflich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "おたくはどちらですか。", reading: "おたくはどちらですか。", de: "Wo wohnen Sie?" },
+    { jp: "明日おたくに伺います。", reading: "あしたおたくにうかがいます。", de: "Morgen komme ich zu Ihnen." }
+  ]},
+  { id: "v488", word: "落ちる", reading: "おちる", meaning: "(hin)fallen, herunterfallen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "木から葉が落ちます。", reading: "きからはがおちます。", de: "Vom Baum fallen Blätter." },
+    { jp: "かばんが床に落ちました。", reading: "かばんがゆかにおちました。", de: "Die Tasche ist auf den Boden gefallen." }
+  ]},
+  { id: "v489", word: "おつり", reading: "おつり", meaning: "Wechselgeld", pos: "Nomen", level: "adv", examples: [
+    { jp: "おつりをください。", reading: "おつりをください。", de: "Geben Sie mir bitte das Wechselgeld." },
+    { jp: "おつりは百円です。", reading: "おつりはひゃくえんです。", de: "Das Wechselgeld beträgt 100 Yen." }
+  ]},
+  { id: "v490", word: "お手洗い", reading: "おてあらい", meaning: "WC, Toilette", pos: "Nomen", level: "adv", examples: [
+    { jp: "お手洗いはどこですか。", reading: "おてあらいはどこですか。", de: "Wo ist die Toilette?" },
+    { jp: "お手洗いを借りてもいいですか。", reading: "おてあらいをかりてもいいですか。", de: "Darf ich Ihre Toilette benutzen?" }
+  ]},
+  { id: "v491", word: "お寺", reading: "おてら", meaning: "Tempel (buddhistisch)", pos: "Nomen", level: "adv", examples: [
+    { jp: "京都のお寺を見ました。", reading: "きょうとのおてらをみました。", de: "Ich habe Tempel in Kyōto besichtigt." },
+    { jp: "お寺は静かです。", reading: "おてらはしずかです。", de: "Der Tempel ist ruhig." }
+  ]},
+  { id: "v492", word: "男", reading: "おとこ", meaning: "Mann, männlich", pos: "Nomen", level: "easy", examples: [
+    { jp: "あの男の人は誰ですか。", reading: "あのおとこのひとはだれですか。", de: "Wer ist der Mann dort?" },
+    { jp: "男の名前を書いてください。", reading: "おとこのなまえをかいてください。", de: "Schreiben Sie bitte den Männernamen." }
+  ]},
+  { id: "v493", word: "男の子", reading: "おとこのこ", meaning: "Junge", pos: "Nomen", level: "easy", examples: [
+    { jp: "男の子が遊んでいます。", reading: "おとこのこがあそんでいます。", de: "Ein Junge spielt." },
+    { jp: "隣に男の子が住んでいます。", reading: "となりにおとこのこがすんでいます。", de: "Nebenan wohnt ein Junge." }
+  ]},
+  { id: "v494", word: "男の人", reading: "おとこのひと", meaning: "Mann", pos: "Nomen", level: "easy", examples: [
+    { jp: "男の人が三人います。", reading: "おとこのひとがさんにんいます。", de: "Dort sind drei Männer." },
+    { jp: "その男の人は背が高いです。", reading: "そのおとこのひとはせがたかいです。", de: "Der Mann ist groß." }
+  ]},
+  { id: "v495", word: "落とす", reading: "おとす", meaning: "fallen lassen, verlieren", pos: "Verb (Godan, す)", level: "adv", examples: [
+    { jp: "財布を落としました。", reading: "さいふをおとしました。", de: "Ich habe meine Geldbörse verloren." },
+    { jp: "コップを落とさないでください。", reading: "コップをおとさないでください。", de: "Lassen Sie das Glas nicht fallen." }
+  ]},
+  { id: "v496", word: "おととい", reading: "おととい", meaning: "vorgestern", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "おととい映画を見ました。", reading: "おとといえいがをみました。", de: "Vorgestern habe ich einen Film gesehen." },
+    { jp: "おとといは雨でした。", reading: "おとといはあめでした。", de: "Vorgestern hat es geregnet." }
+  ]},
+  { id: "v497", word: "大人", reading: "おとな", meaning: "Erwachsener", pos: "Nomen", level: "easy", examples: [
+    { jp: "大人は千円です。", reading: "おとなはせんえんです。", de: "Erwachsene zahlen 1000 Yen." },
+    { jp: "もう大人ですから、大丈夫です。", reading: "もうおとなですから、だいじょうぶです。", de: "Ich bin schon erwachsen, also geht das." }
+  ]},
+  { id: "v498", word: "おなか", reading: "おなか", meaning: "Bauch", pos: "Nomen", level: "easy", examples: [
+    { jp: "おなかが痛いです。", reading: "おなかがいたいです。", de: "Mir tut der Bauch weh." },
+    { jp: "おなかがすきました。", reading: "おなかがすきました。", de: "Ich habe Hunger." }
+  ]},
+  { id: "v499", word: "おば", reading: "おば", meaning: "Tante (eigene)", pos: "Nomen", level: "easy", examples: [
+    { jp: "おばは名古屋にいます。", reading: "おばはなごやにいます。", de: "Meine Tante ist in Nagoya." },
+    { jp: "おばは料理が上手です。", reading: "おばはりょうりがじょうずです。", de: "Meine Tante kocht gut." }
+  ]},
+  { id: "v500", word: "おばあさん", reading: "おばあさん", meaning: "Großmutter / alte Frau", pos: "Nomen", level: "easy", examples: [
+    { jp: "おばあさんは元気です。", reading: "おばあさんはげんきです。", de: "Meine Großmutter ist gesund." },
+    { jp: "おばあさんに花をあげました。", reading: "おばあさんにはなをあげました。", de: "Ich habe meiner Großmutter Blumen geschenkt." }
+  ]},
+  { id: "v501", word: "お花見", reading: "おはなみ", meaning: "Kirschblütenschau", pos: "Nomen", level: "adv", examples: [
+    { jp: "春にお花見をします。", reading: "はるにおはなみをします。", de: "Im Frühling machen wir Hanami." },
+    { jp: "公園でお花見をしました。", reading: "こうえんでおはなみをしました。", de: "Wir haben im Park die Kirschblüten betrachtet." }
+  ]},
+  { id: "v502", word: "温泉", reading: "おんせん", meaning: "heiße Quelle, Onsen", pos: "Nomen", level: "adv", examples: [
+    { jp: "温泉に入りたいです。", reading: "おんせんにはいりたいです。", de: "Ich möchte in eine heiße Quelle." },
+    { jp: "週末に温泉へ行きます。", reading: "しゅうまつにおんせんへいきます。", de: "Am Wochenende fahre ich ins Onsen." }
+  ]},
+  { id: "v503", word: "女", reading: "おんな", meaning: "Frau, weiblich", pos: "Nomen", level: "easy", examples: [
+    { jp: "女の名前を書きます。", reading: "おんなのなまえをかきます。", de: "Ich schreibe einen Frauennamen." },
+    { jp: "あの女の人は医者です。", reading: "あのおんなのひとはいしゃです。", de: "Die Frau dort ist Ärztin." }
+  ]},
+  { id: "v504", word: "女の子", reading: "おんなのこ", meaning: "Mädchen", pos: "Nomen", level: "easy", examples: [
+    { jp: "女の子が歌っています。", reading: "おんなのこがうたっています。", de: "Ein Mädchen singt." },
+    { jp: "小さい女の子がいます。", reading: "ちいさいおんなのこがいます。", de: "Da ist ein kleines Mädchen." }
+  ]},
+  { id: "v505", word: "女の人", reading: "おんなのひと", meaning: "Frau", pos: "Nomen", level: "easy", examples: [
+    { jp: "女の人が二人います。", reading: "おんなのひとがふたりいます。", de: "Dort sind zwei Frauen." },
+    { jp: "その女の人は親切です。", reading: "そのおんなのひとはしんせつです。", de: "Die Frau ist freundlich." }
+  ]},
+  { id: "v506", word: "カード", reading: "カード", meaning: "Karte, Kreditkarte", pos: "Nomen", level: "easy", examples: [
+    { jp: "カードで払います。", reading: "カードではらいます。", de: "Ich bezahle mit Karte." },
+    { jp: "誕生日にカードを送ります。", reading: "たんじょうびにカードをおくります。", de: "Zum Geburtstag schicke ich eine Karte." }
+  ]},
+  { id: "v507", word: "ガールフレンド", reading: "ガールフレンド", meaning: "Freundin", pos: "Nomen", level: "adv", examples: [
+    { jp: "ガールフレンドと映画を見ます。", reading: "ガールフレンドとえいがをみます。", de: "Ich sehe mit meiner Freundin einen Film." },
+    { jp: "彼にはガールフレンドがいます。", reading: "かれにはガールフレンドがいます。", de: "Er hat eine Freundin." }
+  ]},
+  { id: "v508", word: "階", reading: "かい", meaning: "Stockwerk, Etage", pos: "Nomen", level: "adv", examples: [
+    { jp: "本屋は三階にあります。", reading: "ほんやはさんがいにあります。", de: "Der Buchladen ist im dritten Stock." },
+    { jp: "この建物は五階まであります。", reading: "このたてものはごかいまであります。", de: "Dieses Gebäude hat fünf Stockwerke." }
+  ]},
+  { id: "v509", word: "改札口", reading: "かいさつぐち", meaning: "Ticketsperre (am Bahnhof)", pos: "Nomen", level: "adv", examples: [
+    { jp: "改札口で待っています。", reading: "かいさつぐちでまっています。", de: "Ich warte an der Ticketsperre." },
+    { jp: "改札口はどこですか。", reading: "かいさつぐちはどこですか。", de: "Wo ist die Ticketsperre?" }
+  ]},
+  { id: "v510", word: "帰り", reading: "かえり", meaning: "Rückkehr, Heimweg", pos: "Nomen", level: "adv", examples: [
+    { jp: "帰りに買い物をします。", reading: "かえりにかいものをします。", de: "Auf dem Heimweg kaufe ich ein." },
+    { jp: "帰りは何時ですか。", reading: "かえりはなんじですか。", de: "Wann kommst du zurück?" }
+  ]},
+  { id: "v511", word: "かかる", reading: "かかる", meaning: "dauern / kosten", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "駅まで十分かかります。", reading: "えきまでじゅっぷんかかります。", de: "Bis zum Bahnhof dauert es zehn Minuten." },
+    { jp: "この旅行はお金がかかります。", reading: "このりょこうはおかねがかかります。", de: "Diese Reise kostet viel Geld." }
+  ]},
+  { id: "v512", word: "家具", reading: "かぐ", meaning: "Möbel", pos: "Nomen", level: "adv", examples: [
+    { jp: "新しい家具を買いました。", reading: "あたらしいかぐをかいました。", de: "Ich habe neue Möbel gekauft." },
+    { jp: "部屋に家具が少ないです。", reading: "へやにかぐがすくないです。", de: "Im Zimmer gibt es wenig Möbel." }
+  ]},
+  { id: "v513", word: "かける", reading: "かける", meaning: "sich setzen / (Brille) aufsetzen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "いすにかけてください。", reading: "いすにかけてください。", de: "Setzen Sie sich bitte auf den Stuhl." },
+    { jp: "めがねをかけます。", reading: "めがねをかけます。", de: "Ich setze die Brille auf." }
+  ]},
+  { id: "v514", word: "かご", reading: "かご", meaning: "Korb", pos: "Nomen", level: "adv", examples: [
+    { jp: "かごに果物を入れます。", reading: "かごにくだものをいれます。", de: "Ich lege Obst in den Korb." },
+    { jp: "買い物かごを持っています。", reading: "かいものかごをもっています。", de: "Ich halte einen Einkaufskorb." }
+  ]},
+  { id: "v515", word: "風", reading: "かぜ", meaning: "Wind", pos: "Nomen", level: "easy", examples: [
+    { jp: "今日は風が強いです。", reading: "きょうはかぜがつよいです。", de: "Heute ist der Wind stark." },
+    { jp: "風が気持ちいいです。", reading: "かぜがきもちいいです。", de: "Der Wind ist angenehm." }
+  ]},
+  { id: "v516", word: "風邪をひく", reading: "かぜをひく", meaning: "sich erkälten", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "風邪をひきました。", reading: "かぜをひきました。", de: "Ich habe mich erkältet." },
+    { jp: "寒いので風邪をひかないでください。", reading: "さむいのでかぜをひかないでください。", de: "Erkälten Sie sich bei der Kälte nicht." }
+  ]},
+  { id: "v517", word: "片付ける", reading: "かたづける", meaning: "aufräumen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "部屋を片付けます。", reading: "へやをかたづけます。", de: "Ich räume das Zimmer auf." },
+    { jp: "食事の後で皿を片付けました。", reading: "しょくじのあとでさらをかたづけました。", de: "Nach dem Essen habe ich das Geschirr weggeräumt." }
+  ]},
+  { id: "v518", word: "カタログ", reading: "カタログ", meaning: "Katalog, Broschüre", pos: "Nomen", level: "adv", examples: [
+    { jp: "カタログを見せてください。", reading: "カタログをみせてください。", de: "Zeigen Sie mir bitte den Katalog." },
+    { jp: "新しいカタログが届きました。", reading: "あたらしいカタログがとどきました。", de: "Der neue Katalog ist angekommen." }
+  ]},
+  { id: "v519", word: "角", reading: "かど", meaning: "Ecke", pos: "Nomen", level: "adv", examples: [
+    { jp: "次の角を右に曲がります。", reading: "つぎのかどをみぎにまがります。", de: "An der nächsten Ecke biege ich rechts ab." },
+    { jp: "角に本屋があります。", reading: "かどにほんやがあります。", de: "An der Ecke ist ein Buchladen." }
+  ]},
+  { id: "v520", word: "家内", reading: "かない", meaning: "(meine) Ehefrau", pos: "Nomen", level: "adv", examples: [
+    { jp: "家内は買い物に行きました。", reading: "かないはかいものにいきました。", de: "Meine Frau ist einkaufen gegangen." },
+    { jp: "家内と旅行します。", reading: "かないとりょこうします。", de: "Ich verreise mit meiner Frau." }
+  ]},
+  { id: "v521", word: "花瓶", reading: "かびん", meaning: "Blumenvase", pos: "Nomen", level: "adv", examples: [
+    { jp: "花瓶に花を入れます。", reading: "かびんにはなをいれます。", de: "Ich stelle Blumen in die Vase." },
+    { jp: "きれいな花瓶ですね。", reading: "きれいなかびんですね。", de: "Eine schöne Vase." }
+  ]},
+  { id: "v522", word: "歌舞伎", reading: "かぶき", meaning: "Kabuki-Theater", pos: "Nomen", level: "adv", examples: [
+    { jp: "歌舞伎を見に行きます。", reading: "かぶきをみにいきます。", de: "Ich gehe zum Kabuki." },
+    { jp: "歌舞伎はおもしろかったです。", reading: "かぶきはおもしろかったです。", de: "Das Kabuki war interessant." }
+  ]},
+  { id: "v523", word: "我慢する", reading: "がまんする", meaning: "ertragen, sich gedulden", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "痛いですが我慢します。", reading: "いたいですががまんします。", de: "Es tut weh, aber ich halte durch." },
+    { jp: "もう少し我慢してください。", reading: "もうすこしがまんしてください。", de: "Halten Sie bitte noch etwas durch." }
+  ]},
+  { id: "v524", word: "カメラ", reading: "カメラ", meaning: "Fotoapparat, Kamera", pos: "Nomen", level: "easy", examples: [
+    { jp: "新しいカメラを買いました。", reading: "あたらしいカメラをかいました。", de: "Ich habe eine neue Kamera gekauft." },
+    { jp: "カメラで写真をとります。", reading: "カメラでしゃしんをとります。", de: "Ich mache mit der Kamera Fotos." }
+  ]},
+  { id: "v525", word: "カメラ屋", reading: "カメラや", meaning: "Fotogeschäft", pos: "Nomen", level: "adv", examples: [
+    { jp: "カメラ屋でフィルムを買います。", reading: "カメラやでフィルムをかいます。", de: "Ich kaufe Film im Fotogeschäft." },
+    { jp: "駅の前にカメラ屋があります。", reading: "えきのまえにカメラやがあります。", de: "Vor dem Bahnhof ist ein Fotogeschäft." }
+  ]},
+  { id: "v526", word: "画面", reading: "がめん", meaning: "Bildschirm", pos: "Nomen", level: "adv", examples: [
+    { jp: "画面が大きいテレビです。", reading: "がめんがおおきいテレビです。", de: "Das ist ein Fernseher mit großem Bildschirm." },
+    { jp: "画面を見てください。", reading: "がめんをみてください。", de: "Schauen Sie bitte auf den Bildschirm." }
+  ]},
+  { id: "v527", word: "カラオケ", reading: "カラオケ", meaning: "Karaoke", pos: "Nomen", level: "adv", examples: [
+    { jp: "友達とカラオケに行きます。", reading: "ともだちとカラオケにいきます。", de: "Ich gehe mit Freunden zum Karaoke." },
+    { jp: "カラオケで歌を歌いました。", reading: "カラオケでうたをうたいました。", de: "Beim Karaoke habe ich gesungen." }
+  ]},
+  { id: "v528", word: "彼", reading: "かれ", meaning: "er / Freund", pos: "Nomen", level: "easy", examples: [
+    { jp: "彼は大学生です。", reading: "かれはだいがくせいです。", de: "Er ist Student." },
+    { jp: "彼は日本語が話せます。", reading: "かれはにほんごがはなせます。", de: "Er kann Japanisch sprechen." }
+  ]},
+  { id: "v529", word: "変わる", reading: "かわる", meaning: "sich ändern", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "天気が変わりました。", reading: "てんきがかわりました。", de: "Das Wetter hat sich geändert." },
+    { jp: "予定が変わるかもしれません。", reading: "よていがかわるかもしれません。", de: "Der Plan ändert sich vielleicht." }
+  ]},
+  { id: "v530", word: "考える", reading: "かんがえる", meaning: "denken, überlegen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "よく考えてから決めます。", reading: "よくかんがえてからきめます。", de: "Ich entscheide nach gutem Überlegen." },
+    { jp: "将来のことを考えます。", reading: "しょうらいのことをかんがえます。", de: "Ich denke über die Zukunft nach." }
+  ]},
+  { id: "v531", word: "観光客", reading: "かんこうきゃく", meaning: "Tourist", pos: "Nomen", level: "adv", examples: [
+    { jp: "京都には観光客が多いです。", reading: "きょうとにはかんこうきゃくがおおいです。", de: "In Kyōto gibt es viele Touristen." },
+    { jp: "観光客に道を教えました。", reading: "かんこうきゃくにみちをおしえました。", de: "Ich habe einem Touristen den Weg erklärt." }
+  ]},
+  { id: "v532", word: "かんごふ", reading: "かんごふ", meaning: "Krankenschwester", pos: "Nomen", level: "adv", examples: [
+    { jp: "姉は病院のかんごふです。", reading: "あねはびょういんのかんごふです。", de: "Meine Schwester ist Krankenschwester im Krankenhaus." },
+    { jp: "かんごふさんはとても親切です。", reading: "かんごふさんはとてもしんせつです。", de: "Die Krankenschwester ist sehr freundlich." }
+  ]},
+  { id: "v533", word: "漢字", reading: "かんじ", meaning: "Kanji (chin. Schriftzeichen)", pos: "Nomen", level: "easy", examples: [
+    { jp: "漢字を書く練習をします。", reading: "かんじをかくれんしゅうをします。", de: "Ich übe, Kanji zu schreiben." },
+    { jp: "この漢字は難しいです。", reading: "このかんじはむずかしいです。", de: "Dieses Kanji ist schwierig." }
+  ]},
+  { id: "v534", word: "簡単な", reading: "かんたんな", meaning: "einfach, leicht", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "これは簡単な問題です。", reading: "これはかんたんなもんだいです。", de: "Das ist eine einfache Aufgabe." },
+    { jp: "簡単に説明してください。", reading: "かんたんにせつめいしてください。", de: "Erklären Sie es bitte einfach." }
+  ]},
+  { id: "v535", word: "乾杯", reading: "かんぱい", meaning: "Prost! / anstoßen", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "みんなで乾杯しましょう。", reading: "みんなでかんぱいしましょう。", de: "Lasst uns alle anstoßen." },
+    { jp: "ビールで乾杯します。", reading: "ビールでかんぱいします。", de: "Wir stoßen mit Bier an." }
+  ]},
+  { id: "v536", word: "頑張る", reading: "がんばる", meaning: "sein Bestes geben, sich anstrengen", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "試験のために頑張ります。", reading: "しけんのためにがんばります。", de: "Ich strenge mich für die Prüfung an." },
+    { jp: "明日も頑張ってください。", reading: "あしたもがんばってください。", de: "Geben Sie auch morgen Ihr Bestes." }
+  ]},
+  { id: "v537", word: "木", reading: "き", meaning: "Baum, Holz", pos: "Nomen", level: "easy", examples: [
+    { jp: "庭に大きい木があります。", reading: "にわにおおきいきがあります。", de: "Im Garten steht ein großer Baum." },
+    { jp: "木の下で休みます。", reading: "きのしたでやすみます。", de: "Ich ruhe mich unter dem Baum aus." }
+  ]},
+  { id: "v538", word: "黄色い", reading: "きいろい", meaning: "gelb", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "黄色い花が咲いています。", reading: "きいろいはながさいています。", de: "Gelbe Blumen blühen." },
+    { jp: "黄色いかばんを買いました。", reading: "きいろいかばんをかいました。", de: "Ich habe eine gelbe Tasche gekauft." }
+  ]},
+  { id: "v539", word: "規則", reading: "きそく", meaning: "Regel, Vorschrift", pos: "Nomen", level: "adv", examples: [
+    { jp: "学校の規則を守ります。", reading: "がっこうのきそくをまもります。", de: "Ich halte die Schulregeln ein." },
+    { jp: "これは大切な規則です。", reading: "これはたいせつなきそくです。", de: "Das ist eine wichtige Regel." }
+  ]},
+  { id: "v540", word: "北", reading: "きた", meaning: "Norden", pos: "Nomen", level: "easy", examples: [
+    { jp: "北の空が暗いです。", reading: "きたのそらがくらいです。", de: "Der Himmel im Norden ist dunkel." },
+    { jp: "北へ行くと海があります。", reading: "きたへいくとうみがあります。", de: "Nach Norden hin ist das Meer." }
+  ]},
+  { id: "v541", word: "キッチン", reading: "キッチン", meaning: "Küche", pos: "Nomen", level: "adv", examples: [
+    { jp: "キッチンで料理をします。", reading: "キッチンでりょうりをします。", de: "Ich koche in der Küche." },
+    { jp: "このアパートはキッチンが広いです。", reading: "このアパートはキッチンがひろいです。", de: "Diese Wohnung hat eine große Küche." }
+  ]},
+  { id: "v542", word: "切手", reading: "きって", meaning: "Briefmarke", pos: "Nomen", level: "easy", examples: [
+    { jp: "切手を三枚ください。", reading: "きってをさんまいください。", de: "Bitte drei Briefmarken." },
+    { jp: "手紙に切手をはります。", reading: "てがみにきってをはります。", de: "Ich klebe eine Briefmarke auf den Brief." }
+  ]},
+  { id: "v543", word: "切符売り場", reading: "きっぷうりば", meaning: "Fahrkartenschalter", pos: "Nomen", level: "adv", examples: [
+    { jp: "切符売り場で切符を買います。", reading: "きっぷうりばできっぷをかいます。", de: "Ich kaufe am Schalter eine Fahrkarte." },
+    { jp: "切符売り場は駅の中です。", reading: "きっぷうりばはえきのなかです。", de: "Der Fahrkartenschalter ist im Bahnhof." }
+  ]},
+  { id: "v544", word: "絹", reading: "きぬ", meaning: "Seide", pos: "Nomen", level: "adv", examples: [
+    { jp: "絹のシャツは高いです。", reading: "きぬのシャツはたかいです。", de: "Ein Seidenhemd ist teuer." },
+    { jp: "この着物は絹です。", reading: "このきものはきぬです。", de: "Dieser Kimono ist aus Seide." }
+  ]},
+  { id: "v545", word: "気分", reading: "きぶん", meaning: "Stimmung, Befinden", pos: "Nomen", level: "adv", examples: [
+    { jp: "今日は気分がいいです。", reading: "きょうはきぶんがいいです。", de: "Heute fühle ich mich gut." },
+    { jp: "気分が悪いので帰ります。", reading: "きぶんがわるいのでかえります。", de: "Mir ist schlecht, also gehe ich nach Hause." }
+  ]},
+  { id: "v546", word: "決める", reading: "きめる", meaning: "entscheiden, festlegen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "旅行の日を決めます。", reading: "りょこうのひをきめます。", de: "Ich lege den Reisetag fest." },
+    { jp: "何にするか決めました。", reading: "なににするかきめました。", de: "Ich habe entschieden, was ich nehme." }
+  ]},
+  { id: "v547", word: "客", reading: "きゃく", meaning: "Kunde, Gast", pos: "Nomen", level: "adv", examples: [
+    { jp: "店に客が来ました。", reading: "みせにきゃくがきました。", de: "In den Laden kam ein Kunde." },
+    { jp: "今日は客が多いです。", reading: "きょうはきゃくがおおいです。", de: "Heute sind viele Kunden da." }
+  ]},
+  { id: "v548", word: "キャンプ", reading: "キャンプ", meaning: "Camping, Lager", pos: "Nomen", level: "adv", examples: [
+    { jp: "夏に山でキャンプをします。", reading: "なつにやまでキャンプをします。", de: "Im Sommer campe ich in den Bergen." },
+    { jp: "キャンプは楽しかったです。", reading: "キャンプはたのしかったです。", de: "Das Camping hat Spaß gemacht." }
+  ]},
+  { id: "v549", word: "牛肉", reading: "ぎゅうにく", meaning: "Rindfleisch", pos: "Nomen", level: "easy", examples: [
+    { jp: "牛肉を買ってきました。", reading: "ぎゅうにくをかってきました。", de: "Ich habe Rindfleisch gekauft." },
+    { jp: "牛肉のステーキが好きです。", reading: "ぎゅうにくのステーキがすきです。", de: "Ich mag Rindersteak." }
+  ]},
+  { id: "v550", word: "兄弟", reading: "きょうだい", meaning: "Geschwister", pos: "Nomen", level: "easy", examples: [
+    { jp: "兄弟は何人いますか。", reading: "きょうだいはなんにんいますか。", de: "Wie viele Geschwister haben Sie?" },
+    { jp: "私は兄弟が三人います。", reading: "わたしはきょうだいがさんにんいます。", de: "Ich habe drei Geschwister." }
+  ]},
+  { id: "v551", word: "興味", reading: "きょうみ", meaning: "Interesse", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本の文化に興味があります。", reading: "にほんのぶんかにきょうみがあります。", de: "Ich interessiere mich für japanische Kultur." },
+    { jp: "音楽に興味がありますか。", reading: "おんがくにきょうみがありますか。", de: "Interessieren Sie sich für Musik?" }
+  ]},
+  { id: "v552", word: "嫌いな", reading: "きらいな", meaning: "nicht mögen, ungern", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "私は納豆が嫌いです。", reading: "わたしはなっとうがきらいです。", de: "Ich mag Nattō nicht." },
+    { jp: "嫌いな食べ物は何ですか。", reading: "きらいなたべものはなんですか。", de: "Welches Essen mögen Sie nicht?" }
+  ]},
+  { id: "v553", word: "きれいな", reading: "きれいな", meaning: "schön / sauber", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "きれいな花ですね。", reading: "きれいなはなですね。", de: "Was für schöne Blumen." },
+    { jp: "部屋をきれいにしました。", reading: "へやをきれいにしました。", de: "Ich habe das Zimmer sauber gemacht." }
+  ]},
+  { id: "v554", word: "キロ", reading: "キロ", meaning: "Kilo(gramm) / Kilometer", pos: "Nomen", level: "adv", examples: [
+    { jp: "りんごを二キロ買いました。", reading: "りんごをにキロかいました。", de: "Ich habe zwei Kilo Äpfel gekauft." },
+    { jp: "駅まで三キロあります。", reading: "えきまでさんキロあります。", de: "Bis zum Bahnhof sind es drei Kilometer." }
+  ]},
+  { id: "v555", word: "気をつける", reading: "きをつける", meaning: "aufpassen, vorsichtig sein", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "車に気をつけてください。", reading: "くるまにきをつけてください。", de: "Passen Sie auf die Autos auf." },
+    { jp: "体に気をつけてください。", reading: "からだにきをつけてください。", de: "Passen Sie auf Ihre Gesundheit auf." }
+  ]},
+  { id: "v556", word: "クーラー", reading: "クーラー", meaning: "Klimaanlage", pos: "Nomen", level: "adv", examples: [
+    { jp: "クーラーをつけてください。", reading: "クーラーをつけてください。", de: "Schalten Sie bitte die Klimaanlage ein." },
+    { jp: "夏はクーラーが必要です。", reading: "なつはクーラーがひつようです。", de: "Im Sommer braucht man eine Klimaanlage." }
+  ]},
+  { id: "v557", word: "薬屋", reading: "くすりや", meaning: "Apotheke", pos: "Nomen", level: "adv", examples: [
+    { jp: "薬屋で薬を買います。", reading: "くすりやでくすりをかいます。", de: "Ich kaufe Medizin in der Apotheke." },
+    { jp: "薬屋は駅の近くです。", reading: "くすりやはえきのちかくです。", de: "Die Apotheke ist beim Bahnhof." }
+  ]},
+  { id: "v558", word: "ください", reading: "ください", meaning: "bitte (geben Sie mir)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "水をください。", reading: "みずをください。", de: "Bitte Wasser." },
+    { jp: "これを二つください。", reading: "これをふたつください。", de: "Zwei davon bitte." }
+  ]},
+  { id: "v559", word: "クッキー", reading: "クッキー", meaning: "Keks, Plätzchen", pos: "Nomen", level: "adv", examples: [
+    { jp: "母がクッキーを作りました。", reading: "ははがクッキーをつくりました。", de: "Meine Mutter hat Kekse gebacken." },
+    { jp: "お茶とクッキーを食べます。", reading: "おちゃとクッキーをたべます。", de: "Ich esse Tee und Kekse." }
+  ]},
+  { id: "v560", word: "靴下", reading: "くつした", meaning: "Socken", pos: "Nomen", level: "easy", examples: [
+    { jp: "新しい靴下をはきます。", reading: "あたらしいくつしたをはきます。", de: "Ich ziehe neue Socken an." },
+    { jp: "白い靴下を買いました。", reading: "しろいくつしたをかいました。", de: "Ich habe weiße Socken gekauft." }
+  ]},
+  { id: "v561", word: "クッション", reading: "クッション", meaning: "Kissen (Sofa)", pos: "Nomen", level: "adv", examples: [
+    { jp: "ソファーにクッションがあります。", reading: "ソファーにクッションがあります。", de: "Auf dem Sofa liegt ein Kissen." },
+    { jp: "赤いクッションを買いました。", reading: "あかいクッションをかいました。", de: "Ich habe ein rotes Kissen gekauft." }
+  ]},
+  { id: "v562", word: "曇り", reading: "くもり", meaning: "bewölkt, Bewölkung", pos: "Nomen", level: "adv", examples: [
+    { jp: "今日は曇りです。", reading: "きょうはくもりです。", de: "Heute ist es bewölkt." },
+    { jp: "午後から曇りになります。", reading: "ごごからくもりになります。", de: "Ab dem Nachmittag wird es bewölkt." }
+  ]},
+  { id: "v563", word: "クラシック音楽", reading: "クラシックおんがく", meaning: "klassische Musik", pos: "Nomen", level: "adv", examples: [
+    { jp: "クラシック音楽を聞きます。", reading: "クラシックおんがくをききます。", de: "Ich höre klassische Musik." },
+    { jp: "父はクラシック音楽が好きです。", reading: "ちちはクラシックおんがくがすきです。", de: "Mein Vater mag klassische Musik." }
+  ]},
+  { id: "v564", word: "クラス", reading: "クラス", meaning: "Klasse", pos: "Nomen", level: "easy", examples: [
+    { jp: "私のクラスは二十人です。", reading: "わたしのクラスはにじゅうにんです。", de: "Meine Klasse hat zwanzig Leute." },
+    { jp: "同じクラスの友達です。", reading: "おなじクラスのともだちです。", de: "Wir sind Freunde aus derselben Klasse." }
+  ]},
+  { id: "v565", word: "クリーニング", reading: "クリーニング", meaning: "Reinigung", pos: "Nomen", level: "adv", examples: [
+    { jp: "コートをクリーニングに出します。", reading: "コートをクリーニングにだします。", de: "Ich gebe den Mantel in die Reinigung." },
+    { jp: "クリーニングは明日できます。", reading: "クリーニングはあしたできます。", de: "Die Reinigung ist morgen fertig." }
+  ]},
+  { id: "v566", word: "グループ", reading: "グループ", meaning: "Gruppe", pos: "Nomen", level: "adv", examples: [
+    { jp: "グループで勉強します。", reading: "グループでべんきょうします。", de: "Wir lernen in der Gruppe." },
+    { jp: "三つのグループに分かれます。", reading: "みっつのグループにわかれます。", de: "Wir teilen uns in drei Gruppen auf." }
+  ]},
+  { id: "v567", word: "くれる", reading: "くれる", meaning: "geben (mir/uns)", pos: "Verb (Ichidan)", level: "easy", examples: [
+    { jp: "友達が本をくれました。", reading: "ともだちがほんをくれました。", de: "Ein Freund hat mir ein Buch gegeben." },
+    { jp: "父が時計をくれました。", reading: "ちちがとけいをくれました。", de: "Mein Vater hat mir eine Uhr geschenkt." }
+  ]},
+  { id: "v568", word: "黒", reading: "くろ", meaning: "Schwarz (Farbe)", pos: "Nomen", level: "easy", examples: [
+    { jp: "黒が好きです。", reading: "くろがすきです。", de: "Ich mag Schwarz." },
+    { jp: "黒のかばんを買いました。", reading: "くろのかばんをかいました。", de: "Ich habe eine schwarze Tasche gekauft." }
+  ]},
+  { id: "v569", word: "黒い", reading: "くろい", meaning: "schwarz", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "黒いくつをはいています。", reading: "くろいくつをはいています。", de: "Ich trage schwarze Schuhe." },
+    { jp: "黒い猫がいます。", reading: "くろいねこがいます。", de: "Da ist eine schwarze Katze." }
+  ]},
+  { id: "v570", word: "詳しい", reading: "くわしい", meaning: "genau, ausführlich", pos: "i-Adjektiv", level: "adv", examples: [
+    { jp: "詳しく説明してください。", reading: "くわしくせつめいしてください。", de: "Erklären Sie es bitte ausführlich." },
+    { jp: "彼は歴史に詳しいです。", reading: "かれはれきしにくわしいです。", de: "Er kennt sich gut mit Geschichte aus." }
+  ]},
+  { id: "v571", word: "警官", reading: "けいかん", meaning: "Polizist", pos: "Nomen", level: "adv", examples: [
+    { jp: "警官に道を聞きました。", reading: "けいかんにみちをききました。", de: "Ich habe einen Polizisten nach dem Weg gefragt." },
+    { jp: "駅の前に警官がいます。", reading: "えきのまえにけいかんがいます。", de: "Vor dem Bahnhof steht ein Polizist." }
+  ]},
+  { id: "v572", word: "警察", reading: "けいさつ", meaning: "Polizei", pos: "Nomen", level: "adv", examples: [
+    { jp: "警察に電話しました。", reading: "けいさつにでんわしました。", de: "Ich habe die Polizei angerufen." },
+    { jp: "警察はどこですか。", reading: "けいさつはどこですか。", de: "Wo ist die Polizei?" }
+  ]},
+  { id: "v573", word: "けが", reading: "けが", meaning: "Verletzung", pos: "Nomen", level: "adv", examples: [
+    { jp: "足のけがは大丈夫ですか。", reading: "あしのけがはだいじょうぶですか。", de: "Ist die Verletzung am Bein in Ordnung?" },
+    { jp: "大きなけがではありません。", reading: "おおきなけがではありません。", de: "Es ist keine schwere Verletzung." }
+  ]},
+  { id: "v574", word: "けがをする", reading: "けがをする", meaning: "sich verletzen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "転んでけがをしました。", reading: "ころんでけがをしました。", de: "Ich bin gestürzt und habe mich verletzt." },
+    { jp: "けがをしないように気をつけます。", reading: "けがをしないようにきをつけます。", de: "Ich passe auf, mich nicht zu verletzen." }
+  ]},
+  { id: "v575", word: "結果", reading: "けっか", meaning: "Ergebnis", pos: "Nomen", level: "adv", examples: [
+    { jp: "試験の結果が出ました。", reading: "しけんのけっかがでました。", de: "Das Prüfungsergebnis ist da." },
+    { jp: "結果はよかったです。", reading: "けっかはよかったです。", de: "Das Ergebnis war gut." }
+  ]},
+  { id: "v576", word: "けっこうな", reading: "けっこうな", meaning: "in Ordnung, gut / genug", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "けっこうなお茶ですね。", reading: "けっこうなおちゃですね。", de: "Das ist ein feiner Tee." },
+    { jp: "もうけっこうです。", reading: "もうけっこうです。", de: "Danke, das reicht schon." }
+  ]},
+  { id: "v577", word: "結婚", reading: "けっこん", meaning: "Heirat, Hochzeit", pos: "Nomen", level: "easy", examples: [
+    { jp: "来年結婚します。", reading: "らいねんけっこんします。", de: "Nächstes Jahr heirate ich." },
+    { jp: "結婚おめでとうございます。", reading: "けっこんおめでとうございます。", de: "Herzlichen Glückwunsch zur Hochzeit." }
+  ]},
+  { id: "v578", word: "結婚式", reading: "けっこんしき", meaning: "Hochzeitsfeier", pos: "Nomen", level: "adv", examples: [
+    { jp: "友達の結婚式に行きます。", reading: "ともだちのけっこんしきにいきます。", de: "Ich gehe zur Hochzeit eines Freundes." },
+    { jp: "結婚式はとてもきれいでした。", reading: "けっこんしきはとてもきれいでした。", de: "Die Hochzeit war sehr schön." }
+  ]},
+  { id: "v579", word: "券", reading: "けん", meaning: "Ticket, Eintrittskarte", pos: "Nomen", level: "adv", examples: [
+    { jp: "映画の券を二枚買いました。", reading: "えいがのけんをにまいかいました。", de: "Ich habe zwei Kinotickets gekauft." },
+    { jp: "この券を見せてください。", reading: "このけんをみせてください。", de: "Zeigen Sie bitte dieses Ticket." }
+  ]},
+  { id: "v580", word: "けんか", reading: "けんか", meaning: "Streit", pos: "Nomen", level: "adv", examples: [
+    { jp: "友達とけんかをしました。", reading: "ともだちとけんかをしました。", de: "Ich hatte Streit mit einem Freund." },
+    { jp: "けんかはよくないです。", reading: "けんかはよくないです。", de: "Streit ist nicht gut." }
+  ]},
+  { id: "v581", word: "玄関", reading: "げんかん", meaning: "Eingang, Haustür", pos: "Nomen", level: "adv", examples: [
+    { jp: "玄関でくつを脱ぎます。", reading: "げんかんでくつをぬぎます。", de: "Am Eingang ziehe ich die Schuhe aus." },
+    { jp: "玄関に花があります。", reading: "げんかんにはながあります。", de: "Am Eingang stehen Blumen." }
+  ]},
+  { id: "v582", word: "元気な", reading: "げんきな", meaning: "gesund, munter", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "祖母は元気です。", reading: "そぼはげんきです。", de: "Meine Großmutter ist gesund." },
+    { jp: "元気な子供ですね。", reading: "げんきなこどもですね。", de: "Was für ein munteres Kind." }
+  ]},
+  { id: "v583", word: "研究", reading: "けんきゅう", meaning: "Forschung", pos: "Nomen", level: "adv", examples: [
+    { jp: "大学で日本語を研究しています。", reading: "だいがくでにほんごをけんきゅうしています。", de: "An der Uni erforsche ich Japanisch." },
+    { jp: "これは大切な研究です。", reading: "これはたいせつなけんきゅうです。", de: "Das ist eine wichtige Forschung." }
+  ]},
+  { id: "v584", word: "健康", reading: "けんこう", meaning: "Gesundheit", pos: "Nomen", level: "adv", examples: [
+    { jp: "健康が一番大切です。", reading: "けんこうがいちばんたいせつです。", de: "Gesundheit ist am wichtigsten." },
+    { jp: "健康のために運動します。", reading: "けんこうのためにうんどうします。", de: "Für die Gesundheit treibe ich Sport." }
+  ]},
+  { id: "v585", word: "見物", reading: "けんぶつ", meaning: "Besichtigung", pos: "Nomen", level: "adv", examples: [
+    { jp: "京都を見物します。", reading: "きょうとをけんぶつします。", de: "Ich besichtige Kyōto." },
+    { jp: "お祭りを見物しました。", reading: "おまつりをけんぶつしました。", de: "Ich habe mir das Fest angesehen." }
+  ]},
+  { id: "v586", word: "子", reading: "こ", meaning: "Kind", pos: "Nomen", level: "easy", examples: [
+    { jp: "あの子はかわいいです。", reading: "あのこはかわいいです。", de: "Das Kind dort ist süß." },
+    { jp: "女の子が三人います。", reading: "おんなのこがさんにんいます。", de: "Dort sind drei Mädchen." }
+  ]},
+  { id: "v587", word: "合格", reading: "ごうかく", meaning: "das Bestehen (Prüfung)", pos: "Nomen", level: "adv", examples: [
+    { jp: "試験の合格を祈ります。", reading: "しけんのごうかくをいのります。", de: "Ich drücke die Daumen fürs Bestehen." },
+    { jp: "合格おめでとうございます。", reading: "ごうかくおめでとうございます。", de: "Glückwunsch zum Bestehen." }
+  ]},
+  { id: "v588", word: "合格する", reading: "ごうかくする", meaning: "eine Prüfung bestehen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "大学に合格しました。", reading: "だいがくにごうかくしました。", de: "Ich habe die Uni-Aufnahmeprüfung bestanden." },
+    { jp: "試験に合格したいです。", reading: "しけんにごうかくしたいです。", de: "Ich möchte die Prüfung bestehen." }
+  ]},
+  { id: "v589", word: "高校", reading: "こうこう", meaning: "Oberschule, Gymnasium", pos: "Nomen", level: "adv", examples: [
+    { jp: "妹は高校の学生です。", reading: "いもうとはこうこうのがくせいです。", de: "Meine Schwester ist Oberschülerin." },
+    { jp: "高校で英語を教えています。", reading: "こうこうでえいごをおしえています。", de: "Ich unterrichte Englisch an der Oberschule." }
+  ]},
+  { id: "v590", word: "交差点", reading: "こうさてん", meaning: "Kreuzung", pos: "Nomen", level: "adv", examples: [
+    { jp: "次の交差点を右に曲がります。", reading: "つぎのこうさてんをみぎにまがります。", de: "An der nächsten Kreuzung biege ich rechts ab." },
+    { jp: "交差点で信号を待ちます。", reading: "こうさてんでしんごうをまちます。", de: "An der Kreuzung warte ich auf die Ampel." }
+  ]},
+  { id: "v591", word: "交通", reading: "こうつう", meaning: "Verkehr", pos: "Nomen", level: "adv", examples: [
+    { jp: "この町は交通が便利です。", reading: "このまちはこうつうがべんりです。", de: "In dieser Stadt ist der Verkehr praktisch." },
+    { jp: "朝は交通が多いです。", reading: "あさはこうつうがおおいです。", de: "Morgens ist viel Verkehr." }
+  ]},
+  { id: "v592", word: "交番", reading: "こうばん", meaning: "Polizeihäuschen (Kōban)", pos: "Nomen", level: "adv", examples: [
+    { jp: "交番で道を聞きました。", reading: "こうばんでみちをききました。", de: "Ich habe im Kōban nach dem Weg gefragt." },
+    { jp: "駅の前に交番があります。", reading: "えきのまえにこうばんがあります。", de: "Vor dem Bahnhof ist ein Polizeihäuschen." }
+  ]},
+  { id: "v593", word: "声", reading: "こえ", meaning: "Stimme", pos: "Nomen", level: "easy", examples: [
+    { jp: "彼女は声がきれいです。", reading: "かのじょはこえがきれいです。", de: "Sie hat eine schöne Stimme." },
+    { jp: "大きい声で話してください。", reading: "おおきいこえではなしてください。", de: "Sprechen Sie bitte mit lauter Stimme." }
+  ]},
+  { id: "v594", word: "コーチ", reading: "コーチ", meaning: "Trainer, Coach", pos: "Nomen", level: "adv", examples: [
+    { jp: "テニスのコーチに習います。", reading: "テニスのコーチにならいます。", de: "Ich lerne beim Tennistrainer." },
+    { jp: "コーチはとても厳しいです。", reading: "コーチはとてもきびしいです。", de: "Der Trainer ist sehr streng." }
+  ]},
+  { id: "v595", word: "コート", reading: "コート", meaning: "Mantel", pos: "Nomen", level: "easy", examples: [
+    { jp: "冬にコートを着ます。", reading: "ふゆにコートをきます。", de: "Im Winter trage ich einen Mantel." },
+    { jp: "新しいコートを買いました。", reading: "あたらしいコートをかいました。", de: "Ich habe einen neuen Mantel gekauft." }
+  ]},
+  { id: "v596", word: "国際的な", reading: "こくさいてきな", meaning: "international", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "国際的な会議に出ます。", reading: "こくさいてきなかいぎにでます。", de: "Ich nehme an einer internationalen Konferenz teil." },
+    { jp: "東京は国際的な町です。", reading: "とうきょうはこくさいてきなまちです。", de: "Tōkyō ist eine internationale Stadt." }
+  ]},
+  { id: "v597", word: "ここ", reading: "ここ", meaning: "hier", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "ここに座ってください。", reading: "ここにすわってください。", de: "Setzen Sie sich bitte hierher." },
+    { jp: "ここは私の部屋です。", reading: "ここはわたしのへやです。", de: "Das hier ist mein Zimmer." }
+  ]},
+  { id: "v598", word: "ご主人", reading: "ごしゅじん", meaning: "Ehemann (eines anderen)", pos: "Nomen", level: "adv", examples: [
+    { jp: "ご主人はお元気ですか。", reading: "ごしゅじんはおげんきですか。", de: "Geht es Ihrem Mann gut?" },
+    { jp: "ご主人によろしく。", reading: "ごしゅじんによろしく。", de: "Grüßen Sie Ihren Mann von mir." }
+  ]},
+  { id: "v599", word: "ごちそうさま", reading: "ごちそうさま", meaning: "Danke für das Essen", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "ごちそうさまでした。", reading: "ごちそうさまでした。", de: "Danke für das Essen." },
+    { jp: "おいしかったです、ごちそうさま。", reading: "おいしかったです、ごちそうさま。", de: "Es war lecker, danke fürs Essen." }
+  ]},
+  { id: "v600", word: "こちら", reading: "こちら", meaning: "dies hier / diese Person (höflich)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "こちらへどうぞ。", reading: "こちらへどうぞ。", de: "Hier entlang, bitte." },
+    { jp: "こちらは田中さんです。", reading: "こちらはたなかさんです。", de: "Das hier ist Herr Tanaka." }
+  ]},
+  { id: "v601", word: "コップ", reading: "コップ", meaning: "Becher, Glas", pos: "Nomen", level: "easy", examples: [
+    { jp: "コップに水を入れます。", reading: "コップにみずをいれます。", de: "Ich fülle Wasser ins Glas." },
+    { jp: "コップを二つください。", reading: "コップをふたつください。", de: "Bitte zwei Gläser." }
+  ]},
+  { id: "v602", word: "こと", reading: "こと", meaning: "Sache, Angelegenheit", pos: "Nomen", level: "easy", examples: [
+    { jp: "大切なことを話します。", reading: "たいせつなことをはなします。", de: "Ich spreche über eine wichtige Sache." },
+    { jp: "そのことは知りません。", reading: "そのことはしりません。", de: "Davon weiß ich nichts." }
+  ]},
+  { id: "v603", word: "この", reading: "この", meaning: "diese(r/s) (hier)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "この本はおもしろいです。", reading: "このほんはおもしろいです。", de: "Dieses Buch ist interessant." },
+    { jp: "このかばんは私のです。", reading: "このかばんはわたしのです。", de: "Diese Tasche gehört mir." }
+  ]},
+  { id: "v604", word: "コピー", reading: "コピー", meaning: "Kopie", pos: "Nomen", level: "adv", examples: [
+    { jp: "書類をコピーします。", reading: "しょるいをコピーします。", de: "Ich kopiere die Unterlagen." },
+    { jp: "コピーを三枚ください。", reading: "コピーをさんまいください。", de: "Bitte drei Kopien." }
+  ]},
+  { id: "v605", word: "ごみ", reading: "ごみ", meaning: "Müll, Abfall", pos: "Nomen", level: "easy", examples: [
+    { jp: "ごみを捨てます。", reading: "ごみをすてます。", de: "Ich werfe den Müll weg." },
+    { jp: "ここにごみを置かないでください。", reading: "ここにごみをおかないでください。", de: "Legen Sie hier bitte keinen Müll ab." }
+  ]},
+  { id: "v606", word: "ごみばこ", reading: "ごみばこ", meaning: "Mülleimer", pos: "Nomen", level: "adv", examples: [
+    { jp: "ごみをごみばこに入れます。", reading: "ごみをごみばこにいれます。", de: "Ich werfe den Müll in den Mülleimer." },
+    { jp: "ごみばこはあそこです。", reading: "ごみばこはあそこです。", de: "Der Mülleimer ist dort." }
+  ]},
+  { id: "v607", word: "混む", reading: "こむ", meaning: "voll / überfüllt sein", pos: "Verb (Godan, む)", level: "adv", examples: [
+    { jp: "朝の電車は混みます。", reading: "あさのでんしゃはこみます。", de: "Der Zug am Morgen ist voll." },
+    { jp: "店が混んでいます。", reading: "みせがこんでいます。", de: "Der Laden ist überfüllt." }
+  ]},
+  { id: "v608", word: "ご両親", reading: "ごりょうしん", meaning: "Eltern (eines anderen)", pos: "Nomen", level: "adv", examples: [
+    { jp: "ご両親はお元気ですか。", reading: "ごりょうしんはおげんきですか。", de: "Geht es Ihren Eltern gut?" },
+    { jp: "ご両親によろしくお伝えください。", reading: "ごりょうしんによろしくおつたえください。", de: "Grüßen Sie bitte Ihre Eltern." }
+  ]},
+  { id: "v609", word: "ゴルフ", reading: "ゴルフ", meaning: "Golf", pos: "Nomen", level: "adv", examples: [
+    { jp: "日曜日にゴルフをします。", reading: "にちようびにゴルフをします。", de: "Sonntags spiele ich Golf." },
+    { jp: "父はゴルフが好きです。", reading: "ちちはゴルフがすきです。", de: "Mein Vater mag Golf." }
+  ]},
+  { id: "v610", word: "これ", reading: "これ", meaning: "dies (hier)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "これは何ですか。", reading: "これはなんですか。", de: "Was ist das?" },
+    { jp: "これをください。", reading: "これをください。", de: "Das hier bitte." }
+  ]},
+  { id: "v611", word: "これから", reading: "これから", meaning: "ab jetzt, von nun an", pos: "Adverb", level: "adv", examples: [
+    { jp: "これから勉強します。", reading: "これからべんきょうします。", de: "Ab jetzt lerne ich." },
+    { jp: "これからどうしますか。", reading: "これからどうしますか。", de: "Was machen wir jetzt?" }
+  ]},
+  { id: "v612", word: "ごろ", reading: "ごろ", meaning: "ungefähr, gegen (Zeitpunkt)", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "七時ごろ家を出ます。", reading: "しちじごろいえをでます。", de: "Gegen sieben Uhr verlasse ich das Haus." },
+    { jp: "十二時ごろ昼ごはんを食べます。", reading: "じゅうにじごろひるごはんをたべます。", de: "Gegen zwölf esse ich zu Mittag." }
+  ]},
+  { id: "v613", word: "コンサート", reading: "コンサート", meaning: "Konzert", pos: "Nomen", level: "easy", examples: [
+    { jp: "土曜日にコンサートに行きます。", reading: "どようびにコンサートにいきます。", de: "Am Samstag gehe ich ins Konzert." },
+    { jp: "コンサートはとてもよかったです。", reading: "コンサートはとてもよかったです。", de: "Das Konzert war sehr gut." }
+  ]},
+  { id: "v614", word: "今度", reading: "こんど", meaning: "nächstes Mal / demnächst", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "今度一緒に食事しましょう。", reading: "こんどいっしょにしょくじしましょう。", de: "Lass uns nächstes Mal zusammen essen." },
+    { jp: "今度の日曜日は暇です。", reading: "こんどのにちようびはひまです。", de: "Nächsten Sonntag habe ich Zeit." }
+  ]},
+  { id: "v615", word: "こんな", reading: "こんな", meaning: "so ein, solche(r/s)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "こんな店は初めてです。", reading: "こんなみせははじめてです。", de: "In so einem Laden war ich zum ersten Mal." },
+    { jp: "こんな時どうしますか。", reading: "こんなときどうしますか。", de: "Was macht man in so einem Fall?" }
+  ]},
+  { id: "v616", word: "コンビニ", reading: "コンビニ", meaning: "Konbini (24-Stunden-Laden)", pos: "Nomen", level: "easy", examples: [
+    { jp: "コンビニで飲み物を買います。", reading: "コンビニでのみものをかいます。", de: "Ich kaufe Getränke im Konbini." },
+    { jp: "コンビニは駅の近くにあります。", reading: "コンビニはえきのちかくにあります。", de: "Der Konbini ist beim Bahnhof." }
+  ]},
+  { id: "v617", word: "コンピューター", reading: "コンピューター", meaning: "Computer", pos: "Nomen", level: "easy", examples: [
+    { jp: "コンピューターで仕事をします。", reading: "コンピューターでしごとをします。", de: "Ich arbeite am Computer." },
+    { jp: "新しいコンピューターがほしいです。", reading: "あたらしいコンピューターがほしいです。", de: "Ich hätte gern einen neuen Computer." }
+  ]},
+  { id: "v618", word: "サービス", reading: "サービス", meaning: "Service, Bedienung", pos: "Nomen", level: "adv", examples: [
+    { jp: "この店はサービスがいいです。", reading: "このみせはサービスがいいです。", de: "Dieser Laden hat guten Service." },
+    { jp: "サービスで飲み物をもらいました。", reading: "サービスでのみものをもらいました。", de: "Als Extra habe ich ein Getränk bekommen." }
+  ]},
+  { id: "v619", word: "最近", reading: "さいきん", meaning: "in letzter Zeit, kürzlich", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "最近忙しいです。", reading: "さいきんいそがしいです。", de: "In letzter Zeit bin ich beschäftigt." },
+    { jp: "最近日本語を始めました。", reading: "さいきんにほんごをはじめました。", de: "Kürzlich habe ich mit Japanisch angefangen." }
+  ]},
+  { id: "v620", word: "サイズ", reading: "サイズ", meaning: "Größe", pos: "Nomen", level: "adv", examples: [
+    { jp: "このシャツのサイズはMです。", reading: "このシャツのサイズはエムです。", de: "Dieses Hemd hat Größe M." },
+    { jp: "もっと大きいサイズはありますか。", reading: "もっとおおきいサイズはありますか。", de: "Haben Sie eine größere Größe?" }
+  ]},
+  { id: "v621", word: "サイン", reading: "サイン", meaning: "Unterschrift", pos: "Nomen", level: "adv", examples: [
+    { jp: "ここにサインをしてください。", reading: "ここにサインをしてください。", de: "Unterschreiben Sie bitte hier." },
+    { jp: "有名人のサインをもらいました。", reading: "ゆうめいじんのサインをもらいました。", de: "Ich habe ein Autogramm bekommen." }
+  ]},
+  { id: "v622", word: "サウナ", reading: "サウナ", meaning: "Sauna", pos: "Nomen", level: "adv", examples: [
+    { jp: "サウナで汗をかきます。", reading: "サウナであせをかきます。", de: "In der Sauna schwitze ich." },
+    { jp: "運動の後でサウナに入ります。", reading: "うんどうのあとでサウナにはいります。", de: "Nach dem Sport gehe ich in die Sauna." }
+  ]},
+  { id: "v623", word: "魚屋", reading: "さかなや", meaning: "Fischgeschäft", pos: "Nomen", level: "adv", examples: [
+    { jp: "魚屋で魚を買います。", reading: "さかなやでさかなをかいます。", de: "Ich kaufe Fisch im Fischgeschäft." },
+    { jp: "魚屋は市場の中にあります。", reading: "さかなやはいちばのなかにあります。", de: "Das Fischgeschäft ist im Markt." }
+  ]},
+  { id: "v624", word: "先", reading: "さき", meaning: "voraus, vorher / Spitze", pos: "Nomen", level: "adv", examples: [
+    { jp: "お先にどうぞ。", reading: "おさきにどうぞ。", de: "Gehen Sie bitte vor." },
+    { jp: "先に帰ります。", reading: "さきにかえります。", de: "Ich gehe schon mal nach Hause." }
+  ]},
+  { id: "v625", word: "桜", reading: "さくら", meaning: "Kirschblüte", pos: "Nomen", level: "adv", examples: [
+    { jp: "春に桜が咲きます。", reading: "はるにさくらがさきます。", de: "Im Frühling blühen die Kirschblüten." },
+    { jp: "桜がとてもきれいです。", reading: "さくらがとてもきれいです。", de: "Die Kirschblüten sind sehr schön." }
+  ]},
+  { id: "v626", word: "座席", reading: "ざせき", meaning: "Sitzplatz", pos: "Nomen", level: "adv", examples: [
+    { jp: "座席を予約しました。", reading: "ざせきをよやくしました。", de: "Ich habe einen Sitzplatz reserviert." },
+    { jp: "窓側の座席がいいです。", reading: "まどがわのざせきがいいです。", de: "Ich hätte gern einen Fensterplatz." }
+  ]},
+  { id: "v627", word: "サラダ", reading: "サラダ", meaning: "Salat", pos: "Nomen", level: "easy", examples: [
+    { jp: "野菜のサラダを作ります。", reading: "やさいのサラダをつくります。", de: "Ich mache einen Gemüsesalat." },
+    { jp: "毎日サラダを食べます。", reading: "まいにちサラダをたべます。", de: "Ich esse jeden Tag Salat." }
+  ]},
+  { id: "v628", word: "サングラス", reading: "サングラス", meaning: "Sonnenbrille", pos: "Nomen", level: "adv", examples: [
+    { jp: "夏にサングラスをかけます。", reading: "なつにサングラスをかけます。", de: "Im Sommer trage ich eine Sonnenbrille." },
+    { jp: "新しいサングラスを買いました。", reading: "あたらしいサングラスをかいました。", de: "Ich habe eine neue Sonnenbrille gekauft." }
+  ]},
+  { id: "v629", word: "サンドイッチ", reading: "サンドイッチ", meaning: "Sandwich", pos: "Nomen", level: "easy", examples: [
+    { jp: "昼ごはんにサンドイッチを食べます。", reading: "ひるごはんにサンドイッチをたべます。", de: "Zum Mittag esse ich ein Sandwich." },
+    { jp: "サンドイッチを二つ作りました。", reading: "サンドイッチをふたつつくりました。", de: "Ich habe zwei Sandwiches gemacht." }
+  ]},
+  { id: "v630", word: "残念", reading: "ざんねん", meaning: "schade, bedauerlich", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "行けなくて残念です。", reading: "いけなくてざんねんです。", de: "Schade, dass ich nicht kommen kann." },
+    { jp: "残念ですが、また今度。", reading: "ざんねんですが、またこんど。", de: "Schade, aber dann ein andermal." }
+  ]},
+  { id: "v631", word: "散歩", reading: "さんぽ", meaning: "Spaziergang", pos: "Nomen", level: "easy", examples: [
+    { jp: "朝、公園を散歩します。", reading: "あさ、こうえんをさんぽします。", de: "Morgens spaziere ich im Park." },
+    { jp: "犬と散歩に行きます。", reading: "いぬとさんぽにいきます。", de: "Ich gehe mit dem Hund spazieren." }
+  ]},
+  { id: "v632", word: "しかし", reading: "しかし", meaning: "aber, jedoch", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "行きたいです。しかし、時間がありません。", reading: "いきたいです。しかし、じかんがありません。", de: "Ich möchte gehen. Aber ich habe keine Zeit." },
+    { jp: "安いです。しかし、あまりよくありません。", reading: "やすいです。しかし、あまりよくありません。", de: "Es ist günstig. Aber nicht sehr gut." }
+  ]},
+  { id: "v633", word: "試験", reading: "しけん", meaning: "Prüfung", pos: "Nomen", level: "easy", examples: [
+    { jp: "明日、日本語の試験があります。", reading: "あした、にほんごのしけんがあります。", de: "Morgen habe ich eine Japanisch-Prüfung." },
+    { jp: "試験のために勉強します。", reading: "しけんのためにべんきょうします。", de: "Ich lerne für die Prüfung." }
+  ]},
+  { id: "v634", word: "静かな", reading: "しずかな", meaning: "ruhig, still", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "この町は静かです。", reading: "このまちはしずかです。", de: "Diese Stadt ist ruhig." },
+    { jp: "静かにしてください。", reading: "しずかにしてください。", de: "Seien Sie bitte leise." }
+  ]},
+  { id: "v635", word: "システム", reading: "システム", meaning: "System", pos: "Nomen", level: "adv", examples: [
+    { jp: "新しいシステムを使います。", reading: "あたらしいシステムをつかいます。", de: "Ich benutze ein neues System." },
+    { jp: "このシステムは便利です。", reading: "このシステムはべんりです。", de: "Dieses System ist praktisch." }
+  ]},
+  { id: "v636", word: "自然", reading: "しぜん", meaning: "Natur", pos: "Nomen", level: "adv", examples: [
+    { jp: "田舎は自然が多いです。", reading: "いなかはしぜんがおおいです。", de: "Auf dem Land gibt es viel Natur." },
+    { jp: "自然の中を歩きます。", reading: "しぜんのなかをあるきます。", de: "Ich spaziere in der Natur." }
+  ]},
+  { id: "v637", word: "下", reading: "した", meaning: "unter, unten", pos: "Nomen", level: "easy", examples: [
+    { jp: "机の下に猫がいます。", reading: "つくえのしたにねこがいます。", de: "Unter dem Tisch ist eine Katze." },
+    { jp: "木の下で待ちます。", reading: "きのしたでまちます。", de: "Ich warte unter dem Baum." }
+  ]},
+  { id: "v638", word: "親しい", reading: "したしい", meaning: "eng befreundet, vertraut", pos: "i-Adjektiv", level: "adv", examples: [
+    { jp: "彼とは親しいです。", reading: "かれとはしたしいです。", de: "Mit ihm bin ich eng befreundet." },
+    { jp: "親しい友達と旅行します。", reading: "したしいともだちとりょこうします。", de: "Ich verreise mit einem engen Freund." }
+  ]},
+  { id: "v639", word: "失敗する", reading: "しっぱいする", meaning: "scheitern, Fehler machen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "試験に失敗しました。", reading: "しけんにしっぱいしました。", de: "Ich bin bei der Prüfung durchgefallen." },
+    { jp: "失敗しても大丈夫です。", reading: "しっぱいしてもだいじょうぶです。", de: "Auch wenn man scheitert, ist es in Ordnung." }
+  ]},
+  { id: "v640", word: "死ぬ", reading: "しぬ", meaning: "sterben", pos: "Verb (Godan, ぬ)", level: "adv", examples: [
+    { jp: "祖父は去年死にました。", reading: "そふはきょねんしにました。", de: "Mein Großvater ist letztes Jahr gestorben." },
+    { jp: "この花は水がないと死にます。", reading: "このはなはみずがないとしにます。", de: "Diese Blume stirbt ohne Wasser." }
+  ]},
+  { id: "v641", word: "芝居", reading: "しばい", meaning: "Theaterstück", pos: "Nomen", level: "adv", examples: [
+    { jp: "友達と芝居を見に行きます。", reading: "ともだちとしばいをみにいきます。", de: "Ich gehe mit einem Freund ins Theater." },
+    { jp: "その芝居は有名です。", reading: "そのしばいはゆうめいです。", de: "Dieses Theaterstück ist berühmt." }
+  ]},
+  { id: "v642", word: "自分", reading: "じぶん", meaning: "man selbst, selbst", pos: "Nomen", level: "adv", examples: [
+    { jp: "自分で作りました。", reading: "じぶんでつくりました。", de: "Ich habe es selbst gemacht." },
+    { jp: "自分の部屋を掃除します。", reading: "じぶんのへやをそうじします。", de: "Ich putze mein eigenes Zimmer." }
+  ]},
+  { id: "v643", word: "島", reading: "しま", meaning: "Insel", pos: "Nomen", level: "adv", examples: [
+    { jp: "夏に小さい島へ行きます。", reading: "なつにちいさいしまへいきます。", de: "Im Sommer fahre ich auf eine kleine Insel." },
+    { jp: "日本は島の国です。", reading: "にほんはしまのくにです。", de: "Japan ist ein Inselland." }
+  ]},
+  { id: "v644", word: "ジム", reading: "ジム", meaning: "Fitnessstudio, Sporthalle", pos: "Nomen", level: "adv", examples: [
+    { jp: "毎週ジムに行きます。", reading: "まいしゅうジムにいきます。", de: "Jede Woche gehe ich ins Fitnessstudio." },
+    { jp: "ジムで運動します。", reading: "ジムでうんどうします。", de: "Ich trainiere im Fitnessstudio." }
+  ]},
+  { id: "v645", word: "事務所", reading: "じむしょ", meaning: "Büro", pos: "Nomen", level: "adv", examples: [
+    { jp: "事務所は二階にあります。", reading: "じむしょはにかいにあります。", de: "Das Büro ist im ersten Stock." },
+    { jp: "事務所で電話を受けます。", reading: "じむしょででんわをうけます。", de: "Ich nehme im Büro Anrufe entgegen." }
+  ]},
+  { id: "v646", word: "ジャケット", reading: "ジャケット", meaning: "Jacke", pos: "Nomen", level: "adv", examples: [
+    { jp: "青いジャケットを着ます。", reading: "あおいジャケットをきます。", de: "Ich trage eine blaue Jacke." },
+    { jp: "ジャケットを脱ぎます。", reading: "ジャケットをぬぎます。", de: "Ich ziehe die Jacke aus." }
+  ]},
+  { id: "v647", word: "シャツ", reading: "シャツ", meaning: "Hemd", pos: "Nomen", level: "easy", examples: [
+    { jp: "白いシャツを着ています。", reading: "しろいシャツをきています。", de: "Ich trage ein weißes Hemd." },
+    { jp: "シャツを洗います。", reading: "シャツをあらいます。", de: "Ich wasche das Hemd." }
+  ]},
+  { id: "v648", word: "シャワー", reading: "シャワー", meaning: "Dusche", pos: "Nomen", level: "easy", examples: [
+    { jp: "朝、シャワーを浴びます。", reading: "あさ、シャワーをあびます。", de: "Morgens dusche ich." },
+    { jp: "シャワーは熱いです。", reading: "シャワーはあついです。", de: "Die Dusche ist heiß." }
+  ]},
+  { id: "v649", word: "住所", reading: "じゅうしょ", meaning: "Adresse", pos: "Nomen", level: "adv", examples: [
+    { jp: "ここに住所を書いてください。", reading: "ここにじゅうしょをかいてください。", de: "Schreiben Sie hier bitte Ihre Adresse." },
+    { jp: "住所が変わりました。", reading: "じゅうしょがかわりました。", de: "Meine Adresse hat sich geändert." }
+  ]},
+  { id: "v650", word: "じゅうたい", reading: "じゅうたい", meaning: "Stau", pos: "Nomen", level: "adv", examples: [
+    { jp: "道が渋滞しています。", reading: "みちがじゅうたいしています。", de: "Auf der Straße ist Stau." },
+    { jp: "じゅうたいで遅れました。", reading: "じゅうたいでおくれました。", de: "Wegen des Staus habe ich mich verspätet." }
+  ]},
+  { id: "v651", word: "柔道", reading: "じゅうどう", meaning: "Jūdō", pos: "Nomen", level: "adv", examples: [
+    { jp: "柔道を習っています。", reading: "じゅうどうをならっています。", de: "Ich lerne Jūdō." },
+    { jp: "柔道は日本のスポーツです。", reading: "じゅうどうはにほんのスポーツです。", de: "Jūdō ist ein japanischer Sport." }
+  ]},
+  { id: "v652", word: "授業", reading: "じゅぎょう", meaning: "Unterricht", pos: "Nomen", level: "adv", examples: [
+    { jp: "九時に授業が始まります。", reading: "くじにじゅぎょうがはじまります。", de: "Um neun Uhr beginnt der Unterricht." },
+    { jp: "今日は授業が三つあります。", reading: "きょうはじゅぎょうがみっつあります。", de: "Heute habe ich drei Unterrichtsstunden." }
+  ]},
+  { id: "v653", word: "主人", reading: "しゅじん", meaning: "(mein) Ehemann", pos: "Nomen", level: "adv", examples: [
+    { jp: "主人は会社員です。", reading: "しゅじんはかいしゃいんです。", de: "Mein Mann ist Angestellter." },
+    { jp: "主人と旅行します。", reading: "しゅじんとりょこうします。", de: "Ich verreise mit meinem Mann." }
+  ]},
+  { id: "v654", word: "出発", reading: "しゅっぱつ", meaning: "Abfahrt, Abreise", pos: "Nomen", level: "adv", examples: [
+    { jp: "出発は朝八時です。", reading: "しゅっぱつはあさはちじです。", de: "Die Abfahrt ist um acht Uhr morgens." },
+    { jp: "出発の時間を教えてください。", reading: "しゅっぱつのじかんをおしえてください。", de: "Sagen Sie mir bitte die Abfahrtszeit." }
+  ]},
+  { id: "v655", word: "出発する", reading: "しゅっぱつする", meaning: "abfahren, abreisen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "電車は五分後に出発します。", reading: "でんしゃはごふんごにしゅっぱつします。", de: "Der Zug fährt in fünf Minuten ab." },
+    { jp: "明日、日本に出発します。", reading: "あした、にほんにしゅっぱつします。", de: "Morgen reise ich nach Japan ab." }
+  ]},
+  { id: "v656", word: "紹介する", reading: "しょうかいする", meaning: "vorstellen (jemanden)", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "友達を紹介します。", reading: "ともだちをしょうかいします。", de: "Ich stelle meinen Freund vor." },
+    { jp: "自己紹介をしてください。", reading: "じこしょうかいをしてください。", de: "Stellen Sie sich bitte vor." }
+  ]},
+  { id: "v657", word: "少々", reading: "しょうしょう", meaning: "ein wenig, einen Moment", pos: "Adverb", level: "adv", examples: [
+    { jp: "少々お待ちください。", reading: "しょうしょうおまちください。", de: "Einen Moment bitte." },
+    { jp: "塩を少々入れます。", reading: "しおをしょうしょういれます。", de: "Ich gebe ein wenig Salz dazu." }
+  ]},
+  { id: "v658", word: "上手な", reading: "じょうずな", meaning: "geschickt, gut (können)", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "彼は料理が上手です。", reading: "かれはりょうりがじょうずです。", de: "Er kocht gut." },
+    { jp: "日本語が上手ですね。", reading: "にほんごがじょうずですね。", de: "Sie können gut Japanisch." }
+  ]},
+  { id: "v659", word: "招待する", reading: "しょうたいする", meaning: "einladen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "友達をパーティーに招待します。", reading: "ともだちをパーティーにしょうたいします。", de: "Ich lade Freunde zur Party ein." },
+    { jp: "結婚式に招待されました。", reading: "けっこんしきにしょうたいされました。", de: "Ich wurde zur Hochzeit eingeladen." }
+  ]},
+  { id: "v660", word: "食事", reading: "しょくじ", meaning: "Mahlzeit, Essen", pos: "Nomen", level: "easy", examples: [
+    { jp: "一緒に食事しましょう。", reading: "いっしょにしょくじしましょう。", de: "Lass uns zusammen essen." },
+    { jp: "食事の後で薬を飲みます。", reading: "しょくじのあとでくすりをのみます。", de: "Nach dem Essen nehme ich Medizin." }
+  ]},
+  { id: "v661", word: "食堂", reading: "しょくどう", meaning: "Speisesaal, Kantine", pos: "Nomen", level: "adv", examples: [
+    { jp: "食堂で昼ごはんを食べます。", reading: "しょくどうでひるごはんをたべます。", de: "In der Kantine esse ich zu Mittag." },
+    { jp: "会社の食堂は安いです。", reading: "かいしゃのしょくどうはやすいです。", de: "Die Firmenkantine ist günstig." }
+  ]},
+  { id: "v662", word: "知らせる", reading: "しらせる", meaning: "benachrichtigen, mitteilen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "結果を知らせます。", reading: "けっかをしらせます。", de: "Ich teile das Ergebnis mit." },
+    { jp: "住所が変わったら知らせてください。", reading: "じゅうしょがかわったらしらせてください。", de: "Sagen Sie Bescheid, wenn sich die Adresse ändert." }
+  ]},
+  { id: "v663", word: "白", reading: "しろ", meaning: "Weiß (Farbe)", pos: "Nomen", level: "easy", examples: [
+    { jp: "白が好きです。", reading: "しろがすきです。", de: "Ich mag Weiß." },
+    { jp: "白のシャツを買いました。", reading: "しろのシャツをかいました。", de: "Ich habe ein weißes Hemd gekauft." }
+  ]},
+  { id: "v664", word: "白い", reading: "しろい", meaning: "weiß", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "白い雲が見えます。", reading: "しろいくもがみえます。", de: "Man sieht weiße Wolken." },
+    { jp: "白い犬がいます。", reading: "しろいいぬがいます。", de: "Da ist ein weißer Hund." }
+  ]},
+  { id: "v665", word: "新幹線", reading: "しんかんせん", meaning: "Shinkansen (Schnellzug)", pos: "Nomen", level: "easy", examples: [
+    { jp: "新幹線で大阪へ行きます。", reading: "しんかんせんでおおさかへいきます。", de: "Ich fahre mit dem Shinkansen nach Ōsaka." },
+    { jp: "新幹線はとても速いです。", reading: "しんかんせんはとてもはやいです。", de: "Der Shinkansen ist sehr schnell." }
+  ]},
+  { id: "v666", word: "信号", reading: "しんごう", meaning: "Ampel, Signal", pos: "Nomen", level: "adv", examples: [
+    { jp: "信号が赤です。", reading: "しんごうがあかです。", de: "Die Ampel ist rot." },
+    { jp: "信号を渡ってください。", reading: "しんごうをわたってください。", de: "Überqueren Sie bitte bei der Ampel." }
+  ]},
+  { id: "v667", word: "親切な", reading: "しんせつな", meaning: "freundlich, hilfsbereit", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "駅員は親切です。", reading: "えきいんはしんせつです。", de: "Das Bahnhofspersonal ist freundlich." },
+    { jp: "親切な人に道を教えてもらいました。", reading: "しんせつなひとにみちをおしえてもらいました。", de: "Ein freundlicher Mensch hat mir den Weg gezeigt." }
+  ]},
+  { id: "v668", word: "水泳", reading: "すいえい", meaning: "das Schwimmen", pos: "Nomen", level: "adv", examples: [
+    { jp: "夏に水泳を習います。", reading: "なつにすいえいをならいます。", de: "Im Sommer lerne ich schwimmen." },
+    { jp: "水泳は体にいいです。", reading: "すいえいはからだにいいです。", de: "Schwimmen ist gut für den Körper." }
+  ]},
+  { id: "v669", word: "吸う", reading: "すう", meaning: "(Luft) einatmen / rauchen", pos: "Verb (Godan, う)", level: "adv", examples: [
+    { jp: "ここでたばこを吸わないでください。", reading: "ここでたばこをすわないでください。", de: "Rauchen Sie hier bitte nicht." },
+    { jp: "深く息を吸います。", reading: "ふかくいきをすいます。", de: "Ich atme tief ein." }
+  ]},
+  { id: "v670", word: "スープ", reading: "スープ", meaning: "Suppe", pos: "Nomen", level: "easy", examples: [
+    { jp: "温かいスープを飲みます。", reading: "あたたかいスープをのみます。", de: "Ich esse warme Suppe." },
+    { jp: "スープを作りました。", reading: "スープをつくりました。", de: "Ich habe Suppe gekocht." }
+  ]},
+  { id: "v671", word: "スカーフ", reading: "スカーフ", meaning: "Schal, Halstuch", pos: "Nomen", level: "adv", examples: [
+    { jp: "きれいなスカーフをしています。", reading: "きれいなスカーフをしています。", de: "Sie trägt einen schönen Schal." },
+    { jp: "母にスカーフをあげました。", reading: "ははにスカーフをあげました。", de: "Ich habe meiner Mutter einen Schal geschenkt." }
+  ]},
+  { id: "v672", word: "スキー", reading: "スキー", meaning: "Ski (fahren)", pos: "Nomen", level: "adv", examples: [
+    { jp: "冬に山でスキーをします。", reading: "ふゆにやまでスキーをします。", de: "Im Winter fahre ich in den Bergen Ski." },
+    { jp: "スキーは楽しいです。", reading: "スキーはたのしいです。", de: "Skifahren macht Spaß." }
+  ]},
+  { id: "v673", word: "好きな", reading: "すきな", meaning: "mögen, Lieblings-", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "好きな食べ物は何ですか。", reading: "すきなたべものはなんですか。", de: "Was ist Ihr Lieblingsessen?" },
+    { jp: "音楽が好きです。", reading: "おんがくがすきです。", de: "Ich mag Musik." }
+  ]},
+  { id: "v674", word: "すき焼き", reading: "すきやき", meaning: "Sukiyaki (jap. Gericht)", pos: "Nomen", level: "adv", examples: [
+    { jp: "今晩すき焼きを食べます。", reading: "こんばんすきやきをたべます。", de: "Heute Abend essen wir Sukiyaki." },
+    { jp: "すき焼きはおいしいです。", reading: "すきやきはおいしいです。", de: "Sukiyaki ist lecker." }
+  ]},
+  { id: "v675", word: "すく", reading: "すく", meaning: "leer werden (Bauch, Raum)", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "おなかがすきました。", reading: "おなかがすきました。", de: "Ich habe Hunger bekommen." },
+    { jp: "電車がすいています。", reading: "でんしゃがすいています。", de: "Der Zug ist leer." }
+  ]},
+  { id: "v676", word: "すぐ", reading: "すぐ", meaning: "sofort, gleich", pos: "Adverb", level: "easy", examples: [
+    { jp: "すぐ行きます。", reading: "すぐいきます。", de: "Ich komme sofort." },
+    { jp: "駅はすぐそこです。", reading: "えきはすぐそこです。", de: "Der Bahnhof ist gleich dort." }
+  ]},
+  { id: "v677", word: "すごい", reading: "すごい", meaning: "toll, super, gewaltig", pos: "i-Adjektiv", level: "adv", examples: [
+    { jp: "すごい人ですね。", reading: "すごいひとですね。", de: "Was für eine beeindruckende Person." },
+    { jp: "昨日はすごい雨でした。", reading: "きのうはすごいあめでした。", de: "Gestern gab es heftigen Regen." }
+  ]},
+  { id: "v678", word: "すっぱい", reading: "すっぱい", meaning: "sauer", pos: "i-Adjektiv", level: "adv", examples: [
+    { jp: "このレモンはすっぱいです。", reading: "このレモンはすっぱいです。", de: "Diese Zitrone ist sauer." },
+    { jp: "すっぱい物が好きです。", reading: "すっぱいものがすきです。", de: "Ich mag saure Sachen." }
+  ]},
+  { id: "v679", word: "ステーキ", reading: "ステーキ", meaning: "Steak", pos: "Nomen", level: "adv", examples: [
+    { jp: "レストランでステーキを食べます。", reading: "レストランでステーキをたべます。", de: "Im Restaurant esse ich ein Steak." },
+    { jp: "ステーキを焼きます。", reading: "ステーキをやきます。", de: "Ich brate ein Steak." }
+  ]},
+  { id: "v680", word: "捨てる", reading: "すてる", meaning: "wegwerfen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "古い新聞を捨てます。", reading: "ふるいしんぶんをすてます。", de: "Ich werfe alte Zeitungen weg." },
+    { jp: "ごみをここに捨てないでください。", reading: "ごみをここにすてないでください。", de: "Werfen Sie den Müll nicht hierhin." }
+  ]},
+  { id: "v681", word: "ストーブ", reading: "ストーブ", meaning: "Ofen, Heizofen", pos: "Nomen", level: "adv", examples: [
+    { jp: "冬はストーブをつけます。", reading: "ふゆはストーブをつけます。", de: "Im Winter mache ich den Ofen an." },
+    { jp: "ストーブの前は暖かいです。", reading: "ストーブのまえはあたたかいです。", de: "Vor dem Ofen ist es warm." }
+  ]},
+  { id: "v682", word: "すばらしい", reading: "すばらしい", meaning: "wunderbar, großartig", pos: "i-Adjektiv", level: "adv", examples: [
+    { jp: "すばらしい景色ですね。", reading: "すばらしいけしきですね。", de: "Was für eine wunderbare Aussicht." },
+    { jp: "すばらしいコンサートでした。", reading: "すばらしいコンサートでした。", de: "Es war ein großartiges Konzert." }
+  ]},
+  { id: "v683", word: "スプーン", reading: "スプーン", meaning: "Löffel", pos: "Nomen", level: "easy", examples: [
+    { jp: "スプーンでスープを飲みます。", reading: "スプーンでスープをのみます。", de: "Ich esse die Suppe mit dem Löffel." },
+    { jp: "スプーンを二本ください。", reading: "スプーンをにほんください。", de: "Bitte zwei Löffel." }
+  ]},
+  { id: "v684", word: "スポーツ", reading: "スポーツ", meaning: "Sport", pos: "Nomen", level: "easy", examples: [
+    { jp: "スポーツが好きです。", reading: "スポーツがすきです。", de: "Ich mag Sport." },
+    { jp: "どんなスポーツをしますか。", reading: "どんなスポーツをしますか。", de: "Welchen Sport treiben Sie?" }
+  ]},
+  { id: "v685", word: "スポーツクラブ", reading: "スポーツクラブ", meaning: "Sportclub, Fitnessclub", pos: "Nomen", level: "adv", examples: [
+    { jp: "スポーツクラブに入りました。", reading: "スポーツクラブにはいりました。", de: "Ich bin einem Sportclub beigetreten." },
+    { jp: "週末はスポーツクラブで運動します。", reading: "しゅうまつはスポーツクラブでうんどうします。", de: "Am Wochenende trainiere ich im Sportclub." }
+  ]},
+  { id: "v686", word: "済ませる", reading: "すませる", meaning: "erledigen, beenden", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "仕事を早く済ませます。", reading: "しごとをはやくすませます。", de: "Ich erledige die Arbeit schnell." },
+    { jp: "食事を済ませてから行きます。", reading: "しょくじをすませてからいきます。", de: "Ich gehe, nachdem ich gegessen habe." }
+  ]},
+  { id: "v687", word: "背", reading: "せ", meaning: "Rücken / Körpergröße", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼は背が高いです。", reading: "かれはせがたかいです。", de: "Er ist groß." },
+    { jp: "背が高くなりました。", reading: "せがたかくなりました。", de: "Ich bin gewachsen." }
+  ]},
+  { id: "v688", word: "生活", reading: "せいかつ", meaning: "Leben, Alltag", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本の生活は楽しいです。", reading: "にほんのせいかつはたのしいです。", de: "Das Leben in Japan macht Spaß." },
+    { jp: "毎日の生活が忙しいです。", reading: "まいにちのせいかつがいそがしいです。", de: "Mein Alltag ist stressig." }
+  ]},
+  { id: "v689", word: "セーター", reading: "セーター", meaning: "Pullover", pos: "Nomen", level: "easy", examples: [
+    { jp: "寒いのでセーターを着ます。", reading: "さむいのでセーターをきます。", de: "Weil es kalt ist, ziehe ich einen Pullover an." },
+    { jp: "赤いセーターを買いました。", reading: "あかいセーターをかいました。", de: "Ich habe einen roten Pullover gekauft." }
+  ]},
+  { id: "v690", word: "セール", reading: "セール", meaning: "Ausverkauf, Sale", pos: "Nomen", level: "adv", examples: [
+    { jp: "デパートでセールをしています。", reading: "デパートでセールをしています。", de: "Im Kaufhaus ist Ausverkauf." },
+    { jp: "セールで安く買いました。", reading: "セールでやすくかいました。", de: "Im Sale habe ich günstig gekauft." }
+  ]},
+  { id: "v691", word: "せき", reading: "せき", meaning: "Husten", pos: "Nomen", level: "adv", examples: [
+    { jp: "せきが止まりません。", reading: "せきがとまりません。", de: "Der Husten hört nicht auf." },
+    { jp: "風邪でせきが出ます。", reading: "かぜでせきがでます。", de: "Wegen der Erkältung huste ich." }
+  ]},
+  { id: "v692", word: "せきをする", reading: "せきをする", meaning: "husten", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "彼は何度もせきをしました。", reading: "かれはなんどもせきをしました。", de: "Er hat mehrmals gehustet." },
+    { jp: "せきをするとのどが痛いです。", reading: "せきをするとのどがいたいです。", de: "Beim Husten tut der Hals weh." }
+  ]},
+  { id: "v693", word: "説明", reading: "せつめい", meaning: "Erklärung", pos: "Nomen", level: "adv", examples: [
+    { jp: "先生の説明はわかりやすいです。", reading: "せんせいのせつめいはわかりやすいです。", de: "Die Erklärung des Lehrers ist verständlich." },
+    { jp: "もう一度説明をお願いします。", reading: "もういちどせつめいをおねがいします。", de: "Bitte noch einmal die Erklärung." }
+  ]},
+  { id: "v694", word: "説明する", reading: "せつめいする", meaning: "erklären", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "使い方を説明します。", reading: "つかいかたをせつめいします。", de: "Ich erkläre die Benutzung." },
+    { jp: "道を説明してくれました。", reading: "みちをせつめいしてくれました。", de: "Er hat mir den Weg erklärt." }
+  ]},
+  { id: "v695", word: "ぜひ", reading: "ぜひ", meaning: "unbedingt, auf jeden Fall", pos: "Adverb", level: "adv", examples: [
+    { jp: "ぜひ来てください。", reading: "ぜひきてください。", de: "Kommen Sie unbedingt." },
+    { jp: "ぜひ一緒に行きたいです。", reading: "ぜひいっしょにいきたいです。", de: "Ich möchte unbedingt mitkommen." }
+  ]},
+  { id: "v696", word: "線", reading: "せん", meaning: "Linie (Bahn)", pos: "Nomen", level: "adv", examples: [
+    { jp: "山手線に乗ります。", reading: "やまのてせんにのります。", de: "Ich nehme die Yamanote-Linie." },
+    { jp: "この線は東京駅まで行きます。", reading: "このせんはとうきょうえきまでいきます。", de: "Diese Linie fährt bis zum Bahnhof Tōkyō." }
+  ]},
+  { id: "v697", word: "洗濯機", reading: "せんたくき", meaning: "Waschmaschine", pos: "Nomen", level: "adv", examples: [
+    { jp: "洗濯機で服を洗います。", reading: "せんたくきでふくをあらいます。", de: "Ich wasche die Kleidung in der Waschmaschine." },
+    { jp: "新しい洗濯機を買いました。", reading: "あたらしいせんたくきをかいました。", de: "Ich habe eine neue Waschmaschine gekauft." }
+  ]},
+  { id: "v698", word: "専門", reading: "せんもん", meaning: "Fachgebiet, Spezialisierung", pos: "Nomen", level: "adv", examples: [
+    { jp: "専門は経済です。", reading: "せんもんはけいざいです。", de: "Mein Fachgebiet ist Wirtschaft." },
+    { jp: "彼の専門は日本の歴史です。", reading: "かれのせんもんはにほんのれきしです。", de: "Sein Fach ist japanische Geschichte." }
+  ]},
+  { id: "v699", word: "掃除", reading: "そうじ", meaning: "das Putzen, Reinigung", pos: "Nomen", level: "easy", examples: [
+    { jp: "部屋の掃除をします。", reading: "へやのそうじをします。", de: "Ich putze das Zimmer." },
+    { jp: "掃除は大変です。", reading: "そうじはたいへんです。", de: "Putzen ist anstrengend." }
+  ]},
+  { id: "v700", word: "掃除する", reading: "そうじする", meaning: "putzen, sauber machen", pos: "Verb (する-Verb)", level: "easy", examples: [
+    { jp: "毎日部屋を掃除します。", reading: "まいにちへやをそうじします。", de: "Ich putze jeden Tag das Zimmer." },
+    { jp: "台所を掃除しました。", reading: "だいどころをそうじしました。", de: "Ich habe die Küche geputzt." }
+  ]},
+  { id: "v701", word: "相談する", reading: "そうだんする", meaning: "um Rat fragen, sich beraten", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "先生に相談します。", reading: "せんせいにそうだんします。", de: "Ich frage den Lehrer um Rat." },
+    { jp: "友達と将来のことを相談しました。", reading: "ともだちとしょうらいのことをそうだんしました。", de: "Ich habe mit einem Freund über die Zukunft beraten." }
+  ]},
+  { id: "v702", word: "そこ", reading: "そこ", meaning: "dort", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "そこに置いてください。", reading: "そこにおいてください。", de: "Stellen Sie es bitte dorthin." },
+    { jp: "そこは私の席です。", reading: "そこはわたしのせきです。", de: "Das dort ist mein Platz." }
+  ]},
+  { id: "v703", word: "そして", reading: "そして", meaning: "und dann, danach", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "朝ごはんを食べて、そして学校へ行きます。", reading: "あさごはんをたべて、そしてがっこうへいきます。", de: "Ich frühstücke und gehe dann zur Schule." },
+    { jp: "宿題をしました。そして寝ました。", reading: "しゅくだいをしました。そしてねました。", de: "Ich habe die Hausaufgaben gemacht und dann geschlafen." }
+  ]},
+  { id: "v704", word: "そちら", reading: "そちら", meaning: "dort / Sie dort (höflich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "そちらはいい天気ですか。", reading: "そちらはいいてんきですか。", de: "Ist bei Ihnen schönes Wetter?" },
+    { jp: "そちらの本を見せてください。", reading: "そちらのほんをみせてください。", de: "Zeigen Sie mir bitte das Buch dort." }
+  ]},
+  { id: "v705", word: "卒業", reading: "そつぎょう", meaning: "Schulabschluss", pos: "Nomen", level: "adv", examples: [
+    { jp: "来年、大学を卒業します。", reading: "らいねん、だいがくをそつぎょうします。", de: "Nächstes Jahr schließe ich die Uni ab." },
+    { jp: "卒業おめでとうございます。", reading: "そつぎょうおめでとうございます。", de: "Glückwunsch zum Abschluss." }
+  ]},
+  { id: "v706", word: "卒業する", reading: "そつぎょうする", meaning: "graduieren, abschließen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "高校を卒業してから働きます。", reading: "こうこうをそつぎょうしてからはたらきます。", de: "Nach dem Oberschulabschluss arbeite ich." },
+    { jp: "彼は東京大学を卒業しました。", reading: "かれはとうきょうだいがくをそつぎょうしました。", de: "Er hat die Universität Tōkyō abgeschlossen." }
+  ]},
+  { id: "v707", word: "その", reading: "その", meaning: "diese(r/s) (dort)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "その本を取ってください。", reading: "そのほんをとってください。", de: "Reichen Sie mir bitte das Buch." },
+    { jp: "その話は本当ですか。", reading: "そのはなしはほんとうですか。", de: "Ist diese Geschichte wahr?" }
+  ]},
+  { id: "v708", word: "祖父", reading: "そふ", meaning: "Großvater (eigener)", pos: "Nomen", level: "easy", examples: [
+    { jp: "祖父は九十歳です。", reading: "そふはきゅうじゅっさいです。", de: "Mein Großvater ist neunzig." },
+    { jp: "祖父は農業をしています。", reading: "そふはのうぎょうをしています。", de: "Mein Großvater ist Landwirt." }
+  ]},
+  { id: "v709", word: "ソファー", reading: "ソファー", meaning: "Sofa", pos: "Nomen", level: "adv", examples: [
+    { jp: "ソファーで休みます。", reading: "ソファーでやすみます。", de: "Ich ruhe mich auf dem Sofa aus." },
+    { jp: "新しいソファーを買いました。", reading: "あたらしいソファーをかいました。", de: "Ich habe ein neues Sofa gekauft." }
+  ]},
+  { id: "v710", word: "祖母", reading: "そぼ", meaning: "Großmutter (eigene)", pos: "Nomen", level: "easy", examples: [
+    { jp: "祖母は料理が上手です。", reading: "そぼはりょうりがじょうずです。", de: "Meine Großmutter kocht gut." },
+    { jp: "祖母に手紙を書きます。", reading: "そぼにてがみをかきます。", de: "Ich schreibe meiner Großmutter einen Brief." }
+  ]},
+  { id: "v711", word: "それ", reading: "それ", meaning: "das (dort bei dir)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "それは何ですか。", reading: "それはなんですか。", de: "Was ist das?" },
+    { jp: "それをください。", reading: "それをください。", de: "Das dort bitte." }
+  ]},
+  { id: "v712", word: "それから", reading: "それから", meaning: "danach, außerdem", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "買い物をして、それから帰ります。", reading: "かいものをして、それからかえります。", de: "Ich kaufe ein und gehe danach nach Hause." },
+    { jp: "パンをください。それからコーヒーも。", reading: "パンをください。それからコーヒーも。", de: "Brot bitte. Und außerdem Kaffee." }
+  ]},
+  { id: "v713", word: "それでは", reading: "それでは", meaning: "nun denn, also dann", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "それでは始めましょう。", reading: "それでははじめましょう。", de: "Also dann, fangen wir an." },
+    { jp: "それでは、また明日。", reading: "それでは、またあした。", de: "Also dann, bis morgen." }
+  ]},
+  { id: "v714", word: "大学生", reading: "だいがくせい", meaning: "Student (Universität)", pos: "Nomen", level: "easy", examples: [
+    { jp: "兄は大学生です。", reading: "あにはだいがくせいです。", de: "Mein Bruder ist Student." },
+    { jp: "大学生の時、日本に行きました。", reading: "だいがくせいのとき、にほんにいきました。", de: "Als Student war ich in Japan." }
+  ]},
+  { id: "v715", word: "退屈な", reading: "たいくつな", meaning: "langweilig", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "退屈な映画でした。", reading: "たいくつなえいがでした。", de: "Es war ein langweiliger Film." },
+    { jp: "毎日退屈です。", reading: "まいにちたいくつです。", de: "Jeden Tag ist es langweilig." }
+  ]},
+  { id: "v716", word: "体操", reading: "たいそう", meaning: "Turnen, Gymnastik", pos: "Nomen", level: "adv", examples: [
+    { jp: "朝、体操をします。", reading: "あさ、たいそうをします。", de: "Morgens mache ich Gymnastik." },
+    { jp: "体操は体にいいです。", reading: "たいそうはからだにいいです。", de: "Gymnastik ist gut für den Körper." }
+  ]},
+  { id: "v717", word: "だいぶ", reading: "だいぶ", meaning: "ziemlich, beträchtlich", pos: "Adverb", level: "adv", examples: [
+    { jp: "だいぶ寒くなりました。", reading: "だいぶさむくなりました。", de: "Es ist ziemlich kalt geworden." },
+    { jp: "日本語がだいぶ上手になりました。", reading: "にほんごがだいぶじょうずになりました。", de: "Mein Japanisch ist deutlich besser geworden." }
+  ]},
+  { id: "v718", word: "タイプ", reading: "タイプ", meaning: "Typ / tippen", pos: "Nomen", level: "adv", examples: [
+    { jp: "好きなタイプの人です。", reading: "すきなタイプのひとです。", de: "Das ist mein Typ Mensch." },
+    { jp: "手紙をタイプします。", reading: "てがみをタイプします。", de: "Ich tippe den Brief." }
+  ]},
+  { id: "v719", word: "大変な", reading: "たいへんな", meaning: "schwierig, anstrengend", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "仕事が大変です。", reading: "しごとがたいへんです。", de: "Die Arbeit ist anstrengend." },
+    { jp: "大変な一日でした。", reading: "たいへんないちにちでした。", de: "Es war ein harter Tag." }
+  ]},
+  { id: "v720", word: "タクシー乗り場", reading: "タクシーのりば", meaning: "Taxistand", pos: "Nomen", level: "adv", examples: [
+    { jp: "タクシー乗り場はどこですか。", reading: "タクシーのりばはどこですか。", de: "Wo ist der Taxistand?" },
+    { jp: "駅の前にタクシー乗り場があります。", reading: "えきのまえにタクシーのりばがあります。", de: "Vor dem Bahnhof ist ein Taxistand." }
+  ]},
+  { id: "v721", word: "だけ", reading: "だけ", meaning: "nur, bloß", pos: "Adverb", level: "adv", examples: [
+    { jp: "水だけ飲みます。", reading: "みずだけのみます。", de: "Ich trinke nur Wasser." },
+    { jp: "一人だけ来ました。", reading: "ひとりだけきました。", de: "Nur eine Person ist gekommen." }
+  ]},
+  { id: "v722", word: "出す", reading: "だす", meaning: "herausnehmen / abschicken", pos: "Verb (Godan, す)", level: "adv", examples: [
+    { jp: "手紙を出します。", reading: "てがみをだします。", de: "Ich schicke einen Brief ab." },
+    { jp: "かばんから本を出しました。", reading: "かばんからほんをだしました。", de: "Ich habe das Buch aus der Tasche geholt." }
+  ]},
+  { id: "v723", word: "訪ねる", reading: "たずねる", meaning: "besuchen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "友達の家を訪ねます。", reading: "ともだちのいえをたずねます。", de: "Ich besuche das Haus eines Freundes." },
+    { jp: "先生を訪ねました。", reading: "せんせいをたずねました。", de: "Ich habe den Lehrer besucht." }
+  ]},
+  { id: "v724", word: "たった", reading: "たった", meaning: "bloß, nur (Menge)", pos: "Adverb", level: "adv", examples: [
+    { jp: "たった百円しかありません。", reading: "たったひゃくえんしかありません。", de: "Ich habe nur 100 Yen." },
+    { jp: "たった一人で行きました。", reading: "たったひとりでいきました。", de: "Ich bin ganz allein gegangen." }
+  ]},
+  { id: "v725", word: "棚", reading: "たな", meaning: "Regal", pos: "Nomen", level: "adv", examples: [
+    { jp: "棚に本を並べます。", reading: "たなにほんをならべます。", de: "Ich ordne die Bücher ins Regal." },
+    { jp: "棚の上にかばんを置きます。", reading: "たなのうえにかばんをおきます。", de: "Ich lege die Tasche auf das Regal." }
+  ]},
+  { id: "v726", word: "楽しむ", reading: "たのしむ", meaning: "genießen, sich freuen", pos: "Verb (Godan, む)", level: "adv", examples: [
+    { jp: "旅行を楽しみます。", reading: "りょこうをたのしみます。", de: "Ich genieße die Reise." },
+    { jp: "音楽を楽しんでいます。", reading: "おんがくをたのしんでいます。", de: "Ich genieße die Musik." }
+  ]},
+  { id: "v727", word: "たばこ", reading: "たばこ", meaning: "Zigarette", pos: "Nomen", level: "easy", examples: [
+    { jp: "ここでたばこを吸わないでください。", reading: "ここでたばこをすわないでください。", de: "Rauchen Sie hier bitte nicht." },
+    { jp: "父はたばこをやめました。", reading: "ちちはたばこをやめました。", de: "Mein Vater hat mit dem Rauchen aufgehört." }
+  ]},
+  { id: "v728", word: "たぶん", reading: "たぶん", meaning: "vielleicht, wahrscheinlich", pos: "Adverb", level: "easy", examples: [
+    { jp: "たぶん明日雨が降ります。", reading: "たぶんあしたあめがふります。", de: "Wahrscheinlich regnet es morgen." },
+    { jp: "彼はたぶん来ません。", reading: "かれはたぶんきません。", de: "Er kommt wahrscheinlich nicht." }
+  ]},
+  { id: "v729", word: "たまに", reading: "たまに", meaning: "gelegentlich, ab und zu", pos: "Adverb", level: "adv", examples: [
+    { jp: "たまに映画を見ます。", reading: "たまにえいがをみます。", de: "Ab und zu schaue ich einen Film." },
+    { jp: "たまに外で食べます。", reading: "たまにそとでたべます。", de: "Gelegentlich esse ich auswärts." }
+  ]},
+  { id: "v730", word: "だめ", reading: "だめ", meaning: "nicht gut, geht nicht, verboten", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "ここに入ってはだめです。", reading: "ここにはいってはだめです。", de: "Hier darf man nicht hinein." },
+    { jp: "この機械はもうだめです。", reading: "このきかいはもうだめです。", de: "Diese Maschine ist kaputt." }
+  ]},
+  { id: "v731", word: "だれか", reading: "だれか", meaning: "jemand, irgendjemand", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "だれか来ましたか。", reading: "だれかきましたか。", de: "Ist jemand gekommen?" },
+    { jp: "だれかに聞いてください。", reading: "だれかにきいてください。", de: "Fragen Sie bitte jemanden." }
+  ]},
+  { id: "v732", word: "たんす", reading: "たんす", meaning: "Kommode, Kleiderschrank", pos: "Nomen", level: "adv", examples: [
+    { jp: "服をたんすに入れます。", reading: "ふくをたんすにいれます。", de: "Ich lege die Kleidung in die Kommode." },
+    { jp: "たんすの中は空です。", reading: "たんすのなかはからです。", de: "Die Kommode ist leer." }
+  ]},
+  { id: "v733", word: "地下", reading: "ちか", meaning: "Untergeschoss, Keller", pos: "Nomen", level: "adv", examples: [
+    { jp: "食品売り場は地下にあります。", reading: "しょくひんうりばはちかにあります。", de: "Die Lebensmittelabteilung ist im Untergeschoss." },
+    { jp: "地下に駐車場があります。", reading: "ちかにちゅうしゃじょうがあります。", de: "Im Untergeschoss ist ein Parkplatz." }
+  ]},
+  { id: "v734", word: "違う", reading: "ちがう", meaning: "sich unterscheiden, falsch sein", pos: "Verb (Godan, う)", level: "easy", examples: [
+    { jp: "答えが違います。", reading: "こたえがちがいます。", de: "Die Antwort ist falsch." },
+    { jp: "私の考えは少し違います。", reading: "わたしのかんがえはすこしちがいます。", de: "Meine Meinung ist etwas anders." }
+  ]},
+  { id: "v735", word: "近く", reading: "ちかく", meaning: "Nähe, in der Nähe", pos: "Nomen", level: "adv", examples: [
+    { jp: "家の近くに公園があります。", reading: "いえのちかくにこうえんがあります。", de: "In der Nähe des Hauses ist ein Park." },
+    { jp: "近くに駅はありますか。", reading: "ちかくにえきはありますか。", de: "Gibt es in der Nähe einen Bahnhof?" }
+  ]},
+  { id: "v736", word: "地球", reading: "ちきゅう", meaning: "Erde, Globus", pos: "Nomen", level: "adv", examples: [
+    { jp: "地球は青いです。", reading: "ちきゅうはあおいです。", de: "Die Erde ist blau." },
+    { jp: "地球を大切にします。", reading: "ちきゅうをたいせつにします。", de: "Wir schützen die Erde." }
+  ]},
+  { id: "v737", word: "父", reading: "ちち", meaning: "Vater (eigener)", pos: "Nomen", level: "easy", examples: [
+    { jp: "父は会社で働いています。", reading: "ちちはかいしゃではたらいています。", de: "Mein Vater arbeitet in einer Firma." },
+    { jp: "父は五十歳です。", reading: "ちちはごじゅっさいです。", de: "Mein Vater ist fünfzig." }
+  ]},
+  { id: "v738", word: "チップ", reading: "チップ", meaning: "Trinkgeld", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本ではチップはいりません。", reading: "にほんではチップはいりません。", de: "In Japan gibt man kein Trinkgeld." },
+    { jp: "チップを少し置きました。", reading: "チップをすこしおきました。", de: "Ich habe etwas Trinkgeld dagelassen." }
+  ]},
+  { id: "v739", word: "茶色い", reading: "ちゃいろい", meaning: "braun", pos: "i-Adjektiv", level: "adv", examples: [
+    { jp: "茶色いくつをはいています。", reading: "ちゃいろいくつをはいています。", de: "Ich trage braune Schuhe." },
+    { jp: "茶色いかばんがほしいです。", reading: "ちゃいろいかばんがほしいです。", de: "Ich hätte gern eine braune Tasche." }
+  ]},
+  { id: "v740", word: "注意", reading: "ちゅうい", meaning: "Vorsicht, Achtung", pos: "Nomen", level: "adv", examples: [
+    { jp: "車に注意してください。", reading: "くるまにちゅういしてください。", de: "Achten Sie auf die Autos." },
+    { jp: "先生に注意されました。", reading: "せんせいにちゅういされました。", de: "Der Lehrer hat mich ermahnt." }
+  ]},
+  { id: "v741", word: "中華料理", reading: "ちゅうかりょうり", meaning: "chinesische Küche", pos: "Nomen", level: "adv", examples: [
+    { jp: "今晩中華料理を食べます。", reading: "こんばんちゅうかりょうりをたべます。", de: "Heute Abend essen wir chinesisch." },
+    { jp: "中華料理が好きです。", reading: "ちゅうかりょうりがすきです。", de: "Ich mag chinesische Küche." }
+  ]},
+  { id: "v742", word: "中国", reading: "ちゅうごく", meaning: "China", pos: "Nomen", level: "easy", examples: [
+    { jp: "来月中国へ行きます。", reading: "らいげつちゅうごくへいきます。", de: "Nächsten Monat fahre ich nach China." },
+    { jp: "中国は大きい国です。", reading: "ちゅうごくはおおきいくにです。", de: "China ist ein großes Land." }
+  ]},
+  { id: "v743", word: "中国人", reading: "ちゅうごくじん", meaning: "Chinese, Chinesin", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼は中国人です。", reading: "かれはちゅうごくじんです。", de: "Er ist Chinese." },
+    { jp: "中国人の友達がいます。", reading: "ちゅうごくじんのともだちがいます。", de: "Ich habe einen chinesischen Freund." }
+  ]},
+  { id: "v744", word: "駐車場", reading: "ちゅうしゃじょう", meaning: "Parkplatz", pos: "Nomen", level: "adv", examples: [
+    { jp: "駐車場に車を止めます。", reading: "ちゅうしゃじょうにくるまをとめます。", de: "Ich parke das Auto auf dem Parkplatz." },
+    { jp: "この駐車場は無料です。", reading: "このちゅうしゃじょうはむりょうです。", de: "Dieser Parkplatz ist kostenlos." }
+  ]},
+  { id: "v745", word: "昼食", reading: "ちゅうしょく", meaning: "Mittagessen", pos: "Nomen", level: "adv", examples: [
+    { jp: "十二時に昼食を食べます。", reading: "じゅうにじにちゅうしょくをたべます。", de: "Um zwölf esse ich zu Mittag." },
+    { jp: "昼食は会社で食べます。", reading: "ちゅうしょくはかいしゃでたべます。", de: "Zu Mittag esse ich in der Firma." }
+  ]},
+  { id: "v746", word: "注文する", reading: "ちゅうもんする", meaning: "bestellen", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "レストランでピザを注文します。", reading: "レストランでピザをちゅうもんします。", de: "Im Restaurant bestelle ich eine Pizza." },
+    { jp: "インターネットで本を注文しました。", reading: "インターネットでほんをちゅうもんしました。", de: "Ich habe im Internet ein Buch bestellt." }
+  ]},
+  { id: "v747", word: "ツアー", reading: "ツアー", meaning: "Tour, Reise", pos: "Nomen", level: "adv", examples: [
+    { jp: "バスツアーに参加します。", reading: "バスツアーにさんかします。", de: "Ich nehme an einer Bustour teil." },
+    { jp: "京都のツアーは楽しかったです。", reading: "きょうとのツアーはたのしかったです。", de: "Die Kyōto-Tour hat Spaß gemacht." }
+  ]},
+  { id: "v748", word: "ツアーガイド", reading: "ツアーガイド", meaning: "Reiseleiter", pos: "Nomen", level: "adv", examples: [
+    { jp: "ツアーガイドが説明します。", reading: "ツアーガイドがせつめいします。", de: "Der Reiseleiter erklärt." },
+    { jp: "ツアーガイドは親切でした。", reading: "ツアーガイドはしんせつでした。", de: "Der Reiseleiter war freundlich." }
+  ]},
+  { id: "v749", word: "通勤する", reading: "つうきんする", meaning: "zur Arbeit pendeln", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "電車で通勤します。", reading: "でんしゃでつうきんします。", de: "Ich pendle mit dem Zug zur Arbeit." },
+    { jp: "毎日一時間通勤します。", reading: "まいにちいちじかんつうきんします。", de: "Ich pendle täglich eine Stunde." }
+  ]},
+  { id: "v750", word: "使い方", reading: "つかいかた", meaning: "Benutzung, Bedienung", pos: "Nomen", level: "adv", examples: [
+    { jp: "この機械の使い方を教えてください。", reading: "このきかいのつかいかたをおしえてください。", de: "Erklären Sie mir bitte die Bedienung dieser Maschine." },
+    { jp: "使い方は簡単です。", reading: "つかいかたはかんたんです。", de: "Die Benutzung ist einfach." }
+  ]},
+  { id: "v751", word: "月", reading: "つき", meaning: "Mond / Monat", pos: "Nomen", level: "easy", examples: [
+    { jp: "今夜は月がきれいです。", reading: "こんやはつきがきれいです。", de: "Heute Nacht ist der Mond schön." },
+    { jp: "月に一度、映画を見ます。", reading: "つきにいちど、えいがをみます。", de: "Einmal im Monat schaue ich einen Film." }
+  ]},
+  { id: "v752", word: "次", reading: "つぎ", meaning: "nächste(r/s)", pos: "Nomen", level: "easy", examples: [
+    { jp: "次の駅で降ります。", reading: "つぎのえきでおります。", de: "Ich steige an der nächsten Station aus." },
+    { jp: "次は私の番です。", reading: "つぎはわたしのばんです。", de: "Als Nächstes bin ich dran." }
+  ]},
+  { id: "v753", word: "つける", reading: "つける", meaning: "anschalten, einschalten", pos: "Verb (Ichidan)", level: "easy", examples: [
+    { jp: "電気をつけてください。", reading: "でんきをつけてください。", de: "Machen Sie bitte das Licht an." },
+    { jp: "テレビをつけました。", reading: "テレビをつけました。", de: "Ich habe den Fernseher eingeschaltet." }
+  ]},
+  { id: "v754", word: "都合", reading: "つごう", meaning: "Umstände, (zeitliche) Möglichkeit", pos: "Nomen", level: "adv", examples: [
+    { jp: "明日は都合が悪いです。", reading: "あしたはつごうがわるいです。", de: "Morgen passt es mir nicht." },
+    { jp: "都合のいい時間を教えてください。", reading: "つごうのいいじかんをおしえてください。", de: "Sagen Sie mir eine passende Zeit." }
+  ]},
+  { id: "v755", word: "伝える", reading: "つたえる", meaning: "übermitteln, mitteilen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "先生によろしくお伝えください。", reading: "せんせいによろしくおつたえください。", de: "Grüßen Sie bitte den Lehrer von mir." },
+    { jp: "メッセージを伝えました。", reading: "メッセージをつたえました。", de: "Ich habe die Nachricht ausgerichtet." }
+  ]},
+  { id: "v756", word: "勤める", reading: "つとめる", meaning: "angestellt sein (bei)", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "銀行に勤めています。", reading: "ぎんこうにつとめています。", de: "Ich bin bei einer Bank angestellt." },
+    { jp: "父は学校に勤めています。", reading: "ちちはがっこうにつとめています。", de: "Mein Vater arbeitet an einer Schule." }
+  ]},
+  { id: "v757", word: "冷たい", reading: "つめたい", meaning: "kalt (Berührung)", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "冷たい水を飲みます。", reading: "つめたいみずをのみます。", de: "Ich trinke kaltes Wasser." },
+    { jp: "手が冷たいです。", reading: "てがつめたいです。", de: "Meine Hände sind kalt." }
+  ]},
+  { id: "v758", word: "釣り", reading: "つり", meaning: "das Angeln", pos: "Nomen", level: "adv", examples: [
+    { jp: "週末に釣りに行きます。", reading: "しゅうまつにつりにいきます。", de: "Am Wochenende gehe ich angeln." },
+    { jp: "父は釣りが好きです。", reading: "ちちはつりがすきです。", de: "Mein Vater angelt gern." }
+  ]},
+  { id: "v759", word: "デート", reading: "デート", meaning: "Date, Verabredung", pos: "Nomen", level: "adv", examples: [
+    { jp: "土曜日に彼女とデートします。", reading: "どようびにかのじょとデートします。", de: "Am Samstag habe ich ein Date mit meiner Freundin." },
+    { jp: "初めてのデートは楽しかったです。", reading: "はじめてのデートはたのしかったです。", de: "Das erste Date war schön." }
+  ]},
+  { id: "v760", word: "テーブル", reading: "テーブル", meaning: "Tisch", pos: "Nomen", level: "easy", examples: [
+    { jp: "テーブルの上に花があります。", reading: "テーブルのうえにはながあります。", de: "Auf dem Tisch stehen Blumen." },
+    { jp: "テーブルを拭きます。", reading: "テーブルをふきます。", de: "Ich wische den Tisch ab." }
+  ]},
+  { id: "v761", word: "出かける", reading: "でかける", meaning: "ausgehen, weggehen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "午後、買い物に出かけます。", reading: "ごご、かいものにでかけます。", de: "Am Nachmittag gehe ich einkaufen." },
+    { jp: "母は出かけています。", reading: "ははのでかけています。", de: "Meine Mutter ist ausgegangen." }
+  ]},
+  { id: "v762", word: "テキスト", reading: "テキスト", meaning: "Lehrbuch, Text", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本語のテキストを買いました。", reading: "にほんごのテキストをかいました。", de: "Ich habe ein Japanisch-Lehrbuch gekauft." },
+    { jp: "テキストの十ページを開いてください。", reading: "テキストのじゅっぺーじをひらいてください。", de: "Öffnen Sie bitte Seite zehn im Lehrbuch." }
+  ]},
+  { id: "v763", word: "適当な", reading: "てきとうな", meaning: "passend, angemessen", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "適当な大きさを選びます。", reading: "てきとうなおおきさをえらびます。", de: "Ich wähle die passende Größe." },
+    { jp: "適当な言葉が見つかりません。", reading: "てきとうなことばがみつかりません。", de: "Ich finde nicht das passende Wort." }
+  ]},
+  { id: "v764", word: "できる", reading: "できる", meaning: "können / fertig werden", pos: "Verb (Ichidan)", level: "easy", examples: [
+    { jp: "日本語ができます。", reading: "にほんごができます。", de: "Ich kann Japanisch." },
+    { jp: "料理ができました。", reading: "りょうりができました。", de: "Das Essen ist fertig." }
+  ]},
+  { id: "v765", word: "出口", reading: "でぐち", meaning: "Ausgang", pos: "Nomen", level: "easy", examples: [
+    { jp: "出口はどこですか。", reading: "でぐちはどこですか。", de: "Wo ist der Ausgang?" },
+    { jp: "南の出口で会いましょう。", reading: "みなみのでぐちであいましょう。", de: "Treffen wir uns am Südausgang." }
+  ]},
+  { id: "v766", word: "デザート", reading: "デザート", meaning: "Nachtisch, Dessert", pos: "Nomen", level: "adv", examples: [
+    { jp: "デザートにケーキを食べます。", reading: "デザートにケーキをたべます。", de: "Zum Nachtisch esse ich Kuchen." },
+    { jp: "デザートは何がありますか。", reading: "デザートはなにがありますか。", de: "Was gibt es zum Nachtisch?" }
+  ]},
+  { id: "v767", word: "テニス", reading: "テニス", meaning: "Tennis", pos: "Nomen", level: "easy", examples: [
+    { jp: "友達とテニスをします。", reading: "ともだちとテニスをします。", de: "Ich spiele mit Freunden Tennis." },
+    { jp: "テニスは楽しいです。", reading: "テニスはたのしいです。", de: "Tennis macht Spaß." }
+  ]},
+  { id: "v768", word: "テニスコート", reading: "テニスコート", meaning: "Tennisplatz", pos: "Nomen", level: "adv", examples: [
+    { jp: "公園にテニスコートがあります。", reading: "こうえんにテニスコートがあります。", de: "Im Park gibt es einen Tennisplatz." },
+    { jp: "テニスコートを予約しました。", reading: "テニスコートをよやくしました。", de: "Ich habe einen Tennisplatz reserviert." }
+  ]},
+  { id: "v769", word: "手前", reading: "てまえ", meaning: "kurz davor, diesseits (Ort)", pos: "Nomen", level: "adv", examples: [
+    { jp: "銀行の手前に本屋があります。", reading: "ぎんこうのてまえにほんやがあります。", de: "Kurz vor der Bank ist ein Buchladen." },
+    { jp: "駅の手前で降ります。", reading: "えきのてまえでおります。", de: "Ich steige kurz vor dem Bahnhof aus." }
+  ]},
+  { id: "v770", word: "でも", reading: "でも", meaning: "aber, jedoch", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "行きたいです。でも、お金がありません。", reading: "いきたいです。でも、おかねがありません。", de: "Ich möchte gehen. Aber ich habe kein Geld." },
+    { jp: "疲れました。でも、大丈夫です。", reading: "つかれました。でも、だいじょうぶです。", de: "Ich bin müde. Aber es geht schon." }
+  ]},
+  { id: "v771", word: "店員", reading: "てんいん", meaning: "Verkäufer(in), Angestellte(r)", pos: "Nomen", level: "easy", examples: [
+    { jp: "店員に値段を聞きます。", reading: "てんいんにねだんをききます。", de: "Ich frage den Verkäufer nach dem Preis." },
+    { jp: "店員はとても親切です。", reading: "てんいんはとてもしんせつです。", de: "Der Verkäufer ist sehr freundlich." }
+  ]},
+  { id: "v772", word: "電気屋", reading: "でんきや", meaning: "Elektrogeschäft", pos: "Nomen", level: "adv", examples: [
+    { jp: "電気屋でテレビを買います。", reading: "でんきやでテレビをかいます。", de: "Ich kaufe im Elektrogeschäft einen Fernseher." },
+    { jp: "電気屋は駅前にあります。", reading: "でんきやはえきまえにあります。", de: "Das Elektrogeschäft ist vor dem Bahnhof." }
+  ]},
+  { id: "v773", word: "電池", reading: "でんち", meaning: "Batterie", pos: "Nomen", level: "adv", examples: [
+    { jp: "電池が切れました。", reading: "でんちがきれました。", de: "Die Batterie ist leer." },
+    { jp: "新しい電池を入れます。", reading: "あたらしいでんちをいれます。", de: "Ich lege neue Batterien ein." }
+  ]},
+  { id: "v774", word: "電話番号", reading: "でんわばんごう", meaning: "Telefonnummer", pos: "Nomen", level: "easy", examples: [
+    { jp: "電話番号を教えてください。", reading: "でんわばんごうをおしえてください。", de: "Sagen Sie mir bitte Ihre Telefonnummer." },
+    { jp: "電話番号を忘れました。", reading: "でんわばんごうをわすれました。", de: "Ich habe die Telefonnummer vergessen." }
+  ]},
+  { id: "v775", word: "ドイツ", reading: "ドイツ", meaning: "Deutschland", pos: "Nomen", level: "easy", examples: [
+    { jp: "私はドイツから来ました。", reading: "わたしはドイツからきました。", de: "Ich komme aus Deutschland." },
+    { jp: "ドイツにはお城が多いです。", reading: "ドイツにはおしろがおおいです。", de: "In Deutschland gibt es viele Schlösser." }
+  ]},
+  { id: "v776", word: "ドイツ語", reading: "ドイツご", meaning: "Deutsch (Sprache)", pos: "Nomen", level: "easy", examples: [
+    { jp: "ドイツ語を話します。", reading: "ドイツごをはなします。", de: "Ich spreche Deutsch." },
+    { jp: "ドイツ語は難しいですか。", reading: "ドイツごはむずかしいですか。", de: "Ist Deutsch schwierig?" }
+  ]},
+  { id: "v777", word: "ドイツ人", reading: "ドイツじん", meaning: "Deutsche(r)", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼はドイツ人です。", reading: "かれはドイツじんです。", de: "Er ist Deutscher." },
+    { jp: "ドイツ人の友達がいます。", reading: "ドイツじんのともだちがいます。", de: "Ich habe einen deutschen Freund." }
+  ]},
+  { id: "v778", word: "道具", reading: "どうぐ", meaning: "Werkzeug", pos: "Nomen", level: "adv", examples: [
+    { jp: "料理の道具を買います。", reading: "りょうりのどうぐをかいます。", de: "Ich kaufe Kochutensilien." },
+    { jp: "この道具は便利です。", reading: "このどうぐはべんりです。", de: "Dieses Werkzeug ist praktisch." }
+  ]},
+  { id: "v779", word: "豆腐", reading: "とうふ", meaning: "Tōfu", pos: "Nomen", level: "adv", examples: [
+    { jp: "豆腐は体にいいです。", reading: "とうふはからだにいいです。", de: "Tōfu ist gesund." },
+    { jp: "豆腐のスープを作ります。", reading: "とうふのスープをつくります。", de: "Ich mache eine Tōfu-Suppe." }
+  ]},
+  { id: "v780", word: "どうも", reading: "どうも", meaning: "danke / sehr", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "どうもありがとう。", reading: "どうもありがとう。", de: "Vielen Dank." },
+    { jp: "どうもすみません。", reading: "どうもすみません。", de: "Tut mir wirklich leid." }
+  ]},
+  { id: "v781", word: "どうやって", reading: "どうやって", meaning: "wie, auf welche Weise", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "駅までどうやって行きますか。", reading: "えきまでどうやっていきますか。", de: "Wie komme ich zum Bahnhof?" },
+    { jp: "これはどうやって使いますか。", reading: "これはどうやってつかいますか。", de: "Wie benutzt man das?" }
+  ]},
+  { id: "v782", word: "通る", reading: "とおる", meaning: "hindurchgehen, passieren", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "この道を通ります。", reading: "このみちをとおります。", de: "Ich gehe diese Straße entlang." },
+    { jp: "バスが家の前を通ります。", reading: "バスがいえのまえをとおります。", de: "Der Bus fährt an meinem Haus vorbei." }
+  ]},
+  { id: "v783", word: "独身", reading: "どくしん", meaning: "ledig, Single", pos: "Nomen", level: "adv", examples: [
+    { jp: "兄はまだ独身です。", reading: "あにはまだどくしんです。", de: "Mein Bruder ist noch Single." },
+    { jp: "独身の時、よく旅行しました。", reading: "どくしんのとき、よくりょこうしました。", de: "Als Single bin ich viel gereist." }
+  ]},
+  { id: "v784", word: "どこにも", reading: "どこにも", meaning: "nirgendwo", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "どこにもありません。", reading: "どこにもありません。", de: "Es ist nirgendwo." },
+    { jp: "週末はどこにも行きませんでした。", reading: "しゅうまつはどこにもいきませんでした。", de: "Am Wochenende bin ich nirgendwohin gegangen." }
+  ]},
+  { id: "v785", word: "所", reading: "ところ", meaning: "Ort, Stelle", pos: "Nomen", level: "easy", examples: [
+    { jp: "静かな所に住みたいです。", reading: "しずかなところにすみたいです。", de: "Ich möchte an einem ruhigen Ort wohnen." },
+    { jp: "いい所を教えてください。", reading: "いいところをおしえてください。", de: "Empfehlen Sie mir einen guten Ort." }
+  ]},
+  { id: "v786", word: "ところで", reading: "ところで", meaning: "übrigens", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "ところで、明日は暇ですか。", reading: "ところで、あしたはひまですか。", de: "Übrigens, hast du morgen Zeit?" },
+    { jp: "ところで、あの話はどうなりましたか。", reading: "ところで、あのはなしはどうなりましたか。", de: "Übrigens, was ist aus der Sache geworden?" }
+  ]},
+  { id: "v787", word: "戸棚", reading: "とだな", meaning: "Schrank", pos: "Nomen", level: "adv", examples: [
+    { jp: "戸棚に皿を入れます。", reading: "とだなにさらをいれます。", de: "Ich stelle die Teller in den Schrank." },
+    { jp: "戸棚の中に薬があります。", reading: "とだなのなかにくすりがあります。", de: "Im Schrank ist Medizin." }
+  ]},
+  { id: "v788", word: "どちら", reading: "どちら", meaning: "welche(r) / wo (höflich)", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "お国はどちらですか。", reading: "おくにはどちらですか。", de: "Aus welchem Land kommen Sie?" },
+    { jp: "コーヒーとお茶、どちらがいいですか。", reading: "コーヒーとおちゃ、どちらがいいですか。", de: "Kaffee oder Tee, was möchten Sie?" }
+  ]},
+  { id: "v789", word: "特急", reading: "とっきゅう", meaning: "Schnellzug, Express", pos: "Nomen", level: "adv", examples: [
+    { jp: "特急で京都へ行きます。", reading: "とっきゅうできょうとへいきます。", de: "Ich fahre mit dem Express nach Kyōto." },
+    { jp: "特急は速いです。", reading: "とっきゅうははやいです。", de: "Der Express ist schnell." }
+  ]},
+  { id: "v790", word: "どっち", reading: "どっち", meaning: "welche(r/s) (ugs.)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "どっちが好きですか。", reading: "どっちがすきですか。", de: "Welches magst du?" },
+    { jp: "どっちの道が近いですか。", reading: "どっちのみちがちかいですか。", de: "Welcher Weg ist kürzer?" }
+  ]},
+  { id: "v791", word: "届く", reading: "とどく", meaning: "ankommen (Post, Paket)", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "荷物が届きました。", reading: "にもつがとどきました。", de: "Das Paket ist angekommen." },
+    { jp: "手紙はいつ届きますか。", reading: "てがみはいつとどきますか。", de: "Wann kommt der Brief an?" }
+  ]},
+  { id: "v792", word: "届ける", reading: "とどける", meaning: "liefern, abgeben", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "荷物を家まで届けます。", reading: "にもつをいえまでとどけます。", de: "Ich liefere das Paket bis nach Hause." },
+    { jp: "落とし物を交番に届けました。", reading: "おとしものをこうばんにとどけました。", de: "Ich habe den Fund beim Kōban abgegeben." }
+  ]},
+  { id: "v793", word: "どなた", reading: "どなた", meaning: "wer (höflich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "どなたですか。", reading: "どなたですか。", de: "Wer sind Sie, bitte?" },
+    { jp: "この方はどなたですか。", reading: "このかたはどなたですか。", de: "Wer ist diese Person?" }
+  ]},
+  { id: "v794", word: "隣", reading: "となり", meaning: "Nachbar, daneben", pos: "Nomen", level: "easy", examples: [
+    { jp: "隣の部屋は静かです。", reading: "となりのへやはしずかです。", de: "Das Nachbarzimmer ist ruhig." },
+    { jp: "隣に座ってもいいですか。", reading: "となりにすわってもいいですか。", de: "Darf ich mich neben Sie setzen?" }
+  ]},
+  { id: "v795", word: "どのくらい", reading: "どのくらい", meaning: "wie lange / wie viel", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "駅までどのくらいかかりますか。", reading: "えきまでどのくらいかかりますか。", de: "Wie lange dauert es zum Bahnhof?" },
+    { jp: "日本語をどのくらい勉強しましたか。", reading: "にほんごをどのくらいべんきょうしましたか。", de: "Wie lange haben Sie Japanisch gelernt?" }
+  ]},
+  { id: "v796", word: "飛ぶ", reading: "とぶ", meaning: "fliegen, springen", pos: "Verb (Godan, ぶ)", level: "adv", examples: [
+    { jp: "鳥が空を飛んでいます。", reading: "とりがそらをとんでいます。", de: "Ein Vogel fliegt am Himmel." },
+    { jp: "飛行機が飛びます。", reading: "ひこうきがとびます。", de: "Das Flugzeug fliegt." }
+  ]},
+  { id: "v797", word: "トマト", reading: "トマト", meaning: "Tomate", pos: "Nomen", level: "easy", examples: [
+    { jp: "サラダにトマトを入れます。", reading: "サラダにトマトをいれます。", de: "Ich gebe Tomaten in den Salat." },
+    { jp: "トマトは赤いです。", reading: "トマトはあかいです。", de: "Tomaten sind rot." }
+  ]},
+  { id: "v798", word: "止める", reading: "とめる", meaning: "anhalten, parken", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "ここに車を止めます。", reading: "ここにくるまをとめます。", de: "Ich parke hier das Auto." },
+    { jp: "音楽を止めてください。", reading: "おんがくをとめてください。", de: "Stellen Sie bitte die Musik ab." }
+  ]},
+  { id: "v799", word: "ドライブ", reading: "ドライブ", meaning: "Spazierfahrt (mit dem Auto)", pos: "Nomen", level: "adv", examples: [
+    { jp: "日曜日に海までドライブします。", reading: "にちようびにうみまでドライブします。", de: "Sonntags fahre ich zum Meer." },
+    { jp: "ドライブは気持ちいいです。", reading: "ドライブはきもちいいです。", de: "Autofahren ist angenehm." }
+  ]},
+  { id: "v800", word: "取りに行く", reading: "とりにいく", meaning: "holen gehen, abholen", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "荷物を取りに行きます。", reading: "にもつをとりにいきます。", de: "Ich hole das Paket ab." },
+    { jp: "本を図書館に取りに行きました。", reading: "ほんをとしょかんにとりにいきました。", de: "Ich habe das Buch in der Bibliothek abgeholt." }
+  ]},
+  { id: "v801", word: "とり肉", reading: "とりにく", meaning: "Hühnerfleisch", pos: "Nomen", level: "adv", examples: [
+    { jp: "とり肉を買ってきました。", reading: "とりにくをかってきました。", de: "Ich habe Hühnerfleisch gekauft." },
+    { jp: "今晩はとり肉の料理です。", reading: "こんばんはとりにくのりょうりです。", de: "Heute Abend gibt es Hühnchen." }
+  ]},
+  { id: "v802", word: "取る", reading: "とる", meaning: "nehmen, greifen", pos: "Verb (Godan, る)*", level: "easy", examples: [
+    { jp: "塩を取ってください。", reading: "しおをとってください。", de: "Reichen Sie mir bitte das Salz." },
+    { jp: "棚から本を取ります。", reading: "たなからほんをとります。", de: "Ich nehme ein Buch aus dem Regal." }
+  ]},
+  { id: "v803", word: "トレーニング", reading: "トレーニング", meaning: "Training", pos: "Nomen", level: "adv", examples: [
+    { jp: "毎朝トレーニングをします。", reading: "まいあさトレーニングをします。", de: "Jeden Morgen trainiere ich." },
+    { jp: "試合の前にトレーニングします。", reading: "しあいのまえにトレーニングします。", de: "Vor dem Spiel trainiere ich." }
+  ]},
+  { id: "v804", word: "どんな", reading: "どんな", meaning: "was für ein, welche Art von", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "どんな音楽が好きですか。", reading: "どんなおんがくがすきですか。", de: "Welche Musik magst du?" },
+    { jp: "どんな人ですか。", reading: "どんなひとですか。", de: "Was für ein Mensch ist er?" }
+  ]},
+  { id: "v805", word: "直す", reading: "なおす", meaning: "reparieren, korrigieren", pos: "Verb (Godan, す)", level: "adv", examples: [
+    { jp: "時計を直します。", reading: "とけいをなおします。", de: "Ich repariere die Uhr." },
+    { jp: "間違いを直してください。", reading: "まちがいをなおしてください。", de: "Korrigieren Sie bitte die Fehler." }
+  ]},
+  { id: "v806", word: "直る", reading: "なおる", meaning: "repariert / gesund werden", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "テレビが直りました。", reading: "テレビがなおりました。", de: "Der Fernseher ist wieder heil." },
+    { jp: "風邪が早く直るといいですね。", reading: "かぜがはやくなおるといいですね。", de: "Hoffentlich wird die Erkältung schnell besser." }
+  ]},
+  { id: "v807", word: "中身", reading: "なかみ", meaning: "Inhalt", pos: "Nomen", level: "adv", examples: [
+    { jp: "箱の中身は何ですか。", reading: "はこのなかみはなんですか。", de: "Was ist im Karton?" },
+    { jp: "かばんの中身を見せてください。", reading: "かばんのなかみをみせてください。", de: "Zeigen Sie mir bitte den Inhalt der Tasche." }
+  ]},
+  { id: "v808", word: "ながめ", reading: "ながめ", meaning: "Aussicht", pos: "Nomen", level: "adv", examples: [
+    { jp: "この部屋はながめがいいです。", reading: "このへやはながめがいいです。", de: "Dieses Zimmer hat eine gute Aussicht." },
+    { jp: "山からのながめはすばらしいです。", reading: "やまからのながめはすばらしいです。", de: "Die Aussicht vom Berg ist großartig." }
+  ]},
+  { id: "v809", word: "習う", reading: "ならう", meaning: "lernen (unter Anleitung)", pos: "Verb (Godan, う)", level: "easy", examples: [
+    { jp: "ピアノを習っています。", reading: "ピアノをならっています。", de: "Ich lerne Klavier." },
+    { jp: "先生に日本語を習いました。", reading: "せんせいににほんごをならいました。", de: "Ich habe bei einem Lehrer Japanisch gelernt." }
+  ]},
+  { id: "v810", word: "なるほど", reading: "なるほど", meaning: "ich verstehe, aha", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "なるほど、わかりました。", reading: "なるほど、わかりました。", de: "Aha, jetzt verstehe ich." },
+    { jp: "なるほど、それはいい考えですね。", reading: "なるほど、それはいいかんがえですね。", de: "Verstehe, das ist eine gute Idee." }
+  ]},
+  { id: "v811", word: "何度も", reading: "なんども", meaning: "mehrmals, oftmals", pos: "Adverb", level: "adv", examples: [
+    { jp: "何度も練習しました。", reading: "なんどもれんしゅうしました。", de: "Ich habe mehrmals geübt." },
+    { jp: "何度も電話しましたが、出ませんでした。", reading: "なんどもでんわしましたが、でませんでした。", de: "Ich habe oft angerufen, aber niemand ging ran." }
+  ]},
+  { id: "v812", word: "にぎやかな", reading: "にぎやかな", meaning: "belebt, lebhaft", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "にぎやかな町が好きです。", reading: "にぎやかなまちがすきです。", de: "Ich mag belebte Städte." },
+    { jp: "お祭りはにぎやかでした。", reading: "おまつりはにぎやかでした。", de: "Das Fest war lebhaft." }
+  ]},
+  { id: "v813", word: "肉屋", reading: "にくや", meaning: "Metzger, Fleischerei", pos: "Nomen", level: "adv", examples: [
+    { jp: "肉屋で牛肉を買います。", reading: "にくやでぎゅうにくをかいます。", de: "Ich kaufe Rindfleisch beim Metzger." },
+    { jp: "肉屋は商店街にあります。", reading: "にくやはしょうてんがいにあります。", de: "Die Fleischerei ist in der Einkaufsstraße." }
+  ]},
+  { id: "v814", word: "日", reading: "にち", meaning: "Tag", pos: "Nomen", level: "adv", examples: [
+    { jp: "三日から五日まで休みます。", reading: "みっかからいつかまでやすみます。", de: "Vom dritten bis fünften habe ich frei." },
+    { jp: "その日は都合が悪いです。", reading: "そのひはつごうがわるいです。", de: "An dem Tag passt es mir nicht." }
+  ]},
+  { id: "v815", word: "日本", reading: "にほん", meaning: "Japan", pos: "Nomen", level: "easy", examples: [
+    { jp: "日本に住んでいます。", reading: "にほんにすんでいます。", de: "Ich wohne in Japan." },
+    { jp: "日本の食べ物が好きです。", reading: "にほんのたべものがすきです。", de: "Ich mag japanisches Essen." }
+  ]},
+  { id: "v816", word: "日本語", reading: "にほんご", meaning: "Japanisch (Sprache)", pos: "Nomen", level: "easy", examples: [
+    { jp: "日本語を勉強しています。", reading: "にほんごをべんきょうしています。", de: "Ich lerne Japanisch." },
+    { jp: "日本語で話しましょう。", reading: "にほんごではなしましょう。", de: "Lass uns auf Japanisch sprechen." }
+  ]},
+  { id: "v817", word: "日本人", reading: "にほんじん", meaning: "Japaner(in)", pos: "Nomen", level: "easy", examples: [
+    { jp: "彼女は日本人です。", reading: "かのじょはにほんじんです。", de: "Sie ist Japanerin." },
+    { jp: "日本人の友達がたくさんいます。", reading: "にほんじんのともだちがたくさんいます。", de: "Ich habe viele japanische Freunde." }
+  ]},
+  { id: "v818", word: "荷物", reading: "にもつ", meaning: "Gepäck, Paket", pos: "Nomen", level: "adv", examples: [
+    { jp: "荷物が重いです。", reading: "にもつがおもいです。", de: "Das Gepäck ist schwer." },
+    { jp: "荷物を部屋まで運びます。", reading: "にもつをへやまではこびます。", de: "Ich trage das Gepäck bis ins Zimmer." }
+  ]},
+  { id: "v819", word: "ニュース", reading: "ニュース", meaning: "Nachrichten", pos: "Nomen", level: "easy", examples: [
+    { jp: "朝、ニュースを見ます。", reading: "あさ、ニュースをみます。", de: "Morgens schaue ich Nachrichten." },
+    { jp: "そのニュースを聞きました。", reading: "そのニュースをききました。", de: "Ich habe die Nachricht gehört." }
+  ]},
+  { id: "v820", word: "ネクタイ", reading: "ネクタイ", meaning: "Krawatte", pos: "Nomen", level: "adv", examples: [
+    { jp: "青いネクタイをします。", reading: "あおいネクタイをします。", de: "Ich trage eine blaue Krawatte." },
+    { jp: "父にネクタイをあげました。", reading: "ちちにネクタイをあげました。", de: "Ich habe meinem Vater eine Krawatte geschenkt." }
+  ]},
+  { id: "v821", word: "熱", reading: "ねつ", meaning: "Fieber", pos: "Nomen", level: "adv", examples: [
+    { jp: "熱があります。", reading: "ねつがあります。", de: "Ich habe Fieber." },
+    { jp: "熱が下がりました。", reading: "ねつがさがりました。", de: "Das Fieber ist gesunken." }
+  ]},
+  { id: "v822", word: "年", reading: "ねん", meaning: "Jahr", pos: "Nomen", level: "adv", examples: [
+    { jp: "今年は二千二十六年です。", reading: "ことしはにせんにじゅうろくねんです。", de: "Dieses Jahr ist 2026." },
+    { jp: "一年に一度日本へ行きます。", reading: "いちねんにいちどにほんへいきます。", de: "Einmal im Jahr fahre ich nach Japan." }
+  ]},
+  { id: "v823", word: "のど", reading: "のど", meaning: "Hals, Kehle", pos: "Nomen", level: "adv", examples: [
+    { jp: "のどが痛いです。", reading: "のどがいたいです。", de: "Mein Hals tut weh." },
+    { jp: "のどがかわきました。", reading: "のどがかわきました。", de: "Ich habe Durst." }
+  ]},
+  { id: "v824", word: "乗り換える", reading: "のりかえる", meaning: "umsteigen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "東京駅で乗り換えます。", reading: "とうきょうえきでのりかえます。", de: "Ich steige am Bahnhof Tōkyō um." },
+    { jp: "次の駅でバスに乗り換えます。", reading: "つぎのえきでバスにのりかえます。", de: "An der nächsten Station steige ich in den Bus um." }
+  ]},
+  { id: "v825", word: "乗り場", reading: "のりば", meaning: "Haltestelle, Einstiegsstelle", pos: "Nomen", level: "adv", examples: [
+    { jp: "バスの乗り場はどこですか。", reading: "バスののりばはどこですか。", de: "Wo ist die Bushaltestelle?" },
+    { jp: "タクシー乗り場で待ちます。", reading: "タクシーのりばでまちます。", de: "Ich warte am Taxistand." }
+  ]},
+  { id: "v826", word: "歯", reading: "は", meaning: "Zahn", pos: "Nomen", level: "easy", examples: [
+    { jp: "毎日歯をみがきます。", reading: "まいにちはをみがきます。", de: "Ich putze mir jeden Tag die Zähne." },
+    { jp: "歯が痛いです。", reading: "はがいたいです。", de: "Mir tut ein Zahn weh." }
+  ]},
+  { id: "v827", word: "バー", reading: "バー", meaning: "Bar", pos: "Nomen", level: "adv", examples: [
+    { jp: "友達とバーに行きます。", reading: "ともだちとバーにいきます。", de: "Ich gehe mit Freunden in eine Bar." },
+    { jp: "このバーは静かです。", reading: "このバーはしずかです。", de: "Diese Bar ist ruhig." }
+  ]},
+  { id: "v828", word: "パーティー", reading: "パーティー", meaning: "Party, Feier", pos: "Nomen", level: "easy", examples: [
+    { jp: "土曜日にパーティーがあります。", reading: "どようびにパーティーがあります。", de: "Am Samstag ist eine Party." },
+    { jp: "パーティーに友達を招待します。", reading: "パーティーにともだちをしょうたいします。", de: "Ich lade Freunde zur Party ein." }
+  ]},
+  { id: "v829", word: "バーベキュー", reading: "バーベキュー", meaning: "Grillen, Barbecue", pos: "Nomen", level: "adv", examples: [
+    { jp: "夏に公園でバーベキューをします。", reading: "なつにこうえんでバーベキューをします。", de: "Im Sommer grillen wir im Park." },
+    { jp: "バーベキューは楽しいです。", reading: "バーベキューはたのしいです。", de: "Grillen macht Spaß." }
+  ]},
+  { id: "v830", word: "ハイキング", reading: "ハイキング", meaning: "Wanderung", pos: "Nomen", level: "adv", examples: [
+    { jp: "日曜日に山へハイキングに行きます。", reading: "にちようびにやまへハイキングにいきます。", de: "Sonntags gehe ich in den Bergen wandern." },
+    { jp: "ハイキングは気持ちがいいです。", reading: "ハイキングはきもちがいいです。", de: "Wandern tut gut." }
+  ]},
+  { id: "v831", word: "バイク", reading: "バイク", meaning: "Motorrad", pos: "Nomen", level: "adv", examples: [
+    { jp: "バイクで会社に行きます。", reading: "バイクでかいしゃにいきます。", de: "Ich fahre mit dem Motorrad zur Arbeit." },
+    { jp: "新しいバイクがほしいです。", reading: "あたらしいバイクがほしいです。", de: "Ich hätte gern ein neues Motorrad." }
+  ]},
+  { id: "v832", word: "灰皿", reading: "はいざら", meaning: "Aschenbecher", pos: "Nomen", level: "adv", examples: [
+    { jp: "灰皿はありますか。", reading: "はいざらはありますか。", de: "Gibt es einen Aschenbecher?" },
+    { jp: "テーブルに灰皿を置きます。", reading: "テーブルにはいざらをおきます。", de: "Ich stelle einen Aschenbecher auf den Tisch." }
+  ]},
+  { id: "v833", word: "はがき", reading: "はがき", meaning: "Postkarte", pos: "Nomen", level: "adv", examples: [
+    { jp: "旅行先からはがきを送ります。", reading: "りょこうさきからはがきをおくります。", de: "Vom Reiseziel schicke ich eine Postkarte." },
+    { jp: "はがきを一枚ください。", reading: "はがきをいちまいください。", de: "Bitte eine Postkarte." }
+  ]},
+  { id: "v834", word: "箱", reading: "はこ", meaning: "Kiste, Schachtel", pos: "Nomen", level: "easy", examples: [
+    { jp: "箱にプレゼントを入れます。", reading: "はこにプレゼントをいれます。", de: "Ich lege das Geschenk in die Schachtel." },
+    { jp: "この箱は重いです。", reading: "このはこはおもいです。", de: "Diese Kiste ist schwer." }
+  ]},
+  { id: "v835", word: "運ぶ", reading: "はこぶ", meaning: "tragen, befördern", pos: "Verb (Godan, ぶ)", level: "adv", examples: [
+    { jp: "荷物を二階に運びます。", reading: "にもつをにかいにはこびます。", de: "Ich trage das Gepäck in den ersten Stock." },
+    { jp: "みんなでいすを運びました。", reading: "みんなでいすをはこびました。", de: "Wir haben zusammen die Stühle getragen." }
+  ]},
+  { id: "v836", word: "始まる", reading: "はじまる", meaning: "anfangen (intransitiv)", pos: "Verb (Godan, る)*", level: "easy", examples: [
+    { jp: "映画は七時に始まります。", reading: "えいがはしちじにはじまります。", de: "Der Film beginnt um sieben." },
+    { jp: "授業が始まりました。", reading: "じゅぎょうがはじまりました。", de: "Der Unterricht hat begonnen." }
+  ]},
+  { id: "v837", word: "バス乗り場", reading: "バスのりば", meaning: "Bushaltestelle", pos: "Nomen", level: "adv", examples: [
+    { jp: "バス乗り場は駅の前です。", reading: "バスのりばはえきのまえです。", de: "Die Bushaltestelle ist vor dem Bahnhof." },
+    { jp: "バス乗り場で並びます。", reading: "バスのりばでならびます。", de: "Ich stelle mich an der Bushaltestelle an." }
+  ]},
+  { id: "v838", word: "パスポート", reading: "パスポート", meaning: "Reisepass", pos: "Nomen", level: "easy", examples: [
+    { jp: "パスポートを見せてください。", reading: "パスポートをみせてください。", de: "Zeigen Sie bitte Ihren Reisepass." },
+    { jp: "パスポートを忘れました。", reading: "パスポートをわすれました。", de: "Ich habe meinen Reisepass vergessen." }
+  ]},
+  { id: "v839", word: "パソコン", reading: "パソコン", meaning: "PC, Computer", pos: "Nomen", level: "easy", examples: [
+    { jp: "パソコンでメールを書きます。", reading: "パソコンでメールをかきます。", de: "Ich schreibe E-Mails am Computer." },
+    { jp: "新しいパソコンを買いました。", reading: "あたらしいパソコンをかいました。", de: "Ich habe einen neuen Computer gekauft." }
+  ]},
+  { id: "v840", word: "花束", reading: "はなたば", meaning: "Blumenstrauß", pos: "Nomen", level: "adv", examples: [
+    { jp: "母に花束をあげます。", reading: "ははにはなたばをあげます。", de: "Ich schenke meiner Mutter einen Blumenstrauß." },
+    { jp: "きれいな花束ですね。", reading: "きれいなはなたばですね。", de: "Was für ein schöner Strauß." }
+  ]},
+  { id: "v841", word: "花屋", reading: "はなや", meaning: "Blumenladen", pos: "Nomen", level: "adv", examples: [
+    { jp: "花屋で花を買います。", reading: "はなやではなをかいます。", de: "Ich kaufe Blumen im Blumenladen." },
+    { jp: "花屋は駅の近くにあります。", reading: "はなやはえきのちかくにあります。", de: "Der Blumenladen ist beim Bahnhof." }
+  ]},
+  { id: "v842", word: "母", reading: "はは", meaning: "Mutter (eigene)", pos: "Nomen", level: "easy", examples: [
+    { jp: "母は料理が上手です。", reading: "はははりょうりがじょうずです。", de: "Meine Mutter kocht gut." },
+    { jp: "母に電話します。", reading: "ははにでんわします。", de: "Ich rufe meine Mutter an." }
+  ]},
+  { id: "v843", word: "早めに", reading: "はやめに", meaning: "frühzeitig, rechtzeitig", pos: "Adverb", level: "adv", examples: [
+    { jp: "早めに家を出ます。", reading: "はやめにいえをでます。", de: "Ich gehe frühzeitig aus dem Haus." },
+    { jp: "早めに寝てください。", reading: "はやめにねてください。", de: "Gehen Sie bitte früh schlafen." }
+  ]},
+  { id: "v844", word: "払う", reading: "はらう", meaning: "bezahlen", pos: "Verb (Godan, う)", level: "adv", examples: [
+    { jp: "お金を払います。", reading: "おかねをはらいます。", de: "Ich bezahle das Geld." },
+    { jp: "カードで払ってもいいですか。", reading: "カードではらってもいいですか。", de: "Kann ich mit Karte zahlen?" }
+  ]},
+  { id: "v845", word: "晩", reading: "ばん", meaning: "Abend", pos: "Nomen", level: "adv", examples: [
+    { jp: "今晩は家にいます。", reading: "こんばんはいえにいます。", de: "Heute Abend bin ich zu Hause." },
+    { jp: "晩に散歩します。", reading: "ばんにさんぽします。", de: "Abends gehe ich spazieren." }
+  ]},
+  { id: "v846", word: "はんこ", reading: "はんこ", meaning: "Stempel, Siegel", pos: "Nomen", level: "adv", examples: [
+    { jp: "ここにはんこを押してください。", reading: "ここにはんこをおしてください。", de: "Bitte hier den Stempel abdrücken." },
+    { jp: "日本ではよくはんこを使います。", reading: "にほんではよくはんこをつかいます。", de: "In Japan benutzt man oft einen Stempel." }
+  ]},
+  { id: "v847", word: "晩ごはん", reading: "ばんごはん", meaning: "Abendessen", pos: "Nomen", level: "easy", examples: [
+    { jp: "七時に晩ごはんを食べます。", reading: "しちじにばんごはんをたべます。", de: "Um sieben esse ich Abendbrot." },
+    { jp: "今日の晩ごはんは魚です。", reading: "きょうのばんごはんはさかなです。", de: "Heute gibt es Fisch zum Abendessen." }
+  ]},
+  { id: "v848", word: "ハンサムな", reading: "ハンサムな", meaning: "gut aussehend", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "ハンサムな人ですね。", reading: "ハンサムなひとですね。", de: "Er sieht gut aus." },
+    { jp: "彼はとてもハンサムです。", reading: "かれはとてもハンサムです。", de: "Er ist sehr gut aussehend." }
+  ]},
+  { id: "v849", word: "ハンバーグ", reading: "ハンバーグ", meaning: "Hamburger (Frikadelle)", pos: "Nomen", level: "adv", examples: [
+    { jp: "晩ごはんにハンバーグを作ります。", reading: "ばんごはんにハンバーグをつくります。", de: "Zum Abendessen mache ich Frikadellen." },
+    { jp: "子供はハンバーグが好きです。", reading: "こどもはハンバーグがすきです。", de: "Kinder mögen Frikadellen." }
+  ]},
+  { id: "v850", word: "パン屋", reading: "パンや", meaning: "Bäckerei", pos: "Nomen", level: "easy", examples: [
+    { jp: "パン屋でパンを買います。", reading: "パンやでパンをかいます。", de: "Ich kaufe Brot in der Bäckerei." },
+    { jp: "いいにおいのパン屋です。", reading: "いいにおいのパンやです。", de: "Eine Bäckerei, die gut riecht." }
+  ]},
+  { id: "v851", word: "ひ", reading: "ひ", meaning: "Tag / Sonne", pos: "Nomen", level: "adv", examples: [
+    { jp: "いい天気の日は公園へ行きます。", reading: "いいてんきのひはこうえんへいきます。", de: "An schönen Tagen gehe ich in den Park." },
+    { jp: "その日は忙しかったです。", reading: "そのひはいそがしかったです。", de: "An dem Tag war ich beschäftigt." }
+  ]},
+  { id: "v852", word: "ピアニスト", reading: "ピアニスト", meaning: "Pianist(in)", pos: "Nomen", level: "adv", examples: [
+    { jp: "姉はピアニストです。", reading: "あねはピアニストです。", de: "Meine Schwester ist Pianistin." },
+    { jp: "有名なピアニストのコンサートに行きました。", reading: "ゆうめいなピアニストのコンサートにいきました。", de: "Ich war im Konzert eines berühmten Pianisten." }
+  ]},
+  { id: "v853", word: "ビーチ", reading: "ビーチ", meaning: "Strand", pos: "Nomen", level: "adv", examples: [
+    { jp: "夏にビーチで泳ぎます。", reading: "なつにビーチでおよぎます。", de: "Im Sommer schwimme ich am Strand." },
+    { jp: "ビーチは人が多いです。", reading: "ビーチはひとがおおいです。", de: "Am Strand sind viele Leute." }
+  ]},
+  { id: "v854", word: "東", reading: "ひがし", meaning: "Osten", pos: "Nomen", level: "easy", examples: [
+    { jp: "太陽は東から出ます。", reading: "たいようはひがしからでます。", de: "Die Sonne geht im Osten auf." },
+    { jp: "東の出口で会いましょう。", reading: "ひがしのでぐちであいましょう。", de: "Treffen wir uns am Ostausgang." }
+  ]},
+  { id: "v855", word: "低い", reading: "ひくい", meaning: "niedrig, tief", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "この机は低いです。", reading: "このつくえはひくいです。", de: "Dieser Tisch ist niedrig." },
+    { jp: "彼は背が低いです。", reading: "かれはせがひくいです。", de: "Er ist klein." }
+  ]},
+  { id: "v856", word: "飛行士", reading: "ひこうし", meaning: "Pilot", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼は飛行士になりたいです。", reading: "かれはひこうしになりたいです。", de: "Er möchte Pilot werden." },
+    { jp: "飛行士は忙しい仕事です。", reading: "ひこうしはいそがしいしごとです。", de: "Pilot ist ein anstrengender Beruf." }
+  ]},
+  { id: "v857", word: "ピザ", reading: "ピザ", meaning: "Pizza", pos: "Nomen", level: "easy", examples: [
+    { jp: "ピザを注文します。", reading: "ピザをちゅうもんします。", de: "Ich bestelle eine Pizza." },
+    { jp: "ピザが大好きです。", reading: "ピザがだいすきです。", de: "Ich liebe Pizza." }
+  ]},
+  { id: "v858", word: "ビザ", reading: "ビザ", meaning: "Visum", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本のビザが必要です。", reading: "にほんのビザがひつようです。", de: "Ich brauche ein Visum für Japan." },
+    { jp: "ビザを申し込みました。", reading: "ビザをもうしこみました。", de: "Ich habe ein Visum beantragt." }
+  ]},
+  { id: "v859", word: "美術館", reading: "びじゅつかん", meaning: "Kunstmuseum", pos: "Nomen", level: "adv", examples: [
+    { jp: "美術館で絵を見ます。", reading: "びじゅつかんでえをみます。", de: "Im Museum betrachte ich Bilder." },
+    { jp: "この美術館は有名です。", reading: "このびじゅつかんはゆうめいです。", de: "Dieses Museum ist berühmt." }
+  ]},
+  { id: "v860", word: "秘書", reading: "ひしょ", meaning: "Sekretär(in)", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼女は社長の秘書です。", reading: "かのじょはしゃちょうのひしょです。", de: "Sie ist die Sekretärin des Chefs." },
+    { jp: "秘書に予定を聞きます。", reading: "ひしょによていをききます。", de: "Ich frage die Sekretärin nach dem Termin." }
+  ]},
+  { id: "v861", word: "左", reading: "ひだり", meaning: "links", pos: "Nomen", level: "easy", examples: [
+    { jp: "次の角を左に曲がります。", reading: "つぎのかどをひだりにまがります。", de: "An der nächsten Ecke biege ich links ab." },
+    { jp: "左の手を上げてください。", reading: "ひだりのてをあげてください。", de: "Heben Sie bitte die linke Hand." }
+  ]},
+  { id: "v862", word: "左側", reading: "ひだりがわ", meaning: "linke Seite", pos: "Nomen", level: "adv", examples: [
+    { jp: "左側に銀行があります。", reading: "ひだりがわにぎんこうがあります。", de: "Auf der linken Seite ist eine Bank." },
+    { jp: "道の左側を歩きます。", reading: "みちのひだりがわをあるきます。", de: "Ich gehe auf der linken Straßenseite." }
+  ]},
+  { id: "v863", word: "引っ越す", reading: "ひっこす", meaning: "umziehen", pos: "Verb (Godan, す)", level: "adv", examples: [
+    { jp: "来月、東京に引っ越します。", reading: "らいげつ、とうきょうにひっこします。", de: "Nächsten Monat ziehe ich nach Tōkyō." },
+    { jp: "新しい家に引っ越しました。", reading: "あたらしいいえにひっこしました。", de: "Ich bin in ein neues Haus gezogen." }
+  ]},
+  { id: "v864", word: "必要な", reading: "ひつような", meaning: "notwendig, nötig", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "必要な物を買います。", reading: "ひつようなものをかいます。", de: "Ich kaufe die nötigen Dinge." },
+    { jp: "パスポートが必要です。", reading: "パスポートがひつようです。", de: "Ein Reisepass ist erforderlich." }
+  ]},
+  { id: "v865", word: "ビデオ", reading: "ビデオ", meaning: "Video", pos: "Nomen", level: "adv", examples: [
+    { jp: "ビデオを見ます。", reading: "ビデオをみます。", de: "Ich schaue ein Video." },
+    { jp: "旅行のビデオをとりました。", reading: "りょこうのビデオをとりました。", de: "Ich habe ein Reisevideo gedreht." }
+  ]},
+  { id: "v866", word: "人", reading: "ひと", meaning: "Mensch, Person", pos: "Nomen", level: "easy", examples: [
+    { jp: "あの人は誰ですか。", reading: "あのひとはだれですか。", de: "Wer ist die Person dort?" },
+    { jp: "やさしい人ですね。", reading: "やさしいひとですね。", de: "Was für ein netter Mensch." }
+  ]},
+  { id: "v867", word: "一人", reading: "ひとり", meaning: "eine Person / allein", pos: "Nomen", level: "easy", examples: [
+    { jp: "一人で住んでいます。", reading: "ひとりですんでいます。", de: "Ich wohne allein." },
+    { jp: "一人で行っても大丈夫です。", reading: "ひとりでいってもだいじょうぶです。", de: "Ich kann auch allein gehen." }
+  ]},
+  { id: "v868", word: "一人で", reading: "ひとりで", meaning: "allein, selbständig", pos: "Adverb", level: "adv", examples: [
+    { jp: "一人で旅行します。", reading: "ひとりでりょこうします。", de: "Ich reise allein." },
+    { jp: "一人で全部しました。", reading: "ひとりでぜんぶしました。", de: "Ich habe alles allein gemacht." }
+  ]},
+  { id: "v869", word: "暇な", reading: "ひまな", meaning: "frei (Zeit habend)", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "今日は暇です。", reading: "きょうはひまです。", de: "Heute habe ich Zeit." },
+    { jp: "暇な時に本を読みます。", reading: "ひまなときにほんをよみます。", de: "In der Freizeit lese ich." }
+  ]},
+  { id: "v870", word: "ひらがな", reading: "ひらがな", meaning: "Hiragana", pos: "Nomen", level: "easy", examples: [
+    { jp: "ひらがなを覚えました。", reading: "ひらがなをおぼえました。", de: "Ich habe Hiragana gelernt." },
+    { jp: "名前をひらがなで書きます。", reading: "なまえをひらがなでかきます。", de: "Ich schreibe den Namen in Hiragana." }
+  ]},
+  { id: "v871", word: "開く", reading: "ひらく", meaning: "öffnen, aufgehen", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "本を開いてください。", reading: "ほんをひらいてください。", de: "Öffnen Sie bitte das Buch." },
+    { jp: "店は十時に開きます。", reading: "みせはじゅうじにひらきます。", de: "Der Laden öffnet um zehn." }
+  ]},
+  { id: "v872", word: "ビル", reading: "ビル", meaning: "Gebäude, Hochhaus", pos: "Nomen", level: "adv", examples: [
+    { jp: "高いビルが多いです。", reading: "たかいビルがおおいです。", de: "Es gibt viele hohe Gebäude." },
+    { jp: "あのビルは銀行です。", reading: "あのビルはぎんこうです。", de: "Das Gebäude dort ist eine Bank." }
+  ]},
+  { id: "v873", word: "昼ごはん", reading: "ひるごはん", meaning: "Mittagessen", pos: "Nomen", level: "easy", examples: [
+    { jp: "友達と昼ごはんを食べます。", reading: "ともだちとひるごはんをたべます。", de: "Ich esse mit einem Freund zu Mittag." },
+    { jp: "昼ごはんはうどんでした。", reading: "ひるごはんはうどんでした。", de: "Zu Mittag gab es Udon." }
+  ]},
+  { id: "v874", word: "昼休み", reading: "ひるやすみ", meaning: "Mittagspause", pos: "Nomen", level: "adv", examples: [
+    { jp: "昼休みは一時間です。", reading: "ひるやすみはいちじかんです。", de: "Die Mittagspause dauert eine Stunde." },
+    { jp: "昼休みに散歩します。", reading: "ひるやすみにさんぽします。", de: "In der Mittagspause gehe ich spazieren." }
+  ]},
+  { id: "v875", word: "拾う", reading: "ひろう", meaning: "aufheben, auflesen", pos: "Verb (Godan, う)", level: "adv", examples: [
+    { jp: "道でお金を拾いました。", reading: "みちでおかねをひろいました。", de: "Ich habe auf der Straße Geld gefunden." },
+    { jp: "ごみを拾ってください。", reading: "ごみをひろってください。", de: "Heben Sie bitte den Müll auf." }
+  ]},
+  { id: "v876", word: "貧乏な", reading: "びんぼうな", meaning: "arm", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "昔は貧乏でした。", reading: "むかしはびんぼうでした。", de: "Früher war ich arm." },
+    { jp: "貧乏な学生でした。", reading: "びんぼうながくせいでした。", de: "Ich war ein armer Student." }
+  ]},
+  { id: "v877", word: "ファックス", reading: "ファックス", meaning: "Fax", pos: "Nomen", level: "adv", examples: [
+    { jp: "書類をファックスで送ります。", reading: "しょるいをファックスでおくります。", de: "Ich schicke die Unterlagen per Fax." },
+    { jp: "ファックスが届きました。", reading: "ファックスがとどきました。", de: "Ein Fax ist angekommen." }
+  ]},
+  { id: "v878", word: "夫婦", reading: "ふうふ", meaning: "Ehepaar", pos: "Nomen", level: "adv", examples: [
+    { jp: "あの二人は夫婦です。", reading: "あのふたりはふうふです。", de: "Die beiden sind ein Ehepaar." },
+    { jp: "夫婦で旅行します。", reading: "ふうふでりょこうします。", de: "Wir verreisen als Ehepaar." }
+  ]},
+  { id: "v879", word: "プール", reading: "プール", meaning: "Schwimmbad, Pool", pos: "Nomen", level: "easy", examples: [
+    { jp: "夏にプールで泳ぎます。", reading: "なつにプールでおよぎます。", de: "Im Sommer schwimme ich im Pool." },
+    { jp: "学校にプールがあります。", reading: "がっこうにプールがあります。", de: "Die Schule hat ein Schwimmbad." }
+  ]},
+  { id: "v880", word: "増える", reading: "ふえる", meaning: "zunehmen, mehr werden", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "外国人の観光客が増えました。", reading: "がいこくじんのかんこうきゃくがふえました。", de: "Die Zahl ausländischer Touristen ist gestiegen." },
+    { jp: "仕事が増えて忙しいです。", reading: "しごとがふえていそがしいです。", de: "Es ist mehr Arbeit geworden, ich bin beschäftigt." }
+  ]},
+  { id: "v881", word: "複雑な", reading: "ふくざつな", meaning: "kompliziert", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "この問題は複雑です。", reading: "このもんだいはふくざつです。", de: "Dieses Problem ist kompliziert." },
+    { jp: "複雑な気持ちです。", reading: "ふくざつなきもちです。", de: "Ich habe gemischte Gefühle." }
+  ]},
+  { id: "v882", word: "袋", reading: "ふくろ", meaning: "Tüte, Beutel", pos: "Nomen", level: "adv", examples: [
+    { jp: "袋をください。", reading: "ふくろをください。", de: "Eine Tüte bitte." },
+    { jp: "袋に果物を入れます。", reading: "ふくろにくだものをいれます。", de: "Ich lege Obst in die Tüte." }
+  ]},
+  { id: "v883", word: "婦人", reading: "ふじん", meaning: "Frau, Dame", pos: "Nomen", level: "adv", examples: [
+    { jp: "婦人服の売り場は三階です。", reading: "ふじんふくのうりばはさんがいです。", de: "Die Damenabteilung ist im dritten Stock." },
+    { jp: "上品な婦人です。", reading: "じょうひんなふじんです。", de: "Eine vornehme Dame." }
+  ]},
+  { id: "v884", word: "二人", reading: "ふたり", meaning: "zwei Personen", pos: "Nomen", level: "easy", examples: [
+    { jp: "二人で映画を見ます。", reading: "ふたりでえいがをみます。", de: "Wir sehen zu zweit einen Film." },
+    { jp: "子供が二人います。", reading: "こどもがふたりいます。", de: "Ich habe zwei Kinder." }
+  ]},
+  { id: "v885", word: "不便な", reading: "ふべんな", meaning: "unpraktisch, unbequem", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "この町は交通が不便です。", reading: "このまちはこうつうがふべんです。", de: "In dieser Stadt ist der Verkehr unpraktisch." },
+    { jp: "車がないと不便です。", reading: "くるまがないとふべんです。", de: "Ohne Auto ist es unpraktisch." }
+  ]},
+  { id: "v886", word: "踏む", reading: "ふむ", meaning: "treten (auf etwas)", pos: "Verb (Godan, む)", level: "adv", examples: [
+    { jp: "足を踏まないでください。", reading: "あしをふまないでください。", de: "Treten Sie mir bitte nicht auf den Fuß." },
+    { jp: "ブレーキを踏みます。", reading: "ブレーキをふみます。", de: "Ich trete auf die Bremse." }
+  ]},
+  { id: "v887", word: "フランス語", reading: "フランスご", meaning: "Französisch", pos: "Nomen", level: "adv", examples: [
+    { jp: "フランス語を少し話せます。", reading: "フランスごをすこしはなせます。", de: "Ich kann etwas Französisch." },
+    { jp: "フランス語は難しいです。", reading: "フランスごはむずかしいです。", de: "Französisch ist schwierig." }
+  ]},
+  { id: "v888", word: "降る", reading: "ふる", meaning: "(Regen, Schnee) fallen", pos: "Verb (Godan, る)*", level: "easy", examples: [
+    { jp: "雨が降っています。", reading: "あめがふっています。", de: "Es regnet." },
+    { jp: "明日は雪が降ります。", reading: "あしたはゆきがふります。", de: "Morgen schneit es." }
+  ]},
+  { id: "v889", word: "フルーツ", reading: "フルーツ", meaning: "Obst, Früchte", pos: "Nomen", level: "easy", examples: [
+    { jp: "朝にフルーツを食べます。", reading: "あさにフルーツをたべます。", de: "Morgens esse ich Obst." },
+    { jp: "フルーツジュースが好きです。", reading: "フルーツジュースがすきです。", de: "Ich mag Fruchtsaft." }
+  ]},
+  { id: "v890", word: "プレゼント", reading: "プレゼント", meaning: "Geschenk", pos: "Nomen", level: "easy", examples: [
+    { jp: "友達にプレゼントをあげます。", reading: "ともだちにプレゼントをあげます。", de: "Ich schenke meinem Freund etwas." },
+    { jp: "誕生日のプレゼントをもらいました。", reading: "たんじょうびのプレゼントをもらいました。", de: "Ich habe ein Geburtstagsgeschenk bekommen." }
+  ]},
+  { id: "v891", word: "プロジェクト", reading: "プロジェクト", meaning: "Projekt", pos: "Nomen", level: "adv", examples: [
+    { jp: "新しいプロジェクトが始まりました。", reading: "あたらしいプロジェクトがはじまりました。", de: "Ein neues Projekt hat begonnen." },
+    { jp: "このプロジェクトは大切です。", reading: "このプロジェクトはたいせつです。", de: "Dieses Projekt ist wichtig." }
+  ]},
+  { id: "v892", word: "風呂場", reading: "ふろば", meaning: "Badezimmer", pos: "Nomen", level: "adv", examples: [
+    { jp: "風呂場でシャワーを浴びます。", reading: "ふろばでシャワーをあびます。", de: "Ich dusche im Badezimmer." },
+    { jp: "風呂場を掃除します。", reading: "ふろばをそうじします。", de: "Ich putze das Badezimmer." }
+  ]},
+  { id: "v893", word: "フロント", reading: "フロント", meaning: "Rezeption (Hotel)", pos: "Nomen", level: "adv", examples: [
+    { jp: "フロントでかぎをもらいます。", reading: "フロントでかぎをもらいます。", de: "Ich hole den Schlüssel an der Rezeption." },
+    { jp: "フロントに電話してください。", reading: "フロントにでんわしてください。", de: "Rufen Sie bitte die Rezeption an." }
+  ]},
+  { id: "v894", word: "文化", reading: "ぶんか", meaning: "Kultur", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本の文化に興味があります。", reading: "にほんのぶんかにきょうみがあります。", de: "Ich interessiere mich für japanische Kultur." },
+    { jp: "国によって文化が違います。", reading: "くにによってぶんかがちがいます。", de: "Je nach Land ist die Kultur anders." }
+  ]},
+  { id: "v895", word: "下手な", reading: "へたな", meaning: "ungeschickt, schlecht (können)", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "私は歌が下手です。", reading: "わたしはうたがへたです。", de: "Ich singe schlecht." },
+    { jp: "下手ですが、がんばります。", reading: "へたですが、がんばります。", de: "Ich bin schlecht, aber ich gebe mein Bestes." }
+  ]},
+  { id: "v896", word: "ペット", reading: "ペット", meaning: "Haustier", pos: "Nomen", level: "adv", examples: [
+    { jp: "ペットを飼っています。", reading: "ペットをかっています。", de: "Ich habe ein Haustier." },
+    { jp: "このアパートはペットが飼えません。", reading: "このアパートはペットがかえません。", de: "In dieser Wohnung sind keine Haustiere erlaubt." }
+  ]},
+  { id: "v897", word: "別の", reading: "べつの", meaning: "ein anderer, andere(r/s)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "別の色はありますか。", reading: "べつのいろはありますか。", de: "Gibt es eine andere Farbe?" },
+    { jp: "別の日にしましょう。", reading: "べつのひにしましょう。", de: "Machen wir es an einem anderen Tag." }
+  ]},
+  { id: "v898", word: "弁護士", reading: "べんごし", meaning: "Rechtsanwalt", pos: "Nomen", level: "adv", examples: [
+    { jp: "兄は弁護士です。", reading: "あにはべんごしです。", de: "Mein Bruder ist Rechtsanwalt." },
+    { jp: "弁護士に相談します。", reading: "べんごしにそうだんします。", de: "Ich berate mich mit einem Anwalt." }
+  ]},
+  { id: "v899", word: "便利な", reading: "べんりな", meaning: "praktisch, nützlich", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "この店は便利です。", reading: "このみせはべんりです。", de: "Dieser Laden ist praktisch." },
+    { jp: "スマホは便利な道具です。", reading: "スマホはべんりなどうぐです。", de: "Das Smartphone ist ein praktisches Werkzeug." }
+  ]},
+  { id: "v900", word: "ボート", reading: "ボート", meaning: "Boot", pos: "Nomen", level: "adv", examples: [
+    { jp: "湖でボートに乗ります。", reading: "みずうみでボートにのります。", de: "Auf dem See fahre ich Boot." },
+    { jp: "ボートを借ります。", reading: "ボートをかります。", de: "Ich leihe ein Boot." }
+  ]},
+  { id: "v901", word: "ボール", reading: "ボール", meaning: "Ball", pos: "Nomen", level: "adv", examples: [
+    { jp: "公園でボールで遊びます。", reading: "こうえんでボールであそびます。", de: "Im Park spiele ich mit dem Ball." },
+    { jp: "ボールを投げます。", reading: "ボールをなげます。", de: "Ich werfe den Ball." }
+  ]},
+  { id: "v902", word: "他", reading: "ほか", meaning: "andere, sonstige", pos: "Nomen", level: "adv", examples: [
+    { jp: "他の店を見ます。", reading: "ほかのみせをみます。", de: "Ich schaue mir andere Läden an." },
+    { jp: "他に質問はありますか。", reading: "ほかにしつもんはありますか。", de: "Gibt es noch andere Fragen?" }
+  ]},
+  { id: "v903", word: "他に", reading: "ほかに", meaning: "außerdem, zusätzlich", pos: "Adverb", level: "adv", examples: [
+    { jp: "他に何がほしいですか。", reading: "ほかになにがほしいですか。", de: "Was möchten Sie sonst noch?" },
+    { jp: "他に方法がありません。", reading: "ほかにほうほうがありません。", de: "Es gibt keine andere Möglichkeit." }
+  ]},
+  { id: "v904", word: "僕", reading: "ぼく", meaning: "ich (männlich, informell)", pos: "Nomen", level: "easy", examples: [
+    { jp: "僕は学生です。", reading: "ぼくはがくせいです。", de: "Ich bin Student." },
+    { jp: "僕もそう思います。", reading: "ぼくもそうおもいます。", de: "Ich denke auch so." }
+  ]},
+  { id: "v905", word: "欲しい", reading: "ほしい", meaning: "wollen, haben möchten", pos: "i-Adjektiv", level: "easy", examples: [
+    { jp: "新しいかばんが欲しいです。", reading: "あたらしいかばんがほしいです。", de: "Ich hätte gern eine neue Tasche." },
+    { jp: "何が欲しいですか。", reading: "なにがほしいですか。", de: "Was möchten Sie?" }
+  ]},
+  { id: "v906", word: "ポスト", reading: "ポスト", meaning: "Briefkasten", pos: "Nomen", level: "adv", examples: [
+    { jp: "手紙をポストに入れます。", reading: "てがみをポストにいれます。", de: "Ich werfe den Brief in den Briefkasten." },
+    { jp: "ポストは角にあります。", reading: "ポストはかどにあります。", de: "Der Briefkasten ist an der Ecke." }
+  ]},
+  { id: "v907", word: "ぼっちゃん", reading: "ぼっちゃん", meaning: "Sohn (eines anderen, höflich)", pos: "Nomen", level: "adv", examples: [
+    { jp: "ぼっちゃんはお元気ですか。", reading: "ぼっちゃんはおげんきですか。", de: "Geht es Ihrem Sohn gut?" },
+    { jp: "ぼっちゃんは何歳ですか。", reading: "ぼっちゃんはなんさいですか。", de: "Wie alt ist Ihr Sohn?" }
+  ]},
+  { id: "v908", word: "本当に", reading: "ほんとうに", meaning: "wirklich, echt", pos: "Adverb", level: "easy", examples: [
+    { jp: "本当にありがとうございます。", reading: "ほんとうにありがとうございます。", de: "Vielen herzlichen Dank." },
+    { jp: "本当においしいですね。", reading: "ほんとうにおいしいですね。", de: "Das ist wirklich lecker." }
+  ]},
+  { id: "v909", word: "本箱", reading: "ほんばこ", meaning: "Bücherregal", pos: "Nomen", level: "adv", examples: [
+    { jp: "本を本箱に入れます。", reading: "ほんをほんばこにいれます。", de: "Ich stelle die Bücher ins Bücherregal." },
+    { jp: "本箱がいっぱいです。", reading: "ほんばこがいっぱいです。", de: "Das Bücherregal ist voll." }
+  ]},
+  { id: "v910", word: "本屋", reading: "ほんや", meaning: "Buchladen", pos: "Nomen", level: "easy", examples: [
+    { jp: "本屋で雑誌を買います。", reading: "ほんやでざっしをかいます。", de: "Ich kaufe eine Zeitschrift im Buchladen." },
+    { jp: "駅前に大きい本屋があります。", reading: "えきまえにおおきいほんやがあります。", de: "Vor dem Bahnhof ist ein großer Buchladen." }
+  ]},
+  { id: "v911", word: "毎月", reading: "まいつき", meaning: "jeden Monat", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "毎月本を三冊読みます。", reading: "まいつきほんをさんさつよみます。", de: "Jeden Monat lese ich drei Bücher." },
+    { jp: "毎月家賃を払います。", reading: "まいつきやちんをはらいます。", de: "Jeden Monat zahle ich Miete." }
+  ]},
+  { id: "v912", word: "毎度", reading: "まいど", meaning: "jedes Mal", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "毎度ありがとうございます。", reading: "まいどありがとうございます。", de: "Vielen Dank für Ihren Besuch (jedes Mal)." },
+    { jp: "毎度お世話になります。", reading: "まいどおせわになります。", de: "Danke für Ihre stete Unterstützung." }
+  ]},
+  { id: "v913", word: "毎年", reading: "まいとし", meaning: "jedes Jahr", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "毎年日本へ行きます。", reading: "まいとしにほんへいきます。", de: "Jedes Jahr fahre ich nach Japan." },
+    { jp: "毎年夏に海へ行きます。", reading: "まいとしなつにうみへいきます。", de: "Jedes Jahr im Sommer fahre ich ans Meer." }
+  ]},
+  { id: "v914", word: "前", reading: "まえ", meaning: "vor, vorne", pos: "Nomen", level: "easy", examples: [
+    { jp: "駅の前で待っています。", reading: "えきのまえでまっています。", de: "Ich warte vor dem Bahnhof." },
+    { jp: "食事の前に手を洗います。", reading: "しょくじのまえにてをあらいます。", de: "Vor dem Essen wasche ich die Hände." }
+  ]},
+  { id: "v915", word: "曲がる", reading: "まがる", meaning: "abbiegen", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "次の角を右に曲がります。", reading: "つぎのかどをみぎにまがります。", de: "An der nächsten Ecke biege ich rechts ab." },
+    { jp: "銀行の前で左に曲がってください。", reading: "ぎんこうのまえでひだりにまがってください。", de: "Biegen Sie vor der Bank links ab." }
+  ]},
+  { id: "v916", word: "孫", reading: "まご", meaning: "Enkel(kind)", pos: "Nomen", level: "adv", examples: [
+    { jp: "祖母には孫が五人います。", reading: "そぼにはまごがごにんいます。", de: "Meine Großmutter hat fünf Enkel." },
+    { jp: "孫の写真を見せてくれました。", reading: "まごのしゃしんをみせてくれました。", de: "Sie hat mir Fotos ihrer Enkel gezeigt." }
+  ]},
+  { id: "v917", word: "まず", reading: "まず", meaning: "zuerst, zunächst", pos: "Adverb", level: "adv", examples: [
+    { jp: "まず手を洗いましょう。", reading: "まずてをあらいましょう。", de: "Waschen wir zuerst die Hände." },
+    { jp: "まずこれを読んでください。", reading: "まずこれをよんでください。", de: "Lesen Sie bitte zuerst das." }
+  ]},
+  { id: "v918", word: "マスタード", reading: "マスタード", meaning: "Senf", pos: "Nomen", level: "adv", examples: [
+    { jp: "ソーセージにマスタードをつけます。", reading: "ソーセージにマスタードをつけます。", de: "Ich gebe Senf an die Wurst." },
+    { jp: "マスタードは少しからいです。", reading: "マスタードはすこしからいです。", de: "Senf ist etwas scharf." }
+  ]},
+  { id: "v919", word: "祭り", reading: "まつり", meaning: "Fest", pos: "Nomen", level: "easy", examples: [
+    { jp: "夏に町で祭りがあります。", reading: "なつにまちでまつりがあります。", de: "Im Sommer gibt es ein Fest in der Stadt." },
+    { jp: "祭りはとてもにぎやかでした。", reading: "まつりはとてもにぎやかでした。", de: "Das Fest war sehr lebhaft." }
+  ]},
+  { id: "v920", word: "窓口", reading: "まどぐち", meaning: "Schalter", pos: "Nomen", level: "adv", examples: [
+    { jp: "切符は窓口で買います。", reading: "きっぷはまどぐちでかいます。", de: "Fahrkarten kauft man am Schalter." },
+    { jp: "銀行の窓口で聞きました。", reading: "ぎんこうのまどぐちでききました。", de: "Ich habe am Bankschalter gefragt." }
+  ]},
+  { id: "v921", word: "マフラー", reading: "マフラー", meaning: "Schal", pos: "Nomen", level: "adv", examples: [
+    { jp: "冬にマフラーをします。", reading: "ふゆにマフラーをします。", de: "Im Winter trage ich einen Schal." },
+    { jp: "赤いマフラーをもらいました。", reading: "あかいマフラーをもらいました。", de: "Ich habe einen roten Schal bekommen." }
+  ]},
+  { id: "v922", word: "守る", reading: "まもる", meaning: "einhalten, schützen", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "約束を守ります。", reading: "やくそくをまもります。", de: "Ich halte mein Versprechen." },
+    { jp: "規則を守ってください。", reading: "きそくをまもってください。", de: "Halten Sie sich bitte an die Regeln." }
+  ]},
+  { id: "v923", word: "回る", reading: "まわる", meaning: "sich drehen, herumgehen", pos: "Verb (Godan, る)*", level: "adv", examples: [
+    { jp: "町を回って観光しました。", reading: "まちをまわってかんこうしました。", de: "Ich bin durch die Stadt gezogen und habe sie besichtigt." },
+    { jp: "地球は回っています。", reading: "ちきゅうはまわっています。", de: "Die Erde dreht sich." }
+  ]},
+  { id: "v924", word: "マンション", reading: "マンション", meaning: "Eigentumswohnung, Wohnblock", pos: "Nomen", level: "adv", examples: [
+    { jp: "新しいマンションに住んでいます。", reading: "あたらしいマンションにすんでいます。", de: "Ich wohne in einer neuen Wohnung." },
+    { jp: "このマンションは駅に近いです。", reading: "このマンションはえきにちかいです。", de: "Diese Wohnung ist nah am Bahnhof." }
+  ]},
+  { id: "v925", word: "真ん中", reading: "まんなか", meaning: "Mitte, Zentrum", pos: "Nomen", level: "adv", examples: [
+    { jp: "部屋の真ん中にテーブルがあります。", reading: "へやのまんなかにテーブルがあります。", de: "In der Mitte des Zimmers steht ein Tisch." },
+    { jp: "真ん中に座ってください。", reading: "まんなかにすわってください。", de: "Setzen Sie sich bitte in die Mitte." }
+  ]},
+  { id: "v926", word: "磨く", reading: "みがく", meaning: "putzen, polieren", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "毎晩歯を磨きます。", reading: "まいばんはをみがきます。", de: "Jeden Abend putze ich die Zähne." },
+    { jp: "くつを磨きました。", reading: "くつをみがきました。", de: "Ich habe die Schuhe geputzt." }
+  ]},
+  { id: "v927", word: "右", reading: "みぎ", meaning: "rechts", pos: "Nomen", level: "easy", examples: [
+    { jp: "右に曲がってください。", reading: "みぎにまがってください。", de: "Biegen Sie bitte rechts ab." },
+    { jp: "右の手を使います。", reading: "みぎのてをつかいます。", de: "Ich benutze die rechte Hand." }
+  ]},
+  { id: "v928", word: "見せる", reading: "みせる", meaning: "zeigen", pos: "Verb (Ichidan)", level: "easy", examples: [
+    { jp: "写真を見せてください。", reading: "しゃしんをみせてください。", de: "Zeigen Sie mir bitte das Foto." },
+    { jp: "パスポートを見せました。", reading: "パスポートをみせました。", de: "Ich habe den Reisepass gezeigt." }
+  ]},
+  { id: "v929", word: "みそ", reading: "みそ", meaning: "Miso (Sojabohnenpaste)", pos: "Nomen", level: "adv", examples: [
+    { jp: "みそでスープを作ります。", reading: "みそでスープをつくります。", de: "Ich mache eine Suppe mit Miso." },
+    { jp: "このみそは少しからいです。", reading: "このみそはすこしからいです。", de: "Diese Miso ist etwas salzig." }
+  ]},
+  { id: "v930", word: "緑", reading: "みどり", meaning: "Grün", pos: "Nomen", level: "easy", examples: [
+    { jp: "緑が好きです。", reading: "みどりがすきです。", de: "Ich mag Grün." },
+    { jp: "山は緑がきれいです。", reading: "やまはみどりがきれいです。", de: "Die Berge sind schön grün." }
+  ]},
+  { id: "v931", word: "みなさま", reading: "みなさま", meaning: "alle (höflich), meine Damen und Herren", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "みなさま、こんにちは。", reading: "みなさま、こんにちは。", de: "Guten Tag, meine Damen und Herren." },
+    { jp: "みなさまによろしくお伝えください。", reading: "みなさまによろしくおつたえください。", de: "Grüßen Sie bitte alle von mir." }
+  ]},
+  { id: "v932", word: "南", reading: "みなみ", meaning: "Süden", pos: "Nomen", level: "easy", examples: [
+    { jp: "南の出口で会いましょう。", reading: "みなみのでぐちであいましょう。", de: "Treffen wir uns am Südausgang." },
+    { jp: "南は暖かいです。", reading: "みなみはあたたかいです。", de: "Im Süden ist es warm." }
+  ]},
+  { id: "v933", word: "ミネラルウォーター", reading: "ミネラルウォーター", meaning: "Mineralwasser", pos: "Nomen", level: "adv", examples: [
+    { jp: "ミネラルウォーターを買います。", reading: "ミネラルウォーターをかいます。", de: "Ich kaufe Mineralwasser." },
+    { jp: "ミネラルウォーターを一本ください。", reading: "ミネラルウォーターをいっぽんください。", de: "Bitte eine Flasche Mineralwasser." }
+  ]},
+  { id: "v934", word: "ミュージカル", reading: "ミュージカル", meaning: "Musical", pos: "Nomen", level: "adv", examples: [
+    { jp: "ミュージカルを見に行きます。", reading: "ミュージカルをみにいきます。", de: "Ich gehe in ein Musical." },
+    { jp: "そのミュージカルは有名です。", reading: "そのミュージカルはゆうめいです。", de: "Dieses Musical ist berühmt." }
+  ]},
+  { id: "v935", word: "ミルク", reading: "ミルク", meaning: "Milch", pos: "Nomen", level: "easy", examples: [
+    { jp: "コーヒーにミルクを入れます。", reading: "コーヒーにミルクをいれます。", de: "Ich gebe Milch in den Kaffee." },
+    { jp: "ミルクを飲みます。", reading: "ミルクをのみます。", de: "Ich trinke Milch." }
+  ]},
+  { id: "v936", word: "みんな", reading: "みんな", meaning: "alle, jeder", pos: "Nomen", level: "easy", examples: [
+    { jp: "みんなで写真をとります。", reading: "みんなでしゃしんをとります。", de: "Wir machen alle zusammen ein Foto." },
+    { jp: "みんな元気です。", reading: "みんなげんきです。", de: "Allen geht es gut." }
+  ]},
+  { id: "v937", word: "迎える", reading: "むかえる", meaning: "abholen, empfangen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "空港で友達を迎えます。", reading: "くうこうでともだちをむかえます。", de: "Ich hole meinen Freund am Flughafen ab." },
+    { jp: "駅まで迎えに行きます。", reading: "えきまでむかえにいきます。", de: "Ich hole dich am Bahnhof ab." }
+  ]},
+  { id: "v938", word: "息子", reading: "むすこ", meaning: "Sohn (eigener)", pos: "Nomen", level: "easy", examples: [
+    { jp: "息子は高校生です。", reading: "むすこはこうこうせいです。", de: "Mein Sohn ist Oberschüler." },
+    { jp: "息子と公園へ行きます。", reading: "むすことこうえんへいきます。", de: "Ich gehe mit meinem Sohn in den Park." }
+  ]},
+  { id: "v939", word: "娘", reading: "むすめ", meaning: "Tochter (eigene)", pos: "Nomen", level: "easy", examples: [
+    { jp: "娘は大学生です。", reading: "むすめはだいがくせいです。", de: "Meine Tochter ist Studentin." },
+    { jp: "娘に本を買いました。", reading: "むすめにほんをかいました。", de: "Ich habe meiner Tochter ein Buch gekauft." }
+  ]},
+  { id: "v940", word: "胸", reading: "むね", meaning: "Brust", pos: "Nomen", level: "adv", examples: [
+    { jp: "胸が痛いです。", reading: "むねがいたいです。", de: "Meine Brust tut weh." },
+    { jp: "胸に手を当てます。", reading: "むねにてをあてます。", de: "Ich lege die Hand auf die Brust." }
+  ]},
+  { id: "v941", word: "無理", reading: "むり", meaning: "unmöglich / zu viel des Guten", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "それは無理です。", reading: "それはむりです。", de: "Das ist unmöglich." },
+    { jp: "無理をしないでください。", reading: "むりをしないでください。", de: "Überanstrengen Sie sich nicht." }
+  ]},
+  { id: "v942", word: "めい", reading: "めい", meaning: "Nichte", pos: "Nomen", level: "adv", examples: [
+    { jp: "めいは五歳です。", reading: "めいはごさいです。", de: "Meine Nichte ist fünf." },
+    { jp: "めいにプレゼントをあげます。", reading: "めいにプレゼントをあげます。", de: "Ich schenke meiner Nichte etwas." }
+  ]},
+  { id: "v943", word: "名刺", reading: "めいし", meaning: "Visitenkarte", pos: "Nomen", level: "adv", examples: [
+    { jp: "名刺をください。", reading: "めいしをください。", de: "Ihre Visitenkarte, bitte." },
+    { jp: "初めて会う人に名刺を渡します。", reading: "はじめてあうひとにめいしをわたします。", de: "Beim ersten Treffen überreicht man eine Visitenkarte." }
+  ]},
+  { id: "v944", word: "メニュー", reading: "メニュー", meaning: "Speisekarte, Menü", pos: "Nomen", level: "easy", examples: [
+    { jp: "メニューを見せてください。", reading: "メニューをみせてください。", de: "Die Speisekarte, bitte." },
+    { jp: "メニューに写真があります。", reading: "メニューにしゃしんがあります。", de: "In der Speisekarte sind Fotos." }
+  ]},
+  { id: "v945", word: "メロン", reading: "メロン", meaning: "Melone", pos: "Nomen", level: "adv", examples: [
+    { jp: "メロンは甘いです。", reading: "メロンはあまいです。", de: "Melone ist süß." },
+    { jp: "デザートにメロンを食べます。", reading: "デザートにメロンをたべます。", de: "Zum Nachtisch esse ich Melone." }
+  ]},
+  { id: "v946", word: "申し込み", reading: "もうしこみ", meaning: "Anmeldung, Bewerbung", pos: "Nomen", level: "adv", examples: [
+    { jp: "申し込みは明日までです。", reading: "もうしこみはあしたまでです。", de: "Die Anmeldung geht bis morgen." },
+    { jp: "申し込みの書類を書きます。", reading: "もうしこみのしょるいをかきます。", de: "Ich fülle das Anmeldeformular aus." }
+  ]},
+  { id: "v947", word: "申し込む", reading: "もうしこむ", meaning: "beantragen, sich anmelden", pos: "Verb (Godan, む)", level: "adv", examples: [
+    { jp: "コースに申し込みます。", reading: "コースにもうしこみます。", de: "Ich melde mich für den Kurs an." },
+    { jp: "インターネットで申し込みました。", reading: "インターネットでもうしこみました。", de: "Ich habe mich online angemeldet." }
+  ]},
+  { id: "v948", word: "申し訳", reading: "もうしわけ", meaning: "Entschuldigung (förmlich)", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "申し訳ありません。", reading: "もうしわけありません。", de: "Es tut mir sehr leid." },
+    { jp: "遅れて申し訳ありませんでした。", reading: "おくれてもうしわけありませんでした。", de: "Entschuldigen Sie die Verspätung." }
+  ]},
+  { id: "v949", word: "もうすぐ", reading: "もうすぐ", meaning: "bald, gleich", pos: "Adverb", level: "adv", examples: [
+    { jp: "もうすぐ電車が来ます。", reading: "もうすぐでんしゃがきます。", de: "Gleich kommt der Zug." },
+    { jp: "もうすぐ夏休みです。", reading: "もうすぐなつやすみです。", de: "Bald sind Sommerferien." }
+  ]},
+  { id: "v950", word: "持ってくる", reading: "もってくる", meaning: "mitbringen, herbringen", pos: "Verb (unregelmäßig)", level: "adv", examples: [
+    { jp: "傘を持ってきます。", reading: "かさをもってきます。", de: "Ich bringe einen Schirm mit." },
+    { jp: "水を持ってきてください。", reading: "みずをもってきてください。", de: "Bringen Sie bitte Wasser." }
+  ]},
+  { id: "v951", word: "物", reading: "もの", meaning: "Ding, Sache", pos: "Nomen", level: "easy", examples: [
+    { jp: "高い物は買えません。", reading: "たかいものはかえません。", de: "Teure Dinge kann ich nicht kaufen." },
+    { jp: "好きな物を選んでください。", reading: "すきなものをえらんでください。", de: "Wählen Sie, was Sie mögen." }
+  ]},
+  { id: "v952", word: "もらう", reading: "もらう", meaning: "erhalten, bekommen", pos: "Verb (Godan, う)", level: "easy", examples: [
+    { jp: "友達からプレゼントをもらいました。", reading: "ともだちからプレゼントをもらいました。", de: "Ich habe von einem Freund ein Geschenk bekommen." },
+    { jp: "先生に手紙をもらいました。", reading: "せんせいにてがみをもらいました。", de: "Ich habe vom Lehrer einen Brief bekommen." }
+  ]},
+  { id: "v953", word: "八百屋", reading: "やおや", meaning: "Gemüsehändler", pos: "Nomen", level: "adv", examples: [
+    { jp: "八百屋で野菜を買います。", reading: "やおやでやさいをかいます。", de: "Ich kaufe Gemüse beim Gemüsehändler." },
+    { jp: "八百屋のトマトは新しいです。", reading: "やおやのトマトはあたらしいです。", de: "Die Tomaten beim Gemüsehändler sind frisch." }
+  ]},
+  { id: "v954", word: "焼く", reading: "やく", meaning: "braten, backen, grillen", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "魚を焼きます。", reading: "さかなをやきます。", de: "Ich brate Fisch." },
+    { jp: "母がパンを焼きました。", reading: "ははがパンをやきました。", de: "Meine Mutter hat Brot gebacken." }
+  ]},
+  { id: "v955", word: "約束", reading: "やくそく", meaning: "Versprechen, Verabredung", pos: "Nomen", level: "easy", examples: [
+    { jp: "友達と約束があります。", reading: "ともだちとやくそくがあります。", de: "Ich habe eine Verabredung mit einem Freund." },
+    { jp: "約束を守ります。", reading: "やくそくをまもります。", de: "Ich halte mein Versprechen." }
+  ]},
+  { id: "v956", word: "やめる", reading: "やめる", meaning: "aufhören, kündigen", pos: "Verb (Ichidan)", level: "adv", examples: [
+    { jp: "たばこをやめました。", reading: "たばこをやめました。", de: "Ich habe mit dem Rauchen aufgehört." },
+    { jp: "来月、会社をやめます。", reading: "らいげつ、かいしゃをやめます。", de: "Nächsten Monat kündige ich bei der Firma." }
+  ]},
+  { id: "v957", word: "夕方", reading: "ゆうがた", meaning: "früher Abend, Abenddämmerung", pos: "Nomen", level: "adv", examples: [
+    { jp: "夕方に家に帰ります。", reading: "ゆうがたにいえにかえります。", de: "Am frühen Abend gehe ich nach Hause." },
+    { jp: "夕方から雨が降ります。", reading: "ゆうがたからあめがふります。", de: "Ab dem Abend regnet es." }
+  ]},
+  { id: "v958", word: "郵便", reading: "ゆうびん", meaning: "Post", pos: "Nomen", level: "adv", examples: [
+    { jp: "郵便が届きました。", reading: "ゆうびんがとどきました。", de: "Die Post ist angekommen." },
+    { jp: "郵便で荷物を送ります。", reading: "ゆうびんでにもつをおくります。", de: "Ich schicke das Paket per Post." }
+  ]},
+  { id: "v959", word: "ゆうべ", reading: "ゆうべ", meaning: "gestern Abend, letzte Nacht", pos: "Nomen/Adverb", level: "adv", examples: [
+    { jp: "ゆうべはよく寝ました。", reading: "ゆうべはよくねました。", de: "Letzte Nacht habe ich gut geschlafen." },
+    { jp: "ゆうべ映画を見ました。", reading: "ゆうべえいがをみました。", de: "Gestern Abend habe ich einen Film gesehen." }
+  ]},
+  { id: "v960", word: "有名な", reading: "ゆうめいな", meaning: "berühmt, bekannt", pos: "na-Adjektiv", level: "easy", examples: [
+    { jp: "京都は有名な町です。", reading: "きょうとはゆうめいなまちです。", de: "Kyōto ist eine berühmte Stadt." },
+    { jp: "この店は有名です。", reading: "このみせはゆうめいです。", de: "Dieser Laden ist bekannt." }
+  ]},
+  { id: "v961", word: "雪", reading: "ゆき", meaning: "Schnee", pos: "Nomen", level: "easy", examples: [
+    { jp: "雪が降っています。", reading: "ゆきがふっています。", de: "Es schneit." },
+    { jp: "北海道は雪が多いです。", reading: "ほっかいどうはゆきがおおいです。", de: "In Hokkaidō gibt es viel Schnee." }
+  ]},
+  { id: "v962", word: "ゆで卵", reading: "ゆでたまご", meaning: "gekochtes Ei", pos: "Nomen", level: "adv", examples: [
+    { jp: "朝ごはんにゆで卵を食べます。", reading: "あさごはんにゆでたまごをたべます。", de: "Zum Frühstück esse ich ein gekochtes Ei." },
+    { jp: "ゆで卵を二つ作ります。", reading: "ゆでたまごをふたつつくります。", de: "Ich koche zwei Eier." }
+  ]},
+  { id: "v963", word: "良い", reading: "よい", meaning: "gut (förmlich)", pos: "i-Adjektiv", level: "adv", examples: [
+    { jp: "良い天気ですね。", reading: "よいてんきですね。", de: "Schönes Wetter, nicht wahr?" },
+    { jp: "良い一日を。", reading: "よいいちにちを。", de: "Einen schönen Tag." }
+  ]},
+  { id: "v964", word: "用事", reading: "ようじ", meaning: "Angelegenheit, Besorgung", pos: "Nomen", level: "adv", examples: [
+    { jp: "今日は用事があります。", reading: "きょうはようじがあります。", de: "Heute habe ich etwas zu erledigen." },
+    { jp: "用事で出かけます。", reading: "ようじででかけます。", de: "Ich gehe wegen einer Besorgung aus." }
+  ]},
+  { id: "v965", word: "予約", reading: "よやく", meaning: "Reservierung, Buchung", pos: "Nomen", level: "easy", examples: [
+    { jp: "レストランを予約します。", reading: "レストランをよやくします。", de: "Ich reserviere einen Tisch im Restaurant." },
+    { jp: "ホテルの予約をしました。", reading: "ホテルのよやくをしました。", de: "Ich habe das Hotel gebucht." }
+  ]},
+  { id: "v966", word: "よろこんで", reading: "よろこんで", meaning: "gerne, mit Vergnügen", pos: "Ausdruck", level: "adv", examples: [
+    { jp: "よろこんで手伝います。", reading: "よろこんでてつだいます。", de: "Ich helfe gerne." },
+    { jp: "よろこんで参加します。", reading: "よろこんでさんかします。", de: "Ich nehme gern teil." }
+  ]},
+  { id: "v967", word: "よろしく", reading: "よろしく", meaning: "freundliche Empfehlung / Bitte um Wohlwollen", pos: "Ausdruck", level: "easy", examples: [
+    { jp: "どうぞよろしくお願いします。", reading: "どうぞよろしくおねがいします。", de: "Ich bitte um gute Zusammenarbeit." },
+    { jp: "ご家族によろしく。", reading: "ごかぞくによろしく。", de: "Grüßen Sie Ihre Familie von mir." }
+  ]},
+  { id: "v968", word: "ラジオ", reading: "ラジオ", meaning: "Radio", pos: "Nomen", level: "adv", examples: [
+    { jp: "朝、ラジオを聞きます。", reading: "あさ、ラジオをききます。", de: "Morgens höre ich Radio." },
+    { jp: "ラジオで音楽を聞きます。", reading: "ラジオでおんがくをききます。", de: "Ich höre Musik im Radio." }
+  ]},
+  { id: "v969", word: "両親", reading: "りょうしん", meaning: "Eltern (eigene)", pos: "Nomen", level: "easy", examples: [
+    { jp: "両親は田舎に住んでいます。", reading: "りょうしんはいなかにすんでいます。", de: "Meine Eltern wohnen auf dem Land." },
+    { jp: "両親に電話します。", reading: "りょうしんにでんわします。", de: "Ich rufe meine Eltern an." }
+  ]},
+  { id: "v970", word: "旅館", reading: "りょかん", meaning: "Ryokan (jap. Gasthaus)", pos: "Nomen", level: "adv", examples: [
+    { jp: "温泉の旅館に泊まります。", reading: "おんせんのりょかんにとまります。", de: "Ich übernachte in einem Onsen-Ryokan." },
+    { jp: "旅館の料理はおいしかったです。", reading: "りょかんのりょうりはおいしかったです。", de: "Das Essen im Ryokan war lecker." }
+  ]},
+  { id: "v971", word: "旅行会社", reading: "りょこうがいしゃ", meaning: "Reisebüro", pos: "Nomen", level: "adv", examples: [
+    { jp: "旅行会社で切符を買います。", reading: "りょこうがいしゃできっぷをかいます。", de: "Ich kaufe die Tickets im Reisebüro." },
+    { jp: "旅行会社に相談しました。", reading: "りょこうがいしゃにそうだんしました。", de: "Ich habe mich im Reisebüro beraten lassen." }
+  ]},
+  { id: "v972", word: "留守", reading: "るす", meaning: "abwesend, nicht zu Hause", pos: "Nomen", level: "adv", examples: [
+    { jp: "父は今留守です。", reading: "ちちはいまるすです。", de: "Mein Vater ist gerade nicht da." },
+    { jp: "留守の間、猫を見てください。", reading: "るすのあいだ、ねこをみてください。", de: "Passen Sie bitte auf die Katze auf, während ich weg bin." }
+  ]},
+  { id: "v973", word: "レアな", reading: "レアな", meaning: "selten / medium (Fleisch)", pos: "na-Adjektiv", level: "adv", examples: [
+    { jp: "レアな切手を集めています。", reading: "レアなきってをあつめています。", de: "Ich sammle seltene Briefmarken." },
+    { jp: "ステーキはレアが好きです。", reading: "ステーキはレアがすきです。", de: "Ich mag mein Steak medium." }
+  ]},
+  { id: "v974", word: "歴史", reading: "れきし", meaning: "Geschichte", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本の歴史を勉強します。", reading: "にほんのれきしをべんきょうします。", de: "Ich lerne japanische Geschichte." },
+    { jp: "この町には長い歴史があります。", reading: "このまちにはながいれきしがあります。", de: "Diese Stadt hat eine lange Geschichte." }
+  ]},
+  { id: "v975", word: "レシート", reading: "レシート", meaning: "Kassenbon, Quittung", pos: "Nomen", level: "adv", examples: [
+    { jp: "レシートをください。", reading: "レシートをください。", de: "Den Kassenbon, bitte." },
+    { jp: "レシートをもらいました。", reading: "レシートをもらいました。", de: "Ich habe den Bon bekommen." }
+  ]},
+  { id: "v976", word: "レッスン", reading: "レッスン", meaning: "Unterrichtsstunde, Kurs", pos: "Nomen", level: "adv", examples: [
+    { jp: "ピアノのレッスンを受けます。", reading: "ピアノのレッスンをうけます。", de: "Ich nehme Klavierunterricht." },
+    { jp: "今日はレッスンがあります。", reading: "きょうはレッスンがあります。", de: "Heute habe ich Unterricht." }
+  ]},
+  { id: "v977", word: "レポート", reading: "レポート", meaning: "Bericht, Referat", pos: "Nomen", level: "adv", examples: [
+    { jp: "レポートを書きます。", reading: "レポートをかきます。", de: "Ich schreibe einen Bericht." },
+    { jp: "レポートは金曜日までです。", reading: "レポートはきんようびまでです。", de: "Der Bericht ist bis Freitag fällig." }
+  ]},
+  { id: "v978", word: "練習", reading: "れんしゅう", meaning: "Übung", pos: "Nomen", level: "easy", examples: [
+    { jp: "毎日漢字の練習をします。", reading: "まいにちかんじのれんしゅうをします。", de: "Jeden Tag übe ich Kanji." },
+    { jp: "練習は大切です。", reading: "れんしゅうはたいせつです。", de: "Übung ist wichtig." }
+  ]},
+  { id: "v979", word: "練習する", reading: "れんしゅうする", meaning: "üben", pos: "Verb (する-Verb)", level: "easy", examples: [
+    { jp: "ピアノを練習します。", reading: "ピアノをれんしゅうします。", de: "Ich übe Klavier." },
+    { jp: "日本語を毎日練習しています。", reading: "にほんごをまいにちれんしゅうしています。", de: "Ich übe jeden Tag Japanisch." }
+  ]},
+  { id: "v980", word: "ロビー", reading: "ロビー", meaning: "Lobby, Vorhalle", pos: "Nomen", level: "adv", examples: [
+    { jp: "ホテルのロビーで待ちます。", reading: "ホテルのロビーでまちます。", de: "Ich warte in der Hotellobby." },
+    { jp: "ロビーにソファーがあります。", reading: "ロビーにソファーがあります。", de: "In der Lobby stehen Sofas." }
+  ]},
+  { id: "v981", word: "ワイン", reading: "ワイン", meaning: "Wein", pos: "Nomen", level: "adv", examples: [
+    { jp: "赤ワインを飲みます。", reading: "あかワインをのみます。", de: "Ich trinke Rotwein." },
+    { jp: "ワインを一本買いました。", reading: "ワインをいっぽんかいました。", de: "Ich habe eine Flasche Wein gekauft." }
+  ]},
+  { id: "v982", word: "わざわざ", reading: "わざわざ", meaning: "extra, eigens", pos: "Adverb", level: "adv", examples: [
+    { jp: "わざわざ来てくれてありがとう。", reading: "わざわざきてくれてありがとう。", de: "Danke, dass du extra gekommen bist." },
+    { jp: "わざわざ買いに行きました。", reading: "わざわざかいにいきました。", de: "Ich bin extra einkaufen gegangen." }
+  ]},
+  { id: "v983", word: "忘れ物", reading: "わすれもの", meaning: "vergessener Gegenstand, Fundsache", pos: "Nomen", level: "adv", examples: [
+    { jp: "電車に忘れ物をしました。", reading: "でんしゃにわすれものをしました。", de: "Ich habe etwas im Zug vergessen." },
+    { jp: "忘れ物はありませんか。", reading: "わすれものはありませんか。", de: "Haben Sie nichts vergessen?" }
+  ]},
+  { id: "v984", word: "私", reading: "わたし", meaning: "ich", pos: "Nomen", level: "easy", examples: [
+    { jp: "私は学生です。", reading: "わたしはがくせいです。", de: "Ich bin Student." },
+    { jp: "私の名前は田中です。", reading: "わたしのなまえはたなかです。", de: "Mein Name ist Tanaka." }
+  ]},
+  { id: "v985", word: "私たち", reading: "わたしたち", meaning: "wir", pos: "Nomen", level: "easy", examples: [
+    { jp: "私たちは友達です。", reading: "わたしたちはともだちです。", de: "Wir sind Freunde." },
+    { jp: "私たちは日本語を勉強しています。", reading: "わたしたちはにほんごをべんきょうしています。", de: "Wir lernen Japanisch." }
+  ]},
+  { id: "v986", word: "渡す", reading: "わたす", meaning: "überreichen, übergeben", pos: "Verb (Godan, す)", level: "adv", examples: [
+    { jp: "先生に手紙を渡します。", reading: "せんせいにてがみをわたします。", de: "Ich übergebe dem Lehrer den Brief." },
+    { jp: "お金を渡しました。", reading: "おかねをわたしました。", de: "Ich habe das Geld übergeben." }
+  ]},
+  { id: "v987", word: "笑う", reading: "わらう", meaning: "lachen", pos: "Verb (Godan, う)", level: "adv", examples: [
+    { jp: "みんなで笑いました。", reading: "みんなでわらいました。", de: "Wir haben alle gelacht." },
+    { jp: "彼女はよく笑います。", reading: "かのじょはよくわらいます。", de: "Sie lacht viel." }
+  ]},
+  { id: "v988", word: "会議", reading: "かいぎ", meaning: "Konferenz, Besprechung", pos: "Nomen", level: "adv", examples: [
+    { jp: "午後、会議があります。", reading: "ごご、かいぎがあります。", de: "Am Nachmittag ist eine Besprechung." },
+    { jp: "会議は三時に終わります。", reading: "かいぎはさんじにおわります。", de: "Die Besprechung endet um drei." }
+  ]},
+  { id: "v989", word: "会議室", reading: "かいぎしつ", meaning: "Konferenzraum", pos: "Nomen", level: "adv", examples: [
+    { jp: "会議室は二階です。", reading: "かいぎしつはにかいです。", de: "Der Konferenzraum ist im ersten Stock." },
+    { jp: "会議室を予約しました。", reading: "かいぎしつをよやくしました。", de: "Ich habe den Konferenzraum reserviert." }
+  ]},
+  { id: "v990", word: "出張", reading: "しゅっちょう", meaning: "Geschäftsreise", pos: "Nomen", level: "adv", examples: [
+    { jp: "来週、大阪に出張します。", reading: "らいしゅう、おおさかにしゅっちょうします。", de: "Nächste Woche mache ich eine Geschäftsreise nach Ōsaka." },
+    { jp: "父は出張が多いです。", reading: "ちちはしゅっちょうがおおいです。", de: "Mein Vater ist oft auf Geschäftsreise." }
+  ]},
+  { id: "v991", word: "大使館", reading: "たいしかん", meaning: "Botschaft", pos: "Nomen", level: "adv", examples: [
+    { jp: "ビザを大使館で申し込みます。", reading: "ビザをたいしかんでもうしこみます。", de: "Ich beantrage das Visum in der Botschaft." },
+    { jp: "ドイツ大使館は東京にあります。", reading: "ドイツたいしかんはとうきょうにあります。", de: "Die deutsche Botschaft ist in Tōkyō." }
+  ]},
+  { id: "v992", word: "現金", reading: "げんきん", meaning: "Bargeld", pos: "Nomen", level: "adv", examples: [
+    { jp: "現金で払います。", reading: "げんきんではらいます。", de: "Ich bezahle bar." },
+    { jp: "現金がありません。", reading: "げんきんがありません。", de: "Ich habe kein Bargeld." }
+  ]},
+  { id: "v993", word: "航空会社", reading: "こうくうがいしゃ", meaning: "Fluggesellschaft", pos: "Nomen", level: "adv", examples: [
+    { jp: "この航空会社は安いです。", reading: "このこうくうがいしゃはやすいです。", de: "Diese Fluggesellschaft ist günstig." },
+    { jp: "航空会社に電話しました。", reading: "こうくうがいしゃにでんわしました。", de: "Ich habe die Fluggesellschaft angerufen." }
+  ]},
+  { id: "v994", word: "残業", reading: "ざんぎょう", meaning: "Überstunden", pos: "Nomen", level: "adv", examples: [
+    { jp: "今日は残業があります。", reading: "きょうはざんぎょうがあります。", de: "Heute mache ich Überstunden." },
+    { jp: "毎日残業で疲れます。", reading: "まいにちざんぎょうでつかれます。", de: "Die täglichen Überstunden ermüden mich." }
+  ]},
+  { id: "v995", word: "支払い", reading: "しはらい", meaning: "Bezahlung, Zahlung", pos: "Nomen", level: "adv", examples: [
+    { jp: "支払いはカードでできます。", reading: "しはらいはカードでできます。", de: "Die Bezahlung geht mit Karte." },
+    { jp: "支払いは月末です。", reading: "しはらいはげつまつです。", de: "Die Zahlung ist zum Monatsende fällig." }
+  ]},
+  { id: "v996", word: "社員", reading: "しゃいん", meaning: "Firmenangestellter", pos: "Nomen", level: "adv", examples: [
+    { jp: "この会社の社員は千人です。", reading: "このかいしゃのしゃいんはせんにんです。", de: "Diese Firma hat tausend Angestellte." },
+    { jp: "彼は新しい社員です。", reading: "かれはあたらしいしゃいんです。", de: "Er ist ein neuer Angestellter." }
+  ]},
+  { id: "v997", word: "社長", reading: "しゃちょう", meaning: "Firmenchef, Geschäftsführer", pos: "Nomen", level: "adv", examples: [
+    { jp: "社長に会いました。", reading: "しゃちょうにあいました。", de: "Ich habe den Chef getroffen." },
+    { jp: "社長は今出張中です。", reading: "しゃちょうはいましゅっちょうちゅうです。", de: "Der Chef ist gerade auf Geschäftsreise." }
+  ]},
+  { id: "v998", word: "出席", reading: "しゅっせき", meaning: "Teilnahme, Anwesenheit", pos: "Nomen", level: "adv", examples: [
+    { jp: "会議の出席をお願いします。", reading: "かいぎのしゅっせきをおねがいします。", de: "Bitte nehmen Sie an der Besprechung teil." },
+    { jp: "出席の返事をしました。", reading: "しゅっせきのへんじをしました。", de: "Ich habe zugesagt (teilzunehmen)." }
+  ]},
+  { id: "v999", word: "出席する", reading: "しゅっせきする", meaning: "teilnehmen, anwesend sein", pos: "Verb (する-Verb)", level: "adv", examples: [
+    { jp: "会議に出席します。", reading: "かいぎにしゅっせきします。", de: "Ich nehme an der Besprechung teil." },
+    { jp: "結婚式に出席しました。", reading: "けっこんしきにしゅっせきしました。", de: "Ich habe an der Hochzeit teilgenommen." }
+  ]},
+  { id: "v1000", word: "書類", reading: "しょるい", meaning: "Unterlagen, Dokumente", pos: "Nomen", level: "adv", examples: [
+    { jp: "書類にサインしてください。", reading: "しょるいにサインしてください。", de: "Unterschreiben Sie bitte die Unterlagen." },
+    { jp: "大切な書類をなくしました。", reading: "たいせつなしょるいをなくしました。", de: "Ich habe wichtige Dokumente verloren." }
+  ]},
+  { id: "v1001", word: "大臣", reading: "だいじん", meaning: "Minister", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼は外務大臣です。", reading: "かれはがいむだいじんです。", de: "Er ist Außenminister." },
+    { jp: "大臣がテレビに出ました。", reading: "だいじんがテレビにでました。", de: "Der Minister war im Fernsehen." }
+  ]},
+  { id: "v1002", word: "大統領", reading: "だいとうりょう", meaning: "Präsident", pos: "Nomen", level: "adv", examples: [
+    { jp: "アメリカの大統領が来日します。", reading: "アメリカのだいとうりょうがらいにちします。", de: "Der US-Präsident besucht Japan." },
+    { jp: "大統領のスピーチを聞きました。", reading: "だいとうりょうのスピーチをききました。", de: "Ich habe die Rede des Präsidenten gehört." }
+  ]},
+  { id: "v1003", word: "貿易", reading: "ぼうえき", meaning: "Handel, Außenhandel", pos: "Nomen", level: "adv", examples: [
+    { jp: "日本は貿易が盛んです。", reading: "にほんはぼうえきがさかんです。", de: "Japan treibt viel Handel." },
+    { jp: "彼は貿易の仕事をしています。", reading: "かれはぼうえきのしごとをしています。", de: "Er arbeitet im Handel." }
+  ]},
+  { id: "v1004", word: "下ろす", reading: "おろす", meaning: "(Geld) abheben / herunternehmen", pos: "Verb (Godan, す)", level: "adv", examples: [
+    { jp: "銀行でお金を下ろします。", reading: "ぎんこうでおかねをおろします。", de: "Ich hebe bei der Bank Geld ab." },
+    { jp: "棚から箱を下ろします。", reading: "たなからはこをおろします。", de: "Ich nehme die Schachtel vom Regal." }
+  ]},
+  { id: "v1005", word: "焼き物", reading: "やきもの", meaning: "Töpferwaren, Keramik", pos: "Nomen", level: "adv", examples: [
+    { jp: "この町は焼き物で有名です。", reading: "このまちはやきものでゆうめいです。", de: "Diese Stadt ist für ihre Keramik berühmt." },
+    { jp: "焼き物のお皿を買いました。", reading: "やきもののおさらをかいました。", de: "Ich habe einen Keramikteller gekauft." }
+  ]}
 ];

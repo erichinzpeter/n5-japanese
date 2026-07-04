@@ -4,6 +4,17 @@
 
 ---
 
+## [3.18.0] — 2026-07-04
+
+### Hinzugefügt
+
+- **594 neue Vokabeln** aus zwei gedruckten JP→DE-Glossaren eingelesen (OCR) und eingeordnet — App wächst von 411 auf 1005 Einträge. Jeder Eintrag mit Reading, Wortart und zwei Beispielsätzen (JP / Kana / DE), passend zu den bestehenden Kategorien.
+- Bürojargon (会議, 社長, 出張, 貿易, 大臣 …) und Kultur-Vokabeln (焼き物 Töpferwaren, 歌舞伎, いけばな, お花見) bewusst mit aufgenommen.
+
+### Gefiltert (nicht aufgenommen)
+
+- Eigennamen, Orts- und Personennamen (あおやま, たなか, いとう …), die meisten Ländernamen sowie sehr seltene/veraltete Begriffe (テープレコーダー, ごぶさた, こうかんしゅ …) und reine Zahlwörter/Zähler/Datumswörter.
+
 ## [3.17.0] — 2026-07-04
 
 ### Geändert

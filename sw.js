@@ -1,4 +1,4 @@
-const CACHE = 'n5-v75';
+const CACHE = 'n5-v76';
 const ASSETS = [
   './',
   './index.html',
