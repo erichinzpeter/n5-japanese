@@ -1493,4 +1493,579 @@ const GRAMMAR = [
       ]
     }
   },
+
+  // Ratschläge, Zustände & Erfahrung (Lektion 4–6)
+  {
+    id: "g046",
+    pattern: "〜たほうがいいです / 〜ないほうがいいです (Ratschlag)",
+    reading: "〜たほうがいいです / 〜ないほうがいいです",
+    situation: "Du willst jemandem raten, etwas (nicht) zu tun.",
+    explanation: "Ratschlag geben: Verb-た-Form + ほうがいいです (mach lieber …) oder Verb-ない-Form + ほうがいいです (mach lieber nicht …).",
+    example_jp: "早く寝たほうがいいですよ。",
+    example_reading: "はやくねたほうがいいですよ。",
+    example_de: "Du solltest lieber früh schlafen gehen.",
+    dialogue: [
+      { jp: "A: かぜをひきました。", reading: "A: かぜをひきました。", de: "A: Ich habe mich erkältet." },
+      { jp: "B: 薬を飲んだほうがいいですよ。", reading: "B: くすりをのんだほうがいいですよ。", de: "B: Du solltest lieber Medizin nehmen." }
+    ],
+    examples: [
+      { jp: "早く寝たほうがいいですよ。", reading: "はやくねたほうがいいですよ。", de: "Du solltest lieber früh schlafen." },
+      { jp: "薬を飲んだほうがいいです。", reading: "くすりをのんだほうがいいです。", de: "Du solltest lieber Medizin nehmen." },
+      { jp: "少し休んだほうがいいです。", reading: "すこしやすんだほうがいいです。", de: "Du solltest dich lieber etwas ausruhen." },
+      { jp: "コーヒーを飲まないほうがいいです。", reading: "コーヒーをのまないほうがいいです。", de: "Du solltest lieber keinen Kaffee trinken." },
+      { jp: "今日は出かけないほうがいいですよ。", reading: "きょうはでかけないほうがいいですよ。", de: "Du solltest heute lieber nicht ausgehen." },
+      { jp: "野菜をたくさん食べたほうがいいです。", reading: "やさいをたくさんたべたほうがいいです。", de: "Du solltest lieber viel Gemüse essen." },
+      { jp: "タバコを吸わないほうがいいです。", reading: "タバコをすわないほうがいいです。", de: "Du solltest lieber nicht rauchen." },
+      { jp: "傘を持っていったほうがいいですよ。", reading: "かさをもっていったほうがいいですよ。", de: "Du solltest lieber einen Schirm mitnehmen." }
+    ],
+    cloze: {
+      distractors: ["こと", "もの", "とき"],
+      items: [
+        { text: "早く寝た＿がいいですよ。", reading: "はやくねた＿がいいですよ。", answer: "ほう", de: "Du solltest lieber früh schlafen." },
+        { text: "薬を飲んだ＿がいいです。", reading: "くすりをのんだ＿がいいです。", answer: "ほう", de: "Du solltest lieber Medizin nehmen." },
+        { text: "コーヒーを飲まない＿がいいです。", reading: "コーヒーをのまない＿がいいです。", answer: "ほう", de: "Du solltest lieber keinen Kaffee trinken." },
+        { text: "傘を持っていった＿がいいですよ。", reading: "かさをもっていった＿がいいですよ。", answer: "ほう", de: "Du solltest lieber einen Schirm mitnehmen." }
+      ]
+    }
+  },
+  {
+    id: "g047",
+    pattern: "〜てきます (hingehen, etw. tun und zurückkommen)",
+    reading: "〜てきます",
+    situation: "Du gehst kurz irgendwohin, machst etwas und kommst wieder zurück.",
+    explanation: "Verb-て-Form + きます: eine Handlung an einem anderen Ort erledigen und zum Ausgangspunkt zurückkehren.",
+    example_jp: "パンを買ってきます。",
+    example_reading: "パンをかってきます。",
+    example_de: "Ich hole schnell Brot (und komme zurück).",
+    dialogue: [
+      { jp: "A: どこへ行くんですか。", reading: "A: どこへいくんですか。", de: "A: Wohin gehst du?" },
+      { jp: "B: コンビニで飲み物を買ってきます。", reading: "B: コンビニでのみものをかってきます。", de: "B: Ich hole schnell etwas zu trinken vom Kombini." }
+    ],
+    examples: [
+      { jp: "パンを買ってきます。", reading: "パンをかってきます。", de: "Ich hole schnell Brot." },
+      { jp: "トイレに行ってきます。", reading: "トイレにいってきます。", de: "Ich gehe kurz auf die Toilette." },
+      { jp: "ちょっと電話してきます。", reading: "ちょっとでんわしてきます。", de: "Ich telefoniere kurz." },
+      { jp: "昼ご飯を食べてきます。", reading: "ひるごはんをたべてきます。", de: "Ich gehe kurz Mittag essen." },
+      { jp: "銀行でお金をおろしてきます。", reading: "ぎんこうでおかねをおろしてきます。", de: "Ich hole schnell Geld von der Bank." },
+      { jp: "友だちを駅まで送ってきます。", reading: "ともだちをえきまでおくってきます。", de: "Ich bringe kurz meinen Freund zum Bahnhof." },
+      { jp: "少し歩いてきます。", reading: "すこしあるいてきます。", de: "Ich gehe kurz spazieren." },
+      { jp: "新聞を買ってきました。", reading: "しんぶんをかってきました。", de: "Ich habe schnell die Zeitung geholt." }
+    ],
+    cloze: {
+      distractors: ["います", "あります", "おきます"],
+      items: [
+        { text: "パンを買って＿。", reading: "パンをかって＿。", answer: "きます", de: "Ich hole schnell Brot." },
+        { text: "トイレに行って＿。", reading: "トイレにいって＿。", answer: "きます", de: "Ich gehe kurz auf die Toilette." },
+        { text: "昼ご飯を食べて＿。", reading: "ひるごはんをたべて＿。", answer: "きます", de: "Ich gehe kurz Mittag essen." },
+        { text: "少し歩いて＿。", reading: "すこしあるいて＿。", answer: "きます", de: "Ich gehe kurz spazieren." }
+      ]
+    }
+  },
+  {
+    id: "g048",
+    pattern: "〜たばかりです (gerade eben getan)",
+    reading: "〜たばかりです",
+    situation: "Etwas ist gerade eben passiert oder du hast etwas gerade erst getan.",
+    explanation: "Verb-た-Form + ばかりです: eine Handlung ist gerade eben abgeschlossen — zeitlich sehr nah.",
+    example_jp: "日本に来たばかりです。",
+    example_reading: "にほんにきたばかりです。",
+    example_de: "Ich bin gerade erst nach Japan gekommen.",
+    dialogue: [
+      { jp: "A: 日本語が上手ですね。", reading: "A: にほんごがじょうずですね。", de: "A: Dein Japanisch ist gut!" },
+      { jp: "B: いいえ、勉強を始めたばかりです。", reading: "B: いいえ、べんきょうをはじめたばかりです。", de: "B: Nein, ich habe gerade erst angefangen zu lernen." }
+    ],
+    examples: [
+      { jp: "日本に来たばかりです。", reading: "にほんにきたばかりです。", de: "Ich bin gerade erst nach Japan gekommen." },
+      { jp: "ご飯を食べたばかりです。", reading: "ごはんをたべたばかりです。", de: "Ich habe gerade erst gegessen." },
+      { jp: "この会社に入ったばかりです。", reading: "このかいしゃにはいったばかりです。", de: "Ich bin gerade erst in diese Firma eingetreten." },
+      { jp: "起きたばかりで、まだ眠いです。", reading: "おきたばかりで、まだねむいです。", de: "Ich bin gerade erst aufgestanden und noch müde." },
+      { jp: "その映画は始まったばかりです。", reading: "そのえいがははじまったばかりです。", de: "Der Film hat gerade erst angefangen." },
+      { jp: "引っ越したばかりです。", reading: "ひっこしたばかりです。", de: "Ich bin gerade erst umgezogen." },
+      { jp: "買ったばかりの車です。", reading: "かったばかりのくるまです。", de: "Es ist ein gerade erst gekauftes Auto." },
+      { jp: "日本語を習い始めたばかりです。", reading: "にほんごをならいはじめたばかりです。", de: "Ich habe gerade erst angefangen, Japanisch zu lernen." }
+    ],
+    cloze: {
+      distractors: ["だけ", "ぐらい", "まで"],
+      items: [
+        { text: "日本に来た＿です。", reading: "にほんにきた＿です。", answer: "ばかり", de: "Ich bin gerade erst nach Japan gekommen." },
+        { text: "ご飯を食べた＿です。", reading: "ごはんをたべた＿です。", answer: "ばかり", de: "Ich habe gerade erst gegessen." },
+        { text: "引っ越した＿です。", reading: "ひっこした＿です。", answer: "ばかり", de: "Ich bin gerade erst umgezogen." },
+        { text: "その映画は始まった＿です。", reading: "そのえいがははじまった＿です。", answer: "ばかり", de: "Der Film hat gerade erst angefangen." }
+      ]
+    }
+  },
+  {
+    id: "g054",
+    pattern: "まだ〜ていません (noch nicht getan)",
+    reading: "まだ〜ていません",
+    situation: "Etwas ist bis jetzt noch nicht passiert oder du hast etwas noch nicht getan.",
+    explanation: "まだ + Verb-て-Form + いません: eine erwartete Handlung ist noch nicht geschehen. Kurzantwort oft: いいえ、まだです。",
+    example_jp: "昼ご飯をまだ食べていません。",
+    example_reading: "ひるごはんをまだたべていません。",
+    example_de: "Ich habe noch nicht zu Mittag gegessen.",
+    dialogue: [
+      { jp: "A: もう宿題をしましたか。", reading: "A: もうしゅくだいをしましたか。", de: "A: Hast du die Hausaufgaben schon gemacht?" },
+      { jp: "B: いいえ、まだしていません。", reading: "B: いいえ、まだしていません。", de: "B: Nein, noch nicht." }
+    ],
+    examples: [
+      { jp: "昼ご飯をまだ食べていません。", reading: "ひるごはんをまだたべていません。", de: "Ich habe noch nicht zu Mittag gegessen." },
+      { jp: "その本をまだ読んでいません。", reading: "そのほんをまだよんでいません。", de: "Ich habe das Buch noch nicht gelesen." },
+      { jp: "田中さんはまだ来ていません。", reading: "たなかさんはまだきていません。", de: "Herr Tanaka ist noch nicht gekommen." },
+      { jp: "レポートをまだ書いていません。", reading: "レポートをまだかいていません。", de: "Ich habe den Bericht noch nicht geschrieben." },
+      { jp: "まだ決めていません。", reading: "まだきめていません。", de: "Ich habe mich noch nicht entschieden." },
+      { jp: "新しい漢字をまだ覚えていません。", reading: "あたらしいかんじをまだおぼえていません。", de: "Ich habe die neuen Kanji noch nicht gelernt." },
+      { jp: "朝ご飯をまだ食べていません。", reading: "あさごはんをまだたべていません。", de: "Ich habe noch nicht gefrühstückt." },
+      { jp: "その映画をまだ見ていません。", reading: "そのえいがをまだみていません。", de: "Ich habe den Film noch nicht gesehen." }
+    ],
+    cloze: {
+      distractors: ["もう", "よく", "ずっと"],
+      items: [
+        { text: "昼ご飯を＿食べていません。", reading: "ひるごはんを＿たべていません。", answer: "まだ", de: "Ich habe noch nicht zu Mittag gegessen." },
+        { text: "その本を＿読んでいません。", reading: "そのほんを＿よんでいません。", answer: "まだ", de: "Ich habe das Buch noch nicht gelesen." },
+        { text: "田中さんは＿来ていません。", reading: "たなかさんは＿きていません。", answer: "まだ", de: "Herr Tanaka ist noch nicht gekommen." },
+        { text: "その映画を＿見ていません。", reading: "そのえいがを＿みていません。", answer: "まだ", de: "Ich habe den Film noch nicht gesehen." }
+      ]
+    }
+  },
+  {
+    id: "g057",
+    pattern: "〜たことがあります (schon einmal getan haben — Erfahrung)",
+    reading: "〜たことがあります",
+    situation: "Du willst sagen, dass du etwas schon einmal in deinem Leben getan oder erlebt hast.",
+    explanation: "Verb-た-Form + ことがあります: Erfahrung ausdrücken. Verneinung: 〜たことがありません (noch nie).",
+    example_jp: "日本へ行ったことがあります。",
+    example_reading: "にほんへいったことがあります。",
+    example_de: "Ich war schon einmal in Japan.",
+    dialogue: [
+      { jp: "A: 寿司を食べたことがありますか。", reading: "A: すしをたべたことがありますか。", de: "A: Hast du schon einmal Sushi gegessen?" },
+      { jp: "B: はい、一度食べたことがあります。", reading: "B: はい、いちどたべたことがあります。", de: "B: Ja, ich habe schon einmal gegessen." }
+    ],
+    examples: [
+      { jp: "日本へ行ったことがあります。", reading: "にほんへいったことがあります。", de: "Ich war schon einmal in Japan." },
+      { jp: "富士山に登ったことがあります。", reading: "ふじさんにのぼったことがあります。", de: "Ich bin schon einmal auf den Fuji gestiegen." },
+      { jp: "すしを食べたことがあります。", reading: "すしをたべたことがあります。", de: "Ich habe schon einmal Sushi gegessen." },
+      { jp: "その映画を見たことがあります。", reading: "そのえいがをみたことがあります。", de: "Ich habe den Film schon einmal gesehen." },
+      { jp: "馬に乗ったことがありません。", reading: "うまにのったことがありません。", de: "Ich bin noch nie geritten." },
+      { jp: "日本語で手紙を書いたことがあります。", reading: "にほんごでてがみをかいたことがあります。", de: "Ich habe schon einmal einen Brief auf Japanisch geschrieben." },
+      { jp: "一度も遅れたことがありません。", reading: "いちどもおくれたことがありません。", de: "Ich bin noch nie zu spät gekommen." },
+      { jp: "温泉に入ったことがありますか。", reading: "おんせんにはいったことがありますか。", de: "Warst du schon einmal in einer heißen Quelle?" }
+    ],
+    cloze: {
+      distractors: ["もの", "ところ", "つもり"],
+      items: [
+        { text: "日本へ行った＿があります。", reading: "にほんへいった＿があります。", answer: "こと", de: "Ich war schon einmal in Japan." },
+        { text: "すしを食べた＿があります。", reading: "すしをたべた＿があります。", answer: "こと", de: "Ich habe schon einmal Sushi gegessen." },
+        { text: "馬に乗った＿がありません。", reading: "うまにのった＿がありません。", answer: "こと", de: "Ich bin noch nie geritten." },
+        { text: "その映画を見た＿があります。", reading: "そのえいがをみた＿があります。", answer: "こと", de: "Ich habe den Film schon einmal gesehen." }
+      ]
+    }
+  },
+
+  // Adverbien & Grad
+  {
+    id: "g049",
+    pattern: "なかなか〜ません (nicht ohne Weiteres / einfach nicht)",
+    reading: "なかなか〜ません",
+    situation: "Etwas gelingt oder passiert trotz Erwartung oder Bemühung einfach nicht.",
+    explanation: "なかなか + Verneinung: „nicht so leicht / einfach nicht“. Mit positivem Verb bedeutet なかなか dagegen „ziemlich, recht“.",
+    example_jp: "バスがなかなか来ません。",
+    example_reading: "バスがなかなかきません。",
+    example_de: "Der Bus kommt einfach nicht.",
+    dialogue: [
+      { jp: "A: 日本語はどうですか。", reading: "A: にほんごはどうですか。", de: "A: Wie läuft es mit Japanisch?" },
+      { jp: "B: 漢字がなかなか覚えられません。", reading: "B: かんじがなかなかおぼえられません。", de: "B: Kanji kann ich einfach nicht behalten." }
+    ],
+    examples: [
+      { jp: "バスがなかなか来ません。", reading: "バスがなかなかきません。", de: "Der Bus kommt einfach nicht." },
+      { jp: "なかなか上手になりません。", reading: "なかなかじょうずになりません。", de: "Ich werde einfach nicht besser." },
+      { jp: "仕事がなかなか終わりません。", reading: "しごとがなかなかおわりません。", de: "Die Arbeit will einfach nicht enden." },
+      { jp: "名前がなかなか覚えられません。", reading: "なまえがなかなかおぼえられません。", de: "Ich kann mir die Namen einfach nicht merken." },
+      { jp: "子供がなかなか寝ません。", reading: "こどもがなかなかねません。", de: "Das Kind will einfach nicht schlafen." },
+      { jp: "この漢字はなかなか難しいです。", reading: "このかんじはなかなかむずかしいです。", de: "Dieses Kanji ist ziemlich schwer." },
+      { jp: "なかなかいいレストランですね。", reading: "なかなかいいレストランですね。", de: "Das ist ein ziemlich gutes Restaurant." },
+      { jp: "切符がなかなか買えませんでした。", reading: "きっぷがなかなかかえませんでした。", de: "Ich konnte einfach keine Fahrkarte bekommen." }
+    ],
+    cloze: {
+      distractors: ["だいぶ", "とても", "もっと"],
+      items: [
+        { text: "バスが＿来ません。", reading: "バスが＿きません。", answer: "なかなか", de: "Der Bus kommt einfach nicht." },
+        { text: "仕事が＿終わりません。", reading: "しごとが＿おわりません。", answer: "なかなか", de: "Die Arbeit will einfach nicht enden." },
+        { text: "子供が＿寝ません。", reading: "こどもが＿ねません。", answer: "なかなか", de: "Das Kind will einfach nicht schlafen." },
+        { text: "名前が＿覚えられません。", reading: "なまえが＿おぼえられません。", answer: "なかなか", de: "Ich kann mir die Namen einfach nicht merken." }
+      ]
+    }
+  },
+  {
+    id: "g050",
+    pattern: "だいぶ (ziemlich / beträchtlich)",
+    reading: "だいぶ",
+    situation: "Du willst sagen, dass sich etwas in beträchtlichem Maß verändert hat oder ziemlich stark ist.",
+    explanation: "だいぶ betont ein beträchtliches Ausmaß — oft bei Veränderungen: „ziemlich, deutlich, um einiges“.",
+    example_jp: "日本語がだいぶ上手になりました。",
+    example_reading: "にほんごがだいぶじょうずになりました。",
+    example_de: "Mein Japanisch ist deutlich besser geworden.",
+    dialogue: [
+      { jp: "A: かぜはどうですか。", reading: "A: かぜはどうですか。", de: "A: Wie geht es deiner Erkältung?" },
+      { jp: "B: だいぶよくなりました。", reading: "B: だいぶよくなりました。", de: "B: Es ist deutlich besser geworden." }
+    ],
+    examples: [
+      { jp: "日本語がだいぶ上手になりました。", reading: "にほんごがだいぶじょうずになりました。", de: "Mein Japanisch ist deutlich besser geworden." },
+      { jp: "かぜがだいぶよくなりました。", reading: "かぜがだいぶよくなりました。", de: "Meine Erkältung ist deutlich besser." },
+      { jp: "だいぶ暖かくなりましたね。", reading: "だいぶあたたかくなりましたね。", de: "Es ist ziemlich warm geworden, oder?" },
+      { jp: "駅までだいぶ歩きました。", reading: "えきまでだいぶあるきました。", de: "Ich bin bis zum Bahnhof ziemlich weit gelaufen." },
+      { jp: "だいぶ時間がかかりました。", reading: "だいぶじかんがかかりました。", de: "Es hat ziemlich lange gedauert." },
+      { jp: "人がだいぶ増えました。", reading: "ひとがだいぶふえました。", de: "Es sind deutlich mehr Leute geworden." },
+      { jp: "もうだいぶ遅いです。", reading: "もうだいぶおそいです。", de: "Es ist schon ziemlich spät." },
+      { jp: "仕事がだいぶ進みました。", reading: "しごとがだいぶすすみました。", de: "Die Arbeit ist ziemlich weit vorangekommen." }
+    ],
+    cloze: {
+      distractors: ["なかなか", "あまり", "ちょっと"],
+      items: [
+        { text: "日本語が＿上手になりました。", reading: "にほんごが＿じょうずになりました。", answer: "だいぶ", de: "Mein Japanisch ist deutlich besser geworden." },
+        { text: "かぜが＿よくなりました。", reading: "かぜが＿よくなりました。", answer: "だいぶ", de: "Meine Erkältung ist deutlich besser." },
+        { text: "＿暖かくなりましたね。", reading: "＿あたたかくなりましたね。", answer: "だいぶ", de: "Es ist ziemlich warm geworden, oder?" },
+        { text: "人が＿増えました。", reading: "ひとが＿ふえました。", answer: "だいぶ", de: "Es sind deutlich mehr Leute geworden." }
+      ]
+    }
+  },
+  {
+    id: "g061",
+    pattern: "〜く / 〜に (Adjektiv → Adverb)",
+    reading: "けいようし → ふくし",
+    situation: "Du willst beschreiben, WIE eine Handlung ausgeführt wird (schnell, leise, sauber …).",
+    explanation: "い-Adjektiv: い → く (早い→早く). な-Adjektiv: + に (静か→静かに). Das Adverb steht vor dem Verb.",
+    example_jp: "早く起きます。",
+    example_reading: "はやくおきます。",
+    example_de: "Ich stehe früh auf.",
+    dialogue: [
+      { jp: "A: 字を書いてください。", reading: "A: じをかいてください。", de: "A: Bitte schreib die Zeichen." },
+      { jp: "B: わかりました。大きく書きます。", reading: "B: わかりました。おおきくかきます。", de: "B: Verstanden, ich schreibe groß." }
+    ],
+    examples: [
+      { jp: "早く起きます。", reading: "はやくおきます。", de: "Ich stehe früh auf." },
+      { jp: "静かに歩きます。", reading: "しずかにあるきます。", de: "Ich gehe leise." },
+      { jp: "部屋をきれいに掃除しました。", reading: "へやをきれいにそうじしました。", de: "Ich habe das Zimmer sauber geputzt." },
+      { jp: "大きく書いてください。", reading: "おおきくかいてください。", de: "Bitte schreib groß." },
+      { jp: "おいしく作りました。", reading: "おいしくつくりました。", de: "Ich habe es lecker gekocht." },
+      { jp: "元気に遊んでいます。", reading: "げんきにあそんでいます。", de: "Sie spielen munter." },
+      { jp: "安く買いました。", reading: "やすくかいました。", de: "Ich habe es billig gekauft." },
+      { jp: "上手に日本語を話します。", reading: "じょうずににほんごをはなします。", de: "Er spricht gut Japanisch." }
+    ],
+    cloze: {
+      distractors: ["に", "く", "で"],
+      items: [
+        { text: "字を大き＿書きます。", reading: "じをおおき＿かきます。", answer: "く", distractors: ["に", "で", "を"], de: "Ich schreibe die Zeichen groß." },
+        { text: "静か＿歩きます。", reading: "しずか＿あるきます。", answer: "に", distractors: ["く", "で", "を"], de: "Ich gehe leise." },
+        { text: "早＿起きます。", reading: "はや＿おきます。", answer: "く", distractors: ["に", "で", "を"], de: "Ich stehe früh auf." },
+        { text: "部屋をきれい＿掃除します。", reading: "へやをきれい＿そうじします。", answer: "に", distractors: ["く", "で", "を"], de: "Ich putze das Zimmer sauber." }
+      ]
+    }
+  },
+
+  // Geben & Nehmen
+  {
+    id: "g051",
+    pattern: "あげます・もらいます・くれます (geben / bekommen / mir geben)",
+    reading: "あげます・もらいます・くれます",
+    situation: "Du willst über das Geben und Bekommen von Dingen sprechen.",
+    explanation: "あげます: jd gibt an andere (Aに Bを あげます). もらいます: von jdm bekommen (Aに/から Bを もらいます). くれます: jd gibt MIR (Aが Bを くれます).",
+    example_jp: "友だちが本をくれました。",
+    example_reading: "ともだちがほんをくれました。",
+    example_de: "Mein Freund hat mir ein Buch gegeben.",
+    dialogue: [
+      { jp: "A: その時計、いいですね。", reading: "A: そのとけい、いいですね。", de: "A: Schöne Uhr!" },
+      { jp: "B: 父にもらいました。", reading: "B: ちちにもらいました。", de: "B: Ich habe sie von meinem Vater bekommen." }
+    ],
+    examples: [
+      { jp: "友だちが本をくれました。", reading: "ともだちがほんをくれました。", de: "Mein Freund hat mir ein Buch gegeben." },
+      { jp: "母にとけいをもらいました。", reading: "ははにとけいをもらいました。", de: "Ich habe von meiner Mutter eine Uhr bekommen." },
+      { jp: "友だちに花をあげました。", reading: "ともだちにはなをあげました。", de: "Ich habe meinem Freund Blumen gegeben." },
+      { jp: "先生が本をくれました。", reading: "せんせいがほんをくれました。", de: "Der Lehrer hat mir ein Buch gegeben." },
+      { jp: "田中さんにおみやげをあげます。", reading: "たなかさんにおみやげをあげます。", de: "Ich gebe Herrn Tanaka ein Mitbringsel." },
+      { jp: "友だちからチョコレートをもらいました。", reading: "ともだちからチョコレートをもらいました。", de: "Ich habe von meinem Freund Schokolade bekommen." },
+      { jp: "兄が自転車をくれました。", reading: "あにがじてんしゃをくれました。", de: "Mein großer Bruder hat mir ein Fahrrad gegeben." },
+      { jp: "弟にお金をあげました。", reading: "おとうとにおかねをあげました。", de: "Ich habe meinem kleinen Bruder Geld gegeben." }
+    ],
+    cloze: {
+      distractors: ["あげました", "もらいました", "くれました"],
+      items: [
+        { text: "友だちが本を＿。", reading: "ともだちがほんを＿。", answer: "くれました", distractors: ["あげました", "もらいました", "かいました"], de: "Mein Freund hat mir ein Buch gegeben." },
+        { text: "母にとけいを＿。", reading: "ははにとけいを＿。", answer: "もらいました", distractors: ["くれました", "あげました", "うりました"], de: "Ich habe von meiner Mutter eine Uhr bekommen." },
+        { text: "友だちに花を＿。", reading: "ともだちにはなを＿。", answer: "あげました", distractors: ["くれました", "もらいました", "たべました"], de: "Ich habe meinem Freund Blumen gegeben." },
+        { text: "兄が自転車を＿。", reading: "あにがじてんしゃを＿。", answer: "くれました", distractors: ["あげました", "もらいました", "のりました"], de: "Mein großer Bruder hat mir ein Fahrrad gegeben." }
+      ]
+    }
+  },
+
+  // Veränderung & Entscheidung
+  {
+    id: "g052",
+    pattern: "〜くなります / 〜になります (werden — Veränderung)",
+    reading: "〜くなります / 〜になります",
+    situation: "Du willst eine Veränderung ausdrücken: etwas wird anders.",
+    explanation: "い-Adjektiv: い→く + なります (寒くなる). な-Adjektiv/Nomen: + に + なります (元気になる, 医者になる).",
+    example_jp: "寒くなりました。",
+    example_reading: "さむくなりました。",
+    example_de: "Es ist kalt geworden.",
+    dialogue: [
+      { jp: "A: 大きくなりましたね。", reading: "A: おおきくなりましたね。", de: "A: Du bist groß geworden!" },
+      { jp: "B: はい、来年大学生になります。", reading: "B: はい、らいねんだいがくせいになります。", de: "B: Ja, nächstes Jahr werde ich Student." }
+    ],
+    examples: [
+      { jp: "寒くなりました。", reading: "さむくなりました。", de: "Es ist kalt geworden." },
+      { jp: "日本語が上手になりました。", reading: "にほんごがじょうずになりました。", de: "Mein Japanisch ist gut geworden." },
+      { jp: "医者になりたいです。", reading: "いしゃになりたいです。", de: "Ich möchte Arzt werden." },
+      { jp: "空が暗くなりました。", reading: "そらがくらくなりました。", de: "Der Himmel ist dunkel geworden." },
+      { jp: "町がきれいになりました。", reading: "まちがきれいになりました。", de: "Die Stadt ist schön geworden." },
+      { jp: "元気になりました。", reading: "げんきになりました。", de: "Ich bin wieder gesund geworden." },
+      { jp: "もう遅くなりましたから、帰ります。", reading: "もうおそくなりましたから、かえります。", de: "Es ist spät geworden, also gehe ich." },
+      { jp: "来年二十歳になります。", reading: "らいねんはたちになります。", de: "Nächstes Jahr werde ich zwanzig." }
+    ],
+    cloze: {
+      distractors: ["に", "く", "で"],
+      items: [
+        { text: "寒＿なりました。", reading: "さむ＿なりました。", answer: "く", distractors: ["に", "で", "を"], de: "Es ist kalt geworden." },
+        { text: "医者＿なりたいです。", reading: "いしゃ＿なりたいです。", answer: "に", distractors: ["く", "で", "を"], de: "Ich möchte Arzt werden." },
+        { text: "町がきれい＿なりました。", reading: "まちがきれい＿なりました。", answer: "に", distractors: ["く", "で", "を"], de: "Die Stadt ist schön geworden." },
+        { text: "空が暗＿なりました。", reading: "そらがくら＿なりました。", answer: "く", distractors: ["に", "で", "を"], de: "Der Himmel ist dunkel geworden." }
+      ]
+    }
+  },
+  {
+    id: "g053",
+    pattern: "〜にします (sich für etw. entscheiden)",
+    reading: "〜にします",
+    situation: "Du triffst eine Auswahl oder Entscheidung, zum Beispiel bei einer Bestellung.",
+    explanation: "Nomen + にします: „ich nehme / entscheide mich für …“. Bei einer Auswahl aus Optionen.",
+    example_jp: "飲み物はコーヒーにします。",
+    example_reading: "のみものはコーヒーにします。",
+    example_de: "Als Getränk nehme ich Kaffee.",
+    dialogue: [
+      { jp: "A: 何にしますか。", reading: "A: なににしますか。", de: "A: Was nehmen Sie?" },
+      { jp: "B: わたしは天ぷらにします。", reading: "B: わたしはてんぷらにします。", de: "B: Ich nehme Tempura." }
+    ],
+    examples: [
+      { jp: "飲み物はコーヒーにします。", reading: "のみものはコーヒーにします。", de: "Als Getränk nehme ich Kaffee." },
+      { jp: "わたしはこれにします。", reading: "わたしはこれにします。", de: "Ich nehme das hier." },
+      { jp: "昼ご飯はラーメンにします。", reading: "ひるごはんはラーメンにします。", de: "Zum Mittag nehme ich Ramen." },
+      { jp: "旅行は来月にします。", reading: "りょこうはらいげつにします。", de: "Die Reise mache ich nächsten Monat." },
+      { jp: "プレゼントはセーターにしました。", reading: "プレゼントはセーターにしました。", de: "Als Geschenk habe ich einen Pullover genommen." },
+      { jp: "会議は三時にしましょう。", reading: "かいぎはさんじにしましょう。", de: "Machen wir die Besprechung um drei." },
+      { jp: "部屋は静かなほうにします。", reading: "へやはしずかなほうにします。", de: "Ich nehme das ruhigere Zimmer." },
+      { jp: "デザートはアイスクリームにします。", reading: "デザートはアイスクリームにします。", de: "Als Nachtisch nehme ich Eis." }
+    ],
+    cloze: {
+      distractors: ["を", "で", "が"],
+      items: [
+        { text: "飲み物はコーヒー＿します。", reading: "のみものはコーヒー＿します。", answer: "に", de: "Als Getränk nehme ich Kaffee." },
+        { text: "昼ご飯はラーメン＿します。", reading: "ひるごはんはラーメン＿します。", answer: "に", de: "Zum Mittag nehme ich Ramen." },
+        { text: "旅行は来月＿します。", reading: "りょこうはらいげつ＿します。", answer: "に", de: "Die Reise mache ich nächsten Monat." },
+        { text: "デザートはアイスクリーム＿します。", reading: "デザートはアイスクリーム＿します。", answer: "に", de: "Als Nachtisch nehme ich Eis." }
+      ]
+    }
+  },
+
+  // Aufzählung & Verbindung
+  {
+    id: "g055",
+    pattern: "〜し、〜し (mehrere Gründe aufzählen)",
+    reading: "〜し、〜し",
+    situation: "Du willst mehrere Gründe oder Eigenschaften aneinanderreihen („und außerdem …“).",
+    explanation: "し nach der Plain-Form reiht Gründe/Eigenschaften auf und deutet oft eine Schlussfolgerung an: „…und außerdem…, deshalb…“.",
+    example_jp: "この店は安いし、近いし、いいですよ。",
+    example_reading: "このみせはやすいし、ちかいし、いいですよ。",
+    example_de: "Dieser Laden ist billig und außerdem nah — also gut.",
+    dialogue: [
+      { jp: "A: あのレストランはどうですか。", reading: "A: あのレストランはどうですか。", de: "A: Wie ist das Restaurant?" },
+      { jp: "B: 安いし、おいしいし、おすすめですよ。", reading: "B: やすいし、おいしいし、おすすめですよ。", de: "B: Billig und lecker — sehr zu empfehlen." }
+    ],
+    examples: [
+      { jp: "この店は安いし、近いし、いいですよ。", reading: "このみせはやすいし、ちかいし、いいですよ。", de: "Dieser Laden ist billig und nah, also gut." },
+      { jp: "田中さんは親切だし、頭がいいです。", reading: "たなかさんはしんせつだし、あたまがいいです。", de: "Herr Tanaka ist nett und außerdem klug." },
+      { jp: "今日は雨だし、寒いし、家にいます。", reading: "きょうはあめだし、さむいし、いえにいます。", de: "Heute regnet es und ist kalt, also bleibe ich zu Hause." },
+      { jp: "この部屋は広いし、明るいです。", reading: "このへやはひろいし、あかるいです。", de: "Dieses Zimmer ist groß und hell." },
+      { jp: "彼女は歌も上手だし、ダンスも上手です。", reading: "かのじょはうたもじょうずだし、ダンスもじょうずです。", de: "Sie singt gut und tanzt gut." },
+      { jp: "このカメラは新しいし、安いし、気に入っています。", reading: "このカメラはあたらしいし、やすいし、きにいっています。", de: "Diese Kamera ist neu und billig, sie gefällt mir." },
+      { jp: "日本語は難しいし、漢字も多いです。", reading: "にほんごはむずかしいし、かんじもおおいです。", de: "Japanisch ist schwer und hat viele Kanji." },
+      { jp: "時間もないし、お金もないです。", reading: "じかんもないし、おかねもないです。", de: "Ich habe weder Zeit noch Geld." }
+    ],
+    cloze: {
+      distractors: ["けど", "のに", "まで"],
+      items: [
+        { text: "この店は安い＿、便利です。", reading: "このみせはやすい＿、べんりです。", answer: "し", de: "Dieser Laden ist billig und praktisch." },
+        { text: "今日は寒い＿、家にいます。", reading: "きょうはさむい＿、いえにいます。", answer: "し", de: "Heute ist es kalt, also bleibe ich zu Hause." },
+        { text: "この部屋は広い＿、明るいです。", reading: "このへやはひろい＿、あかるいです。", answer: "し", de: "Dieses Zimmer ist groß und hell." },
+        { text: "日本語は難しい＿、漢字も多いです。", reading: "にほんごはむずかしい＿、かんじもおおいです。", answer: "し", de: "Japanisch ist schwer und hat viele Kanji." }
+      ]
+    }
+  },
+  {
+    id: "g058",
+    pattern: "〜たり〜たりします (dies und das tun — Aufzählung)",
+    reading: "〜たり〜たりします",
+    situation: "Du willst mehrere Beispiel-Handlungen nennen, ohne eine feste Reihenfolge festzulegen.",
+    explanation: "Verb-た-Form → たり: 〜たり、〜たりします nennt beispielhaft mehrere Handlungen („mal dies, mal das“).",
+    example_jp: "週末は本を読んだり、音楽を聞いたりします。",
+    example_reading: "しゅうまつはほんをよんだり、おんがくをきいたりします。",
+    example_de: "Am Wochenende lese ich, höre Musik und so.",
+    dialogue: [
+      { jp: "A: 日曜日は何をしますか。", reading: "A: にちようびはなにをしますか。", de: "A: Was machst du sonntags?" },
+      { jp: "B: 買い物をしたり、映画を見たりします。", reading: "B: かいものをしたり、えいがをみたりします。", de: "B: Ich gehe einkaufen, schaue Filme und so." }
+    ],
+    examples: [
+      { jp: "週末は本を読んだり、音楽を聞いたりします。", reading: "しゅうまつはほんをよんだり、おんがくをきいたりします。", de: "Am Wochenende lese ich und höre Musik." },
+      { jp: "日曜日は掃除をしたり、洗濯をしたりします。", reading: "にちようびはそうじをしたり、せんたくをしたりします。", de: "Sonntags putze und wasche ich." },
+      { jp: "公園で遊んだり、走ったりしました。", reading: "こうえんであそんだり、はしったりしました。", de: "Im Park habe ich gespielt und bin gelaufen." },
+      { jp: "パーティーで飲んだり、話したりしました。", reading: "パーティーでのんだり、はなしたりしました。", de: "Auf der Party habe ich getrunken und geredet." },
+      { jp: "休みの日は寝たり、テレビを見たりします。", reading: "やすみのひはねたり、テレビをみたりします。", de: "An freien Tagen schlafe ich und schaue Fernsehen." },
+      { jp: "日本語を書いたり、読んだりします。", reading: "にほんごをかいたり、よんだりします。", de: "Ich schreibe und lese Japanisch." },
+      { jp: "京都でお寺を見たり、買い物をしたりしました。", reading: "きょうとでおてらをみたり、かいものをしたりしました。", de: "In Kyoto habe ich Tempel besichtigt und eingekauft." },
+      { jp: "ケーキを焼いたり、料理を作ったりします。", reading: "ケーキをやいたり、りょうりをつくったりします。", de: "Ich backe Kuchen und koche." }
+    ],
+    cloze: {
+      distractors: ["たら", "ながら", "ないで"],
+      items: [
+        { text: "週末は本を読んだり、音楽を聞い＿します。", reading: "しゅうまつはほんをよんだり、おんがくをきい＿します。", answer: "たり", de: "Am Wochenende lese ich und höre Musik." },
+        { text: "日曜日は掃除をし＿、洗濯をしたりします。", reading: "にちようびはそうじをし＿、せんたくをしたりします。", answer: "たり", de: "Sonntags putze und wasche ich." },
+        { text: "公園で遊んだり、走っ＿しました。", reading: "こうえんであそんだり、はしっ＿しました。", answer: "たり", de: "Im Park habe ich gespielt und bin gelaufen." },
+        { text: "パーティーで飲んだり、話し＿しました。", reading: "パーティーでのんだり、はなし＿しました。", answer: "たり", de: "Auf der Party habe ich getrunken und geredet." }
+      ]
+    }
+  },
+  {
+    id: "g060",
+    pattern: "〜くて / 〜で (Adjektive & Nomen verbinden)",
+    reading: "〜くて / 〜で",
+    situation: "Du willst zwei Eigenschaften in einem Satz verbinden („… und …“).",
+    explanation: "い-Adjektiv: い→くて (大きくて). な-Adjektiv/Nomen: + で (便利で / 学生で). Verbindet zwei Eigenschaften ohne です dazwischen.",
+    example_jp: "この部屋は広くて明るいです。",
+    example_reading: "このへやはひろくてあかるいです。",
+    example_de: "Dieses Zimmer ist groß und hell.",
+    dialogue: [
+      { jp: "A: 新しい町はどうですか。", reading: "A: あたらしいまちはどうですか。", de: "A: Wie ist die neue Stadt?" },
+      { jp: "B: 静かできれいです。", reading: "B: しずかできれいです。", de: "B: Sie ist ruhig und schön." }
+    ],
+    examples: [
+      { jp: "この部屋は広くて明るいです。", reading: "このへやはひろくてあかるいです。", de: "Dieses Zimmer ist groß und hell." },
+      { jp: "この店は安くておいしいです。", reading: "このみせはやすくておいしいです。", de: "Dieser Laden ist billig und lecker." },
+      { jp: "大阪はにぎやかで楽しい町です。", reading: "おおさかはにぎやかでたのしいまちです。", de: "Osaka ist eine lebhafte und schöne Stadt." },
+      { jp: "この電車は速くて便利です。", reading: "このでんしゃははやくてべんりです。", de: "Dieser Zug ist schnell und praktisch." },
+      { jp: "田中さんは親切で優しいです。", reading: "たなかさんはしんせつでやさしいです。", de: "Herr Tanaka ist nett und freundlich." },
+      { jp: "山田さんは学生で、二十歳です。", reading: "やまださんはがくせいで、はたちです。", de: "Herr Yamada ist Student und zwanzig." },
+      { jp: "このかばんは軽くて丈夫です。", reading: "このかばんはかるくてじょうぶです。", de: "Diese Tasche ist leicht und robust." },
+      { jp: "部屋は静かで広いです。", reading: "へやはしずかでひろいです。", de: "Das Zimmer ist ruhig und groß." }
+    ],
+    cloze: {
+      distractors: ["で", "くて", "に"],
+      items: [
+        { text: "この部屋は広＿明るいです。", reading: "このへやはひろ＿あかるいです。", answer: "くて", distractors: ["で", "に", "と"], de: "Dieses Zimmer ist groß und hell." },
+        { text: "大阪はにぎやか＿楽しいです。", reading: "おおさかはにぎやか＿たのしいです。", answer: "で", distractors: ["くて", "に", "と"], de: "Osaka ist lebhaft und schön." },
+        { text: "この店は安＿おいしいです。", reading: "このみせはやす＿おいしいです。", answer: "くて", distractors: ["で", "に", "と"], de: "Dieser Laden ist billig und lecker." },
+        { text: "山田さんは学生＿、二十歳です。", reading: "やまださんはがくせい＿、はたちです。", answer: "で", distractors: ["くて", "に", "と"], de: "Herr Yamada ist Student und zwanzig." }
+      ]
+    }
+  },
+
+  // Nominalisierung & Beschreibung
+  {
+    id: "g056",
+    pattern: "〜方 (かた) (Art und Weise / Vorgehen)",
+    reading: "〜かた",
+    situation: "Du willst über die Art und Weise sprechen, wie man etwas tut (z. B. wie man etwas liest oder benutzt).",
+    explanation: "Verb-Stamm (ます-Form ohne ます) + 方: „die Art, wie man … tut“. 読みます→読み方 (Lesart), 使います→使い方 (Benutzung).",
+    example_jp: "この漢字の読み方がわかりません。",
+    example_reading: "このかんじのよみかたがわかりません。",
+    example_de: "Ich weiß nicht, wie man dieses Kanji liest.",
+    dialogue: [
+      { jp: "A: この機械の使い方を教えてください。", reading: "A: このきかいのつかいかたをおしえてください。", de: "A: Bitte zeig mir, wie man diese Maschine benutzt." },
+      { jp: "B: いいですよ。かんたんです。", reading: "B: いいですよ。かんたんです。", de: "B: Klar, das ist einfach." }
+    ],
+    examples: [
+      { jp: "この漢字の読み方がわかりません。", reading: "このかんじのよみかたがわかりません。", de: "Ich weiß nicht, wie man dieses Kanji liest." },
+      { jp: "この機械の使い方は簡単です。", reading: "このきかいのつかいかたはかんたんです。", de: "Die Bedienung dieser Maschine ist einfach." },
+      { jp: "東京駅への行き方を教えてください。", reading: "とうきょうえきへのいきかたをおしえてください。", de: "Bitte sag mir den Weg zum Bahnhof Tokyo." },
+      { jp: "漢字の書き方を習いました。", reading: "かんじのかきかたをならいました。", de: "Ich habe gelernt, wie man Kanji schreibt." },
+      { jp: "おはしの使い方が上手ですね。", reading: "おはしのつかいかたがじょうずですね。", de: "Du kannst gut mit Stäbchen umgehen." },
+      { jp: "この料理の作り方は難しいです。", reading: "このりょうりのつくりかたはむずかしいです。", de: "Die Zubereitung dieses Gerichts ist schwer." },
+      { jp: "名前の書き方を教えてください。", reading: "なまえのかきかたをおしえてください。", de: "Bitte zeig mir, wie man den Namen schreibt." },
+      { jp: "この言葉の使い方に気をつけてください。", reading: "このことばのつかいかたにきをつけてください。", de: "Achte auf die Verwendung dieses Wortes." }
+    ],
+    cloze: {
+      distractors: ["時", "事", "所"],
+      items: [
+        { text: "この漢字の読み＿がわかりません。", reading: "このかんじのよみ＿がわかりません。", answer: "方", de: "Ich weiß nicht, wie man dieses Kanji liest." },
+        { text: "この機械の使い＿は簡単です。", reading: "このきかいのつかい＿はかんたんです。", answer: "方", de: "Die Bedienung dieser Maschine ist einfach." },
+        { text: "東京駅への行き＿を教えてください。", reading: "とうきょうえきへのいき＿をおしえてください。", answer: "方", de: "Bitte sag mir den Weg zum Bahnhof Tokyo." },
+        { text: "漢字の書き＿を習いました。", reading: "かんじのかき＿をならいました。", answer: "方", de: "Ich habe gelernt, wie man Kanji schreibt." }
+      ]
+    }
+  },
+  {
+    id: "g059",
+    pattern: "〜は〜が〜 (Merkmal beschreiben: X hat ein … Y)",
+    reading: "〜は〜が〜",
+    situation: "Du willst eine Eigenschaft über einen Teil einer Person oder Sache beschreiben (Größe, Haare, Augen …).",
+    explanation: "Thema は + Teil が + Adjektiv: „Bei X ist das Y …“. Oft für Körper oder Eigenschaften: ぞうは鼻が長いです (Der Elefant hat eine lange Nase).",
+    example_jp: "ぞうは鼻が長いです。",
+    example_reading: "ぞうははながながいです。",
+    example_de: "Der Elefant hat eine lange Nase.",
+    dialogue: [
+      { jp: "A: 田中さんはどんな人ですか。", reading: "A: たなかさんはどんなひとですか。", de: "A: Was für ein Mensch ist Herr Tanaka?" },
+      { jp: "B: せが高くて、かみが長いです。", reading: "B: せがたかくて、かみがながいです。", de: "B: Er ist groß und hat lange Haare." }
+    ],
+    examples: [
+      { jp: "ぞうは鼻が長いです。", reading: "ぞうははながながいです。", de: "Der Elefant hat eine lange Nase." },
+      { jp: "さとうさんはせが高いです。", reading: "さとうさんはせがたかいです。", de: "Herr Sato ist groß." },
+      { jp: "マリアさんは目が大きいです。", reading: "マリアさんはめがおおきいです。", de: "Maria hat große Augen." },
+      { jp: "わたしはかみが短いです。", reading: "わたしはかみがみじかいです。", de: "Ich habe kurze Haare." },
+      { jp: "弟はあたまがいいです。", reading: "おとうとはあたまがいいです。", de: "Mein kleiner Bruder ist klug." },
+      { jp: "日本は電車が便利です。", reading: "にほんはでんしゃがべんりです。", de: "In Japan sind die Züge praktisch." },
+      { jp: "この町は人が多いです。", reading: "このまちはひとがおおいです。", de: "Diese Stadt hat viele Menschen." },
+      { jp: "大阪は食べ物が安いです。", reading: "おおさかはたべものがやすいです。", de: "In Osaka ist das Essen billig." }
+    ],
+    cloze: {
+      distractors: ["は", "を", "に"],
+      items: [
+        { text: "ぞうは鼻＿長いです。", reading: "ぞうははな＿ながいです。", answer: "が", de: "Der Elefant hat eine lange Nase." },
+        { text: "さとうさんはせ＿高いです。", reading: "さとうさんはせ＿たかいです。", answer: "が", de: "Herr Sato ist groß." },
+        { text: "マリアさんは目＿大きいです。", reading: "マリアさんはめ＿おおきいです。", answer: "が", de: "Maria hat große Augen." },
+        { text: "大阪は食べ物＿安いです。", reading: "おおさかはたべもの＿やすいです。", answer: "が", de: "In Osaka ist das Essen billig." }
+      ]
+    }
+  },
+
+  // Verkehrsmittel (Sauseschritt 1, Lektion 22)
+  {
+    id: "g062",
+    pattern: "乗ります・降ります (に/を) — Verkehrsmittel benutzen",
+    reading: "のります・おります",
+    situation: "Du willst über das Benutzen von Verkehrsmitteln sprechen: ein- und aussteigen, wie und wie lange.",
+    explanation: "Fortbewegung: 乗り物に乗ります (einsteigen — mit に), 乗り物を降ります (aussteigen — mit を). どうやって行きますか (Wie/womit?), どのくらいかかりますか (Wie lange dauert es?).",
+    example_jp: "バスに乗ります。",
+    example_reading: "バスにのります。",
+    example_de: "Ich steige in den Bus ein.",
+    dialogue: [
+      { jp: "A: 会社までどうやって行きますか。", reading: "A: かいしゃまでどうやっていきますか。", de: "A: Wie kommst du zur Arbeit?" },
+      { jp: "B: 電車で行きます。三十分ぐらいかかります。", reading: "B: でんしゃでいきます。さんじゅっぷんぐらいかかります。", de: "B: Mit dem Zug. Es dauert etwa 30 Minuten." }
+    ],
+    examples: [
+      { jp: "バスに乗ります。", reading: "バスにのります。", de: "Ich steige in den Bus ein." },
+      { jp: "東京駅でバスを降ります。", reading: "とうきょうえきでバスをおります。", de: "Am Bahnhof Tokyo steige ich aus dem Bus." },
+      { jp: "渋谷で電車を乗り換えます。", reading: "しぶやででんしゃをのりかえます。", de: "In Shibuya steige ich in einen anderen Zug um." },
+      { jp: "会社までどうやって行きますか。", reading: "かいしゃまでどうやっていきますか。", de: "Wie kommst du zur Arbeit?" },
+      { jp: "家から駅まで十分ぐらいかかります。", reading: "いえからえきまでじゅっぷんぐらいかかります。", de: "Von zu Hause zum Bahnhof dauert es etwa zehn Minuten." },
+      { jp: "次の駅で降りてください。", reading: "つぎのえきでおりてください。", de: "Bitte steig an der nächsten Station aus." },
+      { jp: "毎朝七時の電車に乗ります。", reading: "まいあさしちじのでんしゃにのります。", de: "Jeden Morgen nehme ich den Zug um sieben." },
+      { jp: "空港までどのくらいかかりますか。", reading: "くうこうまでどのくらいかかりますか。", de: "Wie lange dauert es zum Flughafen?" }
+    ],
+    cloze: {
+      distractors: ["に", "を", "で"],
+      items: [
+        { text: "バス＿乗ります。", reading: "バス＿のります。", answer: "に", distractors: ["を", "で", "へ"], de: "Ich steige in den Bus ein." },
+        { text: "東京駅でバス＿降ります。", reading: "とうきょうえきでバス＿おります。", answer: "を", distractors: ["に", "で", "へ"], de: "Ich steige am Bahnhof Tokyo aus dem Bus." },
+        { text: "毎朝電車＿乗ります。", reading: "まいあさでんしゃ＿のります。", answer: "に", distractors: ["を", "で", "へ"], de: "Jeden Morgen steige ich in den Zug." },
+        { text: "次の駅でバス＿降ります。", reading: "つぎのえきでバス＿おります。", answer: "を", distractors: ["に", "で", "へ"], de: "An der nächsten Station steige ich aus dem Bus." }
+      ]
+    }
+  },
 ];
