@@ -788,4 +788,252 @@ const CONCEPTS = [
     ],
   },
 
+  // ============ LEKTION 4–6 (neue Muster) ============
+  {
+    id: "c-hou-ga-ii",
+    category: "Schlüsselmuster",
+    title: "〜たほうがいいです (Ratschlag)",
+    reading: "〜たほうがいいです",
+    summary: "Mit der た-Form eines Verbs + ほうがいいです gibst du einen Rat: „Du solltest lieber …“. Für das Gegenteil („lieber nicht …“) nimmst du die ない-Form + ほうがいいです. Das よ am Ende macht den Rat freundlich-bestimmt.",
+    usage: "Wenn du jemandem konkret empfiehlst, etwas (nicht) zu tun — beim Arzt, bei Reisetipps, bei gutem Zureden.",
+    pitfall: "Für den positiven Rat steht die Vergangenheitsform 寝た, obwohl es um die Zukunft geht — das ist fest so. Der negative Rat nimmt dagegen die ない-Form: 飲まないほうがいい.",
+    formation: [
+      { from: "寝る", to: "寝たほうがいいです", note: "positiver Rat (た-Form)" },
+      { from: "飲む", to: "飲まないほうがいいです", note: "negativer Rat (ない-Form)" }
+    ],
+    examples: [
+      { jp: "早く寝たほうがいいですよ。", reading: "はやくねたほうがいいですよ。", de: "Du solltest lieber früh schlafen." },
+      { jp: "コーヒーを飲まないほうがいいです。", reading: "コーヒーをのまないほうがいいです。", de: "Du solltest lieber keinen Kaffee trinken." }
+    ],
+  },
+  {
+    id: "c-te-kuru",
+    category: "Verbformen",
+    title: "〜てきます (hingehen & zurückkommen)",
+    reading: "〜てきます",
+    summary: "Die て-Form + きます beschreibt, dass man an einem anderen Ort etwas erledigt und zum Ausgangspunkt zurückkommt. Der Fokus liegt auf der Rückkehr — man ist gleich wieder da.",
+    usage: "Für kurze Erledigungen: „Ich hole schnell …“, „Ich gehe kurz auf die Toilette“ — und komme wieder.",
+    pitfall: "Nicht mit 〜ています (Verlaufsform) verwechseln. 買ってきます = holen und zurückkommen; 買っています = gerade am Kaufen sein.",
+    examples: [
+      { jp: "パンを買ってきます。", reading: "パンをかってきます。", de: "Ich hole schnell Brot." },
+      { jp: "トイレに行ってきます。", reading: "トイレにいってきます。", de: "Ich gehe kurz auf die Toilette." }
+    ],
+  },
+  {
+    id: "c-ta-bakari",
+    category: "Schlüsselmuster",
+    title: "〜たばかりです (gerade eben getan)",
+    reading: "〜たばかりです",
+    summary: "Die た-Form + ばかりです sagt, dass eine Handlung gerade eben abgeschlossen wurde. Es betont die gefühlt sehr kurze Zeitspanne seit dem Ereignis.",
+    usage: "„Ich bin gerade erst angekommen / habe gerade erst gegessen / erst angefangen.“",
+    pitfall: "ばかり misst die gefühlte Nähe, nicht die echte Uhrzeit: 引っ越したばかり kann auch „vor einem Monat, aber gefühlt gerade erst“ heißen.",
+    examples: [
+      { jp: "日本に来たばかりです。", reading: "にほんにきたばかりです。", de: "Ich bin gerade erst nach Japan gekommen." },
+      { jp: "勉強を始めたばかりです。", reading: "べんきょうをはじめたばかりです。", de: "Ich habe gerade erst mit dem Lernen angefangen." }
+    ],
+  },
+  {
+    id: "c-mada-teinai",
+    category: "Verbformen",
+    title: "まだ〜ていません (noch nicht getan)",
+    reading: "まだ〜ていません",
+    summary: "まだ + て-Form + いません drückt aus, dass eine erwartete Handlung bis jetzt noch nicht passiert ist. Man rechnet damit, dass sie noch kommt.",
+    usage: "Antwort auf „Hast du schon …?“ (もう〜ましたか) — die Kurzform ist いいえ、まだです。",
+    pitfall: "Nicht mit ませんでした (Vergangenheit: „habe nicht getan“) verwechseln. まだ食べていません = „noch nicht gegessen (aber gleich)“, nicht „habe nicht gegessen“.",
+    examples: [
+      { jp: "昼ご飯をまだ食べていません。", reading: "ひるごはんをまだたべていません。", de: "Ich habe noch nicht zu Mittag gegessen." },
+      { jp: "その本をまだ読んでいません。", reading: "そのほんをまだよんでいません。", de: "Ich habe das Buch noch nicht gelesen." }
+    ],
+  },
+  {
+    id: "c-ta-koto-ga-aru",
+    category: "Schlüsselmuster",
+    title: "〜たことがあります (Erfahrung)",
+    reading: "〜たことがあります",
+    summary: "Die た-Form + ことがあります sagt, dass man etwas schon einmal im Leben getan oder erlebt hat. Die Verneinung 〜たことがありません heißt „noch nie“.",
+    usage: "Über Lebenserfahrungen sprechen: „Ich war schon mal in Japan / habe schon mal Sushi gegessen.“",
+    pitfall: "Nur für allgemeine Erfahrung, nicht für kürzlich Geschehenes. „Ich habe gestern Sushi gegessen“ ist normale Vergangenheit, nicht 食べたことがあります.",
+    examples: [
+      { jp: "日本へ行ったことがあります。", reading: "にほんへいったことがあります。", de: "Ich war schon einmal in Japan." },
+      { jp: "馬に乗ったことがありません。", reading: "うまにのったことがありません。", de: "Ich bin noch nie geritten." }
+    ],
+  },
+  {
+    id: "c-nakanaka",
+    category: "Sonstiges",
+    title: "なかなか〜ません (einfach nicht)",
+    reading: "なかなか",
+    summary: "Mit einer Verneinung bedeutet なかなか „nicht so leicht / einfach nicht“ — trotz Erwartung oder Mühe klappt etwas nicht. Mit einem positiven Verb bedeutet es dagegen „ziemlich, recht“.",
+    usage: "Für Frust über etwas, das nicht vorangeht: der Bus, der nicht kommt; die Kanji, die nicht hängenbleiben.",
+    pitfall: "Die Bedeutung kippt je nach Satz: なかなか来ません = „kommt einfach nicht“ (negativ), aber なかなかいいです = „ziemlich gut“ (positiv).",
+    examples: [
+      { jp: "バスがなかなか来ません。", reading: "バスがなかなかきません。", de: "Der Bus kommt einfach nicht." },
+      { jp: "なかなかいいレストランですね。", reading: "なかなかいいレストランですね。", de: "Das ist ein ziemlich gutes Restaurant." }
+    ],
+  },
+  {
+    id: "c-daibu",
+    category: "Sonstiges",
+    title: "だいぶ (ziemlich / deutlich)",
+    reading: "だいぶ",
+    summary: "だいぶ betont ein beträchtliches Ausmaß und steht oft bei Veränderungen: „deutlich, um einiges, ziemlich“. Es zeigt, dass sich viel getan hat.",
+    usage: "Wenn ein Fortschritt oder eine Veränderung spürbar groß ist: „deutlich besser geworden“, „ziemlich warm geworden“.",
+    pitfall: "だいぶ passt zu positiven Aussagen und Veränderungen. Für „einfach nicht“ mit Verneinung nimmt man なかなか, nicht だいぶ.",
+    examples: [
+      { jp: "日本語がだいぶ上手になりました。", reading: "にほんごがだいぶじょうずになりました。", de: "Mein Japanisch ist deutlich besser geworden." },
+      { jp: "だいぶ暖かくなりましたね。", reading: "だいぶあたたかくなりましたね。", de: "Es ist ziemlich warm geworden, oder?" }
+    ],
+  },
+  {
+    id: "c-adj-adverb",
+    category: "Adjektive",
+    title: "〜く / 〜に (Adjektiv → Adverb)",
+    reading: "けいようし → ふくし",
+    summary: "Aus Adjektiven werden Adverbien, die beschreiben, WIE eine Handlung abläuft. い-Adjektive wechseln い zu く (早い→早く), な-Adjektive bekommen に (静か→静かに). Das Adverb steht vor dem Verb.",
+    usage: "Um Handlungen näher zu beschreiben: schnell aufstehen, leise gehen, sauber putzen.",
+    pitfall: "Der Klassiker: いい wird unregelmäßig zu よく (nicht „いく“). Beispiel: よく分かります.",
+    formation: [
+      { from: "早い", to: "早く", note: "い-Adjektiv: い → く" },
+      { from: "静か", to: "静かに", note: "な-Adjektiv: + に" }
+    ],
+    examples: [
+      { jp: "早く起きます。", reading: "はやくおきます。", de: "Ich stehe früh auf." },
+      { jp: "静かに歩きます。", reading: "しずかにあるきます。", de: "Ich gehe leise." }
+    ],
+  },
+  {
+    id: "c-ageru-morau-kureru",
+    category: "Schlüsselmuster",
+    title: "あげます・もらいます・くれます",
+    reading: "geben / bekommen / mir geben",
+    summary: "Drei Verben fürs Geben und Nehmen: あげます = (ich/jd) gebe an andere. もらいます = von jdm bekommen. くれます = jemand gibt MIR. Die Blickrichtung entscheidet, welches Verb du nimmst.",
+    usage: "Über Geschenke und Gefälligkeiten reden — wer gibt wem was.",
+    pitfall: "くれます nur, wenn die Gabe zu MIR (oder meiner Seite) fließt. „Der Freund gibt mir“ ist くれる, nicht あげる. Bei もらう markiert に/から den Geber.",
+    formation: [
+      { from: "私 → 友だち", to: "友だちにあげます", note: "ich gebe an andere" },
+      { from: "友だち → 私", to: "友だちがくれます", note: "jd gibt mir" },
+      { from: "友だち → 私", to: "友だちにもらいます", note: "ich bekomme von jdm" }
+    ],
+    examples: [
+      { jp: "友だちが本をくれました。", reading: "ともだちがほんをくれました。", de: "Mein Freund hat mir ein Buch gegeben." },
+      { jp: "母にとけいをもらいました。", reading: "ははにとけいをもらいました。", de: "Ich habe von meiner Mutter eine Uhr bekommen." }
+    ],
+  },
+  {
+    id: "c-naru",
+    category: "Schlüsselmuster",
+    title: "〜くなります / 〜になります (werden)",
+    reading: "〜くなります / 〜になります",
+    summary: "なります drückt eine Veränderung aus: etwas wird anders. い-Adjektive wechseln い zu く (寒くなる), な-Adjektive und Nomen bekommen に (元気になる, 医者になる).",
+    usage: "Für Veränderungen von Wetter, Zustand, Alter oder Beruf: „kalt werden“, „gesund werden“, „Arzt werden“.",
+    pitfall: "い-Adjektiv → く + なる (nicht „に“): 大きくなる. Nur な-Adjektive und Nomen nehmen に + なる.",
+    formation: [
+      { from: "寒い", to: "寒くなります", note: "い-Adjektiv: い → く + なる" },
+      { from: "医者", to: "医者になります", note: "Nomen: + に + なる" }
+    ],
+    examples: [
+      { jp: "寒くなりました。", reading: "さむくなりました。", de: "Es ist kalt geworden." },
+      { jp: "医者になりたいです。", reading: "いしゃになりたいです。", de: "Ich möchte Arzt werden." }
+    ],
+  },
+  {
+    id: "c-ni-suru",
+    category: "Schlüsselmuster",
+    title: "〜にします (sich entscheiden für)",
+    reading: "〜にします",
+    summary: "Nomen + にします heißt „ich nehme / entscheide mich für …“. Man wählt bewusst eine Option aus mehreren aus.",
+    usage: "Beim Bestellen oder Auswählen: „Ich nehme den Kaffee“, „Wir machen es um drei Uhr“.",
+    pitfall: "にします = aktive Entscheidung. Verwechsle es nicht mit になります (Veränderung, die von selbst passiert): コーヒーにします (ich wähle) vs. 上手になります (es wird von selbst besser).",
+    examples: [
+      { jp: "飲み物はコーヒーにします。", reading: "のみものはコーヒーにします。", de: "Als Getränk nehme ich Kaffee." },
+      { jp: "会議は三時にしましょう。", reading: "かいぎはさんじにしましょう。", de: "Machen wir die Besprechung um drei." }
+    ],
+  },
+  {
+    id: "c-shi",
+    category: "Schlüsselmuster",
+    title: "〜し、〜し (Gründe aufzählen)",
+    reading: "〜し、〜し",
+    summary: "し hängt an die Plain-Form und reiht mehrere Gründe oder Eigenschaften auf: „…und außerdem…“. Oft folgt daraus eine Schlussfolgerung.",
+    usage: "Wenn du eine Meinung mit mehreren Gründen stützt: „billig, und außerdem nah — also gut“.",
+    pitfall: "Anders als て betont し „und obendrein noch“ und deutet einen Grund an. Nach Nomen/な-Adjektiv steht だし: 親切だし.",
+    examples: [
+      { jp: "この店は安いし、近いし、いいですよ。", reading: "このみせはやすいし、ちかいし、いいですよ。", de: "Der Laden ist billig und nah, also gut." },
+      { jp: "今日は雨だし、寒いです。", reading: "きょうはあめだし、さむいです。", de: "Heute regnet es und ist außerdem kalt." }
+    ],
+  },
+  {
+    id: "c-tari-tari",
+    category: "Verbformen",
+    title: "〜たり〜たりします (dies & das tun)",
+    reading: "〜たり〜たりします",
+    summary: "Die た-Form → たり nennt beispielhaft mehrere Handlungen, ohne eine Reihenfolge festzulegen: „mal dies, mal das“. Am Satzende steht します.",
+    usage: "Um typische Aktivitäten aufzuzählen: „Am Wochenende lese ich, höre Musik und so weiter.“",
+    pitfall: "Anders als die て-Form (feste Reihenfolge) ist たり nur eine Auswahl von Beispielen. します passt sich der Zeit an: したり…しました (Vergangenheit).",
+    examples: [
+      { jp: "週末は本を読んだり、音楽を聞いたりします。", reading: "しゅうまつはほんをよんだり、おんがくをきいたりします。", de: "Am Wochenende lese ich und höre Musik." },
+      { jp: "公園で遊んだり、走ったりしました。", reading: "こうえんであそんだり、はしったりしました。", de: "Im Park habe ich gespielt und bin gelaufen." }
+    ],
+  },
+  {
+    id: "c-kute-de",
+    category: "Adjektive",
+    title: "〜くて / 〜で (Adjektive verbinden)",
+    reading: "〜くて / 〜で",
+    summary: "Um zwei Eigenschaften in einem Satz zu verbinden, wird das erste Adjektiv umgeformt: い-Adjektiv い→くて (大きくて), な-Adjektiv/Nomen + で (便利で, 学生で). Danach folgt das zweite Adjektiv.",
+    usage: "„Groß und hell“, „billig und lecker“, „Student und zwanzig“ — mehrere Merkmale aneinanderreihen.",
+    pitfall: "いい wird unregelmäßig zu よくて. Und bei negativen Verbindungen wird くない zu くなくて.",
+    formation: [
+      { from: "大きい", to: "大きくて", note: "い-Adjektiv: い → くて" },
+      { from: "便利", to: "便利で", note: "な-Adjektiv/Nomen: + で" }
+    ],
+    examples: [
+      { jp: "この部屋は広くて明るいです。", reading: "このへやはひろくてあかるいです。", de: "Dieses Zimmer ist groß und hell." },
+      { jp: "大阪はにぎやかで楽しい町です。", reading: "おおさかはにぎやかでたのしいまちです。", de: "Osaka ist eine lebhafte und schöne Stadt." }
+    ],
+  },
+  {
+    id: "c-kata",
+    category: "Verbformen",
+    title: "〜方 (かた) (Art und Weise)",
+    reading: "〜かた",
+    summary: "Verb-Stamm (ます-Form ohne ます) + 方 bildet ein Nomen für die Art, wie man etwas tut: 読みます→読み方 (Lesart), 使います→使い方 (Benutzung), 行きます→行き方 (Weg dorthin).",
+    usage: "Nach dem „Wie macht man das?“ fragen: die Lesart eines Kanji, die Bedienung eines Geräts, den Weg zum Bahnhof.",
+    pitfall: "Es zählt der Verb-Stamm, nicht das Wörterbuchverb: 作る → 作り方 (nicht „作る方“). Das davor stehende Objekt wird mit の angeschlossen: 漢字の読み方.",
+    examples: [
+      { jp: "この漢字の読み方がわかりません。", reading: "このかんじのよみかたがわかりません。", de: "Ich weiß nicht, wie man dieses Kanji liest." },
+      { jp: "この機械の使い方は簡単です。", reading: "このきかいのつかいかたはかんたんです。", de: "Die Bedienung dieser Maschine ist einfach." }
+    ],
+  },
+  {
+    id: "c-wa-ga-merkmal",
+    category: "Schlüsselmuster",
+    title: "〜は〜が〜 (Merkmal beschreiben)",
+    reading: "〜は〜が〜",
+    summary: "Um eine Eigenschaft über einen Teil zu beschreiben, nennt man erst das Thema mit は, dann den Teil mit が und dann das Adjektiv: „Bei X ist das Y …“. Klassisch für Körper und Eigenschaften.",
+    usage: "Aussehen und Merkmale beschreiben: „hat eine lange Nase“, „ist groß gewachsen“, „hat große Augen“.",
+    pitfall: "Der Teil bekommt が, nicht は: ぞうは鼻が長い (nicht „鼻は“). は markiert das übergeordnete Thema, が den beschriebenen Teil.",
+    examples: [
+      { jp: "ぞうは鼻が長いです。", reading: "ぞうははながながいです。", de: "Der Elefant hat eine lange Nase." },
+      { jp: "さとうさんはせが高いです。", reading: "さとうさんはせがたかいです。", de: "Herr Sato ist groß." }
+    ],
+  },
+  {
+    id: "c-koutsuu",
+    category: "Sonstiges",
+    title: "乗ります・降ります (Verkehrsmittel)",
+    reading: "のります・おります",
+    summary: "Beim Benutzen von Verkehrsmitteln zeigt に das Einsteigen (バスに乗ります) und を das Aussteigen (バスを降ります). Gefragt wird mit どうやって行きますか (Wie/womit?) und どのくらいかかりますか (Wie lange?).",
+    usage: "Wege und Fahrten beschreiben: einsteigen, umsteigen (乗り換えます), aussteigen, Dauer angeben.",
+    pitfall: "Aufpassen bei den Partikeln: 乗る braucht に (in etwas hinein), 降りる braucht を (heraus aus). Bei der Dauer steht かかります (dauern/kosten).",
+    formation: [
+      { from: "バス", to: "バスに乗ります", note: "einsteigen: に" },
+      { from: "バス", to: "バスを降ります", note: "aussteigen: を" }
+    ],
+    examples: [
+      { jp: "会社までどうやって行きますか。", reading: "かいしゃまでどうやっていきますか。", de: "Wie kommst du zur Arbeit?" },
+      { jp: "駅まで十分ぐらいかかります。", reading: "えきまでじゅっぷんぐらいかかります。", de: "Bis zum Bahnhof dauert es etwa zehn Minuten." }
+    ],
+  },
+
 ];

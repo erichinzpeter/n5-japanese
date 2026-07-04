@@ -17,7 +17,7 @@ git push origin main     # deployed automatisch via GitHub Pages
 - `manifest.json`— PWA-Metadaten (Name, Icons, Theme-Color)
 - `data/kanji.js`   — const KANJI (170 Einträge)
 - `data/vocab.js`   — const VOCAB (370 Einträge: 223 easy / 147 adv)
-- `data/grammar.js` — const GRAMMAR (46 Einträge)
+- `data/grammar.js` — const GRAMMAR (63 Einträge)
 - `data/basics.js`  — const BASICS (56 Einträge)
 
 ## Architektur & Datenstrukturen

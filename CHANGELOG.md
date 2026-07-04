@@ -4,6 +4,15 @@
 
 ---
 
+## [3.16.0] — 2026-07-04
+
+### Neu
+
+- **17 neue Grammatikmuster** (Lektion 4–6) mit vollem Umfang (Dialog, 8 Beispiele, Lückentext): 〜たほうがいいです (Ratschlag), 〜てきます, 〜たばかりです, まだ〜ていません, 〜たことがあります (Erfahrung), なかなか〜ません, だいぶ, Adjektiv→Adverb (〜く/〜に), あげます・もらいます・くれます, 〜くなります/〜になります, 〜にします, 〜し、〜し, 〜たり〜たりします, 〜くて/〜で, 〜方 (かた), 〜は〜が〜 (Merkmal), Verkehrsmittel (乗る/降りる, どうやって, どのくらい). GRAMMAR jetzt 63 Einträge.
+- Dieselben 17 Muster zusätzlich als Referenz-Karten im **Konzepte**-Screen (CONCEPTS jetzt 60 Einträge).
+
+---
+
 ## [3.15.0] — 2026-07-03
 
 ### Neu
