@@ -1274,16 +1274,17 @@ function renderConceptDetail(c) {
 }
 
 function renderConceptRow(c, badgeHtml) {
-  const readingHtml = c.reading
-    ? `<span class="list-reading">${escHtml(c.reading)}</span>` : '';
+  // Concept row is two lines: JP title on top, short German gloss (reading) below.
+  const glossHtml = c.reading
+    ? `<div class="concept-gloss">${escHtml(c.reading)}</div>` : '';
   const badge = badgeHtml || '';
   return `<div class="list-row concept-nav-row" onclick="openConceptDetail('${escHtml(c.id)}')">
     <div class="list-row-summary">
       <div class="list-row-main">
         <div class="list-jp-line">
           <span class="list-jp">${escHtml(c.title)}</span>
-          ${readingHtml}
         </div>
+        ${glossHtml}
       </div>
       ${badge}<span class="list-chevron concept-chevron">›</span>
     </div>
@@ -1305,18 +1306,40 @@ function openConceptDetail(id) {
   window.scrollTo(0, 0);
 }
 
+// Category display order for the Konzepte screen (communicative grouping).
+// Kept here (not derived from array order) so grouping is robust regardless of
+// how CONCEPTS is sorted in data/concepts.js.
+const CONCEPT_ORDER = [
+  "Grundlagen",
+  "Partikel",
+  "Adjektive & Adverbien",
+  "Verbformen & Zeiten",
+  "Bitten, Vorschläge & Ratschläge",
+  "Wünsche, Absichten & Entscheidungen",
+  "Vergleiche & Grad",
+  "Gründe & Verbindungen",
+  "Geben, Erfahrung & Veränderung",
+  "Zeit, Menge & Bewegung",
+];
+
 function renderConceptsScreen() {
   showScreen('concepts');
   if (window.speechSynthesis) window.speechSynthesis.cancel();
 
-  const seen = new Set();
-  const html = [];
+  const byCat = new Map();
   CONCEPTS.forEach(c => {
-    if (!seen.has(c.category)) {
-      seen.add(c.category);
-      html.push(`<div class="concept-category">${escHtml(c.category)}</div>`);
-    }
-    html.push(renderConceptRow(c));
+    if (!byCat.has(c.category)) byCat.set(c.category, []);
+    byCat.get(c.category).push(c);
+  });
+  const cats = [
+    ...CONCEPT_ORDER.filter(k => byCat.has(k)),
+    ...[...byCat.keys()].filter(k => !CONCEPT_ORDER.includes(k)),
+  ];
+
+  const html = [];
+  cats.forEach(cat => {
+    html.push(`<div class="concept-category">${escHtml(cat)}</div>`);
+    byCat.get(cat).forEach(c => html.push(renderConceptRow(c)));
   });
   document.getElementById('concepts-content').innerHTML = html.join('');
 }

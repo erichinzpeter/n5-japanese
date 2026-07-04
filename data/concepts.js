@@ -1,11 +1,12 @@
 'use strict';
 
 // N5 grammar concepts — read-only reference ("Konzepte" screen). Not part of SRS.
+// Grouped by communicative function; the "Konzepte" screen renders one section per category.
 // Shape per concept:
 //   id        unique string
-//   category  group header on the list screen
-//   title     concept name (shown on the row)
-//   reading   optional kana/romaji subtitle for the title
+//   category  group header on the list screen (see CONCEPT_ORDER in app.js)
+//   title     concept name (Japanese only — shown large on the row)
+//   reading   short German gloss / reading subtitle (own line under the title)
 //   summary   2–5 sentence plain-German wrap-up (required)
 //   usage     optional plain-German "Wann benutzt man das?" — everyday context, no jargon
 //   pitfall   optional plain-German "Häufiger Fehler" — one common N5 mistake
@@ -41,8 +42,8 @@ const CONCEPTS = [
   {
     id: "c-ka-frage",
     category: "Grundlagen",
-    title: "〜か (Ja/Nein-Frage)",
-    reading: "Fragepartikel",
+    title: "〜か",
+    reading: "Ja/Nein-Frage",
     summary: "か am Satzende macht aus einer Aussage eine Frage — wie ein gesprochenes Fragezeichen. Die Wortstellung bleibt gleich, du hängst nur か an. Im Japanischen steht dahinter oft ein normaler Punkt (。) statt eines Fragezeichens.",
     usage: "Für jede höfliche Ja/Nein-Frage („Ist das ein Stift?“, „Sind Sie Student?“) und auch zusammen mit Fragewörtern (何ですか).",
     pitfall: "Die Satzstellung ändert sich nicht wie im Deutschen — du stellst nichts um, sondern hängst nur か an: 学生です → 学生ですか.",
@@ -51,234 +52,83 @@ const CONCEPTS = [
       { jp: "田中さんは日本人ですか。", reading: "たなかさんはにほんじんですか。", de: "Ist Herr Tanaka Japaner?" },
     ],
   },
-
-  // ============ VERBFORMEN ============
   {
-    id: "c-verbgruppen",
-    category: "Verbformen",
-    title: "Verbgruppen",
-    reading: "godan · ichidan · unregelmäßig",
-    summary: "Jedes Verb gehört zu einer von drei Gruppen. Die Gruppe entscheidet, wie alle anderen Formen (て, た, ない …) gebildet werden. Ichidan-Verben enden auf -iru/-eru + る, godan auf alle übrigen -u-Laute, dazu die zwei Ausnahmen する und 来る.",
-    usage: "Bevor du irgendein Verb beugst, musst du wissen, zu welcher Gruppe es gehört — sie entscheidet über jede weitere Form. So findest du die Gruppe in 3 Schritten: 1) Ist es する oder 来る? → unregelmäßig (Gruppe III). 2) Endet die Wörterbuchform auf -eru oder -iru + る (z. B. たべる, みる)? → meistens Ichidan (Gruppe II). 3) Alles andere — also jede andere Endung auf -u wie く, む, す, う, つ, ぐ, ぶ, ぬ und die meisten る nach a/u/o → Godan (Gruppe I). Lern die Gruppe gleich zu jedem neuen Verb mit.",
-    formation: [
-      { from: "する / 来る", to: "Gruppe III", note: "immer unregelmäßig" },
-      { from: "-eru / -iru + る", to: "Gruppe II (Ichidan)", note: "たべる・みる・ねる" },
-      { from: "andere -u-Endung", to: "Gruppe I (Godan)", note: "かく・のむ・はなす" },
-    ],
+    id: "c-arimasu-imasu",
+    category: "Grundlagen",
+    title: "あります / います",
+    reading: "es gibt / vorhanden sein",
+    summary: "Beide heißen „es gibt / sich befinden“. います für Belebtes (Menschen, Tiere), あります für Unbelebtes (Dinge, Pflanzen). Der Ort steht mit に, das Vorhandene meist mit が.",
+    usage: "Wenn du sagst, dass es etwas gibt oder wo sich etwas oder jemand befindet.",
     table: {
-      head: ["Gruppe", "Beispiel", "Endung"],
+      head: ["", "Verb"],
       rows: [
-        ["Godan (I)", "書く・飲む・話す", "-u"],
-        ["Ichidan (II)", "食べる・見る", "-iru / -eru + る"],
-        ["Unregelm. (III)", "する・来る", "—"],
+        ["Belebt", "います"],
+        ["Unbelebt", "あります"],
       ],
     },
-    pitfall: "Nicht jedes Verb auf る ist ichidan: 帰る, 入る, 走る enden zwar auf る, sind aber godan. Im Zweifel das Verb einzeln mitlernen.",
+    pitfall: "います nur für Belebtes, あります für Dinge — eine Katze nimmt います, ein Buch あります.",
     examples: [
-      { jp: "毎日日本語を勉強します。", reading: "まいにちにほんごをべんきょうします。", de: "Ich lerne jeden Tag Japanisch. (する-Verb, Gruppe III)" },
-      { jp: "友だちが来ます。", reading: "ともだちがきます。", de: "Ein Freund kommt. (来る, Gruppe III)" },
-      { jp: "毎朝パンを食べます。", reading: "まいあさパンをたべます。", de: "Jeden Morgen esse ich Brot. (食べる, Ichidan, Gruppe II)" },
-      { jp: "手紙を書きます。", reading: "てがみをかきます。", de: "Ich schreibe einen Brief. (書く, Godan, Gruppe I)" },
+      { jp: "部屋に猫がいます。", reading: "へやにねこがいます。", de: "Im Zimmer ist eine Katze." },
+      { jp: "机の上に本があります。", reading: "つくえのうえにほんがあります。", de: "Auf dem Tisch liegt ein Buch." },
     ],
   },
   {
-    id: "c-masu-form",
-    category: "Verbformen",
-    title: "ます-Form",
-    reading: "höfliche Form",
-    summary: "Die höfliche Standardform für Gespräche mit Fremden, im Beruf und in der Schule. Alles dreht sich um den ます-Stamm: das ist der Wortteil vor ます (飲みます → Stamm 飲み). An diesen Stamm hängst du die Endungen: ます (Gegenwart), ません (Verneinung), ました (Vergangenheit), ませんでした (Vergangenheit verneint).",
-    usage: "Die Standard-Höflichkeitsform: im Beruf, in der Schule, mit Fremden. Wer unsicher ist, liegt mit der ます-Form fast immer richtig. Schritt für Schritt: 1) Gruppe bestimmen. 2) Godan: letztes -u zu -i machen (飲む→飲み), Ichidan: る weglassen (食べる→食べ), する→し, 来る→き. 3) Endung anhängen (ます / ません / ました / ませんでした).",
-    formation: [
-      { from: "Godan", to: "-i + ます", note: "飲む→飲みます" },
-      { from: "Ichidan", to: "る weg + ます", note: "食べる→食べます" },
-      { from: "する / 来る", to: "します / 来ます", note: "Ausnahmen" },
-    ],
+    id: "c-fragewoerter",
+    category: "Grundlagen",
+    title: "Fragewörter",
+    reading: "なに・だれ・どこ …",
+    summary: "Das Fragewort steht an der Stelle, an der die gesuchte Information im Antwortsatz stünde — die Wortstellung ändert sich nicht. Am Ende kommt か. Mit か/も werden Fragewörter zu „irgend-/kein-“ (だれか = jemand, だれも〜ない = niemand).",
+    usage: "Wenn du nach etwas fragst — das Fragewort steht da, wo die Antwort stünde, und am Satzende kommt か.",
     table: {
-      head: ["", "Form"],
+      head: ["Wort", "Bedeutung"],
       rows: [
-        ["Gegenwart", "飲みます"],
-        ["Verneinung", "飲みません"],
-        ["Vergangenheit", "飲みました"],
-        ["Verg. verneint", "飲みませんでした"],
+        ["何 (なに)", "was"],
+        ["だれ", "wer"],
+        ["どこ", "wo"],
+        ["いつ", "wann"],
+        ["いくら", "wie viel"],
       ],
     },
-    pitfall: "Die Verneinung ist ません (飲みません), NICHT ますない. ない gehört zur lockeren Form, nicht zur ます-Form.",
+    pitfall: "Die Wortstellung bleibt wie im Aussagesatz; man stellt das Fragewort NICHT an den Anfang wie im Deutschen.",
     examples: [
-      { jp: "コーヒーを飲みます。", reading: "コーヒーをのみます。", de: "Ich trinke Kaffee. (Gegenwart)" },
-      { jp: "肉を食べません。", reading: "にくをたべません。", de: "Ich esse kein Fleisch. (Verneinung)" },
-      { jp: "昨日、映画を見ました。", reading: "きのう、えいがをみました。", de: "Gestern habe ich einen Film gesehen. (Vergangenheit)" },
-      { jp: "朝ごはんを食べませんでした。", reading: "あさごはんをたべませんでした。", de: "Ich habe nicht gefrühstückt. (Vergangenheit verneint)" },
+      { jp: "これは何ですか。", reading: "これはなんですか。", de: "Was ist das?" },
+      { jp: "トイレはどこですか。", reading: "トイレはどこですか。", de: "Wo ist die Toilette?" },
     ],
   },
   {
-    id: "c-dictionary-form",
-    category: "Verbformen",
-    title: "Wörterbuchform",
-    reading: "Grundform / plain",
-    summary: "Die Grundform, die im Wörterbuch steht (endet immer auf -u: 飲む, 食べる, する). Sie ist die lockere Sprechform unter Freunden und die Basis für viele Konstruktionen wie 〜たい, 〜前に oder Relativsätze. Von ihr aus bestimmst du auch die Verbgruppe.",
-    usage: "Unter Freunden und Familie sprichst du in der Wörterbuchform; außerdem brauchst du sie als Baustein für viele Muster. Du gewinnst sie aus der ます-Form zurück: bei Ichidan ます weg + る (食べます→食べる), bei Godan das -i des Stamms zum -u machen (飲み→飲む, 書き→書く). Vor Nomen und in Mustern wie 〜前に / 〜たい steht immer diese Form.",
+    id: "c-kono-sono-ano",
+    category: "Grundlagen",
+    title: "この / その / あの",
+    reading: "kosoado",
+    summary: "Hinweiswörter nach Entfernung: この/これ (beim Sprecher), その/それ (beim Hörer), あの/あれ (von beiden entfernt), どの/どれ (welch-). Für Orte gibt es die gleiche Reihe: ここ (hier) / そこ (dort bei dir) / あそこ (dort drüben) / どこ (wo?). この+Nomen steht vor dem Nomen, これ steht allein.",
+    usage: "Wenn du auf etwas oder einen Ort zeigst — je nachdem, ob es bei dir, beim Gegenüber oder weit weg ist.",
     table: {
-      head: ["höflich", "Wörterbuchform"],
+      head: ["+ Nomen", "allein", "Ort"],
       rows: [
-        ["飲みます", "飲む"],
-        ["食べます", "食べる"],
-        ["します", "する"],
-        ["来ます", "来る"],
+        ["この", "これ", "ここ"],
+        ["その", "それ", "そこ"],
+        ["あの", "あれ", "あそこ"],
+        ["どの", "どれ", "どこ"],
       ],
     },
-    pitfall: "Im höflichen Gespräch mit Fremden wirkt die reine Wörterbuchform schnell zu salopp — dort gehört die ます-Form hin.",
+    pitfall: "この braucht ein Nomen dahinter (この本), これ steht allein — nicht これ本.",
     examples: [
-      { jp: "本を読む。", reading: "ほんをよむ。", de: "(Ich) lese ein Buch. (locker)" },
-      { jp: "映画を見る前に食べます。", reading: "えいがをみるまえにたべます。", de: "Vor dem Film essen wir. (Baustein vor 前に)" },
-      { jp: "日本に行きたい。", reading: "にほんにいきたい。", de: "Ich will nach Japan. (Baustein vor たい)" },
-      { jp: "毎日走る。", reading: "まいにちはしる。", de: "Ich laufe jeden Tag. (locker)" },
+      { jp: "この本は私のです。", reading: "このほんはわたしのです。", de: "Dieses Buch (hier) ist meins." },
+      { jp: "あれは何ですか。", reading: "あれはなんですか。", de: "Was ist das dort drüben?" },
+      { jp: "トイレはどこですか。", reading: "トイレはどこですか。", de: "Wo ist die Toilette?" },
     ],
   },
   {
-    id: "c-te-form",
-    category: "Verbformen",
-    title: "て-Form",
-    summary: "Eine der wichtigsten Formen überhaupt. Sie verbindet Sätze („und dann …“), bildet höfliche Bitten (てください), die Verlaufsform (ている) und Erlaubnis/Verbot. Selbst keine Zeitform — die Zeit steht am Satzende.",
-    usage: "Immer wenn zwei Handlungen aneinanderhängen („aufstehen und Kaffee trinken“) oder ein Grammatikmuster die て-Form verlangt. Eine der häufigsten Formen im Alltag. Bildung Schritt für Schritt: Ichidan ist leicht — る weg + て (食べる→食べて). Bei Godan entscheidet der letzte Laut der Wörterbuchform über die Lautänderung (Onbin), siehe Bildung unten. する→して, 来る→来て (きて).",
-    formation: [
-      { from: "う・つ・る (Godan)", to: "って", note: "買う→買って" },
-      { from: "む・ぶ・ぬ (Godan)", to: "んで", note: "飲む→飲んで" },
-      { from: "く / ぐ (Godan)", to: "いて / いで", note: "書く→書いて, 泳ぐ→泳いで" },
-      { from: "す (Godan)", to: "して", note: "話す→話して" },
-      { from: "Ichidan", to: "る→て", note: "食べる→食べて" },
-      { from: "する / 来る", to: "して / 来て", note: "Ausnahmen" },
-    ],
-    table: {
-      head: ["Verb", "て-Form"],
-      rows: [
-        ["行く", "行って"],
-        ["飲む", "飲んで"],
-        ["食べる", "食べて"],
-        ["する", "して"],
-        ["来る", "来て"],
-      ],
-    },
-    pitfall: "行く ist unregelmäßig: 行って, nicht 行いて — eine der wenigen Ausnahmen.",
+    id: "c-deshou",
+    category: "Grundlagen",
+    title: "〜でしょう",
+    reading: "wahrscheinlich",
+    summary: "Drückt eine Vermutung aus („wird wohl … sein“). Steht nach Nomen, い-/な-Adjektiv oder Verb in Grundform. Mit steigender Betonung (でしょう？) sucht man Zustimmung: „… oder?“.",
+    usage: "Wenn du eine Vermutung äußerst („wird wohl regnen“) oder dir Zustimmung holst („…, oder?“).",
+    pitfall: "Vor でしょう steht das Nomen oder な-Adjektiv ohne です: 雨でしょう, nicht 雨ですでしょう.",
     examples: [
-      { jp: "待ってください。", reading: "まってください。", de: "Bitte warten Sie. (Bitte mit てください)" },
-      { jp: "朝起きて、ご飯を食べます。", reading: "あさおきて、ごはんをたべます。", de: "Morgens stehe ich auf und esse. (zwei Handlungen)" },
-      { jp: "今、本を読んでいます。", reading: "いま、ほんをよんでいます。", de: "Ich lese gerade ein Buch. (Verlaufsform ている)" },
-      { jp: "手を洗って、食べます。", reading: "てをあらって、たべます。", de: "Ich wasche die Hände und esse dann." },
-    ],
-  },
-  {
-    id: "c-ta-form",
-    category: "Verbformen",
-    title: "た-Form",
-    reading: "einfache Vergangenheit",
-    summary: "Die lockere Vergangenheit (= ました ohne Höflichkeit). Die Bildung ist identisch zur て-Form, nur mit た/だ statt て/で. Auch Basis für 〜たり und 〜たことがある.",
-    usage: "Die lockere Vergangenheit unter Freunden — und der Baustein, wenn du Erfahrungen (〜たことがある) oder Beispielreihen (〜たり) ausdrücken willst. Trick: Bilde zuerst die て-Form, dann tausche て→た und で→だ. Wer 飲んで sagen kann, sagt 飲んだ; wer 書いて kann, sagt 書いた.",
-    formation: [
-      { from: "う・つ・る", to: "った", note: "買う→買った" },
-      { from: "む・ぶ・ぬ", to: "んだ", note: "飲む→飲んだ" },
-      { from: "く / ぐ", to: "いた / いだ", note: "書く→書いた" },
-      { from: "Ichidan", to: "る→た", note: "食べる→食べた" },
-    ],
-    table: {
-      head: ["Verb", "た-Form"],
-      rows: [
-        ["行く", "行った"],
-        ["飲む", "飲んだ"],
-        ["食べる", "食べた"],
-        ["する", "した"],
-      ],
-    },
-    pitfall: "Die Bildung folgt exakt der て-Form: wer 飲んで kann, sagt 飲んだ — nicht 飲みた.",
-    examples: [
-      { jp: "昨日映画を見た。", reading: "きのうえいがをみた。", de: "Gestern habe ich einen Film gesehen. (Ichidan)" },
-      { jp: "もう食べた。", reading: "もうたべた。", de: "Ich habe schon gegessen." },
-      { jp: "コーヒーを飲んだ。", reading: "コーヒーをのんだ。", de: "Ich habe Kaffee getrunken. (Godan, んだ)" },
-      { jp: "京都に行ったことがある。", reading: "きょうとにいったことがある。", de: "Ich war schon mal in Kyoto. (Baustein 〜たことがある)" },
-    ],
-  },
-  {
-    id: "c-nai-form",
-    category: "Verbformen",
-    title: "ない-Form",
-    reading: "einfache Verneinung",
-    summary: "Die lockere Verneinung (= ません ohne Höflichkeit). Bei godan-Verben wird das -u zu -a + ない; Ausnahme: う wird zu わ. Basis für 〜ないでください und 〜なければなりません.",
-    usage: "Die lockere Verneinung unter Freunden, und der Baustein für Bitten wie 〜ないでください. Schritt für Schritt: Ichidan る weg + ない (食べる→食べない). Godan: letztes -u zu -a + ない (飲む→飲まない, 書く→書かない). Wichtig: endet das Verb auf う, wird es nicht あ, sondern わ (買う→買わない). する→しない, 来る→来ない (こない).",
-    formation: [
-      { from: "Godan", to: "-a + ない", note: "飲む→飲まない" },
-      { from: "う-Endung", to: "わ + ない", note: "買う→買わない" },
-      { from: "Ichidan", to: "る→ない", note: "食べる→食べない" },
-      { from: "する / 来る", to: "しない / 来ない", note: "Ausnahmen" },
-    ],
-    pitfall: "Bei godan-Verben auf う wird う zu わ: 買う→買わない, nicht 買あない.",
-    examples: [
-      { jp: "お酒を飲まない。", reading: "おさけをのまない。", de: "Ich trinke keinen Alkohol. (Godan)" },
-      { jp: "今日は行かない。", reading: "きょうはいかない。", de: "Heute gehe ich nicht. (Godan)" },
-      { jp: "肉を食べない。", reading: "にくをたべない。", de: "Ich esse kein Fleisch. (Ichidan)" },
-      { jp: "ここで写真を撮らないでください。", reading: "ここでしゃしんをとらないでください。", de: "Bitte machen Sie hier keine Fotos. (Baustein 〜ないでください)" },
-    ],
-  },
-  {
-    id: "c-nakatta-form",
-    category: "Verbformen",
-    title: "なかった-Form",
-    reading: "verneinte Vergangenheit",
-    summary: "Die lockere verneinte Vergangenheit (= ませんでした). Du nimmst die ない-Form und ersetzt das ない durch なかった.",
-    usage: "Wenn du locker sagen willst, dass etwas NICHT passiert ist („bin gestern nicht gekommen“). Zwei Schritte: 1) ない-Form bilden (飲む→飲まない). 2) ない durch なかった ersetzen (飲まない→飲まなかった). Es funktioniert wie ein い-Adjektiv: ない verhält sich wie 高い, deshalb 高い→高かった und ない→なかった.",
-    formation: [
-      { from: "Godan", to: "ない-Form, dann ない→なかった", note: "飲む→飲まない→飲まなかった" },
-      { from: "Ichidan", to: "ない-Form, dann ない→なかった", note: "食べる→食べない→食べなかった" },
-      { from: "する / 来る", to: "しなかった / 来なかった", note: "こなかった" },
-    ],
-    pitfall: "Es heißt 来なかった, nicht 来ないだった — なかった ersetzt das ない direkt, ohne zusätzliches だ.",
-    examples: [
-      { jp: "昨日は来なかった。", reading: "きのうはこなかった。", de: "Gestern ist er nicht gekommen. (来る)" },
-      { jp: "宿題をしなかった。", reading: "しゅくだいをしなかった。", de: "Ich habe die Hausaufgaben nicht gemacht. (する)" },
-      { jp: "朝、何も食べなかった。", reading: "あさ、なにもたべなかった。", de: "Morgens habe ich nichts gegessen. (Ichidan)" },
-      { jp: "お酒を飲まなかった。", reading: "おさけをのまなかった。", de: "Ich habe keinen Alkohol getrunken. (Godan)" },
-    ],
-  },
-
-  // ============ ADJEKTIVE ============
-  {
-    id: "c-i-adjektive",
-    category: "Adjektive",
-    title: "い-Adjektive",
-    summary: "Adjektive, die auf い enden (高い, おいしい). Sie werden selbst gebeugt: in der Vergangenheit い→かった, in der Verneinung い→くない. Vor einem Nomen stehen sie direkt davor. Ausnahme: いい→よかった.",
-    usage: "Wann immer du etwas beschreibst (teuer, heiß, gut) — denk dran, dass das Adjektiv selbst Zeit und Verneinung trägt.",
-    table: {
-      head: ["", "Form (高い)"],
-      rows: [
-        ["Gegenwart", "高い"],
-        ["Verneinung", "高くない"],
-        ["Vergangenheit", "高かった"],
-        ["Verg. verneint", "高くなかった"],
-      ],
-    },
-    pitfall: "In der Vergangenheit beugst du das Adjektiv, nicht です: 高かったです, nicht 高いでした.",
-    examples: [
-      { jp: "この本は高いです。", reading: "このほんはたかいです。", de: "Dieses Buch ist teuer." },
-      { jp: "天気がよくなかった。", reading: "てんきがよくなかった。", de: "Das Wetter war nicht gut." },
-    ],
-  },
-  {
-    id: "c-na-adjektive",
-    category: "Adjektive",
-    title: "な-Adjektive",
-    summary: "Adjektive, die wie Nomen funktionieren (元気, 静か, 好き). Vor einem Nomen brauchen sie ein な (静かな町). Sie werden nicht selbst gebeugt — die Zeit/Verneinung übernimmt です: じゃない, でした.",
-    usage: "Für Eigenschaften wie 元気, 静か oder 好き — überall, wo sich das Wort nicht selbst beugt, sondern です die Arbeit übernimmt.",
-    table: {
-      head: ["", "Form (静か)"],
-      rows: [
-        ["Gegenwart", "静かです"],
-        ["Verneinung", "静かじゃないです"],
-        ["Vergangenheit", "静かでした"],
-        ["vor Nomen", "静かな町"],
-      ],
-    },
-    pitfall: "Vor einem Nomen brauchst du das な: 静かな町, nicht 静か町.",
-    examples: [
-      { jp: "この町は静かです。", reading: "このまちはしずかです。", de: "Diese Stadt ist ruhig." },
-      { jp: "元気な子どもですね。", reading: "げんきなこどもですね。", de: "Ein munteres Kind, nicht wahr?" },
+      { jp: "明日は雨でしょう。", reading: "あしたはあめでしょう。", de: "Morgen wird es wohl regnen." },
+      { jp: "これでいいでしょう？", reading: "これでいいでしょう？", de: "So ist es gut, oder?" },
     ],
   },
 
@@ -403,19 +253,6 @@ const CONCEPTS = [
     ],
   },
   {
-    id: "c-ga-kedo",
-    category: "Partikel",
-    title: "が / けど",
-    reading: "aber / jedoch",
-    summary: "Beide verbinden zwei Sätze mit einem Gegensatz: „…, aber …“. が klingt neutral und etwas förmlicher, けど umgangssprachlicher. Sie stehen am Ende des ersten Satzteils, nicht am Anfang des zweiten wie das deutsche „aber“.",
-    usage: "Wenn du einen Gegensatz oder eine Einschränkung ausdrückst („Japanisch mag ich, aber es ist schwer“).",
-    pitfall: "Dieses が hat nichts mit der Subjekt-Partikel が zu tun — gleiche Schrift, andere Aufgabe. Hier steht es nach dem ganzen ersten Satz.",
-    examples: [
-      { jp: "日本語は好きですが、難しいです。", reading: "にほんごはすきですが、むずかしいです。", de: "Ich mag Japanisch, aber es ist schwierig." },
-      { jp: "面白かったけど、長かったです。", reading: "おもしろかったけど、ながかったです。", de: "Es war interessant, aber lang." },
-    ],
-  },
-  {
     id: "c-dake",
     category: "Partikel",
     title: "〜だけ",
@@ -429,26 +266,355 @@ const CONCEPTS = [
     ],
   },
 
-  // ============ SCHLÜSSELMUSTER ============
+  // ============ ADJEKTIVE & ADVERBIEN ============
   {
-    id: "c-tai",
-    category: "Schlüsselmuster",
-    title: "〜たい",
-    reading: "etwas tun wollen",
-    summary: "Drückt den eigenen Wunsch aus, etwas zu tun. An den ます-Stamm wird たい gehängt; danach beugt es sich wie ein い-Adjektiv (たくない, たかった). Nur für die eigene Person verwendbar.",
-    usage: "Wenn du sagen willst, was DU selbst tun möchtest („ich will essen“, „ich möchte fahren“).",
-    formation: [
-      { from: "ます-Stamm", to: "+ たい", note: "行きます→行きたい" },
-    ],
-    pitfall: "Nur für die eigene Person — für den Wunsch anderer („er will …“) nimmt man 〜たがっている, nicht einfach たい.",
+    id: "c-i-adjektive",
+    category: "Adjektive & Adverbien",
+    title: "い-Adjektive",
+    summary: "Adjektive, die auf い enden (高い, おいしい). Sie werden selbst gebeugt: in der Vergangenheit い→かった, in der Verneinung い→くない. Vor einem Nomen stehen sie direkt davor. Ausnahme: いい→よかった.",
+    usage: "Wann immer du etwas beschreibst (teuer, heiß, gut) — denk dran, dass das Adjektiv selbst Zeit und Verneinung trägt.",
+    table: {
+      head: ["", "Form (高い)"],
+      rows: [
+        ["Gegenwart", "高い"],
+        ["Verneinung", "高くない"],
+        ["Vergangenheit", "高かった"],
+        ["Verg. verneint", "高くなかった"],
+      ],
+    },
+    pitfall: "In der Vergangenheit beugst du das Adjektiv, nicht です: 高かったです, nicht 高いでした.",
     examples: [
-      { jp: "日本へ行きたいです。", reading: "にほんへいきたいです。", de: "Ich möchte nach Japan fahren." },
-      { jp: "何も食べたくない。", reading: "なにもたべたくない。", de: "Ich will nichts essen." },
+      { jp: "この本は高いです。", reading: "このほんはたかいです。", de: "Dieses Buch ist teuer." },
+      { jp: "天気がよくなかった。", reading: "てんきがよくなかった。", de: "Das Wetter war nicht gut." },
     ],
   },
   {
+    id: "c-na-adjektive",
+    category: "Adjektive & Adverbien",
+    title: "な-Adjektive",
+    summary: "Adjektive, die wie Nomen funktionieren (元気, 静か, 好き). Vor einem Nomen brauchen sie ein な (静かな町). Sie werden nicht selbst gebeugt — die Zeit/Verneinung übernimmt です: じゃない, でした.",
+    usage: "Für Eigenschaften wie 元気, 静か oder 好き — überall, wo sich das Wort nicht selbst beugt, sondern です die Arbeit übernimmt.",
+    table: {
+      head: ["", "Form (静か)"],
+      rows: [
+        ["Gegenwart", "静かです"],
+        ["Verneinung", "静かじゃないです"],
+        ["Vergangenheit", "静かでした"],
+        ["vor Nomen", "静かな町"],
+      ],
+    },
+    pitfall: "Vor einem Nomen brauchst du das な: 静かな町, nicht 静か町.",
+    examples: [
+      { jp: "この町は静かです。", reading: "このまちはしずかです。", de: "Diese Stadt ist ruhig." },
+      { jp: "元気な子どもですね。", reading: "げんきなこどもですね。", de: "Ein munteres Kind, nicht wahr?" },
+    ],
+  },
+  {
+    id: "c-suki-jouzu",
+    category: "Adjektive & Adverbien",
+    title: "〜が好き / 上手",
+    reading: "mögen / gut können",
+    summary: "好き (mögen), 嫌い (nicht mögen), 上手 (gut können), 下手 (schlecht können) sind な-Adjektive. Das Objekt des Gefühls/Könnens wird mit が markiert, nicht mit を.",
+    usage: "Wenn du sagst, was du magst, nicht magst oder gut bzw. schlecht kannst.",
+    pitfall: "Das Objekt steht mit が, nicht を: 音楽が好きです, nicht 音楽を好きです.",
+    examples: [
+      { jp: "音楽が好きです。", reading: "おんがくがすきです。", de: "Ich mag Musik." },
+      { jp: "彼は料理が上手です。", reading: "かれはりょうりがじょうずです。", de: "Er kann gut kochen." },
+    ],
+  },
+  {
+    id: "c-adj-adverb",
+    category: "Adjektive & Adverbien",
+    title: "〜く / 〜に",
+    reading: "Adjektiv → Adverb",
+    summary: "Aus Adjektiven werden Adverbien, die beschreiben, WIE eine Handlung abläuft. い-Adjektive wechseln い zu く (早い→早く), な-Adjektive bekommen に (静か→静かに). Das Adverb steht vor dem Verb.",
+    usage: "Um Handlungen näher zu beschreiben: schnell aufstehen, leise gehen, sauber putzen.",
+    formation: [
+      { from: "早い", to: "早く", note: "い-Adjektiv: い → く" },
+      { from: "静か", to: "静かに", note: "な-Adjektiv: + に" },
+    ],
+    pitfall: "Der Klassiker: いい wird unregelmäßig zu よく (nicht „いく“). Beispiel: よく分かります.",
+    examples: [
+      { jp: "早く起きます。", reading: "はやくおきます。", de: "Ich stehe früh auf." },
+      { jp: "静かに歩きます。", reading: "しずかにあるきます。", de: "Ich gehe leise." },
+    ],
+  },
+  {
+    id: "c-kute-de",
+    category: "Adjektive & Adverbien",
+    title: "〜くて / 〜で",
+    reading: "Adjektive verbinden",
+    summary: "Um zwei Eigenschaften in einem Satz zu verbinden, wird das erste Adjektiv umgeformt: い-Adjektiv い→くて (大きくて), な-Adjektiv/Nomen + で (便利で, 学生で). Danach folgt das zweite Adjektiv.",
+    usage: "„Groß und hell“, „billig und lecker“, „Student und zwanzig“ — mehrere Merkmale aneinanderreihen.",
+    formation: [
+      { from: "大きい", to: "大きくて", note: "い-Adjektiv: い → くて" },
+      { from: "便利", to: "便利で", note: "な-Adjektiv/Nomen: + で" },
+    ],
+    pitfall: "いい wird unregelmäßig zu よくて. Und bei negativen Verbindungen wird くない zu くなくて.",
+    examples: [
+      { jp: "この部屋は広くて明るいです。", reading: "このへやはひろくてあかるいです。", de: "Dieses Zimmer ist groß und hell." },
+      { jp: "大阪はにぎやかで楽しい町です。", reading: "おおさかはにぎやかでたのしいまちです。", de: "Osaka ist eine lebhafte und schöne Stadt." },
+    ],
+  },
+  {
+    id: "c-wa-ga-merkmal",
+    category: "Adjektive & Adverbien",
+    title: "〜は〜が〜",
+    reading: "Merkmal beschreiben",
+    summary: "Um eine Eigenschaft über einen Teil zu beschreiben, nennt man erst das Thema mit は, dann den Teil mit が und dann das Adjektiv: „Bei X ist das Y …“. Klassisch für Körper und Eigenschaften.",
+    usage: "Aussehen und Merkmale beschreiben: „hat eine lange Nase“, „ist groß gewachsen“, „hat große Augen“.",
+    pitfall: "Der Teil bekommt が, nicht は: ぞうは鼻が長い (nicht „鼻は“). は markiert das übergeordnete Thema, が den beschriebenen Teil.",
+    examples: [
+      { jp: "ぞうは鼻が長いです。", reading: "ぞうははながながいです。", de: "Der Elefant hat eine lange Nase." },
+      { jp: "さとうさんはせが高いです。", reading: "さとうさんはせがたかいです。", de: "Herr Sato ist groß." },
+    ],
+  },
+
+  // ============ VERBFORMEN & ZEITEN ============
+  {
+    id: "c-verbgruppen",
+    category: "Verbformen & Zeiten",
+    title: "Verbgruppen",
+    reading: "godan · ichidan · unregelmäßig",
+    summary: "Jedes Verb gehört zu einer von drei Gruppen. Die Gruppe entscheidet, wie alle anderen Formen (て, た, ない …) gebildet werden. Ichidan-Verben enden auf -iru/-eru + る, godan auf alle übrigen -u-Laute, dazu die zwei Ausnahmen する und 来る.",
+    usage: "Bevor du irgendein Verb beugst, musst du wissen, zu welcher Gruppe es gehört — sie entscheidet über jede weitere Form. So findest du die Gruppe in 3 Schritten: 1) Ist es する oder 来る? → unregelmäßig (Gruppe III). 2) Endet die Wörterbuchform auf -eru oder -iru + る (z. B. たべる, みる)? → meistens Ichidan (Gruppe II). 3) Alles andere — also jede andere Endung auf -u wie く, む, す, う, つ, ぐ, ぶ, ぬ und die meisten る nach a/u/o → Godan (Gruppe I). Lern die Gruppe gleich zu jedem neuen Verb mit.",
+    formation: [
+      { from: "する / 来る", to: "Gruppe III", note: "immer unregelmäßig" },
+      { from: "-eru / -iru + る", to: "Gruppe II (Ichidan)", note: "たべる・みる・ねる" },
+      { from: "andere -u-Endung", to: "Gruppe I (Godan)", note: "かく・のむ・はなす" },
+    ],
+    table: {
+      head: ["Gruppe", "Beispiel", "Endung"],
+      rows: [
+        ["Godan (I)", "書く・飲む・話す", "-u"],
+        ["Ichidan (II)", "食べる・見る", "-iru / -eru + る"],
+        ["Unregelm. (III)", "する・来る", "—"],
+      ],
+    },
+    pitfall: "Nicht jedes Verb auf る ist ichidan: 帰る, 入る, 走る enden zwar auf る, sind aber godan. Im Zweifel das Verb einzeln mitlernen.",
+    examples: [
+      { jp: "毎日日本語を勉強します。", reading: "まいにちにほんごをべんきょうします。", de: "Ich lerne jeden Tag Japanisch. (する-Verb, Gruppe III)" },
+      { jp: "友だちが来ます。", reading: "ともだちがきます。", de: "Ein Freund kommt. (来る, Gruppe III)" },
+      { jp: "毎朝パンを食べます。", reading: "まいあさパンをたべます。", de: "Jeden Morgen esse ich Brot. (食べる, Ichidan, Gruppe II)" },
+      { jp: "手紙を書きます。", reading: "てがみをかきます。", de: "Ich schreibe einen Brief. (書く, Godan, Gruppe I)" },
+    ],
+  },
+  {
+    id: "c-masu-form",
+    category: "Verbformen & Zeiten",
+    title: "ます-Form",
+    reading: "höfliche Form",
+    summary: "Die höfliche Standardform für Gespräche mit Fremden, im Beruf und in der Schule. Alles dreht sich um den ます-Stamm: das ist der Wortteil vor ます (飲みます → Stamm 飲み). An diesen Stamm hängst du die Endungen: ます (Gegenwart), ません (Verneinung), ました (Vergangenheit), ませんでした (Vergangenheit verneint).",
+    usage: "Die Standard-Höflichkeitsform: im Beruf, in der Schule, mit Fremden. Wer unsicher ist, liegt mit der ます-Form fast immer richtig. Schritt für Schritt: 1) Gruppe bestimmen. 2) Godan: letztes -u zu -i machen (飲む→飲み), Ichidan: る weglassen (食べる→食べ), する→し, 来る→き. 3) Endung anhängen (ます / ません / ました / ませんでした).",
+    formation: [
+      { from: "Godan", to: "-i + ます", note: "飲む→飲みます" },
+      { from: "Ichidan", to: "る weg + ます", note: "食べる→食べます" },
+      { from: "する / 来る", to: "します / 来ます", note: "Ausnahmen" },
+    ],
+    table: {
+      head: ["", "Form"],
+      rows: [
+        ["Gegenwart", "飲みます"],
+        ["Verneinung", "飲みません"],
+        ["Vergangenheit", "飲みました"],
+        ["Verg. verneint", "飲みませんでした"],
+      ],
+    },
+    pitfall: "Die Verneinung ist ません (飲みません), NICHT ますない. ない gehört zur lockeren Form, nicht zur ます-Form.",
+    examples: [
+      { jp: "コーヒーを飲みます。", reading: "コーヒーをのみます。", de: "Ich trinke Kaffee. (Gegenwart)" },
+      { jp: "肉を食べません。", reading: "にくをたべません。", de: "Ich esse kein Fleisch. (Verneinung)" },
+      { jp: "昨日、映画を見ました。", reading: "きのう、えいがをみました。", de: "Gestern habe ich einen Film gesehen. (Vergangenheit)" },
+      { jp: "朝ごはんを食べませんでした。", reading: "あさごはんをたべませんでした。", de: "Ich habe nicht gefrühstückt. (Vergangenheit verneint)" },
+    ],
+  },
+  {
+    id: "c-dictionary-form",
+    category: "Verbformen & Zeiten",
+    title: "Wörterbuchform",
+    reading: "Grundform / plain",
+    summary: "Die Grundform, die im Wörterbuch steht (endet immer auf -u: 飲む, 食べる, する). Sie ist die lockere Sprechform unter Freunden und die Basis für viele Konstruktionen wie 〜たい, 〜前に oder Relativsätze. Von ihr aus bestimmst du auch die Verbgruppe.",
+    usage: "Unter Freunden und Familie sprichst du in der Wörterbuchform; außerdem brauchst du sie als Baustein für viele Muster. Du gewinnst sie aus der ます-Form zurück: bei Ichidan ます weg + る (食べます→食べる), bei Godan das -i des Stamms zum -u machen (飲み→飲む, 書き→書く). Vor Nomen und in Mustern wie 〜前に / 〜たい steht immer diese Form.",
+    table: {
+      head: ["höflich", "Wörterbuchform"],
+      rows: [
+        ["飲みます", "飲む"],
+        ["食べます", "食べる"],
+        ["します", "する"],
+        ["来ます", "来る"],
+      ],
+    },
+    pitfall: "Im höflichen Gespräch mit Fremden wirkt die reine Wörterbuchform schnell zu salopp — dort gehört die ます-Form hin.",
+    examples: [
+      { jp: "本を読む。", reading: "ほんをよむ。", de: "(Ich) lese ein Buch. (locker)" },
+      { jp: "映画を見る前に食べます。", reading: "えいがをみるまえにたべます。", de: "Vor dem Film essen wir. (Baustein vor 前に)" },
+      { jp: "日本に行きたい。", reading: "にほんにいきたい。", de: "Ich will nach Japan. (Baustein vor たい)" },
+      { jp: "毎日走る。", reading: "まいにちはしる。", de: "Ich laufe jeden Tag. (locker)" },
+    ],
+  },
+  {
+    id: "c-te-form",
+    category: "Verbformen & Zeiten",
+    title: "て-Form",
+    summary: "Eine der wichtigsten Formen überhaupt. Sie verbindet Sätze („und dann …“), bildet höfliche Bitten (てください), die Verlaufsform (ている) und Erlaubnis/Verbot. Selbst keine Zeitform — die Zeit steht am Satzende.",
+    usage: "Immer wenn zwei Handlungen aneinanderhängen („aufstehen und Kaffee trinken“) oder ein Grammatikmuster die て-Form verlangt. Eine der häufigsten Formen im Alltag. Bildung Schritt für Schritt: Ichidan ist leicht — る weg + て (食べる→食べて). Bei Godan entscheidet der letzte Laut der Wörterbuchform über die Lautänderung (Onbin), siehe Bildung unten. する→して, 来る→来て (きて).",
+    formation: [
+      { from: "う・つ・る (Godan)", to: "って", note: "買う→買って" },
+      { from: "む・ぶ・ぬ (Godan)", to: "んで", note: "飲む→飲んで" },
+      { from: "く / ぐ (Godan)", to: "いて / いで", note: "書く→書いて, 泳ぐ→泳いで" },
+      { from: "す (Godan)", to: "して", note: "話す→話して" },
+      { from: "Ichidan", to: "る→て", note: "食べる→食べて" },
+      { from: "する / 来る", to: "して / 来て", note: "Ausnahmen" },
+    ],
+    table: {
+      head: ["Verb", "て-Form"],
+      rows: [
+        ["行く", "行って"],
+        ["飲む", "飲んで"],
+        ["食べる", "食べて"],
+        ["する", "して"],
+        ["来る", "来て"],
+      ],
+    },
+    pitfall: "行く ist unregelmäßig: 行って, nicht 行いて — eine der wenigen Ausnahmen.",
+    examples: [
+      { jp: "待ってください。", reading: "まってください。", de: "Bitte warten Sie. (Bitte mit てください)" },
+      { jp: "朝起きて、ご飯を食べます。", reading: "あさおきて、ごはんをたべます。", de: "Morgens stehe ich auf und esse. (zwei Handlungen)" },
+      { jp: "今、本を読んでいます。", reading: "いま、ほんをよんでいます。", de: "Ich lese gerade ein Buch. (Verlaufsform ている)" },
+      { jp: "手を洗って、食べます。", reading: "てをあらって、たべます。", de: "Ich wasche die Hände und esse dann." },
+    ],
+  },
+  {
+    id: "c-ta-form",
+    category: "Verbformen & Zeiten",
+    title: "た-Form",
+    reading: "einfache Vergangenheit",
+    summary: "Die lockere Vergangenheit (= ました ohne Höflichkeit). Die Bildung ist identisch zur て-Form, nur mit た/だ statt て/で. Auch Basis für 〜たり und 〜たことがある.",
+    usage: "Die lockere Vergangenheit unter Freunden — und der Baustein, wenn du Erfahrungen (〜たことがある) oder Beispielreihen (〜たり) ausdrücken willst. Trick: Bilde zuerst die て-Form, dann tausche て→た und で→だ. Wer 飲んで sagen kann, sagt 飲んだ; wer 書いて kann, sagt 書いた.",
+    formation: [
+      { from: "う・つ・る", to: "った", note: "買う→買った" },
+      { from: "む・ぶ・ぬ", to: "んだ", note: "飲む→飲んだ" },
+      { from: "く / ぐ", to: "いた / いだ", note: "書く→書いた" },
+      { from: "Ichidan", to: "る→た", note: "食べる→食べた" },
+    ],
+    table: {
+      head: ["Verb", "た-Form"],
+      rows: [
+        ["行く", "行った"],
+        ["飲む", "飲んだ"],
+        ["食べる", "食べた"],
+        ["する", "した"],
+      ],
+    },
+    pitfall: "Die Bildung folgt exakt der て-Form: wer 飲んで kann, sagt 飲んだ — nicht 飲みた.",
+    examples: [
+      { jp: "昨日映画を見た。", reading: "きのうえいがをみた。", de: "Gestern habe ich einen Film gesehen. (Ichidan)" },
+      { jp: "もう食べた。", reading: "もうたべた。", de: "Ich habe schon gegessen." },
+      { jp: "コーヒーを飲んだ。", reading: "コーヒーをのんだ。", de: "Ich habe Kaffee getrunken. (Godan, んだ)" },
+      { jp: "京都に行ったことがある。", reading: "きょうとにいったことがある。", de: "Ich war schon mal in Kyoto. (Baustein 〜たことがある)" },
+    ],
+  },
+  {
+    id: "c-nai-form",
+    category: "Verbformen & Zeiten",
+    title: "ない-Form",
+    reading: "einfache Verneinung",
+    summary: "Die lockere Verneinung (= ません ohne Höflichkeit). Bei godan-Verben wird das -u zu -a + ない; Ausnahme: う wird zu わ. Basis für 〜ないでください und 〜なければなりません.",
+    usage: "Die lockere Verneinung unter Freunden, und der Baustein für Bitten wie 〜ないでください. Schritt für Schritt: Ichidan る weg + ない (食べる→食べない). Godan: letztes -u zu -a + ない (飲む→飲まない, 書く→書かない). Wichtig: endet das Verb auf う, wird es nicht あ, sondern わ (買う→買わない). する→しない, 来る→来ない (こない).",
+    formation: [
+      { from: "Godan", to: "-a + ない", note: "飲む→飲まない" },
+      { from: "う-Endung", to: "わ + ない", note: "買う→買わない" },
+      { from: "Ichidan", to: "る→ない", note: "食べる→食べない" },
+      { from: "する / 来る", to: "しない / 来ない", note: "Ausnahmen" },
+    ],
+    pitfall: "Bei godan-Verben auf う wird う zu わ: 買う→買わない, nicht 買あない.",
+    examples: [
+      { jp: "お酒を飲まない。", reading: "おさけをのまない。", de: "Ich trinke keinen Alkohol. (Godan)" },
+      { jp: "今日は行かない。", reading: "きょうはいかない。", de: "Heute gehe ich nicht. (Godan)" },
+      { jp: "肉を食べない。", reading: "にくをたべない。", de: "Ich esse kein Fleisch. (Ichidan)" },
+      { jp: "ここで写真を撮らないでください。", reading: "ここでしゃしんをとらないでください。", de: "Bitte machen Sie hier keine Fotos. (Baustein 〜ないでください)" },
+    ],
+  },
+  {
+    id: "c-nakatta-form",
+    category: "Verbformen & Zeiten",
+    title: "なかった-Form",
+    reading: "verneinte Vergangenheit",
+    summary: "Die lockere verneinte Vergangenheit (= ませんでした). Du nimmst die ない-Form und ersetzt das ない durch なかった.",
+    usage: "Wenn du locker sagen willst, dass etwas NICHT passiert ist („bin gestern nicht gekommen“). Zwei Schritte: 1) ない-Form bilden (飲む→飲まない). 2) ない durch なかった ersetzen (飲まない→飲まなかった). Es funktioniert wie ein い-Adjektiv: ない verhält sich wie 高い, deshalb 高い→高かった und ない→なかった.",
+    formation: [
+      { from: "Godan", to: "ない-Form, dann ない→なかった", note: "飲む→飲まない→飲まなかった" },
+      { from: "Ichidan", to: "ない-Form, dann ない→なかった", note: "食べる→食べない→食べなかった" },
+      { from: "する / 来る", to: "しなかった / 来なかった", note: "こなかった" },
+    ],
+    pitfall: "Es heißt 来なかった, nicht 来ないだった — なかった ersetzt das ない direkt, ohne zusätzliches だ.",
+    examples: [
+      { jp: "昨日は来なかった。", reading: "きのうはこなかった。", de: "Gestern ist er nicht gekommen. (来る)" },
+      { jp: "宿題をしなかった。", reading: "しゅくだいをしなかった。", de: "Ich habe die Hausaufgaben nicht gemacht. (する)" },
+      { jp: "朝、何も食べなかった。", reading: "あさ、なにもたべなかった。", de: "Morgens habe ich nichts gegessen. (Ichidan)" },
+      { jp: "お酒を飲まなかった。", reading: "おさけをのまなかった。", de: "Ich habe keinen Alkohol getrunken. (Godan)" },
+    ],
+  },
+  {
+    id: "c-te-iru",
+    category: "Verbformen & Zeiten",
+    title: "〜ている",
+    reading: "Verlaufsform / Zustand",
+    summary: "て-Form + いる. Drückt eine gerade laufende Handlung aus („ist am …“) oder einen andauernden Zustand/Gewohnheit. Höflich: ています. Locker fällt das い oft weg (てる).",
+    usage: "Für etwas, das gerade läuft („ich esse gerade“) oder einen Dauerzustand („ich wohne in Tokyo“).",
+    formation: [
+      { from: "て-Form", to: "+ いる / います", note: "食べて→食べている" },
+    ],
+    pitfall: "Verben wie 住む oder 知る stehen fast immer als 住んでいる / 知っています — die schlichte 住みます klingt hier falsch.",
+    examples: [
+      { jp: "今ご飯を食べています。", reading: "いまごはんをたべています。", de: "Ich esse gerade." },
+      { jp: "東京に住んでいます。", reading: "とうきょうにすんでいます。", de: "Ich wohne in Tokyo. (Zustand)" },
+    ],
+  },
+  {
+    id: "c-te-kuru",
+    category: "Verbformen & Zeiten",
+    title: "〜てきます",
+    reading: "hingehen & zurückkommen",
+    summary: "Die て-Form + きます beschreibt, dass man an einem anderen Ort etwas erledigt und zum Ausgangspunkt zurückkommt. Der Fokus liegt auf der Rückkehr — man ist gleich wieder da.",
+    usage: "Für kurze Erledigungen: „Ich hole schnell …“, „Ich gehe kurz auf die Toilette“ — und komme wieder.",
+    pitfall: "Nicht mit 〜ています (Verlaufsform) verwechseln. 買ってきます = holen und zurückkommen; 買っています = gerade am Kaufen sein.",
+    examples: [
+      { jp: "パンを買ってきます。", reading: "パンをかってきます。", de: "Ich hole schnell Brot." },
+      { jp: "トイレに行ってきます。", reading: "トイレにいってきます。", de: "Ich gehe kurz auf die Toilette." },
+    ],
+  },
+  {
+    id: "c-tari-tari",
+    category: "Verbformen & Zeiten",
+    title: "〜たり〜たりします",
+    reading: "dies & das tun",
+    summary: "Die た-Form → たり nennt beispielhaft mehrere Handlungen, ohne eine Reihenfolge festzulegen: „mal dies, mal das“. Am Satzende steht します.",
+    usage: "Um typische Aktivitäten aufzuzählen: „Am Wochenende lese ich, höre Musik und so weiter.“",
+    pitfall: "Anders als die て-Form (feste Reihenfolge) ist たり nur eine Auswahl von Beispielen. します passt sich der Zeit an: したり…しました (Vergangenheit).",
+    examples: [
+      { jp: "週末は本を読んだり、音楽を聞いたりします。", reading: "しゅうまつはほんをよんだり、おんがくをきいたりします。", de: "Am Wochenende lese ich und höre Musik." },
+      { jp: "公園で遊んだり、走ったりしました。", reading: "こうえんであそんだり、はしったりしました。", de: "Im Park habe ich gespielt und bin gelaufen." },
+    ],
+  },
+  {
+    id: "c-kata",
+    category: "Verbformen & Zeiten",
+    title: "〜方",
+    reading: "Art und Weise (かた)",
+    summary: "Verb-Stamm (ます-Form ohne ます) + 方 bildet ein Nomen für die Art, wie man etwas tut: 読みます→読み方 (Lesart), 使います→使い方 (Benutzung), 行きます→行き方 (Weg dorthin).",
+    usage: "Nach dem „Wie macht man das?“ fragen: die Lesart eines Kanji, die Bedienung eines Geräts, den Weg zum Bahnhof.",
+    pitfall: "Es zählt der Verb-Stamm, nicht das Wörterbuchverb: 作る → 作り方 (nicht „作る方“). Das davor stehende Objekt wird mit の angeschlossen: 漢字の読み方.",
+    examples: [
+      { jp: "この漢字の読み方がわかりません。", reading: "このかんじのよみかたがわかりません。", de: "Ich weiß nicht, wie man dieses Kanji liest." },
+      { jp: "この機械の使い方は簡単です。", reading: "このきかいのつかいかたはかんたんです。", de: "Die Bedienung dieser Maschine ist einfach." },
+    ],
+  },
+
+  // ============ BITTEN, VORSCHLÄGE & RATSCHLÄGE ============
+  {
     id: "c-te-kudasai",
-    category: "Schlüsselmuster",
+    category: "Bitten, Vorschläge & Ratschläge",
     title: "〜てください",
     reading: "Bitte tun Sie …",
     summary: "Höfliche Bitte oder Aufforderung. An die て-Form wird ください gehängt. Für eine Bitte, etwas NICHT zu tun, nimmt man die ない-Form + でください.",
@@ -464,44 +630,8 @@ const CONCEPTS = [
     ],
   },
   {
-    id: "c-te-iru",
-    category: "Schlüsselmuster",
-    title: "〜ている",
-    reading: "Verlaufsform / Zustand",
-    summary: "て-Form + いる. Drückt eine gerade laufende Handlung aus („ist am …“) oder einen andauernden Zustand/Gewohnheit. Höflich: ています. Locker fällt das い oft weg (てる).",
-    usage: "Für etwas, das gerade läuft („ich esse gerade“) oder einen Dauerzustand („ich wohne in Tokyo“).",
-    formation: [
-      { from: "て-Form", to: "+ いる / います", note: "食べて→食べている" },
-    ],
-    pitfall: "Verben wie 住む oder 知る stehen fast immer als 住んでいる / 知っています — die schlichte 住みます klingt hier falsch.",
-    examples: [
-      { jp: "今ご飯を食べています。", reading: "いまごはんをたべています。", de: "Ich esse gerade." },
-      { jp: "東京に住んでいます。", reading: "とうきょうにすんでいます。", de: "Ich wohne in Tokyo. (Zustand)" },
-    ],
-  },
-  {
-    id: "c-arimasu-imasu",
-    category: "Schlüsselmuster",
-    title: "あります / います",
-    reading: "es gibt / vorhanden sein",
-    summary: "Beide heißen „es gibt / sich befinden“. います für Belebtes (Menschen, Tiere), あります für Unbelebtes (Dinge, Pflanzen). Der Ort steht mit に, das Vorhandene meist mit が.",
-    usage: "Wenn du sagst, dass es etwas gibt oder wo sich etwas oder jemand befindet.",
-    table: {
-      head: ["", "Verb"],
-      rows: [
-        ["Belebt", "います"],
-        ["Unbelebt", "あります"],
-      ],
-    },
-    pitfall: "います nur für Belebtes, あります für Dinge — eine Katze nimmt います, ein Buch あります.",
-    examples: [
-      { jp: "部屋に猫がいます。", reading: "へやにねこがいます。", de: "Im Zimmer ist eine Katze." },
-      { jp: "机の上に本があります。", reading: "つくえのうえにほんがあります。", de: "Auf dem Tisch liegt ein Buch." },
-    ],
-  },
-  {
     id: "c-temo-ii",
-    category: "Schlüsselmuster",
+    category: "Bitten, Vorschläge & Ratschläge",
     title: "〜てもいいです",
     reading: "Erlaubnis",
     summary: "て-Form + もいいです gibt Erlaubnis („du darfst …“). Als Frage erbittet man damit höflich die Erlaubnis. Lockerer geht auch nur てもいい.",
@@ -517,7 +647,7 @@ const CONCEPTS = [
   },
   {
     id: "c-te-wa-ikemasen",
-    category: "Schlüsselmuster",
+    category: "Bitten, Vorschläge & Ratschläge",
     title: "〜てはいけません",
     reading: "Verbot",
     summary: "て-Form + はいけません drückt ein Verbot aus („du darfst nicht …“). In lockerer Sprache wird ては oft zu ちゃ (食べちゃだめ).",
@@ -533,7 +663,7 @@ const CONCEPTS = [
   },
   {
     id: "c-mashou-masenka",
-    category: "Schlüsselmuster",
+    category: "Bitten, Vorschläge & Ratschläge",
     title: "〜ましょう / 〜ませんか",
     reading: "Vorschlag / Einladung",
     summary: "ましょう heißt „lass uns …“ (Vorschlag). ませんか („wollen wir nicht …?“) lädt höflicher ein und überlässt dem anderen die Entscheidung. Beide an den ます-Stamm.",
@@ -548,8 +678,69 @@ const CONCEPTS = [
     ],
   },
   {
+    id: "c-wo-kudasai",
+    category: "Bitten, Vorschläge & Ratschläge",
+    title: "〜をください",
+    reading: "bitte geben Sie mir …",
+    summary: "Nomen + をください heißt „Bitte geben Sie mir …“ und ist die Standardformel zum Bestellen oder Erbitten einer Sache. を markiert dabei das Gewünschte. Für die Bitte um eine Handlung (statt einer Sache) nimmt man die て-Form + ください.",
+    usage: "Im Geschäft oder Restaurant, wenn du etwas bestellst oder erbittest („Einen Kaffee, bitte“).",
+    pitfall: "をください gilt für eine SACHE; für eine HANDLUNG („bitte warten“) brauchst du die て-Form + ください: 待ってください.",
+    examples: [
+      { jp: "コーヒーをください。", reading: "コーヒーをください。", de: "Einen Kaffee bitte." },
+      { jp: "りんごを三つください。", reading: "りんごをみっつください。", de: "Drei Äpfel, bitte." },
+    ],
+  },
+  {
+    id: "c-dou-desuka",
+    category: "Bitten, Vorschläge & Ratschläge",
+    title: "〜はどうですか",
+    reading: "Wie wäre …? / Vorschlag",
+    summary: "Nomen + はどうですか fragt nach einer Meinung („Wie ist …?“) oder macht einen sanften Vorschlag („Wie wäre es mit …?“). Höflicher und weicher klingt die Variante はいかがですか.",
+    usage: "Wenn du etwas vorschlägst oder nach jemandes Eindruck fragst („Wie wäre es mit Tee?“, „Wie ist das Wetter?“).",
+    pitfall: "Für einen Vorschlag, etwas GEMEINSAM zu tun, passt eher 〜ませんか; どうですか schlägt eher eine Sache vor oder fragt nach einer Meinung.",
+    examples: [
+      { jp: "お茶はどうですか。", reading: "おちゃはどうですか。", de: "Wie wäre es mit Tee?" },
+      { jp: "週末、映画はどうですか。", reading: "しゅうまつ、えいがはどうですか。", de: "Wie wäre am Wochenende ein Film?" },
+    ],
+  },
+  {
+    id: "c-hou-ga-ii",
+    category: "Bitten, Vorschläge & Ratschläge",
+    title: "〜たほうがいいです",
+    reading: "Ratschlag: lieber (nicht) tun",
+    summary: "Mit der た-Form eines Verbs + ほうがいいです gibst du einen Rat: „Du solltest lieber …“. Für das Gegenteil („lieber nicht …“) nimmst du die ない-Form + ほうがいいです. Das よ am Ende macht den Rat freundlich-bestimmt.",
+    usage: "Wenn du jemandem konkret empfiehlst, etwas (nicht) zu tun — beim Arzt, bei Reisetipps, bei gutem Zureden.",
+    formation: [
+      { from: "寝る", to: "寝たほうがいいです", note: "positiver Rat (た-Form)" },
+      { from: "飲む", to: "飲まないほうがいいです", note: "negativer Rat (ない-Form)" },
+    ],
+    pitfall: "Für den positiven Rat steht die Vergangenheitsform 寝た, obwohl es um die Zukunft geht — das ist fest so. Der negative Rat nimmt dagegen die ない-Form: 飲まないほうがいい.",
+    examples: [
+      { jp: "早く寝たほうがいいですよ。", reading: "はやくねたほうがいいですよ。", de: "Du solltest lieber früh schlafen." },
+      { jp: "コーヒーを飲まないほうがいいです。", reading: "コーヒーをのまないほうがいいです。", de: "Du solltest lieber keinen Kaffee trinken." },
+    ],
+  },
+
+  // ============ WÜNSCHE, ABSICHTEN & ENTSCHEIDUNGEN ============
+  {
+    id: "c-tai",
+    category: "Wünsche, Absichten & Entscheidungen",
+    title: "〜たい",
+    reading: "etwas tun wollen",
+    summary: "Drückt den eigenen Wunsch aus, etwas zu tun. An den ます-Stamm wird たい gehängt; danach beugt es sich wie ein い-Adjektiv (たくない, たかった). Nur für die eigene Person verwendbar.",
+    usage: "Wenn du sagen willst, was DU selbst tun möchtest („ich will essen“, „ich möchte fahren“).",
+    formation: [
+      { from: "ます-Stamm", to: "+ たい", note: "行きます→行きたい" },
+    ],
+    pitfall: "Nur für die eigene Person — für den Wunsch anderer („er will …“) nimmt man 〜たがっている, nicht einfach たい.",
+    examples: [
+      { jp: "日本へ行きたいです。", reading: "にほんへいきたいです。", de: "Ich möchte nach Japan fahren." },
+      { jp: "何も食べたくない。", reading: "なにもたべたくない。", de: "Ich will nichts essen." },
+    ],
+  },
+  {
     id: "c-hoshii",
-    category: "Schlüsselmuster",
+    category: "Wünsche, Absichten & Entscheidungen",
     title: "〜がほしい",
     reading: "etwas haben wollen",
     summary: "Drückt den Wunsch nach einer Sache (Nomen) aus: „ich will/hätte gern …“. Das Gewünschte wird mit が markiert. ほしい beugt sich wie ein い-Adjektiv. Nur für die eigene Person.",
@@ -565,8 +756,8 @@ const CONCEPTS = [
   },
   {
     id: "c-ni-purpose",
-    category: "Schlüsselmuster",
-    title: "〜に行きます (Zweck)",
+    category: "Wünsche, Absichten & Entscheidungen",
+    title: "〜に行きます",
     reading: "gehen, um zu …",
     summary: "Drückt den Zweck einer Bewegung aus: „gehen/kommen/zurückkehren, um etwas zu tun“. An den ます-Stamm des Verbs (den Teil vor ます) hängst du に, danach folgt 行く・来る・帰る. Bei する-Verben kann auch das Nomen + に stehen (買い物に行く).",
     usage: "Wenn du sagst, wozu du irgendwohin gehst („essen gehen“, „ein Buch kaufen gehen“).",
@@ -580,8 +771,102 @@ const CONCEPTS = [
     ],
   },
   {
+    id: "c-tsumori",
+    category: "Wünsche, Absichten & Entscheidungen",
+    title: "〜つもり",
+    reading: "vorhaben",
+    summary: "Wörterbuchform + つもりです = „ich habe vor / beabsichtige zu …“. Drückt einen festen Plan aus. Für „nicht vorhaben“ nimmt man die ない-Form + つもりです.",
+    usage: "Wenn du einen festen Plan ausdrückst („ich habe vor, nach Japan zu fahren“).",
+    formation: [
+      { from: "Wörterbuchform", to: "+ つもりです", note: "行く→行くつもりです" },
+    ],
+    pitfall: "Davor steht die Wörterbuchform, nicht der ます-Stamm: 行くつもり, nicht 行きつもり.",
+    examples: [
+      { jp: "来年日本へ行くつもりです。", reading: "らいねんにほんへいくつもりです。", de: "Nächstes Jahr habe ich vor, nach Japan zu fahren." },
+      { jp: "今日は何もしないつもりです。", reading: "きょうはなにもしないつもりです。", de: "Heute habe ich vor, nichts zu tun." },
+    ],
+  },
+  {
+    id: "c-ni-suru",
+    category: "Wünsche, Absichten & Entscheidungen",
+    title: "〜にします",
+    reading: "sich entscheiden für",
+    summary: "Nomen + にします heißt „ich nehme / entscheide mich für …“. Man wählt bewusst eine Option aus mehreren aus.",
+    usage: "Beim Bestellen oder Auswählen: „Ich nehme den Kaffee“, „Wir machen es um drei Uhr“.",
+    pitfall: "にします = aktive Entscheidung. Verwechsle es nicht mit になります (Veränderung, die von selbst passiert): コーヒーにします (ich wähle) vs. 上手になります (es wird von selbst besser).",
+    examples: [
+      { jp: "飲み物はコーヒーにします。", reading: "のみものはコーヒーにします。", de: "Als Getränk nehme ich Kaffee." },
+      { jp: "会議は三時にしましょう。", reading: "かいぎはさんじにしましょう。", de: "Machen wir die Besprechung um drei." },
+    ],
+  },
+
+  // ============ VERGLEICHE & GRAD ============
+  {
+    id: "c-yori",
+    category: "Vergleiche & Grad",
+    title: "〜より / のほうが / 一番",
+    reading: "Vergleich · Präferenz · Superlativ",
+    summary: "Drei verwandte Muster zum Vergleichen. Vergleich: A は B より … = „A ist … als B“ (より = „als“). Präferenz: B のほうが … = „B ist eher / lieber …“, oft als Antwort auf „welches von beiden?“. Superlativ: 〜の中で〜が一番 … = „von allen … am …sten“ (一番 = „Nummer eins, am meisten“).",
+    usage: "Wenn du zwei Dinge vergleichst, eine Vorliebe ausdrückst oder das Beste aus einer Gruppe nennst.",
+    table: {
+      head: ["Muster", "Beispiel", "Bedeutung"],
+      rows: [
+        ["より", "バスより速い", "schneller als der Bus"],
+        ["のほうが", "電車のほうが速い", "der Zug ist (eher) schneller"],
+        ["の中で一番", "この中で一番速い", "von allen am schnellsten"],
+      ],
+    },
+    pitfall: "より steht beim Vergleichsmaßstab („als B“), のほうが beim Favoriten — nicht vertauschen: 電車はバスより速い / バスより電車のほうが速い.",
+    examples: [
+      { jp: "電車はバスより速いです。", reading: "でんしゃはバスよりはやいです。", de: "Der Zug ist schneller als der Bus." },
+      { jp: "コーヒーよりお茶のほうが好きです。", reading: "コーヒーよりおちゃのほうがすきです。", de: "Ich mag Tee lieber als Kaffee." },
+      { jp: "果物の中でりんごが一番好きです。", reading: "くだもののなかでりんごがいちばんすきです。", de: "Von allen Früchten mag ich Äpfel am liebsten." },
+    ],
+  },
+  {
+    id: "c-nakanaka",
+    category: "Vergleiche & Grad",
+    title: "なかなか〜ません",
+    reading: "einfach nicht (klappt nicht)",
+    summary: "Mit einer Verneinung bedeutet なかなか „nicht so leicht / einfach nicht“ — trotz Erwartung oder Mühe klappt etwas nicht. Mit einem positiven Verb bedeutet es dagegen „ziemlich, recht“.",
+    usage: "Für Frust über etwas, das nicht vorangeht: der Bus, der nicht kommt; die Kanji, die nicht hängenbleiben.",
+    pitfall: "Die Bedeutung kippt je nach Satz: なかなか来ません = „kommt einfach nicht“ (negativ), aber なかなかいいです = „ziemlich gut“ (positiv).",
+    examples: [
+      { jp: "バスがなかなか来ません。", reading: "バスがなかなかきません。", de: "Der Bus kommt einfach nicht." },
+      { jp: "なかなかいいレストランですね。", reading: "なかなかいいレストランですね。", de: "Das ist ein ziemlich gutes Restaurant." },
+    ],
+  },
+  {
+    id: "c-daibu",
+    category: "Vergleiche & Grad",
+    title: "だいぶ",
+    reading: "ziemlich / deutlich",
+    summary: "だいぶ betont ein beträchtliches Ausmaß und steht oft bei Veränderungen: „deutlich, um einiges, ziemlich“. Es zeigt, dass sich viel getan hat.",
+    usage: "Wenn ein Fortschritt oder eine Veränderung spürbar groß ist: „deutlich besser geworden“, „ziemlich warm geworden“.",
+    pitfall: "だいぶ passt zu positiven Aussagen und Veränderungen. Für „einfach nicht“ mit Verneinung nimmt man なかなか, nicht だいぶ.",
+    examples: [
+      { jp: "日本語がだいぶ上手になりました。", reading: "にほんごがだいぶじょうずになりました。", de: "Mein Japanisch ist deutlich besser geworden." },
+      { jp: "だいぶ暖かくなりましたね。", reading: "だいぶあたたかくなりましたね。", de: "Es ist ziemlich warm geworden, oder?" },
+    ],
+  },
+
+  // ============ GRÜNDE & VERBINDUNGEN ============
+  {
+    id: "c-ga-kedo",
+    category: "Gründe & Verbindungen",
+    title: "が / けど",
+    reading: "aber / jedoch",
+    summary: "Beide verbinden zwei Sätze mit einem Gegensatz: „…, aber …“. が klingt neutral und etwas förmlicher, けど umgangssprachlicher. Sie stehen am Ende des ersten Satzteils, nicht am Anfang des zweiten wie das deutsche „aber“.",
+    usage: "Wenn du einen Gegensatz oder eine Einschränkung ausdrückst („Japanisch mag ich, aber es ist schwer“).",
+    pitfall: "Dieses が hat nichts mit der Subjekt-Partikel が zu tun — gleiche Schrift, andere Aufgabe. Hier steht es nach dem ganzen ersten Satz.",
+    examples: [
+      { jp: "日本語は好きですが、難しいです。", reading: "にほんごはすきですが、むずかしいです。", de: "Ich mag Japanisch, aber es ist schwierig." },
+      { jp: "面白かったけど、長かったです。", reading: "おもしろかったけど、ながかったです。", de: "Es war interessant, aber lang." },
+    ],
+  },
+  {
     id: "c-reihenfolge",
-    category: "Schlüsselmuster",
+    category: "Gründe & Verbindungen",
     title: "前に / てから / 後で",
     reading: "vorher / danach / nachdem",
     summary: "Drei Muster für zeitliche Abfolge. 〜前に (Wörterbuchform + 前に) = „bevor …“. 〜てから (て-Form + から) = „nachdem … (und erst dann)“. 〜後で (た-Form + 後で) = „nachdem / danach“. Die Form des ersten Verbs entscheidet, welches Muster passt.",
@@ -602,57 +887,9 @@ const CONCEPTS = [
     ],
   },
   {
-    id: "c-wo-kudasai",
-    category: "Schlüsselmuster",
-    title: "〜をください",
-    reading: "bitte geben Sie mir …",
-    summary: "Nomen + をください heißt „Bitte geben Sie mir …“ und ist die Standardformel zum Bestellen oder Erbitten einer Sache. を markiert dabei das Gewünschte. Für die Bitte um eine Handlung (statt einer Sache) nimmt man die て-Form + ください.",
-    usage: "Im Geschäft oder Restaurant, wenn du etwas bestellst oder erbittest („Einen Kaffee, bitte“).",
-    pitfall: "をください gilt für eine SACHE; für eine HANDLUNG („bitte warten“) brauchst du die て-Form + ください: 待ってください.",
-    examples: [
-      { jp: "コーヒーをください。", reading: "コーヒーをください。", de: "Einen Kaffee bitte." },
-      { jp: "りんごを三つください。", reading: "りんごをみっつください。", de: "Drei Äpfel, bitte." },
-    ],
-  },
-  {
-    id: "c-dou-desuka",
-    category: "Schlüsselmuster",
-    title: "〜はどうですか",
-    reading: "Wie wäre …? / Vorschlag",
-    summary: "Nomen + はどうですか fragt nach einer Meinung („Wie ist …?“) oder macht einen sanften Vorschlag („Wie wäre es mit …?“). Höflicher und weicher klingt die Variante はいかがですか.",
-    usage: "Wenn du etwas vorschlägst oder nach jemandes Eindruck fragst („Wie wäre es mit Tee?“, „Wie ist das Wetter?“).",
-    pitfall: "Für einen Vorschlag, etwas GEMEINSAM zu tun, passt eher 〜ませんか; どうですか schlägt eher eine Sache vor oder fragt nach einer Meinung.",
-    examples: [
-      { jp: "お茶はどうですか。", reading: "おちゃはどうですか。", de: "Wie wäre es mit Tee?" },
-      { jp: "週末、映画はどうですか。", reading: "しゅうまつ、えいがはどうですか。", de: "Wie wäre am Wochenende ein Film?" },
-    ],
-  },
-  {
-    id: "c-yori",
-    category: "Schlüsselmuster",
-    title: "〜より / のほうが / 一番 (Vergleich)",
-    reading: "Vergleich · Präferenz · Superlativ",
-    summary: "Drei verwandte Muster zum Vergleichen. Vergleich: A は B より … = „A ist … als B“ (より = „als“). Präferenz: B のほうが … = „B ist eher / lieber …“, oft als Antwort auf „welches von beiden?“. Superlativ: 〜の中で〜が一番 … = „von allen … am …sten“ (一番 = „Nummer eins, am meisten“).",
-    usage: "Wenn du zwei Dinge vergleichst, eine Vorliebe ausdrückst oder das Beste aus einer Gruppe nennst.",
-    table: {
-      head: ["Muster", "Beispiel", "Bedeutung"],
-      rows: [
-        ["より", "バスより速い", "schneller als der Bus"],
-        ["のほうが", "電車のほうが速い", "der Zug ist (eher) schneller"],
-        ["の中で一番", "この中で一番速い", "von allen am schnellsten"],
-      ],
-    },
-    pitfall: "より steht beim Vergleichsmaßstab („als B“), のほうが beim Favoriten — nicht vertauschen: 電車はバスより速い / バスより電車のほうが速い.",
-    examples: [
-      { jp: "電車はバスより速いです。", reading: "でんしゃはバスよりはやいです。", de: "Der Zug ist schneller als der Bus." },
-      { jp: "コーヒーよりお茶のほうが好きです。", reading: "コーヒーよりおちゃのほうがすきです。", de: "Ich mag Tee lieber als Kaffee." },
-      { jp: "果物の中でりんごが一番好きです。", reading: "くだもののなかでりんごがいちばんすきです。", de: "Von allen Früchten mag ich Äpfel am liebsten." },
-    ],
-  },
-  {
     id: "c-kara-node",
-    category: "Schlüsselmuster",
-    title: "〜から / ので (Grund)",
+    category: "Gründe & Verbindungen",
+    title: "〜から / ので",
     reading: "weil",
     summary: "Beide bedeuten „weil / da“ und stehen nach dem Grund. から ist direkter und subjektiver (auch für eigene Meinung/Entschluss), ので klingt weicher und höflicher. Wichtig: erst der Grund, dann die Folge.",
     usage: "Wenn du einen Grund angibst („Weil es kalt ist, schließe ich das Fenster“).",
@@ -662,34 +899,100 @@ const CONCEPTS = [
       { jp: "病気なので、休みます。", reading: "びょうきなので、やすみます。", de: "Da ich krank bin, bleibe ich zu Hause." },
     ],
   },
-
-  // ============ SONSTIGES ============
   {
-    id: "c-fragewoerter",
-    category: "Sonstiges",
-    title: "Fragewörter",
-    reading: "なに・だれ・どこ …",
-    summary: "Das Fragewort steht an der Stelle, an der die gesuchte Information im Antwortsatz stünde — die Wortstellung ändert sich nicht. Am Ende kommt か. Mit か/も werden Fragewörter zu „irgend-/kein-“ (だれか = jemand, だれも〜ない = niemand).",
-    usage: "Wenn du nach etwas fragst — das Fragewort steht da, wo die Antwort stünde, und am Satzende kommt か.",
-    table: {
-      head: ["Wort", "Bedeutung"],
-      rows: [
-        ["何 (なに)", "was"],
-        ["だれ", "wer"],
-        ["どこ", "wo"],
-        ["いつ", "wann"],
-        ["いくら", "wie viel"],
-      ],
-    },
-    pitfall: "Die Wortstellung bleibt wie im Aussagesatz; man stellt das Fragewort NICHT an den Anfang wie im Deutschen.",
+    id: "c-shi",
+    category: "Gründe & Verbindungen",
+    title: "〜し、〜し",
+    reading: "Gründe aufzählen",
+    summary: "し hängt an die Plain-Form und reiht mehrere Gründe oder Eigenschaften auf: „…und außerdem…“. Oft folgt daraus eine Schlussfolgerung.",
+    usage: "Wenn du eine Meinung mit mehreren Gründen stützt: „billig, und außerdem nah — also gut“.",
+    pitfall: "Anders als て betont し „und obendrein noch“ und deutet einen Grund an. Nach Nomen/な-Adjektiv steht だし: 親切だし.",
     examples: [
-      { jp: "これは何ですか。", reading: "これはなんですか。", de: "Was ist das?" },
-      { jp: "トイレはどこですか。", reading: "トイレはどこですか。", de: "Wo ist die Toilette?" },
+      { jp: "この店は安いし、近いし、いいですよ。", reading: "このみせはやすいし、ちかいし、いいですよ。", de: "Der Laden ist billig und nah, also gut." },
+      { jp: "今日は雨だし、寒いです。", reading: "きょうはあめだし、さむいです。", de: "Heute regnet es und ist außerdem kalt." },
+    ],
+  },
+
+  // ============ GEBEN, ERFAHRUNG & VERÄNDERUNG ============
+  {
+    id: "c-ta-bakari",
+    category: "Geben, Erfahrung & Veränderung",
+    title: "〜たばかりです",
+    reading: "gerade eben getan",
+    summary: "Die た-Form + ばかりです sagt, dass eine Handlung gerade eben abgeschlossen wurde. Es betont die gefühlt sehr kurze Zeitspanne seit dem Ereignis.",
+    usage: "„Ich bin gerade erst angekommen / habe gerade erst gegessen / erst angefangen.“",
+    pitfall: "ばかり misst die gefühlte Nähe, nicht die echte Uhrzeit: 引っ越したばかり kann auch „vor einem Monat, aber gefühlt gerade erst“ heißen.",
+    examples: [
+      { jp: "日本に来たばかりです。", reading: "にほんにきたばかりです。", de: "Ich bin gerade erst nach Japan gekommen." },
+      { jp: "勉強を始めたばかりです。", reading: "べんきょうをはじめたばかりです。", de: "Ich habe gerade erst mit dem Lernen angefangen." },
     ],
   },
   {
+    id: "c-mada-teinai",
+    category: "Geben, Erfahrung & Veränderung",
+    title: "まだ〜ていません",
+    reading: "noch nicht getan",
+    summary: "まだ + て-Form + いません drückt aus, dass eine erwartete Handlung bis jetzt noch nicht passiert ist. Man rechnet damit, dass sie noch kommt.",
+    usage: "Antwort auf „Hast du schon …?“ (もう〜ましたか) — die Kurzform ist いいえ、まだです。",
+    pitfall: "Nicht mit ませんでした (Vergangenheit: „habe nicht getan“) verwechseln. まだ食べていません = „noch nicht gegessen (aber gleich)“, nicht „habe nicht gegessen“.",
+    examples: [
+      { jp: "昼ご飯をまだ食べていません。", reading: "ひるごはんをまだたべていません。", de: "Ich habe noch nicht zu Mittag gegessen." },
+      { jp: "その本をまだ読んでいません。", reading: "そのほんをまだよんでいません。", de: "Ich habe das Buch noch nicht gelesen." },
+    ],
+  },
+  {
+    id: "c-ta-koto-ga-aru",
+    category: "Geben, Erfahrung & Veränderung",
+    title: "〜たことがあります",
+    reading: "schon mal getan (Erfahrung)",
+    summary: "Die た-Form + ことがあります sagt, dass man etwas schon einmal im Leben getan oder erlebt hat. Die Verneinung 〜たことがありません heißt „noch nie“.",
+    usage: "Über Lebenserfahrungen sprechen: „Ich war schon mal in Japan / habe schon mal Sushi gegessen.“",
+    pitfall: "Nur für allgemeine Erfahrung, nicht für kürzlich Geschehenes. „Ich habe gestern Sushi gegessen“ ist normale Vergangenheit, nicht 食べたことがあります.",
+    examples: [
+      { jp: "日本へ行ったことがあります。", reading: "にほんへいったことがあります。", de: "Ich war schon einmal in Japan." },
+      { jp: "馬に乗ったことがありません。", reading: "うまにのったことがありません。", de: "Ich bin noch nie geritten." },
+    ],
+  },
+  {
+    id: "c-ageru-morau-kureru",
+    category: "Geben, Erfahrung & Veränderung",
+    title: "あげます・もらいます・くれます",
+    reading: "geben / bekommen / mir geben",
+    summary: "Drei Verben fürs Geben und Nehmen: あげます = (ich/jd) gebe an andere. もらいます = von jdm bekommen. くれます = jemand gibt MIR. Die Blickrichtung entscheidet, welches Verb du nimmst.",
+    usage: "Über Geschenke und Gefälligkeiten reden — wer gibt wem was.",
+    formation: [
+      { from: "私 → 友だち", to: "友だちにあげます", note: "ich gebe an andere" },
+      { from: "友だち → 私", to: "友だちがくれます", note: "jd gibt mir" },
+      { from: "友だち → 私", to: "友だちにもらいます", note: "ich bekomme von jdm" },
+    ],
+    pitfall: "くれます nur, wenn die Gabe zu MIR (oder meiner Seite) fließt. „Der Freund gibt mir“ ist くれる, nicht あげる. Bei もらう markiert に/から den Geber.",
+    examples: [
+      { jp: "友だちが本をくれました。", reading: "ともだちがほんをくれました。", de: "Mein Freund hat mir ein Buch gegeben." },
+      { jp: "母にとけいをもらいました。", reading: "ははにとけいをもらいました。", de: "Ich habe von meiner Mutter eine Uhr bekommen." },
+    ],
+  },
+  {
+    id: "c-naru",
+    category: "Geben, Erfahrung & Veränderung",
+    title: "〜くなります / 〜になります",
+    reading: "werden (Veränderung)",
+    summary: "なります drückt eine Veränderung aus: etwas wird anders. い-Adjektive wechseln い zu く (寒くなる), な-Adjektive und Nomen bekommen に (元気になる, 医者になる).",
+    usage: "Für Veränderungen von Wetter, Zustand, Alter oder Beruf: „kalt werden“, „gesund werden“, „Arzt werden“.",
+    formation: [
+      { from: "寒い", to: "寒くなります", note: "い-Adjektiv: い → く + なる" },
+      { from: "医者", to: "医者になります", note: "Nomen: + に + なる" },
+    ],
+    pitfall: "い-Adjektiv → く + なる (nicht „に“): 大きくなる. Nur な-Adjektive und Nomen nehmen に + なる.",
+    examples: [
+      { jp: "寒くなりました。", reading: "さむくなりました。", de: "Es ist kalt geworden." },
+      { jp: "医者になりたいです。", reading: "いしゃになりたいです。", de: "Ich möchte Arzt werden." },
+    ],
+  },
+
+  // ============ ZEIT, MENGE & BEWEGUNG ============
+  {
     id: "c-zaehler",
-    category: "Sonstiges",
+    category: "Zeit, Menge & Bewegung",
     title: "Zähler",
     reading: "Zählwörter",
     summary: "Zum Zählen hängt man an die Zahl ein Zählwort, das zur Art des Objekts passt: 〜つ (allgemeine Dinge), 〜人 (Personen), 〜枚 (flache Dinge), 〜本 (lange Dinge). Das Zählwort steht meist direkt vor dem Verb.",
@@ -710,73 +1013,8 @@ const CONCEPTS = [
     ],
   },
   {
-    id: "c-suki-jouzu",
-    category: "Sonstiges",
-    title: "〜が好き / 上手",
-    reading: "mögen / gut können",
-    summary: "好き (mögen), 嫌い (nicht mögen), 上手 (gut können), 下手 (schlecht können) sind な-Adjektive. Das Objekt des Gefühls/Könnens wird mit が markiert, nicht mit を.",
-    usage: "Wenn du sagst, was du magst, nicht magst oder gut bzw. schlecht kannst.",
-    pitfall: "Das Objekt steht mit が, nicht を: 音楽が好きです, nicht 音楽を好きです.",
-    examples: [
-      { jp: "音楽が好きです。", reading: "おんがくがすきです。", de: "Ich mag Musik." },
-      { jp: "彼は料理が上手です。", reading: "かれはりょうりがじょうずです。", de: "Er kann gut kochen." },
-    ],
-  },
-  {
-    id: "c-kono-sono-ano",
-    category: "Sonstiges",
-    title: "この / その / あの",
-    reading: "kosoado",
-    summary: "Hinweiswörter nach Entfernung: この/これ (beim Sprecher), その/それ (beim Hörer), あの/あれ (von beiden entfernt), どの/どれ (welch-). Für Orte gibt es die gleiche Reihe: ここ (hier) / そこ (dort bei dir) / あそこ (dort drüben) / どこ (wo?). この+Nomen steht vor dem Nomen, これ steht allein.",
-    usage: "Wenn du auf etwas oder einen Ort zeigst — je nachdem, ob es bei dir, beim Gegenüber oder weit weg ist.",
-    table: {
-      head: ["+ Nomen", "allein", "Ort"],
-      rows: [
-        ["この", "これ", "ここ"],
-        ["その", "それ", "そこ"],
-        ["あの", "あれ", "あそこ"],
-        ["どの", "どれ", "どこ"],
-      ],
-    },
-    pitfall: "この braucht ein Nomen dahinter (この本), これ steht allein — nicht これ本.",
-    examples: [
-      { jp: "この本は私のです。", reading: "このほんはわたしのです。", de: "Dieses Buch (hier) ist meins." },
-      { jp: "あれは何ですか。", reading: "あれはなんですか。", de: "Was ist das dort drüben?" },
-      { jp: "トイレはどこですか。", reading: "トイレはどこですか。", de: "Wo ist die Toilette?" },
-    ],
-  },
-  {
-    id: "c-deshou",
-    category: "Sonstiges",
-    title: "〜でしょう",
-    reading: "wahrscheinlich",
-    summary: "Drückt eine Vermutung aus („wird wohl … sein“). Steht nach Nomen, い-/な-Adjektiv oder Verb in Grundform. Mit steigender Betonung (でしょう？) sucht man Zustimmung: „… oder?“.",
-    usage: "Wenn du eine Vermutung äußerst („wird wohl regnen“) oder dir Zustimmung holst („…, oder?“).",
-    pitfall: "Vor でしょう steht das Nomen oder な-Adjektiv ohne です: 雨でしょう, nicht 雨ですでしょう.",
-    examples: [
-      { jp: "明日は雨でしょう。", reading: "あしたはあめでしょう。", de: "Morgen wird es wohl regnen." },
-      { jp: "これでいいでしょう？", reading: "これでいいでしょう？", de: "So ist es gut, oder?" },
-    ],
-  },
-  {
-    id: "c-tsumori",
-    category: "Sonstiges",
-    title: "〜つもり",
-    reading: "vorhaben",
-    summary: "Wörterbuchform + つもりです = „ich habe vor / beabsichtige zu …“. Drückt einen festen Plan aus. Für „nicht vorhaben“ nimmt man die ない-Form + つもりです.",
-    usage: "Wenn du einen festen Plan ausdrückst („ich habe vor, nach Japan zu fahren“).",
-    formation: [
-      { from: "Wörterbuchform", to: "+ つもりです", note: "行く→行くつもりです" },
-    ],
-    pitfall: "Davor steht die Wörterbuchform, nicht der ます-Stamm: 行くつもり, nicht 行きつもり.",
-    examples: [
-      { jp: "来年日本へ行くつもりです。", reading: "らいねんにほんへいくつもりです。", de: "Nächstes Jahr habe ich vor, nach Japan zu fahren." },
-      { jp: "今日は何もしないつもりです。", reading: "きょうはなにもしないつもりです。", de: "Heute habe ich vor, nichts zu tun." },
-    ],
-  },
-  {
     id: "c-goro-gurai",
-    category: "Sonstiges",
+    category: "Zeit, Menge & Bewegung",
     title: "ごろ / ぐらい",
     reading: "ungefähr",
     summary: "Beide heißen „ungefähr“, gelten aber für Verschiedenes: ごろ steht nur bei einem Zeitpunkt („gegen 7 Uhr“). ぐらい (auch くらい) steht bei einer Menge oder Dauer („ungefähr 3 Stunden“, „etwa 10 Stück“).",
@@ -787,252 +1025,21 @@ const CONCEPTS = [
       { jp: "三時間ぐらい勉強しました。", reading: "さんじかんぐらいべんきょうしました。", de: "Ich habe ungefähr drei Stunden gelernt." },
     ],
   },
-
-  // ============ LEKTION 4–6 (neue Muster) ============
-  {
-    id: "c-hou-ga-ii",
-    category: "Schlüsselmuster",
-    title: "〜たほうがいいです (Ratschlag)",
-    reading: "〜たほうがいいです",
-    summary: "Mit der た-Form eines Verbs + ほうがいいです gibst du einen Rat: „Du solltest lieber …“. Für das Gegenteil („lieber nicht …“) nimmst du die ない-Form + ほうがいいです. Das よ am Ende macht den Rat freundlich-bestimmt.",
-    usage: "Wenn du jemandem konkret empfiehlst, etwas (nicht) zu tun — beim Arzt, bei Reisetipps, bei gutem Zureden.",
-    pitfall: "Für den positiven Rat steht die Vergangenheitsform 寝た, obwohl es um die Zukunft geht — das ist fest so. Der negative Rat nimmt dagegen die ない-Form: 飲まないほうがいい.",
-    formation: [
-      { from: "寝る", to: "寝たほうがいいです", note: "positiver Rat (た-Form)" },
-      { from: "飲む", to: "飲まないほうがいいです", note: "negativer Rat (ない-Form)" }
-    ],
-    examples: [
-      { jp: "早く寝たほうがいいですよ。", reading: "はやくねたほうがいいですよ。", de: "Du solltest lieber früh schlafen." },
-      { jp: "コーヒーを飲まないほうがいいです。", reading: "コーヒーをのまないほうがいいです。", de: "Du solltest lieber keinen Kaffee trinken." }
-    ],
-  },
-  {
-    id: "c-te-kuru",
-    category: "Verbformen",
-    title: "〜てきます (hingehen & zurückkommen)",
-    reading: "〜てきます",
-    summary: "Die て-Form + きます beschreibt, dass man an einem anderen Ort etwas erledigt und zum Ausgangspunkt zurückkommt. Der Fokus liegt auf der Rückkehr — man ist gleich wieder da.",
-    usage: "Für kurze Erledigungen: „Ich hole schnell …“, „Ich gehe kurz auf die Toilette“ — und komme wieder.",
-    pitfall: "Nicht mit 〜ています (Verlaufsform) verwechseln. 買ってきます = holen und zurückkommen; 買っています = gerade am Kaufen sein.",
-    examples: [
-      { jp: "パンを買ってきます。", reading: "パンをかってきます。", de: "Ich hole schnell Brot." },
-      { jp: "トイレに行ってきます。", reading: "トイレにいってきます。", de: "Ich gehe kurz auf die Toilette." }
-    ],
-  },
-  {
-    id: "c-ta-bakari",
-    category: "Schlüsselmuster",
-    title: "〜たばかりです (gerade eben getan)",
-    reading: "〜たばかりです",
-    summary: "Die た-Form + ばかりです sagt, dass eine Handlung gerade eben abgeschlossen wurde. Es betont die gefühlt sehr kurze Zeitspanne seit dem Ereignis.",
-    usage: "„Ich bin gerade erst angekommen / habe gerade erst gegessen / erst angefangen.“",
-    pitfall: "ばかり misst die gefühlte Nähe, nicht die echte Uhrzeit: 引っ越したばかり kann auch „vor einem Monat, aber gefühlt gerade erst“ heißen.",
-    examples: [
-      { jp: "日本に来たばかりです。", reading: "にほんにきたばかりです。", de: "Ich bin gerade erst nach Japan gekommen." },
-      { jp: "勉強を始めたばかりです。", reading: "べんきょうをはじめたばかりです。", de: "Ich habe gerade erst mit dem Lernen angefangen." }
-    ],
-  },
-  {
-    id: "c-mada-teinai",
-    category: "Verbformen",
-    title: "まだ〜ていません (noch nicht getan)",
-    reading: "まだ〜ていません",
-    summary: "まだ + て-Form + いません drückt aus, dass eine erwartete Handlung bis jetzt noch nicht passiert ist. Man rechnet damit, dass sie noch kommt.",
-    usage: "Antwort auf „Hast du schon …?“ (もう〜ましたか) — die Kurzform ist いいえ、まだです。",
-    pitfall: "Nicht mit ませんでした (Vergangenheit: „habe nicht getan“) verwechseln. まだ食べていません = „noch nicht gegessen (aber gleich)“, nicht „habe nicht gegessen“.",
-    examples: [
-      { jp: "昼ご飯をまだ食べていません。", reading: "ひるごはんをまだたべていません。", de: "Ich habe noch nicht zu Mittag gegessen." },
-      { jp: "その本をまだ読んでいません。", reading: "そのほんをまだよんでいません。", de: "Ich habe das Buch noch nicht gelesen." }
-    ],
-  },
-  {
-    id: "c-ta-koto-ga-aru",
-    category: "Schlüsselmuster",
-    title: "〜たことがあります (Erfahrung)",
-    reading: "〜たことがあります",
-    summary: "Die た-Form + ことがあります sagt, dass man etwas schon einmal im Leben getan oder erlebt hat. Die Verneinung 〜たことがありません heißt „noch nie“.",
-    usage: "Über Lebenserfahrungen sprechen: „Ich war schon mal in Japan / habe schon mal Sushi gegessen.“",
-    pitfall: "Nur für allgemeine Erfahrung, nicht für kürzlich Geschehenes. „Ich habe gestern Sushi gegessen“ ist normale Vergangenheit, nicht 食べたことがあります.",
-    examples: [
-      { jp: "日本へ行ったことがあります。", reading: "にほんへいったことがあります。", de: "Ich war schon einmal in Japan." },
-      { jp: "馬に乗ったことがありません。", reading: "うまにのったことがありません。", de: "Ich bin noch nie geritten." }
-    ],
-  },
-  {
-    id: "c-nakanaka",
-    category: "Sonstiges",
-    title: "なかなか〜ません (einfach nicht)",
-    reading: "なかなか",
-    summary: "Mit einer Verneinung bedeutet なかなか „nicht so leicht / einfach nicht“ — trotz Erwartung oder Mühe klappt etwas nicht. Mit einem positiven Verb bedeutet es dagegen „ziemlich, recht“.",
-    usage: "Für Frust über etwas, das nicht vorangeht: der Bus, der nicht kommt; die Kanji, die nicht hängenbleiben.",
-    pitfall: "Die Bedeutung kippt je nach Satz: なかなか来ません = „kommt einfach nicht“ (negativ), aber なかなかいいです = „ziemlich gut“ (positiv).",
-    examples: [
-      { jp: "バスがなかなか来ません。", reading: "バスがなかなかきません。", de: "Der Bus kommt einfach nicht." },
-      { jp: "なかなかいいレストランですね。", reading: "なかなかいいレストランですね。", de: "Das ist ein ziemlich gutes Restaurant." }
-    ],
-  },
-  {
-    id: "c-daibu",
-    category: "Sonstiges",
-    title: "だいぶ (ziemlich / deutlich)",
-    reading: "だいぶ",
-    summary: "だいぶ betont ein beträchtliches Ausmaß und steht oft bei Veränderungen: „deutlich, um einiges, ziemlich“. Es zeigt, dass sich viel getan hat.",
-    usage: "Wenn ein Fortschritt oder eine Veränderung spürbar groß ist: „deutlich besser geworden“, „ziemlich warm geworden“.",
-    pitfall: "だいぶ passt zu positiven Aussagen und Veränderungen. Für „einfach nicht“ mit Verneinung nimmt man なかなか, nicht だいぶ.",
-    examples: [
-      { jp: "日本語がだいぶ上手になりました。", reading: "にほんごがだいぶじょうずになりました。", de: "Mein Japanisch ist deutlich besser geworden." },
-      { jp: "だいぶ暖かくなりましたね。", reading: "だいぶあたたかくなりましたね。", de: "Es ist ziemlich warm geworden, oder?" }
-    ],
-  },
-  {
-    id: "c-adj-adverb",
-    category: "Adjektive",
-    title: "〜く / 〜に (Adjektiv → Adverb)",
-    reading: "けいようし → ふくし",
-    summary: "Aus Adjektiven werden Adverbien, die beschreiben, WIE eine Handlung abläuft. い-Adjektive wechseln い zu く (早い→早く), な-Adjektive bekommen に (静か→静かに). Das Adverb steht vor dem Verb.",
-    usage: "Um Handlungen näher zu beschreiben: schnell aufstehen, leise gehen, sauber putzen.",
-    pitfall: "Der Klassiker: いい wird unregelmäßig zu よく (nicht „いく“). Beispiel: よく分かります.",
-    formation: [
-      { from: "早い", to: "早く", note: "い-Adjektiv: い → く" },
-      { from: "静か", to: "静かに", note: "な-Adjektiv: + に" }
-    ],
-    examples: [
-      { jp: "早く起きます。", reading: "はやくおきます。", de: "Ich stehe früh auf." },
-      { jp: "静かに歩きます。", reading: "しずかにあるきます。", de: "Ich gehe leise." }
-    ],
-  },
-  {
-    id: "c-ageru-morau-kureru",
-    category: "Schlüsselmuster",
-    title: "あげます・もらいます・くれます",
-    reading: "geben / bekommen / mir geben",
-    summary: "Drei Verben fürs Geben und Nehmen: あげます = (ich/jd) gebe an andere. もらいます = von jdm bekommen. くれます = jemand gibt MIR. Die Blickrichtung entscheidet, welches Verb du nimmst.",
-    usage: "Über Geschenke und Gefälligkeiten reden — wer gibt wem was.",
-    pitfall: "くれます nur, wenn die Gabe zu MIR (oder meiner Seite) fließt. „Der Freund gibt mir“ ist くれる, nicht あげる. Bei もらう markiert に/から den Geber.",
-    formation: [
-      { from: "私 → 友だち", to: "友だちにあげます", note: "ich gebe an andere" },
-      { from: "友だち → 私", to: "友だちがくれます", note: "jd gibt mir" },
-      { from: "友だち → 私", to: "友だちにもらいます", note: "ich bekomme von jdm" }
-    ],
-    examples: [
-      { jp: "友だちが本をくれました。", reading: "ともだちがほんをくれました。", de: "Mein Freund hat mir ein Buch gegeben." },
-      { jp: "母にとけいをもらいました。", reading: "ははにとけいをもらいました。", de: "Ich habe von meiner Mutter eine Uhr bekommen." }
-    ],
-  },
-  {
-    id: "c-naru",
-    category: "Schlüsselmuster",
-    title: "〜くなります / 〜になります (werden)",
-    reading: "〜くなります / 〜になります",
-    summary: "なります drückt eine Veränderung aus: etwas wird anders. い-Adjektive wechseln い zu く (寒くなる), な-Adjektive und Nomen bekommen に (元気になる, 医者になる).",
-    usage: "Für Veränderungen von Wetter, Zustand, Alter oder Beruf: „kalt werden“, „gesund werden“, „Arzt werden“.",
-    pitfall: "い-Adjektiv → く + なる (nicht „に“): 大きくなる. Nur な-Adjektive und Nomen nehmen に + なる.",
-    formation: [
-      { from: "寒い", to: "寒くなります", note: "い-Adjektiv: い → く + なる" },
-      { from: "医者", to: "医者になります", note: "Nomen: + に + なる" }
-    ],
-    examples: [
-      { jp: "寒くなりました。", reading: "さむくなりました。", de: "Es ist kalt geworden." },
-      { jp: "医者になりたいです。", reading: "いしゃになりたいです。", de: "Ich möchte Arzt werden." }
-    ],
-  },
-  {
-    id: "c-ni-suru",
-    category: "Schlüsselmuster",
-    title: "〜にします (sich entscheiden für)",
-    reading: "〜にします",
-    summary: "Nomen + にします heißt „ich nehme / entscheide mich für …“. Man wählt bewusst eine Option aus mehreren aus.",
-    usage: "Beim Bestellen oder Auswählen: „Ich nehme den Kaffee“, „Wir machen es um drei Uhr“.",
-    pitfall: "にします = aktive Entscheidung. Verwechsle es nicht mit になります (Veränderung, die von selbst passiert): コーヒーにします (ich wähle) vs. 上手になります (es wird von selbst besser).",
-    examples: [
-      { jp: "飲み物はコーヒーにします。", reading: "のみものはコーヒーにします。", de: "Als Getränk nehme ich Kaffee." },
-      { jp: "会議は三時にしましょう。", reading: "かいぎはさんじにしましょう。", de: "Machen wir die Besprechung um drei." }
-    ],
-  },
-  {
-    id: "c-shi",
-    category: "Schlüsselmuster",
-    title: "〜し、〜し (Gründe aufzählen)",
-    reading: "〜し、〜し",
-    summary: "し hängt an die Plain-Form und reiht mehrere Gründe oder Eigenschaften auf: „…und außerdem…“. Oft folgt daraus eine Schlussfolgerung.",
-    usage: "Wenn du eine Meinung mit mehreren Gründen stützt: „billig, und außerdem nah — also gut“.",
-    pitfall: "Anders als て betont し „und obendrein noch“ und deutet einen Grund an. Nach Nomen/な-Adjektiv steht だし: 親切だし.",
-    examples: [
-      { jp: "この店は安いし、近いし、いいですよ。", reading: "このみせはやすいし、ちかいし、いいですよ。", de: "Der Laden ist billig und nah, also gut." },
-      { jp: "今日は雨だし、寒いです。", reading: "きょうはあめだし、さむいです。", de: "Heute regnet es und ist außerdem kalt." }
-    ],
-  },
-  {
-    id: "c-tari-tari",
-    category: "Verbformen",
-    title: "〜たり〜たりします (dies & das tun)",
-    reading: "〜たり〜たりします",
-    summary: "Die た-Form → たり nennt beispielhaft mehrere Handlungen, ohne eine Reihenfolge festzulegen: „mal dies, mal das“. Am Satzende steht します.",
-    usage: "Um typische Aktivitäten aufzuzählen: „Am Wochenende lese ich, höre Musik und so weiter.“",
-    pitfall: "Anders als die て-Form (feste Reihenfolge) ist たり nur eine Auswahl von Beispielen. します passt sich der Zeit an: したり…しました (Vergangenheit).",
-    examples: [
-      { jp: "週末は本を読んだり、音楽を聞いたりします。", reading: "しゅうまつはほんをよんだり、おんがくをきいたりします。", de: "Am Wochenende lese ich und höre Musik." },
-      { jp: "公園で遊んだり、走ったりしました。", reading: "こうえんであそんだり、はしったりしました。", de: "Im Park habe ich gespielt und bin gelaufen." }
-    ],
-  },
-  {
-    id: "c-kute-de",
-    category: "Adjektive",
-    title: "〜くて / 〜で (Adjektive verbinden)",
-    reading: "〜くて / 〜で",
-    summary: "Um zwei Eigenschaften in einem Satz zu verbinden, wird das erste Adjektiv umgeformt: い-Adjektiv い→くて (大きくて), な-Adjektiv/Nomen + で (便利で, 学生で). Danach folgt das zweite Adjektiv.",
-    usage: "„Groß und hell“, „billig und lecker“, „Student und zwanzig“ — mehrere Merkmale aneinanderreihen.",
-    pitfall: "いい wird unregelmäßig zu よくて. Und bei negativen Verbindungen wird くない zu くなくて.",
-    formation: [
-      { from: "大きい", to: "大きくて", note: "い-Adjektiv: い → くて" },
-      { from: "便利", to: "便利で", note: "な-Adjektiv/Nomen: + で" }
-    ],
-    examples: [
-      { jp: "この部屋は広くて明るいです。", reading: "このへやはひろくてあかるいです。", de: "Dieses Zimmer ist groß und hell." },
-      { jp: "大阪はにぎやかで楽しい町です。", reading: "おおさかはにぎやかでたのしいまちです。", de: "Osaka ist eine lebhafte und schöne Stadt." }
-    ],
-  },
-  {
-    id: "c-kata",
-    category: "Verbformen",
-    title: "〜方 (かた) (Art und Weise)",
-    reading: "〜かた",
-    summary: "Verb-Stamm (ます-Form ohne ます) + 方 bildet ein Nomen für die Art, wie man etwas tut: 読みます→読み方 (Lesart), 使います→使い方 (Benutzung), 行きます→行き方 (Weg dorthin).",
-    usage: "Nach dem „Wie macht man das?“ fragen: die Lesart eines Kanji, die Bedienung eines Geräts, den Weg zum Bahnhof.",
-    pitfall: "Es zählt der Verb-Stamm, nicht das Wörterbuchverb: 作る → 作り方 (nicht „作る方“). Das davor stehende Objekt wird mit の angeschlossen: 漢字の読み方.",
-    examples: [
-      { jp: "この漢字の読み方がわかりません。", reading: "このかんじのよみかたがわかりません。", de: "Ich weiß nicht, wie man dieses Kanji liest." },
-      { jp: "この機械の使い方は簡単です。", reading: "このきかいのつかいかたはかんたんです。", de: "Die Bedienung dieser Maschine ist einfach." }
-    ],
-  },
-  {
-    id: "c-wa-ga-merkmal",
-    category: "Schlüsselmuster",
-    title: "〜は〜が〜 (Merkmal beschreiben)",
-    reading: "〜は〜が〜",
-    summary: "Um eine Eigenschaft über einen Teil zu beschreiben, nennt man erst das Thema mit は, dann den Teil mit が und dann das Adjektiv: „Bei X ist das Y …“. Klassisch für Körper und Eigenschaften.",
-    usage: "Aussehen und Merkmale beschreiben: „hat eine lange Nase“, „ist groß gewachsen“, „hat große Augen“.",
-    pitfall: "Der Teil bekommt が, nicht は: ぞうは鼻が長い (nicht „鼻は“). は markiert das übergeordnete Thema, が den beschriebenen Teil.",
-    examples: [
-      { jp: "ぞうは鼻が長いです。", reading: "ぞうははながながいです。", de: "Der Elefant hat eine lange Nase." },
-      { jp: "さとうさんはせが高いです。", reading: "さとうさんはせがたかいです。", de: "Herr Sato ist groß." }
-    ],
-  },
   {
     id: "c-koutsuu",
-    category: "Sonstiges",
-    title: "乗ります・降ります (Verkehrsmittel)",
-    reading: "のります・おります",
+    category: "Zeit, Menge & Bewegung",
+    title: "乗ります・降ります",
+    reading: "Verkehrsmittel benutzen",
     summary: "Beim Benutzen von Verkehrsmitteln zeigt に das Einsteigen (バスに乗ります) und を das Aussteigen (バスを降ります). Gefragt wird mit どうやって行きますか (Wie/womit?) und どのくらいかかりますか (Wie lange?).",
     usage: "Wege und Fahrten beschreiben: einsteigen, umsteigen (乗り換えます), aussteigen, Dauer angeben.",
-    pitfall: "Aufpassen bei den Partikeln: 乗る braucht に (in etwas hinein), 降りる braucht を (heraus aus). Bei der Dauer steht かかります (dauern/kosten).",
     formation: [
       { from: "バス", to: "バスに乗ります", note: "einsteigen: に" },
-      { from: "バス", to: "バスを降ります", note: "aussteigen: を" }
+      { from: "バス", to: "バスを降ります", note: "aussteigen: を" },
     ],
+    pitfall: "Aufpassen bei den Partikeln: 乗る braucht に (in etwas hinein), 降りる braucht を (heraus aus). Bei der Dauer steht かかります (dauern/kosten).",
     examples: [
       { jp: "会社までどうやって行きますか。", reading: "かいしゃまでどうやっていきますか。", de: "Wie kommst du zur Arbeit?" },
-      { jp: "駅まで十分ぐらいかかります。", reading: "えきまでじゅっぷんぐらいかかります。", de: "Bis zum Bahnhof dauert es etwa zehn Minuten." }
+      { jp: "駅まで十分ぐらいかかります。", reading: "えきまでじゅっぷんぐらいかかります。", de: "Bis zum Bahnhof dauert es etwa zehn Minuten." },
     ],
   },
 
