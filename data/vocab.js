@@ -2797,7 +2797,8 @@ const VOCAB = [
   ]},
   { id: "v687", word: "背", reading: "せ", meaning: "Rücken / Körpergröße", pos: "Nomen", level: "adv", examples: [
     { jp: "彼は背が高いです。", reading: "かれはせがたかいです。", de: "Er ist groß." },
-    { jp: "背が高くなりました。", reading: "せがたかくなりました。", de: "Ich bin gewachsen." }
+    { jp: "背が高くなりました。", reading: "せがたかくなりました。", de: "Ich bin gewachsen." },
+    { jp: "子供を背に乗せます。", reading: "こどもをせにのせます。", de: "Ich trage das Kind auf dem Rücken." }
   ]},
   { id: "v688", word: "生活", reading: "せいかつ", meaning: "Leben, Alltag", pos: "Nomen", level: "adv", examples: [
     { jp: "日本の生活は楽しいです。", reading: "にほんのせいかつはたのしいです。", de: "Das Leben in Japan macht Spaß." },
@@ -3517,7 +3518,8 @@ const VOCAB = [
   ]},
   { id: "v867", word: "一人", reading: "ひとり", meaning: "eine Person / allein", pos: "Nomen", level: "easy", examples: [
     { jp: "一人で住んでいます。", reading: "ひとりですんでいます。", de: "Ich wohne allein." },
-    { jp: "一人で行っても大丈夫です。", reading: "ひとりでいってもだいじょうぶです。", de: "Ich kann auch allein gehen." }
+    { jp: "一人で行っても大丈夫です。", reading: "ひとりでいってもだいじょうぶです。", de: "Ich kann auch allein gehen." },
+    { jp: "教室に学生が一人います。", reading: "きょうしつにがくせいがひとりいます。", de: "Im Klassenzimmer ist ein Schüler." }
   ]},
   { id: "v868", word: "一人で", reading: "ひとりで", meaning: "allein, selbständig", pos: "Adverb", level: "adv", examples: [
     { jp: "一人で旅行します。", reading: "ひとりでりょこうします。", de: "Ich reise allein." },

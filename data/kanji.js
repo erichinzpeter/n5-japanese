@@ -132,7 +132,8 @@ const KANJI = [
   ]},
   { id: "k031", char: "生", meaning: ["Leben", "gebären", "roh"], speak: "せい", on: ["せい", "しょう"], kun: ["いきる", "うまれる", "なま"], examples: ["先生 (せんせい) — Lehrer", "学生 (がくせい) — Student"], sentences: [
     { jp: "私は学生です。", reading: "わたしはがくせいです。", de: "Ich bin Student." },
-    { jp: "先生はやさしいです。", reading: "せんせいはやさしいです。", de: "Der Lehrer ist freundlich." }
+    { jp: "先生はやさしいです。", reading: "せんせいはやさしいです。", de: "Der Lehrer ist freundlich." },
+    { jp: "魚は水の中で生きています。", reading: "さかなはみずのなかでいきています。", de: "Fische leben im Wasser." }
   ]},
   { id: "k032", char: "学", meaning: ["lernen", "Wissenschaft"], speak: "がく", on: ["がく"], kun: ["まなぶ"], examples: ["学校 (がっこう) — Schule", "大学 (だいがく) — Universität"], sentences: [
     { jp: "毎日学校へ行きます。", reading: "まいにちがっこうへいきます。", de: "Ich gehe jeden Tag zur Schule." },
@@ -324,7 +325,8 @@ const KANJI = [
   ]},
   { id: "k076", char: "高", meaning: ["hoch", "teuer"], on: ["こう"], kun: ["たかい", "たか", "たかまる"], examples: ["高い (たかい) — hoch/teuer", "高校 (こうこう) — Oberschule"], sentences: [
     { jp: "このかばんは高いですね。", reading: "このかばんはたかいですね。", de: "Diese Tasche ist teuer, nicht wahr?" },
-    { jp: "兄は高校生です。", reading: "あにはこうこうせいです。", de: "Mein älterer Bruder ist Oberschüler." }
+    { jp: "兄は高校生です。", reading: "あにはこうこうせいです。", de: "Mein älterer Bruder ist Oberschüler." },
+    { jp: "あの山はとても高いです。", reading: "あのやまはとてもたかいです。", de: "Dieser Berg ist sehr hoch." }
   ]},
   { id: "k077", char: "安", meaning: ["billig", "sicher", "ruhig"], on: ["あん"], kun: ["やすい", "やすまる"], examples: ["安い (やすい) — billig", "安心 (あんしん) — Beruhigung"], sentences: [
     { jp: "このスーパーは安いです。", reading: "このスーパーはやすいです。", de: "Dieser Supermarkt ist günstig." },
@@ -380,7 +382,8 @@ const KANJI = [
   ]},
   { id: "k089", char: "天", meaning: ["Himmel", "Natur", "himmlisch"], speak: "てん", on: ["てん"], kun: ["あま", "あめ"], examples: ["天気 (てんき) — Wetter", "天ぷら (てんぷら) — Tempura"], sentences: [
     { jp: "今日の天気はどうですか。", reading: "きょうのてんきはどうですか。", de: "Wie ist das Wetter heute?" },
-    { jp: "天ぷらが大好きです。", reading: "てんぷらがだいすきです。", de: "Ich liebe Tempura sehr." }
+    { jp: "天ぷらが大好きです。", reading: "てんぷらがだいすきです。", de: "Ich liebe Tempura sehr." },
+    { jp: "星は天にあります。", reading: "ほしはてんにあります。", de: "Die Sterne sind am Himmel." }
   ]},
   { id: "k090", char: "火", meaning: ["Feuer"], on: ["か"], kun: ["ひ", "ほ"], examples: ["火曜日 (かようび) — Dienstag", "花火 (はなび) — Feuerwerk"], sentences: [
     { jp: "火曜日は日本語の授業があります。", reading: "かようびはにほんごのじゅぎょうがあります。", de: "Dienstags habe ich Japanischunterricht." },
