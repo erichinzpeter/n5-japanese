@@ -4,6 +4,25 @@
 
 ---
 
+## [3.19.0] — 2026-07-05
+
+### Hinzugefügt
+
+- Verben und Adjektive in der Liste jetzt auch über ihre konjugierten Formen suchbar (ます/て/た/ない …), in Kanji, Kana und Romaji — „ikimasu", „行きます" und „いきます" finden alle 行く.
+- Neue Vokabeln: 陶芸 (Töpferei), 陶芸家 (Töpfer/Keramiker), バツ (Kreuz ✕), 丸 (Kreis ○).
+- Vokabel-Detail in der Liste zeigt jetzt alle Beispielsätze (vorher nur den ersten).
+
+### Geändert
+
+- App-Name (Homescreen/Installation) von „ビジさん" zu „ビジーさん" (langer Vokal ー).
+- 焼き物 um zweite Bedeutung „Gegrilltes" ergänzt (zusätzlich zu „Keramik").
+
+### Behoben
+
+- Liste: Beim Tippen mit offener Tastatur und anschließendem Scrollen verschwand die Kopfzeile „Liste" hinter dem Geräte-Notch. Scrollen ist jetzt auf die Liste selbst begrenzt, die Kopfzeile bleibt stehen.
+
+---
+
 ## [3.18.0] — 2026-07-04
 
 ### Hinzugefügt

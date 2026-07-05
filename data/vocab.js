@@ -4069,8 +4069,24 @@ const VOCAB = [
     { jp: "銀行でお金を下ろします。", reading: "ぎんこうでおかねをおろします。", de: "Ich hebe bei der Bank Geld ab." },
     { jp: "棚から箱を下ろします。", reading: "たなからはこをおろします。", de: "Ich nehme die Schachtel vom Regal." }
   ]},
-  { id: "v1005", word: "焼き物", reading: "やきもの", meaning: "Töpferwaren, Keramik", pos: "Nomen", level: "adv", examples: [
+  { id: "v1005", word: "焼き物", reading: "やきもの", meaning: "Töpferwaren, Keramik; Gegrilltes (gegrilltes/gebratenes Gericht)", pos: "Nomen", level: "adv", examples: [
     { jp: "この町は焼き物で有名です。", reading: "このまちはやきものでゆうめいです。", de: "Diese Stadt ist für ihre Keramik berühmt." },
-    { jp: "焼き物のお皿を買いました。", reading: "やきもののおさらをかいました。", de: "Ich habe einen Keramikteller gekauft." }
+    { jp: "今夜は焼き物を食べます。", reading: "こんやはやきものをたべます。", de: "Heute Abend esse ich Gegrilltes." }
+  ]},
+  { id: "v1006", word: "陶芸", reading: "とうげい", meaning: "Töpferei, Keramik(kunst)", pos: "Nomen", level: "adv", examples: [
+    { jp: "陶芸を習っています。", reading: "とうげいをならっています。", de: "Ich lerne Töpfern." },
+    { jp: "陶芸は楽しい趣味です。", reading: "とうげいはたのしいしゅみです。", de: "Töpfern ist ein schönes Hobby." }
+  ]},
+  { id: "v1007", word: "陶芸家", reading: "とうげいか", meaning: "Töpfer, Keramiker", pos: "Nomen", level: "adv", examples: [
+    { jp: "彼は有名な陶芸家です。", reading: "かれはゆうめいなとうげいかです。", de: "Er ist ein berühmter Keramiker." },
+    { jp: "陶芸家になりたいです。", reading: "とうげいかになりたいです。", de: "Ich möchte Töpfer werden." }
+  ]},
+  { id: "v1008", word: "バツ", reading: "ばつ", meaning: "das Kreuz (✕), Zeichen für „falsch\"", pos: "Nomen", level: "adv", examples: [
+    { jp: "答えにバツをつけました。", reading: "こたえにバツをつけました。", de: "Ich habe die Antwort mit einem Kreuz markiert." },
+    { jp: "バツは間違いという意味です。", reading: "バツはまちがいといういみです。", de: "Ein Kreuz bedeutet „falsch\"." }
+  ]},
+  { id: "v1009", word: "丸", reading: "まる", meaning: "der Kreis (○), Zeichen für „richtig\"", pos: "Nomen", level: "adv", examples: [
+    { jp: "正しい答えに丸をつけます。", reading: "ただしいこたえにまるをつけます。", de: "Ich mache einen Kreis bei der richtigen Antwort." },
+    { jp: "先生が丸をくれました。", reading: "せんせいがまるをくれました。", de: "Der Lehrer hat mir einen Kreis gegeben." }
   ]}
 ];

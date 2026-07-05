@@ -1635,6 +1635,11 @@ body {
   width: 100%;
   height: 100dvh;
   max-height: 100dvh;
+  /* Override .screen's min-height:100vh — with the keyboard open it exceeds the
+     visual viewport, letting the whole screen scroll so the sticky header rides
+     up behind the notch. Confine scrolling to .list-content instead. */
+  min-height: 0;
+  overflow: hidden;
 }
 
 .list-header {

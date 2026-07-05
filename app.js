@@ -1039,14 +1039,15 @@ function renderListDetail(item, tab) {
   // vocab / adjektive / ausdruecke
   const readingHtml = item.reading && item.reading !== item.word
     ? `<div class="list-detail-reading">${escHtml(item.reading)}</div>` : '';
-  const ex = item.examples && item.examples[0];
-  const exHtml = ex ? `<div class="list-detail-example">
+  const examples = item.examples || [];
+  const exHtml = examples.length ? `<div class="list-detail-example">
+    ${examples.map(ex => `
     <div class="list-detail-example-row">
       <div class="list-detail-jp">${escHtml(ex.jp)}</div>
       ${speakBtn(ex.jp, 'btn-speak-example')}
     </div>
     ${ex.reading ? `<div class="sentence-reading">${escHtml(ex.reading)}</div>` : ''}
-    <div class="list-detail-de">${escHtml(ex.de)}</div>
+    <div class="list-detail-de">${escHtml(ex.de)}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">')}
   </div>` : '';
   // Conjugation table for verbs and adjectives; returns '' for nouns/ausdruecke.
   const formsHtml = renderFormsTable(item);
@@ -1072,15 +1073,26 @@ function getItemsForTab(tab) {
 function matchesSearch(item, q) {
   const on = Array.isArray(item.on) ? item.on : [];
   const kun = Array.isArray(item.kun) ? item.kun : [];
+  const qLoose = looseRomaji(q);
+
   const rawMatch = [item.word, item.reading, item.meaning, item.char, ...on, ...kun]
     .concat(Array.isArray(item.meaning) ? item.meaning : [])
     .some(f => f && String(f).toLowerCase().includes(q));
   if (rawMatch) return true;
 
-  const qLoose = looseRomaji(q);
-  if (!qLoose) return false;
-  return [item.reading, item.word, ...on, ...kun]
-    .some(f => f && looseRomaji(kanaToRomaji(String(f))).includes(qLoose));
+  if (qLoose && [item.reading, item.word, ...on, ...kun]
+      .some(f => f && looseRomaji(kanaToRomaji(String(f))).includes(qLoose))) return true;
+
+  // Verbs/adjectives are also findable by their conjugated forms (ます/て/た/ない …),
+  // in kanji and kana, so "ikimasu"/"行きます"/"いきます" all match 行く. Prefix-match
+  // (not substring) here: 聞きます ("kikimasu") contains "ikimasu", so includes()
+  // would make a search for 行く also hit 聞く. conjugate returns null for
+  // nouns/expressions, so those never reach this branch.
+  const conj = item.pos ? conjugate(item.word, item.reading, item.pos) : null;
+  if (!conj) return false;
+  const forms = conj.forms.flatMap(f => [f.word, f.reading]);
+  if (forms.some(f => f && String(f).toLowerCase().startsWith(q))) return true;
+  return !!qLoose && forms.some(f => f && looseRomaji(kanaToRomaji(String(f))).startsWith(qLoose));
 }
 
 function matchesConcept(c, q) {
