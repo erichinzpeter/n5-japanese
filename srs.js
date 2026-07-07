@@ -54,24 +54,35 @@ function shuffleQueue(arr) {
 }
 
 // deckCards: [{ id, ... }] candidates. srsState: loadSRS() result.
-// Due cards first (weakest-first), then new cards capped at NEW_PER_ROUND.
+// Due cards first (weakest-first), then new cards capped at NEW_PER_ROUND,
+// then not-yet-due reviews pulled forward so the round reaches its full size.
 function buildQueue(deckCards, srsState, today, roundSize) {
   const due = [];
   const fresh = [];
+  const later = [];
   for (const card of deckCards) {
     const entry = srsState.cards[card.id];
     if (!entry) fresh.push(card);
     else if (isDueOn(entry, today)) due.push({ card, entry });
+    else later.push({ card, entry });
   }
   due.sort((a, b) =>
     a.entry.box - b.entry.box ||
     (a.entry.due < b.entry.due ? -1 : a.entry.due > b.entry.due ? 1 : 0)
   );
   const queue = due.slice(0, roundSize).map(d => d.card);
-  const slots = roundSize - queue.length;
+  let slots = roundSize - queue.length;
   if (slots > 0 && fresh.length > 0) {
     const take = Math.min(slots, NEW_PER_ROUND, fresh.length);
     queue.push(...shuffleQueue(fresh).slice(0, take));
+    slots -= take;
+  }
+  if (queue.length > 0 && slots > 0 && later.length > 0) {
+    // The user picked the round size; a visibly short round reads as a bug.
+    // Pull the reviews due soonest forward instead of adding more new cards.
+    // An entirely empty queue stays empty — that's the "done for today" signal.
+    later.sort((a, b) => (a.entry.due < b.entry.due ? -1 : a.entry.due > b.entry.due ? 1 : 0));
+    queue.push(...later.slice(0, slots).map(l => l.card));
   }
   return queue;
 }

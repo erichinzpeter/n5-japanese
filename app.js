@@ -547,7 +547,7 @@ function renderConjugationCard(card, front, back) {
     <div class="card-type-label">Konjugation${groupLabel ? ` — ${groupLabel}` : ''}</div>
     <div class="card-word-main">${item.word}</div>
     <div class="card-furigana">${item.reading}</div>
-    <div class="conj-prompt">${escHtml(target.label)}?</div>`;
+    <div class="conj-prompt">Bilde: ${escHtml(target.label)}</div>`;
   back.innerHTML = `
     <div class="back-head">
       <span class="back-label">${escHtml(target.label)}</span>
@@ -1598,6 +1598,20 @@ function initEvents() {
     window.addEventListener('resize', updateTabScrollFades);
     updateTabScrollFades();
   }
+
+  // iOS/WebKit: the fixed tabbar's backdrop-filter layer can survive a
+  // rotation as a stale snapshot in the old orientation's width — after
+  // landscape → portrait only the leftmost tab stays visible. Re-inserting
+  // the bar after the rotation settles forces a fresh layout + layer.
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      const bar = document.getElementById('tabbar');
+      if (!bar) return;
+      bar.style.display = 'none';
+      void bar.offsetHeight;
+      bar.style.display = '';
+    }, 350);
+  });
 
   // Keyboard shortcuts
   document.addEventListener('keydown', e => {

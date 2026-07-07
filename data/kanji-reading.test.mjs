@@ -25,12 +25,11 @@ for (const k of KANJI) {
   if (!r || !kanaOnly.test(r)) { failures++; console.log(`FAIL ${k.char}: reading "${r}" is not clean kana`); }
 }
 
-// Word-form `speak` values (not a bare on/kun reading) are surfaced as a
-// "Beispielwort" in the UI. Lock a few representatives.
-const kanjiSpeakIsWord = k => !!k.speak && ![...(k.on || []), ...(k.kun || [])].includes(k.speak);
-for (const [char, word] of [['菜', 'やさい'], ['多', 'おおい'], ['写', 'しゃしん']]) {
-  const k = KANJI.find(x => x.char === char);
-  if (!kanjiSpeakIsWord(k) || k.speak !== word) { failures++; console.log(`FAIL ${char}: expected Beispielwort "${word}"`); }
+// The spoken reading must never be a word made of MULTIPLE kanji (場所, 病気,
+// 写真, 映画, 野菜) — the learner sees one kanji and must hear that kanji's own
+// reading. Single-kanji citation forms with okurigana (多い, 写す) are fine.
+for (const [char, want] of [['場', 'ば'], ['病', 'びょう'], ['写', 'うつす'], ['映', 'うつる'], ['菜', 'さい'], ['多', 'おおい']]) {
+  expect(char, want);
 }
 
 console.log(failures === 0 ? `PASS (${KANJI.length} kanji)` : `${failures} failure(s)`);
