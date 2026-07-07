@@ -19,24 +19,26 @@ const CONCEPTS = [
   {
     id: "c-kopula",
     category: "Grundlagen",
-    title: "Kopula: です / じゃない / でした",
+    title: "です / じゃない / でした",
     reading: "ist / ist nicht / war",
-    summary: "です ist das Bindewort (Kopula), das „X ist Y“ ausdrückt und der Aussage Höflichkeit gibt. Verneint heißt es じゃないです (lockerer) oder ではありません (förmlicher), in der Vergangenheit でした (war) bzw. じゃなかったです (war nicht). です selbst hat keine eigene Bedeutung außer „sein“ und Höflichkeit.",
+    summary: "です ist das Bindewort (Kopula), das „X ist Y“ ausdrückt und der Aussage Höflichkeit gibt. Verneint heißt es ではありません (förmlich, gesprochen oft じゃありません) oder lockerer じゃないです. In der Vergangenheit でした (war), verneint ではありませんでした bzw. じゃなかったです (war nicht). です selbst hat keine eigene Bedeutung außer „sein“ und Höflichkeit.",
     usage: "In fast jedem höflichen Satz über ein Nomen oder ein な-Adjektiv („Das ist ein Stift“, „Ich bin Student“). Eines der allerersten Muster, das du brauchst.",
     table: {
       head: ["", "Form (学生)"],
       rows: [
         ["Gegenwart", "学生です"],
-        ["Verneinung", "学生じゃないです"],
+        ["Verneinung (förmlich)", "学生ではありません"],
+        ["Verneinung (locker)", "学生じゃないです"],
         ["Vergangenheit", "学生でした"],
-        ["Verg. verneint", "学生じゃなかったです"],
+        ["Verg. verneint (förmlich)", "学生ではありませんでした"],
+        ["Verg. verneint (locker)", "学生じゃなかったです"],
       ],
     },
     pitfall: "です verneinst du als じゃないです / ではありません, nicht als „ですない“. Ein い-Adjektiv dagegen beugt sich selbst und braucht dafür kein です (高かった, nicht 高いでした).",
     examples: [
       { jp: "これはペンです。", reading: "これはペンです。", de: "Das ist ein Stift." },
       { jp: "昨日は月曜日でした。", reading: "きのうはげつようびでした。", de: "Gestern war Montag." },
-      { jp: "私は学生じゃないです。", reading: "わたしはがくせいじゃないです。", de: "Ich bin kein Student." },
+      { jp: "私は学生ではありません。", reading: "わたしはがくせいではありません。", de: "Ich bin kein Student." },
     ],
   },
   {

@@ -4,6 +4,34 @@
 
 ---
 
+## [3.20.0] — 2026-07-07
+
+### Hinzugefügt
+
+- **Kanji des Tages** auf dem Home-Screen: deterministische Tagesauswahl (voller Durchlauf aller Kanji, neues Kanji um Mitternacht). Antippen öffnet das Listen-Detail mit Lesungen, Wörtern und Sätzen; 🔊-Button liest die Lesung vor.
+- Audio-Schalter in der Session-Topbar (🔊/🔇): schaltet das automatische Vorlesen beim Umdrehen ab, Einstellung bleibt gespeichert. Manuelle 🔊-Buttons sprechen weiterhin.
+
+### Geändert
+
+- Splash-Screen blockiert nicht mehr fix 1 Sekunde: bei schnellem Start (warmer PWA-Reload) entfällt er komplett, bei echtem Kaltstart deckt er nur die tatsächliche Ladezeit ab.
+- App-Update per Service Worker lädt nur noch auf dem Home-Screen neu — eine laufende Session wird nie mehr durch ein Update unterbrochen (Reload folgt beim nächsten Home-Besuch).
+- Tastatur-Hinweis in der Session zeigt jetzt modusabhängige Kürzel (Multiple Choice: 1–4 = Antwort wählen).
+- Suchfeld-Placeholder weist auf die Romaji-Suche hin.
+- Romaji-Suche matcht nur noch am Wortanfang: „yon" trifft 四, nicht mehr 去年 (k-**yon**-en). Kana-, Kanji- und Deutsch-Suche bleiben Substring-Suche.
+- Home auf Mobile kompakter (Banner 16/7 statt 16/9, engere Abstände), damit der Screen mit Kanji des Tages scrollfrei bleibt.
+- Grammatik-Konzept Kopula: förmliche Verneinungen ではありません / ではありませんでした ergänzt (Kursstandard), „Kopula:"-Präfix aus dem Titel entfernt.
+
+### Behoben
+
+- Liste: Nach dem Öffnen über Kanji des Tages starteten Suchergebnisse und Tab-Wechsel nicht mehr oben, sondern auf der alten Scroll-Position — erste Treffer lagen unsichtbar über dem Fold.
+- Liste: Öffnen über Kanji des Tages verschob den Such-Header leicht nach unten (Scroll traf Window statt nur die Liste).
+
+### Barrierefreiheit
+
+- Multiple-Choice-Ergebnis (Richtig/Falsch) wird per `aria-live` an Screenreader gemeldet (keine sichtbare Änderung).
+
+---
+
 ## [3.19.0] — 2026-07-05
 
 ### Hinzugefügt
