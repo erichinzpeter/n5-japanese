@@ -392,6 +392,69 @@ body {
   animation: fadeUp 0.5s 0.2s ease both;
 }
 
+/* ===== Kanji des Tages ===== */
+.kotd-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 oklch(0.40 0.02 258 / 0.5),
+    0 2px 4px rgba(0,0,0,0.3),
+    0 8px 20px rgba(0,0,0,0.26);
+  transition: transform var(--transition), background var(--transition), border-color var(--transition);
+  animation: fadeUp 0.5s 0.15s ease both;
+}
+
+.kotd-card:hover {
+  transform: translateY(-2px);
+  background: var(--surface-2);
+  border-color: var(--border-light);
+}
+
+.kotd-char {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 44px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.kotd-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.kotd-reading {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--text);
+}
+
+.kotd-meaning {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kotd-chevron {
+  flex: none;
+  font-size: 20px;
+  color: var(--text-dim);
+  line-height: 1;
+}
+
 /* Deck Grid */
 .deck-grid {
   display: grid;
@@ -769,6 +832,21 @@ body {
   font-family: var(--font-ui);
   font-size: 13px;
   color: var(--text-muted);
+}
+
+/* Mute toggle for the auto-speak on flip; manual 🔊 buttons stay unaffected. */
+.audio-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
+  padding: 12px;
+  margin: -12px -12px -12px -4px;
+}
+
+.audio-toggle.off {
+  opacity: 0.45;
 }
 
 /* Progress Bar */
@@ -2127,7 +2205,11 @@ body {
   /* Tightened so the whole home stack fits one screen without scrolling on tall phones */
   .home-header { margin-bottom: 10px; }
   .fuji-banner { margin-bottom: 8px; max-height: 150px; }
-  .deck-card { padding: 15px 16px; }
+  .deck-label { margin-bottom: 8px; }
+  .kotd-card { padding: 9px 15px; margin-bottom: 18px; gap: 14px; }
+  .kotd-char { font-size: 32px; }
+  .kotd-main { gap: 2px; }
+  .deck-card { padding: 13px 16px; }
   .liste-btn { margin-bottom: 14px; }
   .home-footer { margin-top: auto; }
   .keyboard-hint { display: none; }
@@ -2405,7 +2487,8 @@ body {
 }
 
 @media (max-width: 480px) {
-  .fuji-banner { aspect-ratio: 16 / 9; max-height: 200px; }
+  /* 16/7 statt 16/9: gibt dem Kanji-des-Tages-Block Platz, Home bleibt scrollfrei */
+  .fuji-banner { aspect-ratio: 16 / 7; max-height: 168px; }
   .fuji-title { font-size: 30px; left: 14px; bottom: 10px; }
   .fuji-bird--1 { font-size: 36px; }
   .fuji-bird--2 { font-size: 28px; }

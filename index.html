@@ -45,6 +45,11 @@
       <button id="onboard-start" class="onboard-start">Los geht's</button>
     </div>
 
+    <div class="deck-label">Kanji des Tages</div>
+    <div id="kotd-card" class="kotd-card" role="button" tabindex="0" aria-label="Kanji des Tages im Detail ansehen">
+      <!-- filled by JS -->
+    </div>
+
     <div class="deck-label">Decks</div>
     <div class="deck-grid">
       <button class="deck-card" data-deck="kanji">
@@ -84,7 +89,7 @@
     </div>
 
     <div class="home-footer">
-      <div class="app-version">v3.19.0</div>
+      <div class="app-version">v3.20.0</div>
     </div>
   </div>
 
@@ -94,6 +99,7 @@
       <button id="back-btn" class="back-btn" aria-label="Zurück zu Decks">←</button>
       <h2 id="session-deck-label" class="session-title"></h2>
       <span id="session-progress" class="session-progress"></span>
+      <button id="audio-toggle" class="audio-toggle" aria-label="Automatisches Vorlesen an/aus">🔊</button>
     </div>
 
     <div class="progress-bar-wrap">
@@ -124,7 +130,7 @@
       </div>
 
       <div class="rating-wrap" id="rating-wrap" style="display:none">
-        <div class="mc-result" id="mc-result"></div>
+        <div class="mc-result" id="mc-result" role="status" aria-live="polite"></div>
         <div id="first-rating-hint" class="first-rating-hint hidden">Bewerte ehrlich. Das steuert, wann die Karte wiederkommt.</div>
         <div class="rating-hint">Wie gut wusstest du es?</div>
         <div class="rating-buttons">
@@ -139,7 +145,7 @@
       </div>
     </div>
 
-    <div class="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1 = Wusste ich nicht &nbsp;·&nbsp; 3 = Wusste ich</div>
+    <div class="keyboard-hint" id="keyboard-hint">Leertaste = umdrehen &nbsp;·&nbsp; 1 = Wusste ich nicht &nbsp;·&nbsp; 3 = Wusste ich</div>
   </div>
 
   <!-- SCREEN: DONE -->
@@ -164,7 +170,7 @@
       <button id="list-back-btn" class="list-back-btn">←</button>
       <h2 class="list-title">Liste</h2>
     </div>
-    <input type="search" class="list-search" id="list-search" placeholder="Suchen …" aria-label="Suchen">
+    <input type="search" class="list-search" id="list-search" placeholder="Suchen … (auch Romaji)" aria-label="Suchen, auch mit Romaji">
     <div class="list-tabs-wrap">
       <div class="list-tabs" id="list-tabs">
         <button class="list-tab active" data-list-tab="kanji">Kanji</button>

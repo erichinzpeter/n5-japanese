@@ -24,6 +24,15 @@ const DEFAULT_ROUND = 20;
 const MODAL_PREFS_KEY = 'n5_modal_prefs';
 const ONBOARD_KEY = 'n5_onboarded';
 const RATING_HINT_KEY = 'n5_rating_hint_seen';
+const AUDIO_OFF_KEY = 'n5_audio_off';
+
+// A new service worker activated while the user was mid-session: reload is
+// deferred until the next home visit so it never interrupts a running round.
+let swPendingReload = false;
+
+function isAudioOff() {
+  return localStorage.getItem(AUDIO_OFF_KEY) === '1';
+}
 
 const DECK_MODES = {
   kanji:     ['flashcard', 'mc'],
@@ -248,10 +257,43 @@ function updateTabbar(name) {
 
 // ===== HOME SCREEN =====
 function renderHome() {
+  if (swPendingReload) { location.reload(); return; }
   showScreen('home');
 
   const onboardPanel = document.getElementById('onboard-panel');
   if (onboardPanel) onboardPanel.classList.toggle('hidden', !!localStorage.getItem(ONBOARD_KEY));
+
+  renderKotd();
+}
+
+// ===== KANJI DES TAGES =====
+// Deterministic daily pick: same kanji all day, next one at local midnight,
+// full rotation through all 170 kanji (~5.6 months) with no storage.
+function kanjiOfTheDay() {
+  const [y, m, d] = todayStr().split('-').map(Number);
+  const days = Math.floor(new Date(y, m - 1, d).getTime() / 86400000);
+  return KANJI[days % KANJI.length];
+}
+
+function renderKotd() {
+  const el = document.getElementById('kotd-card');
+  if (!el) return;
+  const k = kanjiOfTheDay();
+  const reading = k.speak || k.kun[0] || k.on[0] || '';
+  el.innerHTML = `
+    <div class="kotd-char" aria-hidden="true">${k.char}</div>
+    <div class="kotd-main">
+      <div class="kotd-reading">${escHtml(reading)}</div>
+      <div class="kotd-meaning">${escHtml(k.meaning.slice(0, 2).join(', '))}</div>
+    </div>
+    ${speakBtn(kanjiReading(k), 'btn-speak-list')}
+    <span class="kotd-chevron" aria-hidden="true">›</span>`;
+}
+
+// Opens the list screen on the kanji tab with today's kanji expanded.
+function openKotdDetail() {
+  pendingExpandKey = kanjiOfTheDay().id;
+  showListScreen();
 }
 
 // ===== ONBOARDING =====
@@ -289,6 +331,14 @@ function launchSession(deck, sessionCards) {
 
   const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Zufall' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
+
+  // Desktop-only hint (hidden on touch): MC uses number keys to pick an answer.
+  const hintEl = document.getElementById('keyboard-hint');
+  if (hintEl) {
+    hintEl.textContent = state.mode === 'mc'
+      ? '1–4 = Antwort wählen  ·  Leertaste = weiter'
+      : 'Leertaste = umdrehen  ·  1 = Wusste ich nicht  ·  3 = Wusste ich';
+  }
 
   showScreen('session');
   renderCurrentCard();
@@ -703,8 +753,9 @@ function flipCard() {
     mcEl.style.display = 'none';
   }
 
+  // Auto-speak respects the mute toggle; manual 🔊 buttons always speak.
   const currentCard = state.session[state.sessionIdx];
-  if (currentCard) speakJapanese(getJapaneseText(currentCard));
+  if (currentCard && !isAudioOff()) speakJapanese(getJapaneseText(currentCard));
 
   document.getElementById('rating-wrap').style.display = '';
 
@@ -1080,8 +1131,10 @@ function matchesSearch(item, q) {
     .some(f => f && String(f).toLowerCase().includes(q));
   if (rawMatch) return true;
 
+  // Romaji nur am Wortanfang: "yon" soll 四 treffen, nicht 去年 (k-yon-en) —
+  // Substring landet sonst mitten in Silben. Kana-/Kanji-Suche oben bleibt Substring.
   if (qLoose && [item.reading, item.word, ...on, ...kun]
-      .some(f => f && looseRomaji(kanaToRomaji(String(f))).includes(qLoose))) return true;
+      .some(f => f && looseRomaji(kanaToRomaji(String(f))).startsWith(qLoose))) return true;
 
   // Verbs/adjectives are also findable by their conjugated forms (ます/て/た/ない …),
   // in kanji and kana, so "ikimasu"/"行きます"/"いきます" all match 行く. Prefix-match
@@ -1174,10 +1227,19 @@ function renderListTab(tab) {
   }
 
   listContent.innerHTML = items.map((item, i) => renderListRow(item, tab, i, 'toggleListRow(this)', '', '')).join('');
+  // Frischer Inhalt startet oben — sonst bleibt der alte scrollTop stehen und
+  // Such-/Tab-Ergebnisse wirken "abgeschnitten" (erste Treffer über dem Fold).
+  listContent.scrollTop = 0;
 
   if (pendingExpandKey) {
     const row = listContent.querySelector(`[data-item-key="${pendingExpandKey}"]`);
-    if (row) toggleListRow(row);
+    if (row) {
+      toggleListRow(row);
+      // Nur .list-content scrollen — scrollIntoView nudgt auch Window/äußere
+      // Container und verschiebt damit sichtbar den Listen-Header (iOS).
+      const scroller = document.getElementById('list-content');
+      scroller.scrollTop += row.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 12;
+    }
     pendingExpandKey = '';
   }
 }
@@ -1206,6 +1268,7 @@ function renderSearchAllTabs() {
   listContent.innerHTML = rows.length
     ? rows.join('')
     : `<div class="list-no-results">Keine Ergebnisse für „${escHtml(listSearchQuery)}"</div>`;
+  listContent.scrollTop = 0;
 }
 
 function switchToTabAndExpand(el) {
@@ -1371,6 +1434,35 @@ function initEvents() {
   document.querySelectorAll('.deck-card').forEach(card => {
     card.addEventListener('click', () => openStartModal(card.dataset.deck));
   });
+
+  // Kanji des Tages → list detail. The delegated data-speak listener above runs
+  // in capture phase and stops propagation, so the 🔊 inside never triggers this.
+  const kotdEl = document.getElementById('kotd-card');
+  if (kotdEl) {
+    kotdEl.addEventListener('click', openKotdDetail);
+    kotdEl.addEventListener('keydown', e => {
+      if (e.target !== kotdEl) return; // Enter on the inner 🔊 must only speak
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openKotdDetail(); }
+    });
+  }
+
+  // Audio toggle in the session topbar: mutes only the auto-speak on flip.
+  const audioBtn = document.getElementById('audio-toggle');
+  const renderAudioToggle = () => {
+    const off = isAudioOff();
+    audioBtn.textContent = off ? '🔇' : '🔊';
+    audioBtn.classList.toggle('off', off);
+    audioBtn.setAttribute('aria-pressed', String(!off));
+  };
+  audioBtn.addEventListener('click', () => {
+    if (isAudioOff()) localStorage.removeItem(AUDIO_OFF_KEY);
+    else {
+      localStorage.setItem(AUDIO_OFF_KEY, '1');
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+    }
+    renderAudioToggle();
+  });
+  renderAudioToggle();
 
   // Start modal: close (×, backdrop, Esc), trap Tab while open
   document.getElementById('start-modal-close').addEventListener('click', closeStartModal);
@@ -1556,13 +1648,14 @@ function initEvents() {
 function init() {
   initEvents();
   renderHome();
-  // Hold the splash a fixed time from here so the icon is clearly visible as an
-  // intentional brand moment. A navigation-relative floor collapsed to ~0 on
-  // fast/PWA-reload launches (elapsed already exceeded it) → one-frame flicker.
+  // Splash is a loading cover, not a brand pause. Fast launch (warm PWA reload,
+  // local file): the icon never visibly painted — remove it without a fade, a
+  // fade here caused the old one-frame flicker. Slow (cold) load: the splash has
+  // been covering the gap for a while already, so fade it out now.
   const splash = document.getElementById('splash');
   if (splash) {
-    const SPLASH_HOLD_MS = 1000;
-    setTimeout(() => splash.classList.add('hidden'), SPLASH_HOLD_MS);
+    if (performance.now() < 400) splash.remove();
+    else splash.classList.add('hidden');
   }
 }
 
@@ -1580,12 +1673,18 @@ if ('serviceWorker' in navigator) {
       });
 
       // A new worker calls skipWaiting + claims clients, firing controllerchange.
-      // Reload once so the fresh app shell paints without user action.
+      // Reload only while home is showing — never mid-session; other screens
+      // defer via swPendingReload until the user returns home (see renderHome).
       let reloading = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (reloading) return;
-        reloading = true;
-        location.reload();
+        const home = document.getElementById('screen-home');
+        if (home && home.classList.contains('active')) {
+          reloading = true;
+          location.reload();
+        } else {
+          swPendingReload = true;
+        }
       });
     } catch (_) {}
   });
