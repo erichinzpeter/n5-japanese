@@ -95,6 +95,17 @@ test('buildQueue: due cards ordered weakest-first (lower box, then older due)', 
   assert.deepEqual(q.map(x => x.id), ['c', 'b', 'a']); // box1 older-due, box1 newer-due, box3
 });
 
+test('buildQueue: short round tops up with not-yet-due reviews, soonest due first', () => {
+  const state = { v: 1, cards: {} };
+  // 5 due today, 10 seen but due later (staggered), rest of the pool is fresh.
+  for (let i = 0; i < 5; i++) state.cards['c' + i] = { box: 1, seen: '2026-06-01', due: '2026-06-02' };
+  for (let i = 5; i < 15; i++) state.cards['c' + i] = { box: 2, seen: '2026-06-03', due: '2026-06-' + String(i + 1).padStart(2, '0') };
+  const q = srs.buildQueue(cards(23), state, '2026-06-04', 30);
+  assert.equal(q.length, 23); // 5 due + 8 fresh + 10 pulled-forward reviews
+  const pulled = q.slice(13).map(c => c.id);
+  assert.deepEqual(pulled, ['c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14']);
+});
+
 test('buildQueue: nothing due and nothing new returns empty', () => {
   const state = { v: 1, cards: {
     a: { box: 2, seen: '', due: '2026-06-10' },

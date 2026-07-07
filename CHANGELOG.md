@@ -4,6 +4,20 @@
 
 ---
 
+## [3.21.0] — 2026-07-07
+
+### Geändert
+
+- Runden füllen sich jetzt bis zur gewählten Anzahl: Wenn fällige Karten + neue Karten (weiterhin max. 10 neue pro Runde) die Rundengröße nicht erreichen, werden die als Nächstes fälligen Karten vorgezogen. Vorher lieferte „30" z.B. nur 25 Karten. Ohne fällige und ohne neue Karten bleibt die Runde leer („für heute fertig").
+- Konjugations-Karten fragen jetzt eindeutig: „Bilde: Verneinung" statt „Verneinung?" (galt für alle Formen: Vergangenheit, て-Form, Adverb, …).
+- Kanji-Audio spricht nie mehr ein Wort aus zwei Kanji: 場 → ば (statt ばしょ), 病 → びょう (statt びょうき), 写 → うつす (statt しゃしん), 映 → うつる (statt えいが), 菜 → さい (statt やさい). Zitierformen mit Okurigana (考える, 多い) bleiben.
+
+### Behoben
+
+- iOS: Nach Querformat + Scrollen + Drehen zurück ins Hochformat zeigte die Tab-Leiste nur noch „Lernen" — die per backdrop-filter gerenderte Leiste blieb als abgeschnittener Landscape-Schnappschuss stehen. Nach der Rotation wird die Leiste jetzt neu aufgebaut.
+
+---
+
 ## [3.20.0] — 2026-07-07
 
 ### Hinzugefügt

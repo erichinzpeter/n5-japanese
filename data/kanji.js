@@ -601,7 +601,7 @@ const KANJI = [
     { jp: "仕事はとても忙しいです。", reading: "しごとはとてもいそがしいです。", de: "Die Arbeit ist sehr stressig." },
     { jp: "大事な事を話します。", reading: "だいじなことをはなします。", de: "Ich spreche über eine wichtige Sache." }
   ]},
-  { id: "k139", char: "場", meaning: ["Ort", "Platz"], speak: "ばしょ", on: ["じょう"], kun: ["ば"], examples: ["場所 (ばしょ) — Ort", "会場 (かいじょう) — Veranstaltungsort"], sentences: [
+  { id: "k139", char: "場", meaning: ["Ort", "Platz"], speak: "ば", on: ["じょう"], kun: ["ば"], examples: ["場所 (ばしょ) — Ort", "会場 (かいじょう) — Veranstaltungsort"], sentences: [
     { jp: "待ち合わせの場所はどこですか。", reading: "まちあわせのばしょはどこですか。", de: "Wo ist der Treffpunkt?" },
     { jp: "会場まで車で行きます。", reading: "かいじょうまでくるまでいきます。", de: "Ich fahre mit dem Auto zum Veranstaltungsort." }
   ]},
@@ -613,7 +613,7 @@ const KANJI = [
     { jp: "教室に学生がたくさんいます。", reading: "きょうしつにがくせいがたくさんいます。", de: "Im Klassenzimmer sind viele Studenten." },
     { jp: "会議室は二階にあります。", reading: "かいぎしつはにかいにあります。", de: "Der Konferenzraum ist im zweiten Stock." }
   ]},
-  { id: "k142", char: "病", meaning: ["Krankheit"], speak: "びょうき", on: ["びょう"], kun: ["やまい"], examples: ["病気 (びょうき) — Krankheit", "病院 (びょういん) — Krankenhaus"], sentences: [
+  { id: "k142", char: "病", meaning: ["Krankheit"], speak: "びょう", on: ["びょう"], kun: ["やまい"], examples: ["病気 (びょうき) — Krankheit", "病院 (びょういん) — Krankenhaus"], sentences: [
     { jp: "病気で会社を休みました。", reading: "びょうきでかいしゃをやすみました。", de: "Wegen Krankheit war ich nicht in der Arbeit." },
     { jp: "病院へ行ってください。", reading: "びょういんへいってください。", de: "Bitte gehen Sie ins Krankenhaus." }
   ]},
@@ -643,7 +643,7 @@ const KANJI = [
   ]},
 
   // Medien & Kultur
-  { id: "k149", char: "写", meaning: ["kopieren", "abbilden"], speak: "しゃしん", on: ["しゃ"], kun: ["うつ"], examples: ["写真 (しゃしん) — Foto", "写す (うつす) — kopieren/abbilden"], sentences: [
+  { id: "k149", char: "写", meaning: ["kopieren", "abbilden"], speak: "うつす", on: ["しゃ"], kun: ["うつ"], examples: ["写真 (しゃしん) — Foto", "写す (うつす) — kopieren/abbilden"], sentences: [
     { jp: "写真を撮ってもいいですか。", reading: "しゃしんをとってもいいですか。", de: "Darf ich ein Foto machen?" },
     { jp: "ノートに写してください。", reading: "ノートにうつしてください。", de: "Bitte schreiben Sie es in Ihr Heft ab." }
   ]},
@@ -651,7 +651,7 @@ const KANJI = [
     { jp: "この写真はとてもきれいです。", reading: "このしゃしんはとてもきれいです。", de: "Dieses Foto ist sehr schön." },
     { jp: "部屋の真ん中にテーブルがあります。", reading: "へやのまんなかにテーブルがあります。", de: "In der Mitte des Zimmers steht ein Tisch." }
   ]},
-  { id: "k151", char: "映", meaning: ["projizieren", "reflektieren"], speak: "えいが", on: ["えい"], kun: ["うつ"], examples: ["映画 (えいが) — Film", "映る (うつる) — sich spiegeln"], sentences: [
+  { id: "k151", char: "映", meaning: ["projizieren", "reflektieren"], speak: "うつる", on: ["えい"], kun: ["うつ"], examples: ["映画 (えいが) — Film", "映る (うつる) — sich spiegeln"], sentences: [
     { jp: "週末に映画を見に行きます。", reading: "しゅうまつにえいがをみにいきます。", de: "Am Wochenende gehe ich ins Kino." },
     { jp: "湖に山が映っています。", reading: "みずうみにやまがうつっています。", de: "Der Berg spiegelt sich im See." }
   ]},
@@ -697,7 +697,7 @@ const KANJI = [
     { jp: "野菜をたくさん食べてください。", reading: "やさいをたくさんたべてください。", de: "Bitte essen Sie viel Gemüse." },
     { jp: "野原で子供たちが遊んでいます。", reading: "のはらでこどもたちがあそんでいます。", de: "Auf der Wiese spielen Kinder." }
   ]},
-  { id: "k162", char: "菜", meaning: ["Gemüse"], speak: "やさい", on: ["さい"], kun: ["な"], examples: ["野菜 (やさい) — Gemüse", "白菜 (はくさい) — Chinakohl"], sentences: [
+  { id: "k162", char: "菜", meaning: ["Gemüse"], speak: "さい", on: ["さい"], kun: ["な"], examples: ["野菜 (やさい) — Gemüse", "白菜 (はくさい) — Chinakohl"], sentences: [
     { jp: "今日は野菜サラダを作ります。", reading: "きょうはやさいサラダをつくります。", de: "Heute mache ich Gemüsesalat." },
     { jp: "白菜が安かったので買いました。", reading: "はくさいがやすかったのでかいました。", de: "Der Chinakohl war günstig, also habe ich ihn gekauft." }
   ]},
