@@ -217,8 +217,8 @@ const BASICS = [
     id: "b020",
     word: "ちがう",
     reading: "ちがう",
-    meaning: "unterschiedlich / anders / verschieden",
-    pos: "Verb (Gruppe 1) / Adjektiv",
+    meaning: "sich unterscheiden / anders sein / falsch sein",
+    pos: "Verb (Godan, う)",
     examples: [
       { jp: "私の意見とちがいます。", reading: "わたしのいけんとちがいます。", de: "Das unterscheidet sich von meiner Meinung." },
       { jp: "この二つはちがいます。", reading: "このふたつはちがいます。", de: "Diese beiden sind verschieden." }
