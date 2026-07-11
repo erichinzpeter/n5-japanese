@@ -4,6 +4,16 @@
 
 ---
 
+## [3.24.0] — 2026-07-11
+
+### Behoben
+
+- Großer Duplikat-Abbau nach vollständigem Bestands-Review (Skript-Scan + Opus-Verifikation): 59 redundante Karten entfernt — 37 exakte vocab↔basics-Dubletten (大きい, とても, まだ, でも …), 14 な-Form-Dubletten von na-Adjektiven (きれいな neben きれい usw.), 8 Kana-/に-Schreibvarianten (ときどき, ほんとうに, すぐに …). VOCAB 1040 → 1024, BASICS 56 → 13. Decks enthalten jedes Wort jetzt nur noch einmal; im Multiple Choice kann dasselbe Wort nicht mehr doppelt als Option erscheinen.
+- 11 Bedeutungs-Kollisionen differenziert (verschiedene Wörter mit identischem deutschen meaning-Text in derselben Wortart, z.B. 牛乳/ミルク, 台所/キッチン, しかし/でも) — vermeidet ambige MC-Antworten in Richtung JP→DE.
+- Datenkorrekturen: 優しい bedeutet nicht mehr fälschlich „einfach" (Verwechslung mit 易しい); もう führt „nicht mehr (mit Verneinung)" statt irreführendem „bald"; Wortart präzisiert bei しかし/でも (Konjunktion) und だけ (Partikel).
+
+---
+
 ## [3.23.0] — 2026-07-11
 
 ### Hinzugefügt

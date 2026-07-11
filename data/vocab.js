@@ -276,7 +276,7 @@ const VOCAB = [
     { jp: "お酒はあまり飲みません。", reading: "おさけはあまりのみません。", de: "Ich trinke nicht viel Alkohol." },
     { jp: "友達とお酒を飲みました。", reading: "ともだちとおさけをのみました。", de: "Ich habe mit Freunden Alkohol getrunken." }
   ]},
-  { id: "v068", word: "牛乳", reading: "ぎゅうにゅう", meaning: "Milch", pos: "Nomen", level: "easy", examples: [
+  { id: "v068", word: "牛乳", reading: "ぎゅうにゅう", meaning: "Milch (Kuhmilch)", pos: "Nomen", level: "easy", examples: [
     { jp: "毎朝牛乳を飲みます。", reading: "まいあさぎゅうにゅうをのみます。", de: "Jeden Morgen trinke ich Milch." },
     { jp: "牛乳はスーパーで買います。", reading: "ぎゅうにゅうはスーパーでかいます。", de: "Milch kaufe ich im Supermarkt." }
   ]},
@@ -519,10 +519,6 @@ const VOCAB = [
   { id: "v126", word: "短い", reading: "みじかい", meaning: "kurz", pos: "i-Adjektiv", level: "easy", examples: [
     { jp: "この映画は短いです。", reading: "このえいがはみじかいです。", de: "Dieser Film ist kurz." },
     { jp: "短い手紙を書きました。", reading: "みじかいてがみをかきました。", de: "Ich habe einen kurzen Brief geschrieben." }
-  ]},
-  { id: "v127", word: "速い", reading: "はやい", meaning: "schnell", pos: "i-Adjektiv", level: "easy", examples: [
-    { jp: "電車はバスより速いです。", reading: "でんしゃはバスよりはやいです。", de: "Der Zug ist schneller als der Bus." },
-    { jp: "速い車ですね。", reading: "はやいくるまですね。", de: "Das ist ein schnelles Auto." }
   ]},
   { id: "v128", word: "遅い", reading: "おそい", meaning: "langsam / spät", pos: "i-Adjektiv", level: "easy", examples: [
     { jp: "今日は少し遅いですね。", reading: "きょうはすこしおそいですね。", de: "Heute sind Sie etwas spät." },
@@ -900,7 +896,7 @@ const VOCAB = [
     { jp: "毎日日本語を勉強します。", reading: "まいにちにほんごをべんきょうします。", de: "Jeden Tag lerne ich Japanisch." },
     { jp: "図書館で勉強しました。", reading: "としょかんでべんきょうしました。", de: "Ich habe in der Bibliothek gelernt." }
   ]},
-  { id: "v220", word: "仕事する", reading: "しごとする", meaning: "arbeiten", pos: "Verb (する-Verb)", level: "adv", examples: [
+  { id: "v220", word: "仕事する", reading: "しごとする", meaning: "arbeiten (Arbeit verrichten)", pos: "Verb (する-Verb)", level: "adv", examples: [
     { jp: "毎日八時間仕事します。", reading: "まいにちはちじかんしごとします。", de: "Jeden Tag arbeite ich acht Stunden." },
     { jp: "今日は家で仕事しました。", reading: "きょうはいえでしごとしました。", de: "Heute habe ich von zu Hause aus gearbeitet." }
   ]},
@@ -1040,7 +1036,7 @@ const VOCAB = [
     { jp: "どうして学校を休みましたか。", reading: "どうしてがっこうをやすみましたか。", de: "Warum haben Sie die Schule geschwänzt?" },
     { jp: "どうして日本語を勉強しますか。", reading: "どうしてにほんごをべんきょうしますか。", de: "Warum lernen Sie Japanisch?" }
   ]},
-  { id: "v254", word: "どう", reading: "どう", meaning: "wie / auf welche Weise", pos: "Fragewort", level: "easy", examples: [
+  { id: "v254", word: "どう", reading: "どう", meaning: "wie? (Zustand/Meinung)", pos: "Fragewort", level: "easy", examples: [
     { jp: "日本はどうですか。", reading: "にほんはどうですか。", de: "Wie finden Sie Japan?" },
     { jp: "この料理はどうやって作りますか。", reading: "このりょうりはどうやってつくりますか。", de: "Wie macht man dieses Gericht?" }
   ]},
@@ -1074,7 +1070,7 @@ const VOCAB = [
     { jp: "水をたくさん飲んでください。", reading: "みずをたくさんのんでください。", de: "Trinken Sie bitte viel Wasser." },
     { jp: "公園に花がたくさんあります。", reading: "こうえんにはながたくさんあります。", de: "Im Park gibt es viele Blumen." }
   ]},
-  { id: "v262", word: "もう", reading: "もう", meaning: "schon / bereits / bald", pos: "Adverb", level: "easy", examples: [
+  { id: "v262", word: "もう", reading: "もう", meaning: "schon / bereits / nicht mehr (mit Verneinung)", pos: "Adverb", level: "easy", examples: [
     { jp: "もう食べましたか。", reading: "もうたべましたか。", de: "Haben Sie schon gegessen?" },
     { jp: "もう八時です。", reading: "もうはちじです。", de: "Es ist schon 8 Uhr." }
   ]},
@@ -1154,7 +1150,7 @@ const VOCAB = [
     { jp: "東京に住んでいます。", reading: "とうきょうにすんでいます。", de: "Ich wohne in Tokio." },
     { jp: "どこに住んでいますか。", reading: "どこにすんでいますか。", de: "Wo wohnen Sie?" }
   ]},
-  { id: "v281", word: "働く", reading: "はたらく", meaning: "arbeiten", pos: "Verb (Godan, く)", level: "adv", examples: [
+  { id: "v281", word: "働く", reading: "はたらく", meaning: "arbeiten (berufstätig/körperlich)", pos: "Verb (Godan, く)", level: "adv", examples: [
     { jp: "銀行で働いています。", reading: "ぎんこうではたらいています。", de: "Ich arbeite bei einer Bank." },
     { jp: "父は毎日働いています。", reading: "ちちはまいにちはたらいています。", de: "Mein Vater arbeitet jeden Tag." }
   ]},
@@ -1331,7 +1327,7 @@ const VOCAB = [
     { jp: "お金がありません。", reading: "おかねがありません。", de: "Ich habe kein Geld." },
     { jp: "銀行でお金を下ろします。", reading: "ぎんこうでおかねをおろします。", de: "Ich hebe bei der Bank Geld ab." }
   ]},
-  { id: "v324", word: "台所", reading: "だいどころ", meaning: "Küche", pos: "Nomen", level: "adv", examples: [
+  { id: "v324", word: "台所", reading: "だいどころ", meaning: "Küche (traditionell)", pos: "Nomen", level: "adv", examples: [
     { jp: "母は台所で料理を作ります。", reading: "はははだいどころでりょうりをつくります。", de: "Meine Mutter kocht in der Küche." },
     { jp: "台所はきれいです。", reading: "だいどころはきれいです。", de: "Die Küche ist sauber." }
   ]},
@@ -1621,10 +1617,6 @@ const VOCAB = [
     { jp: "週末はたいてい家にいます。", reading: "しゅうまつはたいていいえにいます。", de: "Am Wochenende bin ich meistens zu Hause." },
     { jp: "朝はたいていパンを食べます。", reading: "あさはたいていパンをたべます。", de: "Morgens esse ich gewöhnlich Brot." }
   ]},
-  { id: "v394", word: "すぐに", reading: "すぐに", meaning: "sofort / gleich", pos: "Adverb", level: "easy", examples: [
-    { jp: "すぐに行きます。", reading: "すぐにいきます。", de: "Ich komme sofort." },
-    { jp: "電話をもらったら、すぐに返事します。", reading: "でんわをもらったら、すぐにへんじします。", de: "Wenn ich einen Anruf bekomme, antworte ich gleich." }
-  ]},
   { id: "v395", word: "もっと", reading: "もっと", meaning: "mehr / noch mehr", pos: "Adverb", level: "easy", examples: [
     { jp: "もっと日本語を勉強したいです。", reading: "もっとにほんごをべんきょうしたいです。", de: "Ich möchte mehr Japanisch lernen." },
     { jp: "もっとゆっくり話してください。", reading: "もっとゆっくりはなしてください。", de: "Bitte sprechen Sie noch langsamer." }
@@ -1673,7 +1665,7 @@ const VOCAB = [
     { jp: "この本はなかなか面白いです。", reading: "このほんはなかなかおもしろいです。", de: "Dieses Buch ist ziemlich interessant." },
     { jp: "バスがなかなか来ません。", reading: "バスがなかなかきません。", de: "Der Bus kommt einfach nicht." }
   ]},
-  { id: "v407", word: "結構", reading: "けっこう", meaning: "ziemlich / ganz schön", pos: "Adverb", level: "adv", examples: [
+  { id: "v407", word: "結構", reading: "けっこう", meaning: "ziemlich / ganz gut (auch: nein danke)", pos: "Adverb", level: "adv", examples: [
     { jp: "この問題は結構難しいです。", reading: "このもんだいはけっこうむずかしいです。", de: "Diese Aufgabe ist ziemlich schwer." },
     { jp: "駅まで結構歩きました。", reading: "えきまでけっこうあるきました。", de: "Bis zum Bahnhof bin ich ganz schön viel gelaufen." }
   ]},
@@ -1844,7 +1836,7 @@ const VOCAB = [
     { jp: "好きな色は青です。", reading: "すきないろはあおです。", de: "Meine Lieblingsfarbe ist Blau." },
     { jp: "この色がきれいです。", reading: "このいろがきれいです。", de: "Diese Farbe ist schön." }
   ]},
-  { id: "v450", word: "インターナショナル", reading: "インターナショナル", meaning: "international", pos: "na-Adjektiv", level: "adv", examples: [
+  { id: "v450", word: "インターナショナル", reading: "インターナショナル", meaning: "international (Lehnwort)", pos: "na-Adjektiv", level: "adv", examples: [
     { jp: "インターナショナルな会社で働きます。", reading: "インターナショナルなかいしゃではたらきます。", de: "Ich arbeite in einer internationalen Firma." },
     { jp: "この学校はインターナショナルです。", reading: "このがっこうはインターナショナルです。", de: "Diese Schule ist international." }
   ]},
@@ -1920,7 +1912,7 @@ const VOCAB = [
     { jp: "壁に絵をかけます。", reading: "かべにえをかけます。", de: "Ich hänge ein Bild an die Wand." },
     { jp: "子供が絵をかいています。", reading: "こどもがえをかいています。", de: "Das Kind malt ein Bild." }
   ]},
-  { id: "v469", word: "エアコン", reading: "エアコン", meaning: "Klimaanlage", pos: "Nomen", level: "adv", examples: [
+  { id: "v469", word: "エアコン", reading: "エアコン", meaning: "Klimaanlage (Heizen+Kühlen)", pos: "Nomen", level: "adv", examples: [
     { jp: "暑いのでエアコンをつけます。", reading: "あついのでエアコンをつけます。", de: "Weil es heiß ist, schalte ich die Klimaanlage ein." },
     { jp: "この部屋にはエアコンがあります。", reading: "このへやにはエアコンがあります。", de: "In diesem Zimmer gibt es eine Klimaanlage." }
   ]},
@@ -2180,10 +2172,6 @@ const VOCAB = [
     { jp: "漢字を書く練習をします。", reading: "かんじをかくれんしゅうをします。", de: "Ich übe, Kanji zu schreiben." },
     { jp: "この漢字は難しいです。", reading: "このかんじはむずかしいです。", de: "Dieses Kanji ist schwierig." }
   ]},
-  { id: "v534", word: "簡単な", reading: "かんたんな", meaning: "einfach, leicht", pos: "na-Adjektiv", level: "adv", examples: [
-    { jp: "これは簡単な問題です。", reading: "これはかんたんなもんだいです。", de: "Das ist eine einfache Aufgabe." },
-    { jp: "簡単に説明してください。", reading: "かんたんにせつめいしてください。", de: "Erklären Sie es bitte einfach." }
-  ]},
   { id: "v535", word: "乾杯", reading: "かんぱい", meaning: "Prost! / anstoßen", pos: "Ausdruck", level: "adv", examples: [
     { jp: "みんなで乾杯しましょう。", reading: "みんなでかんぱいしましょう。", de: "Lasst uns alle anstoßen." },
     { jp: "ビールで乾杯します。", reading: "ビールでかんぱいします。", de: "Wir stoßen mit Bier an." }
@@ -2208,7 +2196,7 @@ const VOCAB = [
     { jp: "北の空が暗いです。", reading: "きたのそらがくらいです。", de: "Der Himmel im Norden ist dunkel." },
     { jp: "北へ行くと海があります。", reading: "きたへいくとうみがあります。", de: "Nach Norden hin ist das Meer." }
   ]},
-  { id: "v541", word: "キッチン", reading: "キッチン", meaning: "Küche", pos: "Nomen", level: "adv", examples: [
+  { id: "v541", word: "キッチン", reading: "キッチン", meaning: "Küche (Lehnwort, modern)", pos: "Nomen", level: "adv", examples: [
     { jp: "キッチンで料理をします。", reading: "キッチンでりょうりをします。", de: "Ich koche in der Küche." },
     { jp: "このアパートはキッチンが広いです。", reading: "このアパートはキッチンがひろいです。", de: "Diese Wohnung hat eine große Küche." }
   ]},
@@ -2252,14 +2240,6 @@ const VOCAB = [
     { jp: "日本の文化に興味があります。", reading: "にほんのぶんかにきょうみがあります。", de: "Ich interessiere mich für japanische Kultur." },
     { jp: "音楽に興味がありますか。", reading: "おんがくにきょうみがありますか。", de: "Interessieren Sie sich für Musik?" }
   ]},
-  { id: "v552", word: "嫌いな", reading: "きらいな", meaning: "nicht mögen, ungern", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "私は納豆が嫌いです。", reading: "わたしはなっとうがきらいです。", de: "Ich mag Nattō nicht." },
-    { jp: "嫌いな食べ物は何ですか。", reading: "きらいなたべものはなんですか。", de: "Welches Essen mögen Sie nicht?" }
-  ]},
-  { id: "v553", word: "きれいな", reading: "きれいな", meaning: "schön / sauber", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "きれいな花ですね。", reading: "きれいなはなですね。", de: "Was für schöne Blumen." },
-    { jp: "部屋をきれいにしました。", reading: "へやをきれいにしました。", de: "Ich habe das Zimmer sauber gemacht." }
-  ]},
   { id: "v554", word: "キロ", reading: "キロ", meaning: "Kilo(gramm) / Kilometer", pos: "Nomen", level: "adv", examples: [
     { jp: "りんごを二キロ買いました。", reading: "りんごをにキロかいました。", de: "Ich habe zwei Kilo Äpfel gekauft." },
     { jp: "駅まで三キロあります。", reading: "えきまでさんキロあります。", de: "Bis zum Bahnhof sind es drei Kilometer." }
@@ -2268,7 +2248,7 @@ const VOCAB = [
     { jp: "車に気をつけてください。", reading: "くるまにきをつけてください。", de: "Passen Sie auf die Autos auf." },
     { jp: "体に気をつけてください。", reading: "からだにきをつけてください。", de: "Passen Sie auf Ihre Gesundheit auf." }
   ]},
-  { id: "v556", word: "クーラー", reading: "クーラー", meaning: "Klimaanlage", pos: "Nomen", level: "adv", examples: [
+  { id: "v556", word: "クーラー", reading: "クーラー", meaning: "Klimaanlage (nur Kühlung)", pos: "Nomen", level: "adv", examples: [
     { jp: "クーラーをつけてください。", reading: "クーラーをつけてください。", de: "Schalten Sie bitte die Klimaanlage ein." },
     { jp: "夏はクーラーが必要です。", reading: "なつはクーラーがひつようです。", de: "Im Sommer braucht man eine Klimaanlage." }
   ]},
@@ -2371,10 +2351,6 @@ const VOCAB = [
   { id: "v581", word: "玄関", reading: "げんかん", meaning: "Eingang, Haustür", pos: "Nomen", level: "adv", examples: [
     { jp: "玄関でくつを脱ぎます。", reading: "げんかんでくつをぬぎます。", de: "Am Eingang ziehe ich die Schuhe aus." },
     { jp: "玄関に花があります。", reading: "げんかんにはながあります。", de: "Am Eingang stehen Blumen." }
-  ]},
-  { id: "v582", word: "元気な", reading: "げんきな", meaning: "gesund, munter", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "祖母は元気です。", reading: "そぼはげんきです。", de: "Meine Großmutter ist gesund." },
-    { jp: "元気な子供ですね。", reading: "げんきなこどもですね。", de: "Was für ein munteres Kind." }
   ]},
   { id: "v583", word: "研究", reading: "けんきゅう", meaning: "Forschung", pos: "Nomen", level: "adv", examples: [
     { jp: "大学で日本語を研究しています。", reading: "だいがくでにほんごをけんきゅうしています。", de: "An der Uni erforsche ich Japanisch." },
@@ -2572,17 +2548,13 @@ const VOCAB = [
     { jp: "朝、公園を散歩します。", reading: "あさ、こうえんをさんぽします。", de: "Morgens spaziere ich im Park." },
     { jp: "犬と散歩に行きます。", reading: "いぬとさんぽにいきます。", de: "Ich gehe mit dem Hund spazieren." }
   ]},
-  { id: "v632", word: "しかし", reading: "しかし", meaning: "aber, jedoch", pos: "Ausdruck", level: "adv", examples: [
+  { id: "v632", word: "しかし", reading: "しかし", meaning: "aber / jedoch (formell)", pos: "Konjunktion", level: "adv", examples: [
     { jp: "行きたいです。しかし、時間がありません。", reading: "いきたいです。しかし、じかんがありません。", de: "Ich möchte gehen. Aber ich habe keine Zeit." },
     { jp: "安いです。しかし、あまりよくありません。", reading: "やすいです。しかし、あまりよくありません。", de: "Es ist günstig. Aber nicht sehr gut." }
   ]},
   { id: "v633", word: "試験", reading: "しけん", meaning: "Prüfung", pos: "Nomen", level: "easy", examples: [
     { jp: "明日、日本語の試験があります。", reading: "あした、にほんごのしけんがあります。", de: "Morgen habe ich eine Japanisch-Prüfung." },
     { jp: "試験のために勉強します。", reading: "しけんのためにべんきょうします。", de: "Ich lerne für die Prüfung." }
-  ]},
-  { id: "v634", word: "静かな", reading: "しずかな", meaning: "ruhig, still", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "この町は静かです。", reading: "このまちはしずかです。", de: "Diese Stadt ist ruhig." },
-    { jp: "静かにしてください。", reading: "しずかにしてください。", de: "Seien Sie bitte leise." }
   ]},
   { id: "v635", word: "システム", reading: "システム", meaning: "System", pos: "Nomen", level: "adv", examples: [
     { jp: "新しいシステムを使います。", reading: "あたらしいシステムをつかいます。", de: "Ich benutze ein neues System." },
@@ -2676,10 +2648,6 @@ const VOCAB = [
     { jp: "少々お待ちください。", reading: "しょうしょうおまちください。", de: "Einen Moment bitte." },
     { jp: "塩を少々入れます。", reading: "しおをしょうしょういれます。", de: "Ich gebe ein wenig Salz dazu." }
   ]},
-  { id: "v658", word: "上手な", reading: "じょうずな", meaning: "geschickt, gut (können)", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "彼は料理が上手です。", reading: "かれはりょうりがじょうずです。", de: "Er kocht gut." },
-    { jp: "日本語が上手ですね。", reading: "にほんごがじょうずですね。", de: "Sie können gut Japanisch." }
-  ]},
   { id: "v659", word: "招待する", reading: "しょうたいする", meaning: "einladen", pos: "Verb (する-Verb)", level: "adv", examples: [
     { jp: "友達をパーティーに招待します。", reading: "ともだちをパーティーにしょうたいします。", de: "Ich lade Freunde zur Party ein." },
     { jp: "結婚式に招待されました。", reading: "けっこんしきにしょうたいされました。", de: "Ich wurde zur Hochzeit eingeladen." }
@@ -2712,10 +2680,6 @@ const VOCAB = [
     { jp: "信号が赤です。", reading: "しんごうがあかです。", de: "Die Ampel ist rot." },
     { jp: "信号を渡ってください。", reading: "しんごうをわたってください。", de: "Überqueren Sie bitte bei der Ampel." }
   ]},
-  { id: "v667", word: "親切な", reading: "しんせつな", meaning: "freundlich, hilfsbereit", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "駅員は親切です。", reading: "えきいんはしんせつです。", de: "Das Bahnhofspersonal ist freundlich." },
-    { jp: "親切な人に道を教えてもらいました。", reading: "しんせつなひとにみちをおしえてもらいました。", de: "Ein freundlicher Mensch hat mir den Weg gezeigt." }
-  ]},
   { id: "v668", word: "水泳", reading: "すいえい", meaning: "das Schwimmen", pos: "Nomen", level: "adv", examples: [
     { jp: "夏に水泳を習います。", reading: "なつにすいえいをならいます。", de: "Im Sommer lerne ich schwimmen." },
     { jp: "水泳は体にいいです。", reading: "すいえいはからだにいいです。", de: "Schwimmen ist gut für den Körper." }
@@ -2735,10 +2699,6 @@ const VOCAB = [
   { id: "v672", word: "スキー", reading: "スキー", meaning: "Ski (fahren)", pos: "Nomen", level: "adv", examples: [
     { jp: "冬に山でスキーをします。", reading: "ふゆにやまでスキーをします。", de: "Im Winter fahre ich in den Bergen Ski." },
     { jp: "スキーは楽しいです。", reading: "スキーはたのしいです。", de: "Skifahren macht Spaß." }
-  ]},
-  { id: "v673", word: "好きな", reading: "すきな", meaning: "mögen, Lieblings-", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "好きな食べ物は何ですか。", reading: "すきなたべものはなんですか。", de: "Was ist Ihr Lieblingsessen?" },
-    { jp: "音楽が好きです。", reading: "おんがくがすきです。", de: "Ich mag Musik." }
   ]},
   { id: "v674", word: "すき焼き", reading: "すきやき", meaning: "Sukiyaki (jap. Gericht)", pos: "Nomen", level: "adv", examples: [
     { jp: "今晩すき焼きを食べます。", reading: "こんばんすきやきをたべます。", de: "Heute Abend essen wir Sukiyaki." },
@@ -2921,15 +2881,11 @@ const VOCAB = [
     { jp: "好きなタイプの人です。", reading: "すきなタイプのひとです。", de: "Das ist mein Typ Mensch." },
     { jp: "手紙をタイプします。", reading: "てがみをタイプします。", de: "Ich tippe den Brief." }
   ]},
-  { id: "v719", word: "大変な", reading: "たいへんな", meaning: "schwierig, anstrengend", pos: "na-Adjektiv", level: "adv", examples: [
-    { jp: "仕事が大変です。", reading: "しごとがたいへんです。", de: "Die Arbeit ist anstrengend." },
-    { jp: "大変な一日でした。", reading: "たいへんないちにちでした。", de: "Es war ein harter Tag." }
-  ]},
   { id: "v720", word: "タクシー乗り場", reading: "タクシーのりば", meaning: "Taxistand", pos: "Nomen", level: "adv", examples: [
     { jp: "タクシー乗り場はどこですか。", reading: "タクシーのりばはどこですか。", de: "Wo ist der Taxistand?" },
     { jp: "駅の前にタクシー乗り場があります。", reading: "えきのまえにタクシーのりばがあります。", de: "Vor dem Bahnhof ist ein Taxistand." }
   ]},
-  { id: "v721", word: "だけ", reading: "だけ", meaning: "nur, bloß", pos: "Adverb", level: "adv", examples: [
+  { id: "v721", word: "だけ", reading: "だけ", meaning: "nur, bloß", pos: "Partikel", level: "adv", examples: [
     { jp: "水だけ飲みます。", reading: "みずだけのみます。", de: "Ich trinke nur Wasser." },
     { jp: "一人だけ来ました。", reading: "ひとりだけきました。", de: "Nur eine Person ist gekommen." }
   ]},
@@ -3025,7 +2981,7 @@ const VOCAB = [
     { jp: "駐車場に車を止めます。", reading: "ちゅうしゃじょうにくるまをとめます。", de: "Ich parke das Auto auf dem Parkplatz." },
     { jp: "この駐車場は無料です。", reading: "このちゅうしゃじょうはむりょうです。", de: "Dieser Parkplatz ist kostenlos." }
   ]},
-  { id: "v745", word: "昼食", reading: "ちゅうしょく", meaning: "Mittagessen", pos: "Nomen", level: "adv", examples: [
+  { id: "v745", word: "昼食", reading: "ちゅうしょく", meaning: "Mittagessen (formell)", pos: "Nomen", level: "adv", examples: [
     { jp: "十二時に昼食を食べます。", reading: "じゅうにじにちゅうしょくをたべます。", de: "Um zwölf esse ich zu Mittag." },
     { jp: "昼食は会社で食べます。", reading: "ちゅうしょくはかいしゃでたべます。", de: "Zu Mittag esse ich in der Firma." }
   ]},
@@ -3125,7 +3081,7 @@ const VOCAB = [
     { jp: "銀行の手前に本屋があります。", reading: "ぎんこうのてまえにほんやがあります。", de: "Kurz vor der Bank ist ein Buchladen." },
     { jp: "駅の手前で降ります。", reading: "えきのてまえでおります。", de: "Ich steige kurz vor dem Bahnhof aus." }
   ]},
-  { id: "v770", word: "でも", reading: "でも", meaning: "aber, jedoch", pos: "Ausdruck", level: "adv", examples: [
+  { id: "v770", word: "でも", reading: "でも", meaning: "aber / jedoch (umgangssprachlich)", pos: "Konjunktion", level: "adv", examples: [
     { jp: "行きたいです。でも、お金がありません。", reading: "いきたいです。でも、おかねがありません。", de: "Ich möchte gehen. Aber ich habe kein Geld." },
     { jp: "疲れました。でも、大丈夫です。", reading: "つかれました。でも、だいじょうぶです。", de: "Ich bin müde. Aber es geht schon." }
   ]},
@@ -3169,7 +3125,7 @@ const VOCAB = [
     { jp: "どうもありがとう。", reading: "どうもありがとう。", de: "Vielen Dank." },
     { jp: "どうもすみません。", reading: "どうもすみません。", de: "Tut mir wirklich leid." }
   ]},
-  { id: "v781", word: "どうやって", reading: "どうやって", meaning: "wie, auf welche Weise", pos: "Ausdruck", level: "adv", examples: [
+  { id: "v781", word: "どうやって", reading: "どうやって", meaning: "wie? / auf welche Weise (Methode)", pos: "Ausdruck", level: "adv", examples: [
     { jp: "駅までどうやって行きますか。", reading: "えきまでどうやっていきますか。", de: "Wie komme ich zum Bahnhof?" },
     { jp: "これはどうやって使いますか。", reading: "これはどうやってつかいますか。", de: "Wie benutzt man das?" }
   ]},
@@ -3292,10 +3248,6 @@ const VOCAB = [
   { id: "v811", word: "何度も", reading: "なんども", meaning: "mehrmals, oftmals", pos: "Adverb", level: "adv", examples: [
     { jp: "何度も練習しました。", reading: "なんどもれんしゅうしました。", de: "Ich habe mehrmals geübt." },
     { jp: "何度も電話しましたが、出ませんでした。", reading: "なんどもでんわしましたが、でませんでした。", de: "Ich habe oft angerufen, aber niemand ging ran." }
-  ]},
-  { id: "v812", word: "にぎやかな", reading: "にぎやかな", meaning: "belebt, lebhaft", pos: "na-Adjektiv", level: "adv", examples: [
-    { jp: "にぎやかな町が好きです。", reading: "にぎやかなまちがすきです。", de: "Ich mag belebte Städte." },
-    { jp: "お祭りはにぎやかでした。", reading: "おまつりはにぎやかでした。", de: "Das Fest war lebhaft." }
   ]},
   { id: "v813", word: "肉屋", reading: "にくや", meaning: "Metzger, Fleischerei", pos: "Nomen", level: "adv", examples: [
     { jp: "肉屋で牛肉を買います。", reading: "にくやでぎゅうにくをかいます。", de: "Ich kaufe Rindfleisch beim Metzger." },
@@ -3538,7 +3490,7 @@ const VOCAB = [
     { jp: "高いビルが多いです。", reading: "たかいビルがおおいです。", de: "Es gibt viele hohe Gebäude." },
     { jp: "あのビルは銀行です。", reading: "あのビルはぎんこうです。", de: "Das Gebäude dort ist eine Bank." }
   ]},
-  { id: "v873", word: "昼ごはん", reading: "ひるごはん", meaning: "Mittagessen", pos: "Nomen", level: "easy", examples: [
+  { id: "v873", word: "昼ごはん", reading: "ひるごはん", meaning: "Mittagessen (umgangssprachlich)", pos: "Nomen", level: "easy", examples: [
     { jp: "友達と昼ごはんを食べます。", reading: "ともだちとひるごはんをたべます。", de: "Ich esse mit einem Freund zu Mittag." },
     { jp: "昼ごはんはうどんでした。", reading: "ひるごはんはうどんでした。", de: "Zu Mittag gab es Udon." }
   ]},
@@ -3586,10 +3538,6 @@ const VOCAB = [
     { jp: "二人で映画を見ます。", reading: "ふたりでえいがをみます。", de: "Wir sehen zu zweit einen Film." },
     { jp: "子供が二人います。", reading: "こどもがふたりいます。", de: "Ich habe zwei Kinder." }
   ]},
-  { id: "v885", word: "不便な", reading: "ふべんな", meaning: "unpraktisch, unbequem", pos: "na-Adjektiv", level: "adv", examples: [
-    { jp: "この町は交通が不便です。", reading: "このまちはこうつうがふべんです。", de: "In dieser Stadt ist der Verkehr unpraktisch." },
-    { jp: "車がないと不便です。", reading: "くるまがないとふべんです。", de: "Ohne Auto ist es unpraktisch." }
-  ]},
   { id: "v886", word: "踏む", reading: "ふむ", meaning: "treten (auf etwas)", pos: "Verb (Godan, む)", level: "adv", examples: [
     { jp: "足を踏まないでください。", reading: "あしをふまないでください。", de: "Treten Sie mir bitte nicht auf den Fuß." },
     { jp: "ブレーキを踏みます。", reading: "ブレーキをふみます。", de: "Ich trete auf die Bremse." }
@@ -3626,10 +3574,6 @@ const VOCAB = [
     { jp: "日本の文化に興味があります。", reading: "にほんのぶんかにきょうみがあります。", de: "Ich interessiere mich für japanische Kultur." },
     { jp: "国によって文化が違います。", reading: "くにによってぶんかがちがいます。", de: "Je nach Land ist die Kultur anders." }
   ]},
-  { id: "v895", word: "下手な", reading: "へたな", meaning: "ungeschickt, schlecht (können)", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "私は歌が下手です。", reading: "わたしはうたがへたです。", de: "Ich singe schlecht." },
-    { jp: "下手ですが、がんばります。", reading: "へたですが、がんばります。", de: "Ich bin schlecht, aber ich gebe mein Bestes." }
-  ]},
   { id: "v896", word: "ペット", reading: "ペット", meaning: "Haustier", pos: "Nomen", level: "adv", examples: [
     { jp: "ペットを飼っています。", reading: "ペットをかっています。", de: "Ich habe ein Haustier." },
     { jp: "このアパートはペットが飼えません。", reading: "このアパートはペットがかえません。", de: "In dieser Wohnung sind keine Haustiere erlaubt." }
@@ -3641,10 +3585,6 @@ const VOCAB = [
   { id: "v898", word: "弁護士", reading: "べんごし", meaning: "Rechtsanwalt", pos: "Nomen", level: "adv", examples: [
     { jp: "兄は弁護士です。", reading: "あにはべんごしです。", de: "Mein Bruder ist Rechtsanwalt." },
     { jp: "弁護士に相談します。", reading: "べんごしにそうだんします。", de: "Ich berate mich mit einem Anwalt." }
-  ]},
-  { id: "v899", word: "便利な", reading: "べんりな", meaning: "praktisch, nützlich", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "この店は便利です。", reading: "このみせはべんりです。", de: "Dieser Laden ist praktisch." },
-    { jp: "スマホは便利な道具です。", reading: "スマホはべんりなどうぐです。", de: "Das Smartphone ist ein praktisches Werkzeug." }
   ]},
   { id: "v900", word: "ボート", reading: "ボート", meaning: "Boot", pos: "Nomen", level: "adv", examples: [
     { jp: "湖でボートに乗ります。", reading: "みずうみでボートにのります。", de: "Auf dem See fahre ich Boot." },
@@ -3786,7 +3726,7 @@ const VOCAB = [
     { jp: "ミュージカルを見に行きます。", reading: "ミュージカルをみにいきます。", de: "Ich gehe in ein Musical." },
     { jp: "そのミュージカルは有名です。", reading: "そのミュージカルはゆうめいです。", de: "Dieses Musical ist berühmt." }
   ]},
-  { id: "v935", word: "ミルク", reading: "ミルク", meaning: "Milch", pos: "Nomen", level: "easy", examples: [
+  { id: "v935", word: "ミルク", reading: "ミルク", meaning: "Milch (Lehnwort, z.B. im Kaffee)", pos: "Nomen", level: "easy", examples: [
     { jp: "コーヒーにミルクを入れます。", reading: "コーヒーにミルクをいれます。", de: "Ich gebe Milch in den Kaffee." },
     { jp: "ミルクを飲みます。", reading: "ミルクをのみます。", de: "Ich trinke Milch." }
   ]},
@@ -3885,10 +3825,6 @@ const VOCAB = [
   { id: "v959", word: "ゆうべ", reading: "ゆうべ", meaning: "gestern Abend, letzte Nacht", pos: "Nomen/Adverb", level: "adv", examples: [
     { jp: "ゆうべはよく寝ました。", reading: "ゆうべはよくねました。", de: "Letzte Nacht habe ich gut geschlafen." },
     { jp: "ゆうべ映画を見ました。", reading: "ゆうべえいがをみました。", de: "Gestern Abend habe ich einen Film gesehen." }
-  ]},
-  { id: "v960", word: "有名な", reading: "ゆうめいな", meaning: "berühmt, bekannt", pos: "na-Adjektiv", level: "easy", examples: [
-    { jp: "京都は有名な町です。", reading: "きょうとはゆうめいなまちです。", de: "Kyōto ist eine berühmte Stadt." },
-    { jp: "この店は有名です。", reading: "このみせはゆうめいです。", de: "Dieser Laden ist bekannt." }
   ]},
   { id: "v961", word: "雪", reading: "ゆき", meaning: "Schnee", pos: "Nomen", level: "easy", examples: [
     { jp: "雪が降っています。", reading: "ゆきがふっています。", de: "Es schneit." },
@@ -4103,7 +4039,7 @@ const VOCAB = [
     { jp: "きちんと座ってください。", reading: "きちんとすわってください。", de: "Setz dich bitte ordentlich hin." },
     { jp: "毎日きちんと朝ごはんを食べます。", reading: "まいにちきちんとあさごはんをたべます。", de: "Ich frühstücke jeden Tag ordentlich." }
   ]},
-  { id: "v1014", word: "ずいぶん", reading: "ずいぶん", meaning: "ziemlich / ganz schön", pos: "Adverb", level: "adv", examples: [
+  { id: "v1014", word: "ずいぶん", reading: "ずいぶん", meaning: "ziemlich / beträchtlich (mehr als erwartet)", pos: "Adverb", level: "adv", examples: [
     { jp: "今日はずいぶん寒いです。", reading: "きょうはずいぶんさむいです。", de: "Heute ist es ziemlich kalt." },
     { jp: "ずいぶん遠いですね。", reading: "ずいぶんとおいですね。", de: "Das ist ganz schön weit, nicht wahr?" }
   ]},
@@ -4151,11 +4087,11 @@ const VOCAB = [
     { jp: "なぜ泣いているのですか。", reading: "なぜないているのですか。", de: "Warum weinst du?" },
     { jp: "なぜ学校を休みましたか。", reading: "なぜがっこうをやすみましたか。", de: "Warum bist du der Schule ferngeblieben?" }
   ]},
-  { id: "v1026", word: "こう", reading: "こう", meaning: "so (auf diese Weise)", pos: "Adverb", level: "adv", examples: [
+  { id: "v1026", word: "こう", reading: "こう", meaning: "so / auf diese Weise (beim Sprecher)", pos: "Adverb", level: "adv", examples: [
     { jp: "こう書いてください。", reading: "こうかいてください。", de: "Bitte schreiben Sie es so." },
     { jp: "こうすると簡単です。", reading: "こうするとかんたんです。", de: "So ist es einfach." }
   ]},
-  { id: "v1027", word: "そう", reading: "そう", meaning: "so (auf diese Weise)", pos: "Adverb", level: "adv", examples: [
+  { id: "v1027", word: "そう", reading: "そう", meaning: "so / auf diese Weise (beim Gegenüber/erwähnt)", pos: "Adverb", level: "adv", examples: [
     { jp: "私もそう思います。", reading: "わたしもそうおもいます。", de: "Das denke ich auch." },
     { jp: "そうしましょう。", reading: "そうしましょう。", de: "Machen wir es so." }
   ]},
@@ -4163,11 +4099,11 @@ const VOCAB = [
     { jp: "ああいう人が好きです。", reading: "ああいうひとがすきです。", de: "Ich mag solche Menschen." },
     { jp: "ああ書くと分かりやすいです。", reading: "ああかくとわかりやすいです。", de: "So geschrieben ist es leicht verständlich." }
   ]},
-  { id: "v1029", word: "こんなに", reading: "こんなに", meaning: "so (sehr)", pos: "Adverb", level: "adv", examples: [
+  { id: "v1029", word: "こんなに", reading: "こんなに", meaning: "so sehr (dieses Ausmaß hier)", pos: "Adverb", level: "adv", examples: [
     { jp: "こんなに寒い日は初めてです。", reading: "こんなにさむいひははじめてです。", de: "So einen kalten Tag habe ich noch nie erlebt." },
     { jp: "こんなにたくさん食べられません。", reading: "こんなにたくさんたべられません。", de: "So viel kann ich nicht essen." }
   ]},
-  { id: "v1030", word: "そんなに", reading: "そんなに", meaning: "so (sehr)", pos: "Adverb", level: "adv", examples: [
+  { id: "v1030", word: "そんなに", reading: "そんなに", meaning: "so sehr (oft verneint: nicht so sehr)", pos: "Adverb", level: "adv", examples: [
     { jp: "そんなに高くないです。", reading: "そんなにたかくないです。", de: "So teuer ist es nicht." },
     { jp: "そんなに急がないでください。", reading: "そんなにいそがないでください。", de: "Beeilen Sie sich nicht so." }
   ]},
