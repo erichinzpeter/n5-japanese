@@ -39,13 +39,14 @@ const DECK_MODES = {
   nomen:     ['flashcard', 'mc'],
   verben:    ['flashcard', 'mc', 'conjugation'],
   adjektive: ['flashcard', 'mc', 'conjugation'],
+  adverbien: ['flashcard', 'mc'],
   sonstiges: ['flashcard', 'mc'],
   grammar:   ['flashcard', 'mc'],
   all:       ['flashcard', 'mc'],
 };
 
 // Decks whose pool comes from VOCAB + BASICS (the part-of-speech split).
-const VOCAB_CATEGORIES = ['nomen', 'verben', 'adjektive', 'sonstiges'];
+const VOCAB_CATEGORIES = ['nomen', 'verben', 'adjektive', 'adverbien', 'sonstiges'];
 
 const MODE_LABELS = {
   flashcard:   'Karteikarten',
@@ -58,6 +59,7 @@ const DECK_TITLES = {
   nomen: 'Nomen üben',
   verben: 'Verben üben',
   adjektive: 'Adjektive üben',
+  adverbien: 'Adverbien üben',
   sonstiges: 'Sonstiges üben',
   grammar: 'Grammatik üben',
   all: 'Zufall üben',
@@ -329,7 +331,7 @@ function launchSession(deck, sessionCards) {
   state.lastDeck = deck;
   state.caughtUp = false;
 
-  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Zufall' };
+  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', adverbien: 'Adverbien', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Zufall' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   // Desktop-only hint (hidden on touch): MC uses number keys to pick an answer.
@@ -1047,12 +1049,12 @@ let updateTabScrollFades = () => {};
 
 const TAB_LABELS = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', adverbien: 'Adverbien', ausdruecke: 'Ausdrücke' };
 
-// Maps an item to its list tab, refining the decks' posCategory: the deck's
-// broad "sonstiges" splits here into Adverbien (pure Adverb pos) and Ausdrücke
-// (Partikel/Konjunktion/Ausdruck/Fragewort). Nomen/Adverb stays Nomen.
+// Maps an item to its list tab. posCategory already returns 'adverbien' for pure
+// Adverb; the only refinement here is renaming the leftover deck bucket 'sonstiges'
+// (Partikel/Konjunktion/Ausdruck/Fragewort) to the 'ausdruecke' list tab.
 function listCategory(item) {
   const c = posCategory(item.pos);
-  if (c === 'sonstiges') return /Adverb/.test(item.pos || '') ? 'adverbien' : 'ausdruecke';
+  if (c === 'sonstiges') return 'ausdruecke';
   return c;
 }
 

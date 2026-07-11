@@ -4,6 +4,23 @@
 
 ---
 
+## [3.22.0] — 2026-07-11
+
+### Hinzugefügt
+
+- Neues Deck **Adverbien** auf dem Home-Screen (Icon 副). Wörter mit reiner Wortart „Adverb" bilden jetzt ein eigenes Deck; „na-Adjektiv/Adverb" bleibt bei Adjektive, „Nomen/Adverb" bei Nomen.
+
+### Geändert
+
+- Home-Deck-Raster neu geordnet und vereinheitlicht: 4 Reihen zu je zwei gleich großen Karten (Kanji · Nomen / Verben · Adjektive / Adverbien · Grammatik / Sonstiges · Zufall). „Zufall" ist jetzt eine normale halbbreite Karte statt einer Karte über die volle Breite.
+
+### Behoben
+
+- ちがう (basics): Bedeutung und Wortart korrigiert („sich unterscheiden / anders sein / falsch sein", Verb (Godan, う)).
+- Doppelten Vokabeleintrag zusammengeführt: いろいろな entfernt, 色々 (いろいろ) bleibt und erhält ein zusätzliches Beispiel.
+
+---
+
 ## [3.21.0] — 2026-07-07
 
 ### Geändert

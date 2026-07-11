@@ -1250,7 +1250,8 @@ const VOCAB = [
   ]},
   { id: "v304", word: "色々", reading: "いろいろ", meaning: "verschieden / allerlei", pos: "na-Adjektiv", level: "adv", examples: [
     { jp: "店で色々な物を買いました。", reading: "みせでいろいろなものをかいました。", de: "Ich habe im Laden verschiedene Dinge gekauft." },
-    { jp: "色々ありがとうございました。", reading: "いろいろありがとうございました。", de: "Vielen Dank für alles." }
+    { jp: "色々ありがとうございました。", reading: "いろいろありがとうございました。", de: "Vielen Dank für alles." },
+    { jp: "いろいろな国に行きたいです。", reading: "いろいろなくににいきたいです。", de: "Ich möchte in verschiedene Länder reisen." }
   ]},
   { id: "v305", word: "同じ", reading: "おなじ", meaning: "gleich / dasselbe", pos: "na-Adjektiv", level: "adv", examples: [
     { jp: "私と妹は同じ学校です。", reading: "わたしといもうとはおなじがっこうです。", de: "Meine Schwester und ich gehen auf dieselbe Schule." },
@@ -1842,10 +1843,6 @@ const VOCAB = [
   { id: "v448", word: "色", reading: "いろ", meaning: "Farbe", pos: "Nomen", level: "easy", examples: [
     { jp: "好きな色は青です。", reading: "すきないろはあおです。", de: "Meine Lieblingsfarbe ist Blau." },
     { jp: "この色がきれいです。", reading: "このいろがきれいです。", de: "Diese Farbe ist schön." }
-  ]},
-  { id: "v449", word: "いろいろな", reading: "いろいろな", meaning: "verschiedene, allerlei", pos: "na-Adjektiv", level: "adv", examples: [
-    { jp: "店にいろいろな物があります。", reading: "みせにいろいろなものがあります。", de: "Im Laden gibt es verschiedene Dinge." },
-    { jp: "いろいろな国に行きたいです。", reading: "いろいろなくににいきたいです。", de: "Ich möchte in verschiedene Länder reisen." }
   ]},
   { id: "v450", word: "インターナショナル", reading: "インターナショナル", meaning: "international", pos: "na-Adjektiv", level: "adv", examples: [
     { jp: "インターナショナルな会社で働きます。", reading: "インターナショナルなかいしゃではたらきます。", de: "Ich arbeite in einer internationalen Firma." },

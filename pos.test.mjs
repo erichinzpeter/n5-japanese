@@ -26,9 +26,10 @@ check('i-Adjektiv', 'adjektive');
 check('i-Adjektiv (unregelmäßig)', 'adjektive');
 check('na-Adjektiv', 'adjektive');
 check('Adjektiv-i', 'adjektive');
-check('na-Adjektiv/Adverb', 'adjektive');
+check('na-Adjektiv/Adverb', 'adjektive'); // Adjektiv wins over Adverb
 check('Ausdruck', 'sonstiges');
-check('Adverb', 'sonstiges');
+check('Adverb', 'adverbien');
+check('Nomen/Adverb', 'nomen'); // Nomen wins over Adverb
 check('Fragewort', 'sonstiges');
 check('Partikel', 'sonstiges');
 check('Konjunktion', 'sonstiges');

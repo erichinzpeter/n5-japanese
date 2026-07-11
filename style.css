@@ -486,6 +486,7 @@ body {
 .deck-card[data-deck="nomen"]     { --deck-h: 195; }  /* teal       */
 .deck-card[data-deck="verben"]    { --deck-h: 150; }  /* green      */
 .deck-card[data-deck="adjektive"] { --deck-h: 25;  }  /* terracotta */
+.deck-card[data-deck="adverbien"] { --deck-h: 275; }  /* indigo     */
 .deck-card[data-deck="sonstiges"] { --deck-h: 345; }  /* rose       */
 .deck-card[data-deck="grammar"]   { --deck-h: 78;  }  /* amber      */
 .deck-card[data-deck="all"]       { --deck-h: 300; }  /* violet     */
@@ -511,13 +512,6 @@ body {
 
 .deck-card:hover { transform: translateY(-2px); }
 
-.deck-card--all {
-  grid-column: span 2;
-}
-
-.deck-card--all .deck-kanji-preview { font-size: 42px; }
-.deck-card--all .deck-name { font-size: 16px; }
-
 .deck-kanji-preview {
   flex: none;
   font-family: var(--font-display);
@@ -532,11 +526,6 @@ body {
   font-weight: 600;
   color: var(--text);
   letter-spacing: 0.01em;
-}
-
-.deck-card--all .deck-stats {
-  margin-left: auto;
-  margin-top: 0;
 }
 
 /* Liste button */
@@ -2225,7 +2214,6 @@ body {
 
 @media (max-width: 360px) {
   .deck-grid { grid-template-columns: 1fr; }
-  .deck-card--all { grid-column: span 1; }
 }
 
 /* Start Modal */
