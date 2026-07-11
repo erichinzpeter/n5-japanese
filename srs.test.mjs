@@ -64,9 +64,18 @@ function cards(n) {
   return Array.from({ length: n }, (_, i) => ({ id: 'c' + i, type: 'kanji' }));
 }
 
-test('buildQueue: all-new pool caps new cards at NEW_PER_ROUND', () => {
-  const q = srs.buildQueue(cards(50), { v: 1, cards: {} }, '2026-06-04', 20);
-  assert.equal(q.length, 10);
+test('buildQueue: all-new pool fills to roundSize past the new-card cap', () => {
+  const q = srs.buildQueue(cards(50), { v: 1, cards: {} }, '2026-06-04', 30);
+  assert.equal(q.length, 30);
+});
+
+test('buildQueue: new-card cap holds when reviews can backfill the round', () => {
+  const state = { v: 1, cards: {} };
+  // 20 seen-yesterday reviews due later; the other 30 cards are fresh.
+  for (let i = 30; i < 50; i++) state.cards['c' + i] = { box: 2, seen: '2026-06-03', due: '2026-06-10' };
+  const q = srs.buildQueue(cards(50), state, '2026-06-04', 20);
+  const freshCount = q.filter(c => !state.cards[c.id]).length;
+  assert.equal(freshCount, 10); // extra-fresh fill never fires while reviews fill the gap
 });
 
 test('buildQueue: full due backlog fills with due only, no new', () => {
@@ -77,11 +86,22 @@ test('buildQueue: full due backlog fills with due only, no new', () => {
   assert.ok(q.every(c => state.cards[c.id]), 'every queued card is a due (seen) card');
 });
 
-test('buildQueue: few due tops up with capped new', () => {
+test('buildQueue: few due and no reviews fills the rest with fresh to roundSize', () => {
   const state = { v: 1, cards: {} };
   for (let i = 0; i < 5; i++) state.cards['c' + i] = { box: 1, seen: '2026-06-01', due: '2026-06-02' };
   const q = srs.buildQueue(cards(55), state, '2026-06-04', 20);
-  assert.equal(q.length, 15); // 5 due + 10 new (cap)
+  assert.equal(q.length, 20); // 5 due + 10 capped new + 5 extra fresh
+});
+
+test('buildQueue: cards seen today are not pulled forward as reviews', () => {
+  const state = { v: 1, cards: {
+    c0: { box: 1, seen: '2026-06-03', due: '2026-06-02' }, // due today's round
+    c1: { box: 2, seen: '2026-06-04', due: '2026-06-10' }, // practiced today
+    c2: { box: 2, seen: '2026-06-04', due: '2026-06-10' },
+    c3: { box: 2, seen: '2026-06-04', due: '2026-06-10' },
+  } };
+  const q = srs.buildQueue([{ id: 'c0' }, { id: 'c1' }, { id: 'c2' }, { id: 'c3' }], state, '2026-06-04', 10);
+  assert.deepEqual(q.map(c => c.id), ['c0']); // only the due card; today's cards stay out
 });
 
 test('buildQueue: due cards ordered weakest-first (lower box, then older due)', () => {
