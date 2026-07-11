@@ -320,13 +320,14 @@ function dismissRatingHint() {
 
 // ===== SESSION START =====
 // Shared session launcher: takes a prebuilt card list and shows the session screen.
-function launchSession(deck, sessionCards) {
+function launchSession(deck, sessionCards, freePractice = false) {
   state.session = sessionCards;
   state.scheduledThisRound = new Set();
   state.graduated = new Set();
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
+  state.freePractice = freePractice;
   state.deck = deck;
   state.lastDeck = deck;
   state.caughtUp = false;
@@ -358,14 +359,14 @@ function startSession(deck, direction) {
   launchSession(deck, session);
 }
 
-// "Trotzdem üben" from the caught-up screen: a random round ignoring due dates,
-// still writes SRS on each rating.
+// "Trotzdem üben" from the caught-up screen: a random round ignoring due dates.
+// Read-only — cramming not-yet-due cards must not rewrite their spaced schedule.
 function startFreeRound(deck) {
   const round = shuffle(collectDeckCards(deck)).slice(0, state.roundSize);
   const cards = state.mode === 'conjugation'
     ? round.map(c => c.type === 'vocab' ? makeConjugationCard(c.item, c.dir) : c)
     : round;
-  launchSession(deck, cards);
+  launchSession(deck, cards, true);
 }
 
 function renderCurrentCard() {
@@ -790,7 +791,7 @@ function requeueCard(card) {
 // re-answer changes neither — it just decides whether the card graduates out of the round.
 function recordFirstOutcome(card, isCorrect) {
   if (!state.scheduledThisRound || state.scheduledThisRound.has(card.id)) return;
-  const isTracked = card.type === 'kanji' || card.type === 'vocab';
+  const isTracked = !state.freePractice && (card.type === 'kanji' || card.type === 'vocab');
   if (isTracked) {
     const srs = loadSRS();
     rate(srs, card.id, isCorrect, todayStr());

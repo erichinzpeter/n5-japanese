@@ -55,7 +55,8 @@ function shuffleQueue(arr) {
 
 // deckCards: [{ id, ... }] candidates. srsState: loadSRS() result.
 // Due cards first (weakest-first), then new cards capped at NEW_PER_ROUND,
-// then not-yet-due reviews pulled forward so the round reaches its full size.
+// then not-yet-due reviews pulled forward, and finally extra new cards past the
+// cap — so the round reaches the size the user picked.
 function buildQueue(deckCards, srsState, today, roundSize) {
   const due = [];
   const fresh = [];
@@ -72,17 +73,28 @@ function buildQueue(deckCards, srsState, today, roundSize) {
   );
   const queue = due.slice(0, roundSize).map(d => d.card);
   let slots = roundSize - queue.length;
-  if (slots > 0 && fresh.length > 0) {
-    const take = Math.min(slots, NEW_PER_ROUND, fresh.length);
-    queue.push(...shuffleQueue(fresh).slice(0, take));
-    slots -= take;
+
+  const freshShuffled = shuffleQueue(fresh);
+  let freshTaken = 0;
+  if (slots > 0 && freshShuffled.length > 0) {
+    freshTaken = Math.min(slots, NEW_PER_ROUND, freshShuffled.length);
+    queue.push(...freshShuffled.slice(0, freshTaken));
+    slots -= freshTaken;
   }
   if (queue.length > 0 && slots > 0 && later.length > 0) {
-    // The user picked the round size; a visibly short round reads as a bug.
     // Pull the reviews due soonest forward instead of adding more new cards.
-    // An entirely empty queue stays empty — that's the "done for today" signal.
-    later.sort((a, b) => (a.entry.due < b.entry.due ? -1 : a.entry.due > b.entry.due ? 1 : 0));
-    queue.push(...later.slice(0, slots).map(l => l.card));
+    // Skip cards already practiced today: resurfacing them makes each round feel
+    // like a rerun of the last one. An empty queue stays empty (done for today).
+    const pool = later.filter(l => l.entry.seen !== today);
+    pool.sort((a, b) => (a.entry.due < b.entry.due ? -1 : a.entry.due > b.entry.due ? 1 : 0));
+    const pulled = pool.slice(0, slots).map(l => l.card);
+    queue.push(...pulled);
+    slots -= pulled.length;
+  }
+  if (queue.length > 0 && slots > 0 && freshTaken < freshShuffled.length) {
+    // Due cards and reviews couldn't fill the picked size (typically a fresh
+    // deck). Top up past the new-card cap so the round honors the chosen size.
+    queue.push(...freshShuffled.slice(freshTaken, freshTaken + slots));
   }
   return queue;
 }

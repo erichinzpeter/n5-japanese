@@ -4,6 +4,16 @@
 
 ---
 
+## [3.24.1] — 2026-07-11
+
+### Behoben
+
+- Runden wiederholten von etwa der Hälfte an die gleichen Karten wie die vorige Runde. Ursache: die Auffüll-Logik zog noch-nicht-fällige Reviews nach vorn und nahm dabei auch Karten, die in derselben Sitzung schon drankamen. Karten mit `seen == heute` werden jetzt beim Vorziehen übersprungen.
+- Gewählte Rundengröße wurde nicht erreicht (z.B. 30 gewählt, nur 20 gezeigt). Bei frischen Decks blieb die Runde am Limit für neue Karten (`NEW_PER_ROUND`) hängen. Neu: reichen fällige Karten und Reviews nicht, füllt die Runde als letzten Schritt mit weiteren neuen Karten auf die gewählte Größe auf. Das Kartenlimit greift weiter, solange Reviews die Lücke füllen (kein Überladen mit neuem Stoff bei bestehendem Rückstand). Leere Runde bleibt leer (»für heute durch«).
+- »Trotzdem üben« (Cram-Runde nach »für heute durch«) schreibt jetzt nichts mehr ins Spaced-Repetition-Schema. Vorher verschob jede Wiederholung noch-nicht-fälliger Karten deren Fälligkeitsdatum und untergrub so das Timing. Cram-Runden sind jetzt reines Üben ohne Schema-Änderung — endloses Lernen pro Tag ohne SRS-Schaden.
+
+---
+
 ## [3.24.0] — 2026-07-11
 
 ### Behoben
