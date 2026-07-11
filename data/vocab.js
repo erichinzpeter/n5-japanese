@@ -4085,5 +4085,134 @@ const VOCAB = [
   { id: "v1009", word: "丸", reading: "まる", meaning: "der Kreis (○), Zeichen für „richtig\"", pos: "Nomen", level: "adv", examples: [
     { jp: "正しい答えに丸をつけます。", reading: "ただしいこたえにまるをつけます。", de: "Ich mache einen Kreis bei der richtigen Antwort." },
     { jp: "先生が丸をくれました。", reading: "せんせいがまるをくれました。", de: "Der Lehrer hat mir einen Kreis gegeben." }
+  ]},
+  // Adverbien (Erweiterung v3.23.0)
+  { id: "v1010", word: "はっきり", reading: "はっきり", meaning: "deutlich / klar", pos: "Adverb", level: "adv", examples: [
+    { jp: "はっきり話してください。", reading: "はっきりはなしてください。", de: "Bitte sprechen Sie deutlich." },
+    { jp: "空がはっきり見えます。", reading: "そらがはっきりみえます。", de: "Der Himmel ist klar zu sehen." }
+  ]},
+  { id: "v1011", word: "しっかり", reading: "しっかり", meaning: "fest / gründlich / ordentlich", pos: "Adverb", level: "adv", examples: [
+    { jp: "しっかり勉強してください。", reading: "しっかりべんきょうしてください。", de: "Lern bitte gründlich." },
+    { jp: "かばんをしっかり持ってください。", reading: "かばんをしっかりもってください。", de: "Halte die Tasche gut fest." }
+  ]},
+  { id: "v1012", word: "ちゃんと", reading: "ちゃんと", meaning: "ordentlich / richtig", pos: "Adverb", level: "adv", examples: [
+    { jp: "ちゃんと食べてください。", reading: "ちゃんとたべてください。", de: "Iss bitte ordentlich." },
+    { jp: "宿題をちゃんとしました。", reading: "しゅくだいをちゃんとしました。", de: "Ich habe die Hausaufgaben ordentlich gemacht." }
+  ]},
+  { id: "v1013", word: "きちんと", reading: "きちんと", meaning: "ordentlich / korrekt", pos: "Adverb", level: "adv", examples: [
+    { jp: "きちんと座ってください。", reading: "きちんとすわってください。", de: "Setz dich bitte ordentlich hin." },
+    { jp: "毎日きちんと朝ごはんを食べます。", reading: "まいにちきちんとあさごはんをたべます。", de: "Ich frühstücke jeden Tag ordentlich." }
+  ]},
+  { id: "v1014", word: "ずいぶん", reading: "ずいぶん", meaning: "ziemlich / ganz schön", pos: "Adverb", level: "adv", examples: [
+    { jp: "今日はずいぶん寒いです。", reading: "きょうはずいぶんさむいです。", de: "Heute ist es ziemlich kalt." },
+    { jp: "ずいぶん遠いですね。", reading: "ずいぶんとおいですね。", de: "Das ist ganz schön weit, nicht wahr?" }
+  ]},
+  { id: "v1015", word: "やっと", reading: "やっと", meaning: "endlich / schließlich", pos: "Adverb", level: "easy", examples: [
+    { jp: "やっと宿題が終わりました。", reading: "やっとしゅくだいがおわりました。", de: "Endlich sind die Hausaufgaben fertig." },
+    { jp: "バスがやっと来ました。", reading: "バスがやっときました。", de: "Der Bus ist endlich gekommen." }
+  ]},
+  { id: "v1016", word: "もう一度", reading: "もういちど", meaning: "noch einmal", pos: "Adverb", level: "easy", examples: [
+    { jp: "もう一度言ってください。", reading: "もういちどいってください。", de: "Bitte sagen Sie es noch einmal." },
+    { jp: "もう一度やってみます。", reading: "もういちどやってみます。", de: "Ich versuche es noch einmal." }
+  ]},
+  { id: "v1017", word: "もう少し", reading: "もうすこし", meaning: "noch ein bisschen / etwas mehr", pos: "Adverb", level: "adv", examples: [
+    { jp: "もう少し待ってください。", reading: "もうすこしまってください。", de: "Bitte warten Sie noch ein bisschen." },
+    { jp: "もう少しで駅です。", reading: "もうすこしでえきです。", de: "Gleich sind wir am Bahnhof." }
+  ]},
+  { id: "v1018", word: "まだまだ", reading: "まだまだ", meaning: "noch lange (nicht) / bei Weitem", pos: "Adverb", level: "adv", examples: [
+    { jp: "日本語はまだまだ下手です。", reading: "にほんごはまだまだへたです。", de: "Mein Japanisch ist noch lange nicht gut." },
+    { jp: "夏はまだまだ暑いです。", reading: "なつはまだまだあついです。", de: "Im Sommer ist es noch lange heiß." }
+  ]},
+  { id: "v1019", word: "絶対", reading: "ぜったい", meaning: "absolut / unbedingt", pos: "Adverb", level: "adv", examples: [
+    { jp: "絶対に行きます。", reading: "ぜったいにいきます。", de: "Ich gehe auf jeden Fall hin." },
+    { jp: "これは絶対に大丈夫です。", reading: "これはぜったいにだいじょうぶです。", de: "Das ist ganz sicher in Ordnung." }
+  ]},
+  { id: "v1020", word: "必ず", reading: "かならず", meaning: "bestimmt / unbedingt", pos: "Adverb", level: "adv", examples: [
+    { jp: "必ず電話します。", reading: "かならずでんわします。", de: "Ich rufe bestimmt an." },
+    { jp: "明日は必ず来てください。", reading: "あしたはかならずきてください。", de: "Komm morgen unbedingt." }
+  ]},
+  { id: "v1021", word: "別に", reading: "べつに", meaning: "nicht besonders (mit Verneinung)", pos: "Adverb", level: "adv", examples: [
+    { jp: "別に問題ありません。", reading: "べつにもんだいありません。", de: "Es gibt kein besonderes Problem." },
+    { jp: "別に欲しくないです。", reading: "べつにほしくないです。", de: "Ich will es nicht besonders." }
+  ]},
+  { id: "v1022", word: "できるだけ", reading: "できるだけ", meaning: "so viel/gut wie möglich", pos: "Adverb", level: "adv", examples: [
+    { jp: "できるだけ早く来てください。", reading: "できるだけはやくきてください。", de: "Kommen Sie bitte so früh wie möglich." },
+    { jp: "できるだけ日本語で話します。", reading: "できるだけにほんごではなします。", de: "Ich spreche so viel wie möglich Japanisch." }
+  ]},
+  { id: "v1023", word: "なるべく", reading: "なるべく", meaning: "möglichst / nach Möglichkeit", pos: "Adverb", level: "adv", examples: [
+    { jp: "なるべく歩いて行きます。", reading: "なるべくあるいていきます。", de: "Ich gehe möglichst zu Fuß." },
+    { jp: "なるべく野菜を食べます。", reading: "なるべくやさいをたべます。", de: "Ich esse möglichst viel Gemüse." }
+  ]},
+  { id: "v1024", word: "急に", reading: "きゅうに", meaning: "plötzlich", pos: "Adverb", level: "adv", examples: [
+    { jp: "急に雨が降りました。", reading: "きゅうにあめがふりました。", de: "Plötzlich hat es geregnet." },
+    { jp: "彼は急に来ました。", reading: "かれはきゅうにきました。", de: "Er kam plötzlich." }
+  ]},
+  { id: "v1025", word: "なぜ", reading: "なぜ", meaning: "warum", pos: "Adverb", level: "easy", examples: [
+    { jp: "なぜ泣いているのですか。", reading: "なぜないているのですか。", de: "Warum weinst du?" },
+    { jp: "なぜ学校を休みましたか。", reading: "なぜがっこうをやすみましたか。", de: "Warum bist du der Schule ferngeblieben?" }
+  ]},
+  { id: "v1026", word: "こう", reading: "こう", meaning: "so (auf diese Weise)", pos: "Adverb", level: "adv", examples: [
+    { jp: "こう書いてください。", reading: "こうかいてください。", de: "Bitte schreiben Sie es so." },
+    { jp: "こうすると簡単です。", reading: "こうするとかんたんです。", de: "So ist es einfach." }
+  ]},
+  { id: "v1027", word: "そう", reading: "そう", meaning: "so (auf diese Weise)", pos: "Adverb", level: "adv", examples: [
+    { jp: "私もそう思います。", reading: "わたしもそうおもいます。", de: "Das denke ich auch." },
+    { jp: "そうしましょう。", reading: "そうしましょう。", de: "Machen wir es so." }
+  ]},
+  { id: "v1028", word: "ああ", reading: "ああ", meaning: "so (auf jene Weise)", pos: "Adverb", level: "adv", examples: [
+    { jp: "ああいう人が好きです。", reading: "ああいうひとがすきです。", de: "Ich mag solche Menschen." },
+    { jp: "ああ書くと分かりやすいです。", reading: "ああかくとわかりやすいです。", de: "So geschrieben ist es leicht verständlich." }
+  ]},
+  { id: "v1029", word: "こんなに", reading: "こんなに", meaning: "so (sehr)", pos: "Adverb", level: "adv", examples: [
+    { jp: "こんなに寒い日は初めてです。", reading: "こんなにさむいひははじめてです。", de: "So einen kalten Tag habe ich noch nie erlebt." },
+    { jp: "こんなにたくさん食べられません。", reading: "こんなにたくさんたべられません。", de: "So viel kann ich nicht essen." }
+  ]},
+  { id: "v1030", word: "そんなに", reading: "そんなに", meaning: "so (sehr)", pos: "Adverb", level: "adv", examples: [
+    { jp: "そんなに高くないです。", reading: "そんなにたかくないです。", de: "So teuer ist es nicht." },
+    { jp: "そんなに急がないでください。", reading: "そんなにいそがないでください。", de: "Beeilen Sie sich nicht so." }
+  ]},
+  { id: "v1031", word: "あんなに", reading: "あんなに", meaning: "so (sehr, jenes)", pos: "Adverb", level: "adv", examples: [
+    { jp: "あんなに楽しい日はなかったです。", reading: "あんなにたのしいひはなかったです。", de: "Einen so schönen Tag gab es nicht." },
+    { jp: "あんなにたくさんの人を見ました。", reading: "あんなにたくさんのひとをみました。", de: "Ich habe so viele Menschen gesehen." }
+  ]},
+  { id: "v1032", word: "どんなに", reading: "どんなに", meaning: "wie sehr (auch)", pos: "Adverb", level: "adv", examples: [
+    { jp: "どんなに高くても買います。", reading: "どんなにたかくてもかいます。", de: "Egal wie teuer, ich kaufe es." },
+    { jp: "どんなに疲れても勉強します。", reading: "どんなにつかれてもべんきょうします。", de: "Egal wie müde, ich lerne." }
+  ]},
+  { id: "v1034", word: "一生懸命", reading: "いっしょうけんめい", meaning: "mit aller Kraft / eifrig", pos: "Adverb", level: "adv", examples: [
+    { jp: "一生懸命勉強します。", reading: "いっしょうけんめいべんきょうします。", de: "Ich lerne mit aller Kraft." },
+    { jp: "一生懸命働きました。", reading: "いっしょうけんめいはたらきました。", de: "Ich habe eifrig gearbeitet." }
+  ]},
+  { id: "v1035", word: "実は", reading: "じつは", meaning: "eigentlich / in Wahrheit", pos: "Adverb", level: "adv", examples: [
+    { jp: "実は日本に行きたいです。", reading: "じつはにほんにいきたいです。", de: "Eigentlich möchte ich nach Japan." },
+    { jp: "実はもう知っていました。", reading: "じつはもうしっていました。", de: "In Wahrheit wusste ich es schon." }
+  ]},
+  { id: "v1036", word: "最初に", reading: "さいしょに", meaning: "zuerst / am Anfang", pos: "Adverb", level: "easy", examples: [
+    { jp: "最初に名前を書いてください。", reading: "さいしょになまえをかいてください。", de: "Schreiben Sie zuerst Ihren Namen." },
+    { jp: "最初にこの本を読みました。", reading: "さいしょにこのほんをよみました。", de: "Zuerst habe ich dieses Buch gelesen." }
+  ]},
+  { id: "v1037", word: "最後に", reading: "さいごに", meaning: "zuletzt / am Ende", pos: "Adverb", level: "easy", examples: [
+    { jp: "最後にお茶を飲みました。", reading: "さいごにおちゃをのみました。", de: "Zuletzt habe ich Tee getrunken." },
+    { jp: "最後に質問があります。", reading: "さいごにしつもんがあります。", de: "Zum Schluss habe ich eine Frage." }
+  ]},
+  { id: "v1040", word: "いつか", reading: "いつか", meaning: "irgendwann / eines Tages", pos: "Adverb", level: "adv", examples: [
+    { jp: "いつか日本に住みたいです。", reading: "いつかにほんにすみたいです。", de: "Eines Tages möchte ich in Japan leben." },
+    { jp: "いつかまた会いましょう。", reading: "いつかまたあいましょう。", de: "Lass uns irgendwann wieder treffen." }
+  ]},
+  { id: "v1041", word: "いつでも", reading: "いつでも", meaning: "jederzeit / wann auch immer", pos: "Adverb", level: "adv", examples: [
+    { jp: "いつでも電話してください。", reading: "いつでもでんわしてください。", de: "Rufen Sie jederzeit an." },
+    { jp: "いつでも遊びに来てください。", reading: "いつでもあそびにきてください。", de: "Kommen Sie jederzeit zu Besuch." }
+  ]},
+  { id: "v1042", word: "このごろ", reading: "このごろ", meaning: "in letzter Zeit / dieser Tage", pos: "Adverb", level: "adv", examples: [
+    { jp: "このごろ忙しいです。", reading: "このごろいそがしいです。", de: "In letzter Zeit bin ich beschäftigt." },
+    { jp: "このごろ雨が多いです。", reading: "このごろあめがおおいです。", de: "In letzter Zeit regnet es oft." }
+  ]},
+  { id: "v1043", word: "たしかに", reading: "たしかに", meaning: "sicherlich / gewiss / tatsächlich", pos: "Adverb", level: "adv", examples: [
+    { jp: "たしかにここに置きました。", reading: "たしかにここにおきました。", de: "Ich habe es sicher hier hingelegt." },
+    { jp: "たしかに彼は親切です。", reading: "たしかにかれはしんせつです。", de: "Er ist tatsächlich freundlich." }
+  ]},
+  { id: "v1044", word: "どんどん", reading: "どんどん", meaning: "immer weiter / zügig / rasch", pos: "Adverb", level: "adv", examples: [
+    { jp: "日本語がどんどん上手になります。", reading: "にほんごがどんどんじょうずになります。", de: "Mein Japanisch wird immer besser." },
+    { jp: "どんどん食べてください。", reading: "どんどんたべてください。", de: "Greifen Sie kräftig zu." }
   ]}
 ];

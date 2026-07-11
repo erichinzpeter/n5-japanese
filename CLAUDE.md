@@ -19,7 +19,7 @@ git push origin main     # deployed automatisch via GitHub Pages
 - `conjugate.js` — Konjugationsformen für Verben/Adjektive (pure module, `node --test`)
 - `srs.js`       — Spaced-Repetition-Logik (pure module, `node --test`)
 - `data/kanji.js`    — const KANJI (170 Einträge)
-- `data/vocab.js`    — const VOCAB (1008 Einträge: 437 easy / 571 adv)
+- `data/vocab.js`    — const VOCAB (1040 Einträge: 442 easy / 598 adv)
 - `data/grammar.js`  — const GRAMMAR (63 Einträge)
 - `data/basics.js`   — const BASICS (56 Einträge)
 - `data/concepts.js` — const CONCEPTS (60 Einträge)
