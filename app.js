@@ -616,8 +616,11 @@ function generateChoices(card) {
       getLabel = k => k.char;
     }
   } else if (type === 'vocab') {
-    // Pool includes BASICS items too so distractors come from the same broad vocab space
-    const vocabPool = [...VOCAB, ...BASICS].filter(v => v.id !== item.id);
+    // Distractors from the same part-of-speech category so e.g. the adverb quiz
+    // doesn't surface nouns as answer options; fall back if the category is too small.
+    const cat = posCategory(item.pos);
+    let vocabPool = [...VOCAB, ...BASICS].filter(v => v.id !== item.id && posCategory(v.pos) === cat);
+    if (vocabPool.length < 3) vocabPool = [...VOCAB, ...BASICS].filter(v => v.id !== item.id);
     pool = vocabPool;
     if (dir === 'fwd') {
       correct = item.meaning;

@@ -4,6 +4,22 @@
 
 ---
 
+## [3.23.0] — 2026-07-11
+
+### Hinzugefügt
+
+- 32 neue N5-Adverbien (v1010–v1044, z.B. はっきり, ちゃんと, できるだけ, 必ず, 一生懸命, どんどん) mit je zwei Beispielsätzen — Adverbien-Deck wächst von 65 auf 97 Karten.
+
+### Geändert
+
+- UI-Umbenennung: „Decks" heißt jetzt überall „Lernkarten" (Home-Überschrift, Zurück-Buttons, aria-label).
+
+### Behoben
+
+- Multiple-Choice-Antwortoptionen stammen jetzt aus derselben Wortart wie das abgefragte Wort — im Adverbien-Quiz erscheinen keine Nomen mehr als Distraktoren (gilt für alle Vokabel-Decks).
+
+---
+
 ## [3.22.0] — 2026-07-11
 
 ### Hinzugefügt
