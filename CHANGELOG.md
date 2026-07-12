@@ -4,6 +4,15 @@
 
 ---
 
+## [3.24.2] — 2026-07-12
+
+### Behoben
+
+- Audio sprach beim Aufdecken teils das vorige Wort statt der aktuellen Karte (z.B. Karte 駅 zeigte »eki«, gesprochen wurde »uru« von der Karte 売る davor). Ursache: Chrome verwirft eine Sprachausgabe, die im selben Tick wie `cancel()` gestartet wird — die alte Ausgabe lief weiter. Neu: `speak()` startet erst nach dem Tick, und es wird gezielt eine japanische Stimme gewählt, damit keine nicht-japanische Standardstimme die Kana verfälscht.
+- Zwei Beispielsätze hatten die Partikel は (Thema) in der Lesung fälschlich als の transkribiert (母は… → ははの… statt ははは…) bei いけばな und 出かける. Korrigiert. Betraf nur die angezeigte Lesung, nicht die Sprachausgabe.
+
+---
+
 ## [3.24.1] — 2026-07-11
 
 ### Behoben
