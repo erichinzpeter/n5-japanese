@@ -1805,7 +1805,7 @@ const VOCAB = [
     { jp: "ご気分はいかがですか。", reading: "ごきぶんはいかがですか。", de: "Wie fühlen Sie sich?" }
   ]},
   { id: "v441", word: "いけばな", reading: "いけばな", meaning: "Ikebana (Blumensteckkunst)", pos: "Nomen", level: "adv", examples: [
-    { jp: "母はいけばなを習っています。", reading: "ははのいけばなをならっています。", de: "Meine Mutter lernt Ikebana." },
+    { jp: "母はいけばなを習っています。", reading: "はははいけばなをならっています。", de: "Meine Mutter lernt Ikebana." },
     { jp: "いけばなは日本の文化です。", reading: "いけばなはにほんのぶんかです。", de: "Ikebana ist japanische Kultur." }
   ]},
   { id: "v442", word: "医者", reading: "いしゃ", meaning: "Arzt", pos: "Nomen", level: "easy", examples: [
@@ -3047,7 +3047,7 @@ const VOCAB = [
   ]},
   { id: "v761", word: "出かける", reading: "でかける", meaning: "ausgehen, weggehen", pos: "Verb (Ichidan)", level: "adv", examples: [
     { jp: "午後、買い物に出かけます。", reading: "ごご、かいものにでかけます。", de: "Am Nachmittag gehe ich einkaufen." },
-    { jp: "母は出かけています。", reading: "ははのでかけています。", de: "Meine Mutter ist ausgegangen." }
+    { jp: "母は出かけています。", reading: "はははでかけています。", de: "Meine Mutter ist ausgegangen." }
   ]},
   { id: "v762", word: "テキスト", reading: "テキスト", meaning: "Lehrbuch, Text", pos: "Nomen", level: "adv", examples: [
     { jp: "日本語のテキストを買いました。", reading: "にほんごのテキストをかいました。", de: "Ich habe ein Japanisch-Lehrbuch gekauft." },

@@ -894,11 +894,17 @@ function getJapaneseText(card) {
 
 function speakJapanese(text) {
   if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
+  const synth = window.speechSynthesis;
   const utt = new SpeechSynthesisUtterance(text);
   utt.lang = 'ja-JP';
   utt.rate = 0.9;
-  window.speechSynthesis.speak(utt);
+  // Pin an actual Japanese voice so a non-JP default voice can't mangle the kana.
+  const jaVoice = synth.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
+  if (jaVoice) utt.voice = jaVoice;
+  // Chrome drops an utterance queued in the same tick as cancel(), leaving the
+  // PREVIOUS card's audio still playing (駅 shown, 売る heard). Defer past the tick.
+  synth.cancel();
+  setTimeout(() => synth.speak(utt), 60);
 }
 
 // ===== UTILS =====
