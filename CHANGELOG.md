@@ -8,7 +8,7 @@
 
 ### Behoben
 
-- Android sprach weiterhin teils das vorige Wort statt der aktuellen Karte (駅 gezeigt, »uru« von 売る gehört) — der Fix aus 3.24.2 reichte nicht. Zwei Lücken: (1) Beim Weiterblättern (»Weiter«/Bewertung) wurde die Sprachausgabe nie abgebrochen; auf Android startet die TTS-Engine oft erst nach 0,5–2 s, sodass das alte Wort erst auf der nächsten Karte hörbar wurde. (2) Die seit 3.24.2 um 60 ms verzögerte Ausgabe hing in einem Timer, den `speechSynthesis.cancel()` nicht erreicht — sie spielte trotz Abbruch. Neu: zentrales `cancelSpeech()` räumt Timer und Warteschlange gemeinsam ab und läuft bei jedem Kartenwechsel.
+- Android sprach weiterhin teils das vorige Wort statt der aktuellen Karte (駅 gezeigt, »uru« von 売る gehört) — der Fix aus 3.24.2 reichte nicht. Zwei Lücken: (1) Beim Weiterblättern (»Weiter«/Bewertung) wurde die Sprachausgabe nie abgebrochen; auf Android startet die TTS-Engine oft erst nach 0,5–2 s, sodass das alte Wort erst auf der nächsten Karte hörbar wurde. (2) Die seit 3.24.2 um 60 ms verzögerte Ausgabe hing in einem Timer, den `speechSynthesis.cancel()` nicht erreicht — sie spielte trotz Abbruch. Neu: zentrales `cancelSpeech()` räumt Timer und Warteschlange gemeinsam ab und läuft bei jedem Kartenwechsel. Zusätzlich `resume()` nach jedem `cancel()`: Androids TTS-Engine kann in einem Pausen-Zustand festhängen, in dem `cancel()` alte Einträge nicht entfernt — die spielten dann später sogar beim manuellen 🔊-Tap der nächsten Karte.
 
 ---
 

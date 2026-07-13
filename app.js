@@ -903,7 +903,13 @@ let speakTimer = null;
 function cancelSpeech() {
   clearTimeout(speakTimer);
   speakTimer = null;
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+  synth.cancel();
+  // Android's engine can wedge in a paused state where cancel() leaves stale
+  // utterances queued (they surface later, even on a manual 🔊 tap of the next
+  // card). resume() unsticks the engine so cancel actually takes effect.
+  synth.resume();
 }
 
 function speakJapanese(text) {
