@@ -805,6 +805,7 @@ function recordFirstOutcome(card, isCorrect) {
 // MC advance (the "Weiter" button): correct graduates the card, a miss requeues it.
 function advanceCard() {
   dismissRatingHint();
+  cancelSpeech();
   const card = state.session[state.sessionIdx];
   if (state.mcOutcome) state.graduated.add(card.id);
   else requeueCard(card);
@@ -816,6 +817,7 @@ function advanceCard() {
 // ===== RATE & ADVANCE =====
 function rateCard(rating) {
   dismissRatingHint();
+  cancelSpeech();
   const card = state.session[state.sessionIdx];
   const isCorrect = rating === 3;
 
@@ -892,6 +894,18 @@ function getJapaneseText(card) {
   return item.reading || item.word;   // vocab + basics
 }
 
+// The deferred utterance below is invisible to speechSynthesis.cancel() until
+// its timer fires, so the timer must be tracked and cleared alongside cancel().
+// Otherwise a stale utterance can start AFTER the next card is already shown
+// (Android TTS starts late: 駅 shown, previous card's 売る heard).
+let speakTimer = null;
+
+function cancelSpeech() {
+  clearTimeout(speakTimer);
+  speakTimer = null;
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
 function speakJapanese(text) {
   if (!window.speechSynthesis) return;
   const synth = window.speechSynthesis;
@@ -903,8 +917,8 @@ function speakJapanese(text) {
   if (jaVoice) utt.voice = jaVoice;
   // Chrome drops an utterance queued in the same tick as cancel(), leaving the
   // PREVIOUS card's audio still playing (駅 shown, 売る heard). Defer past the tick.
-  synth.cancel();
-  setTimeout(() => synth.speak(utt), 60);
+  cancelSpeech();
+  speakTimer = setTimeout(() => { speakTimer = null; synth.speak(utt); }, 60);
 }
 
 // ===== UTILS =====
@@ -1381,7 +1395,7 @@ function renderConceptRow(c, badgeHtml) {
 function openConceptDetail(id) {
   const c = CONCEPTS.find(x => x.id === id);
   if (!c) return;
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  cancelSpeech();
   showScreen('concept-detail');
   document.getElementById('concept-detail-title').textContent = c.title;
   document.getElementById('concept-detail-content').innerHTML =
@@ -1411,7 +1425,7 @@ const CONCEPT_ORDER = [
 
 function renderConceptsScreen() {
   showScreen('concepts');
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  cancelSpeech();
 
   const byCat = new Map();
   CONCEPTS.forEach(c => {
@@ -1470,7 +1484,7 @@ function initEvents() {
     if (isAudioOff()) localStorage.removeItem(AUDIO_OFF_KEY);
     else {
       localStorage.setItem(AUDIO_OFF_KEY, '1');
-      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      cancelSpeech();
     }
     renderAudioToggle();
   });
@@ -1536,7 +1550,7 @@ function initEvents() {
 
   // Back button
   document.getElementById('back-btn').addEventListener('click', () => {
-    window.speechSynthesis && window.speechSynthesis.cancel();
+    cancelSpeech();
     renderHome();
   });
 
@@ -1566,7 +1580,7 @@ function initEvents() {
     });
   });
   document.getElementById('concepts-back-btn').addEventListener('click', () => {
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    cancelSpeech();
     renderHome();
   });
   document.getElementById('concept-detail-back-btn').addEventListener('click', renderConceptsScreen);
