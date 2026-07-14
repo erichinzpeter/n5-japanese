@@ -369,6 +369,199 @@ function startFreeRound(deck) {
   launchSession(deck, cards, true);
 }
 
+// Dev harness: `?dev=k050,k008` (or the kanji chars `?dev=飲,八`) launches an
+// ordered Kanji-MC session with exactly those cards. Ordering matters — it lets
+// a specific card sequence (e.g. 飲 then 八) be replayed on-device to reproduce
+// the Android stale-TTS leak without shuffling through a full deck.
+function tryStartDevSession() {
+  const raw = new URLSearchParams(location.search).get('dev');
+  if (!raw) return false;
+  // `?dev=panel` = probes only, no session (nothing auto-speaks — the panel
+  // buttons are then the ONLY source of audio, so a mis-play can't be blamed on
+  // a card's auto-speak firing concurrently).
+  if (raw === 'panel') {
+    state.dev = true;
+    makeDevPanel();
+    devLog('PANEL mode — no session, buttons are the only audio source');
+    return true;
+  }
+  const dir = 'fwd'; // dev harness is JP→DE only
+  const cards = raw.split(',').map(tok => tok.trim()).filter(Boolean)
+    .map(tok => KANJI.find(k => k.id === tok || k.char === tok))
+    .filter(Boolean)
+    .map(k => ({ item: k, type: 'kanji', dir, id: `${k.id}-${dir}` }));
+  if (!cards.length) return false;
+  state.dev = true; // enables the on-screen TTS debug overlay (no console on Android)
+  state.mode = 'mc';
+  state.direction = 'jp-de';
+  state.roundSize = cards.length;
+  launchSession('kanji', cards, true);
+  makeDevPanel();
+  return true;
+}
+
+// Minimal raw speak — no cancel, no voice pin, no defer, no timer. Isolates the
+// native TTS engine from all app-side speech logic. If this mis-speaks a string
+// that was never spoken before, the bug is in the device engine/voice, not here.
+function rawSpeak(text, rate, pitch) {
+  const synth = window.speechSynthesis;
+  if (!synth) { devLog(`RAW no synth`); return; }
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP';
+  if (rate) utt.rate = rate;
+  if (pitch) utt.pitch = pitch;
+  devLog(`RAW speak("${text}")${rate ? ` rate=${rate}` : ''}${pitch ? ` pitch=${pitch}` : ''} len=${text.length} codes=${[...text].map(c => c.codePointAt(0).toString(16)).join(',')}`);
+  utt.onstart = () => devLog(`  ▶ START "${utt.text}"`);
+  utt.onend   = () => devLog(`  ■ END   "${utt.text}"`);
+  utt.onerror = e => devLog(`  ✖ ERR   "${utt.text}" ${e.error}`);
+  synth.speak(utt);
+}
+
+// Isolation probes: each fires "はち" through exactly ONE suspect mechanism so a
+// mis-play pins the poison. isoVoice = only pin the JP voice. isoCancel = only
+// cancel() immediately before speak. isoTimer = only defer via setTimeout.
+function isoVoice() {
+  const s = window.speechSynthesis; if (!s) return;
+  const u = new SpeechSynthesisUtterance('はち'); u.lang = 'ja-JP';
+  if (!jaVoice) pickJaVoice();
+  if (jaVoice) u.voice = jaVoice;
+  devLog(`ISO voice → はち (voice=${jaVoice ? jaVoice.name : 'NONE'})`);
+  u.onstart = () => devLog(`  ▶ START "${u.text}"`);
+  s.speak(u);
+}
+function isoCancel() {
+  const s = window.speechSynthesis; if (!s) return;
+  const u = new SpeechSynthesisUtterance('はち'); u.lang = 'ja-JP';
+  devLog(`ISO cancel+speak → はち`);
+  u.onstart = () => devLog(`  ▶ START "${u.text}"`);
+  s.cancel();
+  s.speak(u);
+}
+function isoTimer() {
+  const s = window.speechSynthesis; if (!s) return;
+  const u = new SpeechSynthesisUtterance('はち'); u.lang = 'ja-JP';
+  devLog(`ISO timer(60)+speak → はち`);
+  u.onstart = () => devLog(`  ▶ START "${u.text}"`);
+  setTimeout(() => s.speak(u), 60);
+}
+// Reproduces a card change: speak のむ, then 700ms later speak はち. The word you
+// hear SECOND is the one that matters — that is the real-world leak.
+function navSim() {
+  devLog(`NAVSIM: のむ then (700ms) はち — listen to the SECOND`);
+  speakJapanese('のむ');
+  setTimeout(() => speakJapanese('はち'), 700);
+}
+
+// Flush probe: speak the word, then immediately queue a short SILENT utterance.
+// If this device buffers audio one utterance behind, the trailing silent one
+// "pushes" the real word's audio out on schedule.
+function pushSpeak(text) {
+  const s = window.speechSynthesis; if (!s) return;
+  const u = new SpeechSynthesisUtterance(text); u.lang = 'ja-JP';
+  const flush = new SpeechSynthesisUtterance('、'); flush.lang = 'ja-JP'; flush.volume = 0;
+  devLog(`PUSH speak("${text}") + silent flush`);
+  u.onstart = () => devLog(`  ▶ START "${u.text}"`);
+  u.onend   = () => devLog(`  ■ END   "${u.text}"`);
+  s.speak(u);
+  s.speak(flush);
+}
+
+// Lag-by-one verifier: one maximally distinct word per tap through rawSpeak.
+// Protocol: tap SEQ once, wait for full silence, note what you HEARD, repeat.
+// If heard == the word LOGGED one tap earlier (strictly, every time), the native
+// engine plays audio exactly one utterance behind. Words are acoustically
+// unmistakable (different onsets, lengths, vowels) to kill listening noise.
+const SEQ_WORDS = ['さくら', 'でんわ', 'たまご', 'みず', 'くるま', 'はち', 'テレビ', 'のむ', 'ゆき'];
+let seqIdx = 0;
+function seqSpeak() {
+  const word = SEQ_WORDS[seqIdx % SEQ_WORDS.length];
+  devLog(`SEQ ${(seqIdx % SEQ_WORDS.length) + 1}/${SEQ_WORDS.length} → "${word}"`);
+  seqIdx++;
+  rawSpeak(word);
+}
+
+// Double-speak probe: queue the same text twice back to back. Under a strict
+// lag-by-one the SECOND copy is audible with the correct word — if so, this is
+// a viable app-side mitigation (always double-speak on Android).
+function dblSpeak(text) {
+  const s = window.speechSynthesis; if (!s) return;
+  devLog(`DBL speak("${text}") ×2 queued — listen to the SECOND`);
+  ['1st', '2nd'].forEach(tag => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ja-JP';
+    u.onstart = () => devLog(`  ▶ START ${tag} "${u.text}"`);
+    u.onend   = () => devLog(`  ■ END   ${tag} "${u.text}"`);
+    s.speak(u);
+  });
+}
+
+// Collision order proof: same protocol as SEQ, but the known collision pairs
+// (のむ↔はち, うる↔えき) are ordered so the previous VICTIM comes first. Under
+// the cache-collision/first-wins theory the predictions are exact:
+// はち plays "のむ" and うる plays "えき" — the reverse of what was heard before.
+const SEQ2_WORDS = ['のむ', 'みず', 'はち', 'えき', 'ゆき', 'うる'];
+let seq2Idx = 0;
+function seq2Speak() {
+  const word = SEQ2_WORDS[seq2Idx % SEQ2_WORDS.length];
+  devLog(`SEQ2 ${(seq2Idx % SEQ2_WORDS.length) + 1}/${SEQ2_WORDS.length} → "${word}"`);
+  seq2Idx++;
+  rawSpeak(word);
+}
+
+// Dev-only button strip to fire fixed strings straight at the engine.
+function makeDevPanel() {
+  if (document.getElementById('dev-panel')) return;
+  const bar = document.createElement('div');
+  bar.id = 'dev-panel';
+  bar.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99999;display:flex;flex-wrap:wrap;gap:4px;background:rgba(0,0,0,.85);padding:5px;';
+  const add = (label, fn) => {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.style.cssText = 'font:12px monospace;padding:6px 8px;';
+    b.addEventListener('click', fn);
+    bar.appendChild(b);
+  };
+  add('spk はち', () => speakJapanese('はち'));
+  add('spk のむ', () => speakJapanese('のむ'));
+  add('raw はち', () => rawSpeak('はち'));
+  add('raw のむ', () => rawSpeak('のむ'));
+  add('raw ねこ', () => rawSpeak('ねこ'));
+  add('PUSH はち', () => pushSpeak('はち'));
+  add('PUSH のむ', () => pushSpeak('のむ'));
+  add('iso VOICE', isoVoice);
+  add('iso CANCEL', isoCancel);
+  add('iso TIMER', isoTimer);
+  add('NAVSIM', navSim);
+  add('SEQ ▶', seqSpeak);
+  add('SEQ2 ▶', seq2Speak);
+  add('dbl のむ', () => dblSpeak('のむ'));
+  add('dbl はち', () => dblSpeak('はち'));
+  // Cache-buster variants: each changes the utterance's identity (text or rate)
+  // without changing what a correct engine says. Tap 'raw はち' first to poison
+  // the bucket, then find which variant makes のむ come out right — that variant
+  // is the production mitigation.
+  add('のむ。', () => rawSpeak('のむ。'));
+  add('␣のむ', () => rawSpeak(' のむ'));
+  add('zw のむ', () => rawSpeak('の​む'));
+  add('jit のむ', () => rawSpeak('のむ', 0.9 + (Date.now() % 50) / 1000));
+  // Cache-key dimension probes. The in-app jitter fix failed on-device: both
+  // words speak at rate 0.9x there, so either the key quantises the rate or the
+  // rate is not in the key at all (the earlier jit success ran against a bucket
+  // poisoned at rate 1.0). Protocol: はち@.9 first (poison at app rate), then
+  // each のむ probe in order — note correct/wrong for every step.
+  add('はち@.9', () => rawSpeak('はち', 0.9));
+  add('のむ@.9', () => rawSpeak('のむ', 0.9));
+  add('のむ@.91', () => rawSpeak('のむ', 0.91));
+  add('のむ@.95', () => rawSpeak('のむ', 0.95));
+  add('のむ@1.4', () => rawSpeak('のむ', 1.4));
+  add('のむ p1.3', () => rawSpeak('のむ', 0.9, 1.3));
+  // Pairwise check for the text-suffix mitigation: if はち。 after のむ。 plays
+  // "nomu", the suffixed pair collides just like the bare pair and a uniform
+  // suffix is no fix — per-text distinct perturbation needed instead.
+  add('はち。', () => rawSpeak('はち。'));
+  document.body.appendChild(bar);
+}
+
 function renderCurrentCard() {
   const card = state.session[state.sessionIdx];
   const chip = document.getElementById('requeue-chip');
@@ -911,28 +1104,168 @@ let speakTimer = null;
 function cancelSpeech() {
   clearTimeout(speakTimer);
   speakTimer = null;
+  if (fileAudio) { fileAudio.pause(); fileAudio = null; }
   const synth = window.speechSynthesis;
   if (!synth) return;
-  synth.cancel();
-  // Android's engine can wedge in a paused state where cancel() leaves stale
-  // utterances queued (they surface later, even on a manual 🔊 tap of the next
-  // card). resume() unsticks the engine so cancel actually takes effect.
-  synth.resume();
+  // Order matters on Android: a stale utterance can be left PAUSED, and cancel()
+  // does not flush a paused queue. resume() first puts the engine in a running
+  // state so the following cancel() actually discards it — the reverse order
+  // un-pauses the stale utterance and you hear the previous card (八 shown,
+  // 飲→のむ heard).
+  if (TTS.resume) synth.resume();
+  if (TTS.cancel) synth.cancel();
 }
 
+// On-screen debug log for the dev harness (?dev=…): Android has no dev console,
+// so TTS boundary events are surfaced in a fixed overlay to pinpoint the leak.
+function devLog(msg) {
+  if (!state.dev) return;
+  let el = document.getElementById('dev-log');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'dev-log';
+    el.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:99999;max-height:45vh;overflow:auto;background:rgba(0,0,0,.85);color:#0f0;font:11px/1.35 monospace;padding:6px 8px;white-space:pre-wrap;';
+    document.body.appendChild(el);
+  }
+  const t = new Date().toISOString().slice(14, 23);
+  el.textContent = (`${t} ${msg}\n` + el.textContent).split('\n').slice(0, 40).join('\n');
+}
+
+// Android loads getVoices() asynchronously; the first speak() otherwise fires
+// with no voice, cold-starting the native engine so its audio surfaces late and
+// leaks into the next card. Cache the JP voice up front and warm the engine on
+// the first user gesture so the first real utterance is neither cold nor voiceless.
+let jaVoice = null;
+let ttsWarmed = false;
+
+// Dev TTS strategy switches (URL params) — flip behaviours on-device without a
+// redeploy to isolate the Android "plays the previous utterance" bug.
+//   ?ttsvoice=0   don't pin utt.voice (rely on lang only)
+//   ?ttscancel=0  don't cancel() before speaking
+//   ?ttsresume=0  don't resume() in cancelSpeech
+//   ?ttsdefer=N   ms to defer speak() past the cancel tick (default 60; 0 = sync)
+//   ?ttspin=1     pin utterances in a module set until end/error (Chrome can GC
+//                 an utterance before it plays — known Android quirk)
+//   ?ttsidle=1    never cancel(); poll until the engine is fully idle, then speak
+//   ?ttsfile=0    disable bundled audio clips (force live TTS, for A/B on device)
+const TTS = (() => {
+  const q = new URLSearchParams(location.search);
+  return {
+    voice:  q.get('ttsvoice')  !== '0',
+    cancel: q.get('ttscancel') !== '0',
+    resume: q.get('ttsresume') !== '0',
+    warm:   q.get('ttswarm')   !== '0',
+    defer:  q.has('ttsdefer') ? Math.max(0, parseInt(q.get('ttsdefer'), 10) || 0) : 60,
+    pin:    q.get('ttspin')  === '1',
+    idle:   q.get('ttsidle') === '1',
+    file:   q.get('ttsfile') !== '0',
+  };
+})();
+
+const pinnedUtts = new Set();
+
+function pickJaVoice() {
+  const synth = window.speechSynthesis;
+  if (!synth) return null;
+  jaVoice = synth.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith('ja')) || jaVoice;
+  return jaVoice;
+}
+
+function initSpeech() {
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+  pickJaVoice();
+  synth.onvoiceschanged = pickJaVoice;
+}
+
+// Pays the native engine's cold-start cost with a silent utterance so the first
+// audible card doesn't. Must run inside a user gesture (autoplay policy).
+function warmSpeech() {
+  const synth = window.speechSynthesis;
+  if (!synth || ttsWarmed || !TTS.warm) return;
+  ttsWarmed = true;
+  pickJaVoice();
+  const warm = new SpeechSynthesisUtterance('');
+  warm.volume = 0;
+  if (jaVoice) warm.voice = jaVoice;
+  synth.speak(warm);
+  devLog(`warmSpeech voice=${jaVoice ? jaVoice.name : 'NONE'}`);
+}
+
+// Word-level texts play from bundled clips (audio/, see data/audio-map.js):
+// Android's TTS layer (Chrome bridge — engine-independent, Samsung AND Google
+// TTS affected) replays wrong cached audio for some short kana strings
+// (のむ↔はち, うる↔えき — full evidence in ANDROID-TTS-FINDINGS.md). No
+// app-side utterance trick fixes it, so short texts bypass live TTS entirely.
+// Sentences have no clips and stay on live TTS (never observed colliding).
+let fileAudio = null;
+
 function speakJapanese(text) {
-  if (!window.speechSynthesis) return;
+  if (TTS.file && typeof AUDIO_MAP !== 'undefined' && AUDIO_MAP[text]) {
+    cancelSpeech();
+    const audio = new Audio(`audio/${AUDIO_MAP[text]}`);
+    fileAudio = audio;
+    if (state.dev) devLog(`file("${text}") → ${AUDIO_MAP[text]}`);
+    // 404/decode fires 'error' AND rejects play() — fall back exactly once.
+    let fellBack = false;
+    const fallBack = why => {
+      if (fellBack) return;
+      fellBack = true;
+      if (state.dev) devLog(`  file ${why}, TTS fallback`);
+      speakViaTTS(text);
+    };
+    audio.onerror = () => fallBack('ERR');
+    audio.play().catch(e => fallBack(e.name));
+    return;
+  }
+  speakViaTTS(text);
+}
+
+function speakViaTTS(text) {
+  if (!window.speechSynthesis) { devLog(`speak("${text}") NO speechSynthesis`); return; }
   const synth = window.speechSynthesis;
   const utt = new SpeechSynthesisUtterance(text);
   utt.lang = 'ja-JP';
   utt.rate = 0.9;
   // Pin an actual Japanese voice so a non-JP default voice can't mangle the kana.
-  const jaVoice = synth.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
-  if (jaVoice) utt.voice = jaVoice;
+  if (TTS.voice) {
+    if (!jaVoice) pickJaVoice();
+    if (jaVoice) utt.voice = jaVoice;
+  }
+  if (state.dev) {
+    devLog(`speak("${text}") voice=${utt.voice ? utt.voice.name : 'NONE'} [v${+TTS.voice} c${+TTS.cancel} r${+TTS.resume} d${TTS.defer} p${+TTS.pin} i${+TTS.idle}] speaking=${synth.speaking} pending=${synth.pending}`);
+    utt.onstart = () => devLog(`  ▶ START "${utt.text}"`);
+    utt.onend   = () => devLog(`  ■ END   "${utt.text}"`);
+    utt.onerror = e => devLog(`  ✖ ERR   "${utt.text}" ${e.error}`);
+  }
+  if (TTS.pin) {
+    pinnedUtts.add(utt);
+    utt.addEventListener('end', () => pinnedUtts.delete(utt));
+    utt.addEventListener('error', () => pinnedUtts.delete(utt));
+  }
+  const fire = () => {
+    speakTimer = null;
+    if (state.dev) devLog(`  → synth.speak fire speaking=${synth.speaking} pending=${synth.pending}`);
+    synth.speak(utt);
+  };
+  if (TTS.idle) {
+    // Mitigation probe: never cancel a running utterance; wait for the engine
+    // to go fully idle instead, so its internal queue can't get out of step.
+    const t0 = Date.now();
+    const tryFire = () => {
+      speakTimer = null;
+      if (!synth.speaking && !synth.pending) { fire(); return; }
+      if (Date.now() - t0 > 3000) { devLog(`  idle-wait timeout, speaking anyway`); fire(); return; }
+      speakTimer = setTimeout(tryFire, 100);
+    };
+    tryFire();
+    return;
+  }
   // Chrome drops an utterance queued in the same tick as cancel(), leaving the
   // PREVIOUS card's audio still playing (駅 shown, 売る heard). Defer past the tick.
   cancelSpeech();
-  speakTimer = setTimeout(() => { speakTimer = null; synth.speak(utt); }, 60);
+  if (TTS.defer > 0) speakTimer = setTimeout(fire, TTS.defer);
+  else fire();
 }
 
 // ===== UTILS =====
@@ -1701,6 +2034,10 @@ function initEvents() {
 // ===== INIT =====
 function init() {
   initEvents();
+  initSpeech();
+  // Warm the TTS engine on the first user gesture (autoplay policy requires one).
+  window.addEventListener('pointerdown', warmSpeech, { once: true });
+  window.addEventListener('keydown', warmSpeech, { once: true });
   renderHome();
   // Splash is a loading cover, not a brand pause. Fast launch (warm PWA reload,
   // local file): the icon never visibly painted — remove it without a fade, a
@@ -1711,6 +2048,7 @@ function init() {
     if (performance.now() < 400) splash.remove();
     else splash.classList.add('hidden');
   }
+  tryStartDevSession(); // ?dev=… jumps straight into a fixed session
 }
 
 init();

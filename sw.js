@@ -1,4 +1,4 @@
-const CACHE = 'n5-v93';
+const CACHE = 'n5-v95';
 const ASSETS = [
   './',
   './index.html',
@@ -15,6 +15,7 @@ const ASSETS = [
   './data/grammar.js',
   './data/basics.js',
   './data/concepts.js',
+  './data/audio-map.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -59,6 +60,18 @@ self.addEventListener('fetch', e => {
         caches.open(CACHE).then(c => c.put(req, copy));
         return res;
       }).catch(() => caches.match(req).then(c => c || caches.match('./index.html')))
+    );
+  } else if (url.pathname.includes('/audio/')) {
+    // Bundled TTS clips (~2100 small mp3s): too big to precache, so cache each
+    // one on first play — after that the reading works offline like the rest.
+    e.respondWith(
+      caches.match(req).then(hit => hit || fetch(req).then(res => {
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy));
+        }
+        return res;
+      }))
     );
   } else {
     e.respondWith(caches.match(req).then(c => c || fetch(req)));
