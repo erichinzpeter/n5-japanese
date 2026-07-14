@@ -4,6 +4,36 @@
 
 ---
 
+## [3.25.0] — 2026-07-14
+
+### Neu
+
+- **Vorab generierte Aussprache-Clips** (2166 MP3s, edge-tts ja-JP-NanamiNeural) für alle Kanji-Lesungen, Vokabeln, Basics und Konjugationsformen. `speakJapanese` spielt bei Treffer die Datei statt Live-TTS; Beispielsätze/Dialoge bleiben Live-TTS. Clips werden nicht precached, sondern beim ersten Abspielen einzeln geladen (~10 KB) und dann offline gecached.
+
+### Behoben
+
+- Android sprach für manche kurzen Lesungen ein falsches Wort (八→„のむ", 駅→„うる"): Die Android-TTS-Schicht (Chrome-Bridge, engine-unabhängig — Samsung wie Google TTS) spielt für kollidierende kurze Kana-Strings das gecachte Audio eines anderen Worts. Kein App-seitiger Utterance-Trick behebt das (Rate-Jitter, Suffix, Flush, Double-Speak — alles getestet und widerlegt, siehe ANDROID-TTS-FINDINGS.md); daher umgehen Wort-Level-Texte die Live-TTS jetzt komplett.
+
+### Dev
+
+- `?ttsfile=0` erzwingt Live-TTS (A/B am Gerät). Dev-Panel: `spk`-Buttons für den Datei-Pfad, `SEQ`/`SEQ2`-Kollisionstests, Cache-Buster-Proben, rawSpeak mit rate/pitch.
+- `tools/export-speak-texts.cjs` + `tools/generate-audio.py` regenerieren Clips inkrementell (braucht `pip install edge-tts`).
+
+---
+
+## [3.24.5] — 2026-07-14
+
+### Behoben
+
+- レアな (v973): Bedeutung „selten / medium (Fleisch)" war falsch — レア = englisch „rare" = **blutig/englisch**, nicht medium. Bedeutung und Beispielsatz-Übersetzung korrigiert.
+- Audio auf Android: Beim Kartenwechsel konnte die Aussprache der vorigen Karte in die neue durchsickern (八 gezeigt, 飲→のむ gehört) — auch bei manuellem 🔊-Tap. Ursache: `cancelSpeech()` rief `cancel()` vor `resume()`; eine pausiert hängengebliebene Utterance wird von `cancel()` nicht verworfen, `resume()` spielt sie danach ab. Reihenfolge getauscht: erst `resume()`, dann `cancel()`.
+
+### Dev
+
+- Dev-Harness: `?dev=k050,k008` (oder `?dev=飲,八`) startet direkt eine geordnete Kanji-MC-Session mit genau diesen Karten. Reihenfolge bleibt erhalten — zum gezielten Reproduzieren der Android-TTS-Durchsickerung auf dem Gerät.
+
+---
+
 ## [3.24.4] — 2026-07-14
 
 ### Behoben

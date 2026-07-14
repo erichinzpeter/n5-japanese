@@ -3874,9 +3874,9 @@ const VOCAB = [
     { jp: "父は今留守です。", reading: "ちちはいまるすです。", de: "Mein Vater ist gerade nicht da." },
     { jp: "留守の間、猫を見てください。", reading: "るすのあいだ、ねこをみてください。", de: "Passen Sie bitte auf die Katze auf, während ich weg bin." }
   ]},
-  { id: "v973", word: "レアな", reading: "レアな", meaning: "selten / medium (Fleisch)", pos: "na-Adjektiv", level: "adv", examples: [
+  { id: "v973", word: "レアな", reading: "レアな", meaning: "selten / (Steak) blutig, englisch", pos: "na-Adjektiv", level: "adv", examples: [
     { jp: "レアな切手を集めています。", reading: "レアなきってをあつめています。", de: "Ich sammle seltene Briefmarken." },
-    { jp: "ステーキはレアが好きです。", reading: "ステーキはレアがすきです。", de: "Ich mag mein Steak medium." }
+    { jp: "ステーキはレアが好きです。", reading: "ステーキはレアがすきです。", de: "Ich mag mein Steak blutig." }
   ]},
   { id: "v974", word: "歴史", reading: "れきし", meaning: "Geschichte", pos: "Nomen", level: "adv", examples: [
     { jp: "日本の歴史を勉強します。", reading: "にほんのれきしをべんきょうします。", de: "Ich lerne japanische Geschichte." },
