@@ -413,6 +413,10 @@ function renderCard() {
     renderGrammarCard(card, front, back);
   }
 
+  // Frischer Inhalt startet oben — sonst erbt die neue Karte den scrollTop der vorigen Lösung.
+  front.scrollTop = 0;
+  back.scrollTop = 0;
+
   // Show flip button, hide ratings and other mode elements
   document.getElementById('card-controls').style.display = '';
   document.getElementById('flip-btn').style.display = '';
@@ -686,6 +690,10 @@ function renderMCCard() {
   } else {
     renderGrammarCard(card, front, back);
   }
+
+  // Frischer Inhalt startet oben — sonst erbt die neue Karte den scrollTop der vorigen Lösung.
+  front.scrollTop = 0;
+  back.scrollTop = 0;
 
   // Hide flip button + card-controls in MC (user clicks card to flip)
   document.getElementById('card-controls').style.display = 'none';
