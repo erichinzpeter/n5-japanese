@@ -4,6 +4,14 @@
 
 ---
 
+## [3.24.4] — 2026-07-14
+
+### Behoben
+
+- Nach dem Scrollen einer Lösungskarte (Flashcard-Rückseite oder MC) startete die nächste Karte an derselben Scroll-Position statt oben. Ursache: `.card-front`/`.card-back` scrollen selbst (`overflow-y: auto`); beim Kartenwechsel wurde nur der Inhalt neu gesetzt, der `scrollTop` aber nie zurückgesetzt. Neu: `scrollTop = 0` in `renderCard()` und `renderMCCard()`.
+
+---
+
 ## [3.24.3] — 2026-07-13
 
 ### Behoben
