@@ -319,12 +319,13 @@ function dismissRatingHint() {
 }
 
 // ===== SESSION START =====
-// Warm the round's audio clips up front: the service worker caches each clip on
-// fetch, so the first play of a card doesn't wait on a network round trip.
+// Warm the round's audio clips up front: fetch AND decode into AudioBuffers
+// (loadClip), so the first play of a card is an instant BufferSource start —
+// no network round trip, no decode. Runs inside the session-start tap.
 function prefetchSessionAudio(cards) {
   if (!TTS.file || typeof AUDIO_MAP === 'undefined') return;
   const files = new Set(cards.map(c => AUDIO_MAP[getJapaneseText(c)]).filter(Boolean));
-  files.forEach(f => fetch(`audio/${f}`).catch(() => {}));
+  files.forEach(f => loadClip(f).catch(() => {}));
 }
 
 // Shared session launcher: takes a prebuilt card list and shows the session screen.
@@ -1113,7 +1114,11 @@ let speakTimer = null;
 function cancelSpeech() {
   clearTimeout(speakTimer);
   speakTimer = null;
-  if (fileAudio) { fileAudio.pause(); fileAudio = null; }
+  playToken = null;
+  if (playingSource) {
+    try { playingSource.stop(); } catch (e) { /* already ended */ }
+    playingSource = null;
+  }
   const synth = window.speechSynthesis;
   if (!synth) return;
   // Order matters on Android: a stale utterance can be left PAUSED, and cancel()
@@ -1207,24 +1212,67 @@ function warmSpeech() {
 // (のむ↔はち, うる↔えき — full evidence in ANDROID-TTS-FINDINGS.md). No
 // app-side utterance trick fixes it, so short texts bypass live TTS entirely.
 // Sentences have no clips and stay on live TTS (never observed colliding).
-let fileAudio = null;
+//
+// Playback is Web Audio, not HTMLAudioElement: an <audio> pipeline start costs
+// 100–300ms on Android even on cache hits, which reads as lag next to live TTS.
+// Clips are fetched+decoded into AudioBuffers up front (session prefetch), so
+// play is a near-instant BufferSource start.
+let audioCtx = null;
+const clipBuffers = new Map(); // file -> AudioBuffer | Promise<AudioBuffer>
+let playingSource = null;
+let playToken = null; // invalidates an async play superseded by cancel/next card
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    audioCtx = new Ctx();
+  }
+  // Autoplay policy suspends a context created outside a gesture; every play
+  // call here runs inside a tap handler, so resume() sticks.
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function loadClip(file) {
+  const hit = clipBuffers.get(file);
+  if (hit) return Promise.resolve(hit);
+  const ctx = getAudioCtx();
+  if (!ctx) return Promise.reject(new Error('no AudioContext'));
+  const p = fetch(`audio/${file}`)
+    .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.arrayBuffer(); })
+    .then(buf => ctx.decodeAudioData(buf))
+    .then(decoded => { clipBuffers.set(file, decoded); return decoded; });
+  clipBuffers.set(file, p);
+  // Decoded PCM is ~100KB/clip; cap the cache so a long browse session
+  // (manual 🔊 across the Liste) can't grow unbounded. Oldest-first eviction.
+  if (clipBuffers.size > 100) clipBuffers.delete(clipBuffers.keys().next().value);
+  p.catch(() => clipBuffers.delete(file));
+  return p;
+}
 
 function speakJapanese(text) {
   if (TTS.file && typeof AUDIO_MAP !== 'undefined' && AUDIO_MAP[text]) {
     cancelSpeech();
-    const audio = new Audio(`audio/${AUDIO_MAP[text]}`);
-    fileAudio = audio;
-    if (state.dev) devLog(`file("${text}") → ${AUDIO_MAP[text]}`);
-    // 404/decode fires 'error' AND rejects play() — fall back exactly once.
-    let fellBack = false;
-    const fallBack = why => {
-      if (fellBack) return;
-      fellBack = true;
-      if (state.dev) devLog(`  file ${why}, TTS fallback`);
+    const file = AUDIO_MAP[text];
+    if (state.dev) devLog(`file("${text}") → ${file}`);
+    const token = {};
+    playToken = token;
+    loadClip(file).then(buffer => {
+      if (playToken !== token) return; // superseded while fetching/decoding
+      const ctx = getAudioCtx();
+      const src = ctx.createBufferSource();
+      src.buffer = buffer;
+      src.connect(ctx.destination);
+      // Skip most of the clip's 100ms lead cushion — it guards HTMLAudio's
+      // swallowed start, which BufferSource playback doesn't suffer from.
+      src.start(0, 0.06);
+      playingSource = src;
+    }).catch(e => {
+      if (playToken !== token) return;
+      if (state.dev) devLog(`  file ${e.name || e.message}, TTS fallback`);
       speakViaTTS(text);
-    };
-    audio.onerror = () => fallBack('ERR');
-    audio.play().catch(e => fallBack(e.name));
+    });
     return;
   }
   speakViaTTS(text);

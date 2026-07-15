@@ -4,6 +4,14 @@
 
 ---
 
+## [3.25.4] — 2026-07-15
+
+### Behoben
+
+- **Clips starteten trotz Cache und Trim spürbar später als die frühere Live-TTS.** Ursache: `new Audio()` pro Play — der HTMLAudioElement-Pipeline-Start (Service-Worker-Roundtrip + MP3-Decode + Element-Startup) kostet auf Android 100–300ms. Wiedergabe läuft jetzt über Web Audio: Clips werden beim Session-Start fertig dekodiert in AudioBuffers gehalten, Play ist ein BufferSource-Start in <10ms; zusätzlich werden 60ms des Stille-Polsters übersprungen (das nur HTMLAudio-Startschlucken abfedern sollte).
+
+---
+
 ## [3.25.3] — 2026-07-15
 
 ### Behoben
