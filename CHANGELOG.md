@@ -4,6 +4,18 @@
 
 ---
 
+## [3.25.1] — 2026-07-15
+
+### Behoben
+
+- **Audio-Clips starteten hörbar verzögert.** Zwei Ursachen: edge-tts padded jede MP3 mit ~230ms Stille am Anfang (und ~1s am Ende), und der erste Abruf eines Clips wartete auf die Netzwerk-Runde. Alle 2166 Clips sind jetzt auf 50ms Randstille getrimmt (27MB → 15MB) und die Clips einer Runde werden beim Session-Start vorgeladen, sodass der Service Worker sie schon gecached hat, wenn die Karte erscheint.
+
+### Dev
+
+- `tools/generate-audio.py` trimmt neue Clips nach der Synthese automatisch (braucht ffmpeg auf dem PATH).
+
+---
+
 ## [3.25.0] — 2026-07-14
 
 ### Neu

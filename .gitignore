@@ -4,3 +4,4 @@ ux-screenshots/
 docs/
 .superpowers/
 node_modules
+__pycache__/
