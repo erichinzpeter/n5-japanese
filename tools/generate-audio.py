@@ -28,12 +28,14 @@ RATE = "-10%"  # matches the app's live-TTS rate of 0.9
 CONCURRENCY = 8
 
 # edge-tts pads every clip with ~230ms leading and ~1s trailing silence; the
-# leading pad delays playback audibly in the app, so trim both ends down to a
-# 50ms cushion. Threshold -40dB: the pad is digital near-silence, speech isn't.
+# leading pad delays playback audibly in the app, so trim both ends. Cushions
+# are generous on purpose: quiet vowel onsets (医→い) sit near the -40dB
+# threshold, and Android's audio path swallows the first/last few dozen ms —
+# a 50ms cushion made short clips sound chopped. 100ms lead / 250ms trail.
 TRIM_FILTER = (
-    "silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.05,"
+    "silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.1,"
     "areverse,"
-    "silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.05,"
+    "silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.25,"
     "areverse"
 )
 

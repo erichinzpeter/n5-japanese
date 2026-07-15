@@ -4,6 +4,14 @@
 
 ---
 
+## [3.25.2] — 2026-07-15
+
+### Behoben
+
+- **Kurze Clips klangen nach dem Trim abgehackt** (z. B. 医→い): 50ms Randpolster war zu knapp — leise Vokal-Anläute liegen nahe der -40dB-Schwelle, und Androids Audio-Pfad schluckt die ersten/letzten Millisekunden. Alle Clips von den Originalen neu getrimmt mit 100ms Polster vorn / 250ms hinten (kein doppeltes Re-Encode).
+
+---
+
 ## [3.25.1] — 2026-07-15
 
 ### Behoben
