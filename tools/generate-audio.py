@@ -27,6 +27,11 @@ VOICE = "ja-JP-NanamiNeural"
 RATE = "-10%"  # matches the app's live-TTS rate of 0.9
 CONCURRENCY = 8
 
+# Synthesis-text overrides (map key and filename stay the original text).
+# Bare い gets a click-like burst appended by the engine (sounds like "ik",
+# deterministic — regenerating doesn't help); a trailing 。 yields a clean vowel.
+PRONUNCIATION_OVERRIDES = {"い": "い。"}
+
 # edge-tts pads every clip with ~230ms leading and ~1s trailing silence; the
 # leading pad delays playback audibly in the app, so trim both ends. Cushions
 # are generous on purpose: quiet vowel onsets (医→い) sit near the -40dB
@@ -73,7 +78,8 @@ async def synthesize(sem: asyncio.Semaphore, text: str, out: Path) -> bool:
     async with sem:
         for attempt in range(3):
             try:
-                await edge_tts.Communicate(text, VOICE, rate=RATE).save(str(out))
+                spoken = PRONUNCIATION_OVERRIDES.get(text, text)
+                await edge_tts.Communicate(spoken, VOICE, rate=RATE).save(str(out))
                 if out.stat().st_size > 1000:
                     return await asyncio.to_thread(trim_silence, out)
                 out.unlink(missing_ok=True)

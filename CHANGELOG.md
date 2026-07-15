@@ -4,6 +4,14 @@
 
 ---
 
+## [3.25.3] — 2026-07-15
+
+### Behoben
+
+- **医→い klang wie „ik"**: edge-tts hängt an das nackte い deterministisch ein Klick-Artefakt an (steckte seit v3.25.0 im Clip, Regenerieren ändert nichts). Fix: Aussprache-Override い→「い。」 in `tools/generate-audio.py` (Map-Key und Dateiname bleiben い), Clip regeneriert — sauberer Einzelvokal. Scan aller 2166 Clips: kein weiterer Einzelvokal mit diesem Artefakt (übrige Doppel-Burst-Treffer sind natürliche Verschlusslaute wie った/えき).
+
+---
+
 ## [3.25.2] — 2026-07-15
 
 ### Behoben
