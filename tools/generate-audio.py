@@ -6,8 +6,9 @@ each text with edge-tts and writes:
   audio/<sha1-12>.mp3      one clip per unique text (skips existing files)
   data/audio-map.js        const AUDIO_MAP = { "<text>": "<file>", ... }
 
-Requires: pip install edge-tts (any venv). Re-runs are incremental — delete a
-clip to regenerate it, delete audio/ to regenerate everything.
+Requires: pip install edge-tts (any venv) and ffmpeg on PATH. Re-runs are
+incremental — delete a clip to regenerate it, delete audio/ to regenerate
+everything.
 
 Usage: python3 tools/generate-audio.py   (from n5-app/)
 """
@@ -15,7 +16,9 @@ Usage: python3 tools/generate-audio.py   (from n5-app/)
 import asyncio
 import hashlib
 import json
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import edge_tts
@@ -23,6 +26,36 @@ import edge_tts
 VOICE = "ja-JP-NanamiNeural"
 RATE = "-10%"  # matches the app's live-TTS rate of 0.9
 CONCURRENCY = 8
+
+# edge-tts pads every clip with ~230ms leading and ~1s trailing silence; the
+# leading pad delays playback audibly in the app, so trim both ends down to a
+# 50ms cushion. Threshold -40dB: the pad is digital near-silence, speech isn't.
+TRIM_FILTER = (
+    "silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.05,"
+    "areverse,"
+    "silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.05,"
+    "areverse"
+)
+
+
+def trim_silence(clip: Path) -> bool:
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
+        tmp_path = Path(tmp.name)
+    try:
+        subprocess.run(
+            ["ffmpeg", "-y", "-v", "error", "-i", str(clip), "-af", TRIM_FILTER,
+             "-c:a", "libmp3lame", "-b:a", "48k", "-ar", "24000", "-ac", "1",
+             str(tmp_path)],
+            check=True, capture_output=True,
+        )
+        if tmp_path.stat().st_size < 500:
+            raise RuntimeError("trimmed clip suspiciously small")
+        tmp_path.replace(clip)
+        return True
+    except Exception as e:
+        tmp_path.unlink(missing_ok=True)
+        print(f"TRIM FAIL {clip.name}: {e}", file=sys.stderr)
+        return False
 
 ROOT = Path(__file__).resolve().parent.parent
 AUDIO_DIR = ROOT / "audio"
@@ -40,7 +73,7 @@ async def synthesize(sem: asyncio.Semaphore, text: str, out: Path) -> bool:
             try:
                 await edge_tts.Communicate(text, VOICE, rate=RATE).save(str(out))
                 if out.stat().st_size > 1000:
-                    return True
+                    return await asyncio.to_thread(trim_silence, out)
                 out.unlink(missing_ok=True)
             except Exception:
                 out.unlink(missing_ok=True)

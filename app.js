@@ -319,8 +319,17 @@ function dismissRatingHint() {
 }
 
 // ===== SESSION START =====
+// Warm the round's audio clips up front: the service worker caches each clip on
+// fetch, so the first play of a card doesn't wait on a network round trip.
+function prefetchSessionAudio(cards) {
+  if (!TTS.file || typeof AUDIO_MAP === 'undefined') return;
+  const files = new Set(cards.map(c => AUDIO_MAP[getJapaneseText(c)]).filter(Boolean));
+  files.forEach(f => fetch(`audio/${f}`).catch(() => {}));
+}
+
 // Shared session launcher: takes a prebuilt card list and shows the session screen.
 function launchSession(deck, sessionCards, freePractice = false) {
+  prefetchSessionAudio(sessionCards);
   state.session = sessionCards;
   state.scheduledThisRound = new Set();
   state.graduated = new Set();
