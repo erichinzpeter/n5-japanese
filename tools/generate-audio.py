@@ -30,7 +30,9 @@ CONCURRENCY = 8
 # Synthesis-text overrides (map key and filename stay the original text).
 # Bare い gets a click-like burst appended by the engine (sounds like "ik",
 # deterministic — regenerating doesn't help); a trailing 。 yields a clean vowel.
-PRONUNCIATION_OVERRIDES = {"い": "い。"}
+# Bare てん (天 reading) is read as "se" by NanamiNeural — deterministic; the
+# space splits the mora so it renders "ten" (full words like てんき are fine).
+PRONUNCIATION_OVERRIDES = {"い": "い。", "てん": "て ん"}
 
 # edge-tts pads every clip with ~230ms leading and ~1s trailing silence; the
 # leading pad delays playback audibly in the app, so trim both ends. Cushions
