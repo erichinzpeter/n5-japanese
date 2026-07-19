@@ -15,6 +15,7 @@ const state = {
   scheduledThisRound: null, // Set<cardId>: first-attempt outcome recorded this round (SRS + stats)
   graduated: null,          // Set<cardId>: answered correctly this round — drives the progress bar
   caughtUp: false,          // true while the reused done screen shows "Für heute durch"
+  conceptsScrollTop: 0,     // restored on back from concept detail; bottom-nav tap resets it via renderConceptsScreen
 };
 
 // Fixed round-size presets shown in the start dialog.
@@ -1800,6 +1801,7 @@ function openConceptDetail(id) {
   const c = CONCEPTS.find(x => x.id === id);
   if (!c) return;
   cancelSpeech();
+  state.conceptsScrollTop = window.scrollY;
   showScreen('concept-detail');
   document.getElementById('concept-detail-title').textContent = c.title;
   document.getElementById('concept-detail-content').innerHTML =
@@ -1987,7 +1989,10 @@ function initEvents() {
     cancelSpeech();
     renderHome();
   });
-  document.getElementById('concept-detail-back-btn').addEventListener('click', renderConceptsScreen);
+  document.getElementById('concept-detail-back-btn').addEventListener('click', () => {
+    renderConceptsScreen();
+    window.scrollTo(0, state.conceptsScrollTop || 0);
+  });
 
   // List back button
   document.getElementById('list-back-btn').addEventListener('click', () => renderHome());
