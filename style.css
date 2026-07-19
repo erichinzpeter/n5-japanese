@@ -793,20 +793,28 @@ body {
 }
 
 .back-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  color: var(--text);
   font-family: var(--font-ui);
   font-size: 20px;
-  cursor: pointer;
-  padding: 12px;
-  margin: -12px;
   line-height: 1;
-  transition: color var(--transition);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transition: background var(--transition), border-color var(--transition);
 }
 
 .back-btn:hover {
-  color: var(--text);
+  background: var(--border-light);
+  border-color: var(--border-light);
 }
 
 .session-title {
@@ -1722,20 +1730,27 @@ body {
 }
 
 .list-back-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  color: var(--text);
   font-size: 20px;
-  cursor: pointer;
-  /* 44x44 hit area without changing visual size */
-  padding: 12px;
-  margin: -12px;
   line-height: 1;
-  transition: color var(--transition);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transition: background var(--transition), border-color var(--transition);
 }
 
 .list-back-btn:hover {
-  color: var(--text);
+  background: var(--border-light);
+  border-color: var(--border-light);
 }
 
 .list-title {

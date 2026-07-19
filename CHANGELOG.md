@@ -4,6 +4,15 @@
 
 ---
 
+## [3.25.5] — 2026-07-19
+
+### Behoben
+
+- **Zurück-Pfeil ging unter — Android-Nutzer trafen aus Reflex den Hardware-Back-Button und schlossen die ganze App.** Der bloße graue `←`-Glyph (`--text-muted`, kein Hintergrund) las sich nicht als Button. `.back-btn` und `.list-back-btn` sind jetzt runde 40px-Chips (surface-Hintergrund, Rand, voll-Kontrast-Pfeil) — klar als tippbares Element erkennbar.
+- **Grammatik-Liste sprang beim Zurückgehen aus einem Konzept-Detail nach ganz oben.** Der Back-Button baute die Liste neu auf und verlor die Scroll-Position. Position wird jetzt beim Öffnen gemerkt und beim Zurückgehen wiederhergestellt (Bottom-Nav-Tap öffnet die Liste weiterhin frisch oben). Scroller ist das window, nicht `.list-content`.
+
+---
+
 ## [3.25.4] — 2026-07-15
 
 ### Behoben
