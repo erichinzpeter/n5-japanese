@@ -1223,6 +1223,31 @@ const clipBuffers = new Map(); // file -> AudioBuffer | Promise<AudioBuffer>
 let playingSource = null;
 let playToken = null; // invalidates an async play superseded by cancel/next card
 
+// iOS routes a page that only ever uses Web Audio through the "ambient" audio
+// session, which the hardware ring/silent switch mutes — clips went silent while
+// speechSynthesis (a separate session) stayed audible. A playing <audio> element
+// moves the page to the "playback" session, which ignores the switch; that is
+// what the pre-Web-Audio playback did implicitly. So keep one silent element
+// looping for the session. iOS only: elsewhere it would grab audio focus and
+// pause the user's music for nothing.
+const IS_IOS = /iP(hone|ad|od)/.test(navigator.platform) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+let silentLoop = null;
+
+function unlockAudioSession() {
+  if (!IS_IOS || silentLoop) return;
+  silentLoop = new Audio('assets/silence.wav');
+  silentLoop.loop = true;
+  silentLoop.play().catch(() => { silentLoop = null; });
+}
+
+// Returning from background can leave the loop paused, dropping the page back to
+// the ambient session. Restart it so the switch stays bypassed for the next tap.
+function resumeAudioSession() {
+  if (document.hidden || !silentLoop || !silentLoop.paused) return;
+  silentLoop.play().catch(() => {});
+}
+
 function getAudioCtx() {
   if (!audioCtx) {
     const Ctx = window.AudioContext || window.webkitAudioContext;
@@ -2100,6 +2125,9 @@ function init() {
   // Warm the TTS engine on the first user gesture (autoplay policy requires one).
   window.addEventListener('pointerdown', warmSpeech, { once: true });
   window.addEventListener('keydown', warmSpeech, { once: true });
+  window.addEventListener('pointerdown', unlockAudioSession, { once: true });
+  window.addEventListener('keydown', unlockAudioSession, { once: true });
+  document.addEventListener('visibilitychange', resumeAudioSession);
   renderHome();
   // Splash is a loading cover, not a brand pause. Fast launch (warm PWA reload,
   // local file): the icon never visibly painted — remove it without a fade, a
