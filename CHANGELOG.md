@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Behoben
+
+- **Zurück-Pfeil saß auf Android sichtbar zu tief im runden Button.** Der Pfeil war das Textzeichen `←`; Outfit hat den Glyph nicht, also sprang Android auf einen Fallback-Font mit anderen vertikalen Metriken — Flex-Zentrierung zentriert die Zeilenbox, nicht den Glyph. Alle vier Back-Buttons nutzen jetzt ein Inline-SVG, das pixelgenau zentriert und fontunabhängig ist.
+
 ---
 
 ## [3.25.6] — 2026-07-21
