@@ -803,9 +803,6 @@ body {
   border: 1px solid var(--border-light);
   border-radius: 999px;
   color: var(--text);
-  font-family: var(--font-ui);
-  font-size: 20px;
-  line-height: 1;
   cursor: pointer;
   padding: 0;
   margin: 0;
@@ -1740,8 +1737,6 @@ body {
   border: 1px solid var(--border-light);
   border-radius: 999px;
   color: var(--text);
-  font-size: 20px;
-  line-height: 1;
   cursor: pointer;
   padding: 0;
   margin: 0;
