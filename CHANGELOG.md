@@ -4,6 +4,14 @@
 
 ---
 
+## [3.25.6] — 2026-07-21
+
+### Behoben
+
+- **Auf iOS kam bei Wörtern kein Ton mehr, während Beispielsätze normal sprachen.** Seit 3.25.4 laufen Clips über Web Audio statt über ein `<audio>`-Element. iOS legt eine Seite, die nur Web Audio nutzt, in die Audio-Session-Kategorie *ambient* — und die schaltet der Klingel-/Stumm-Schalter am Gerät stumm. `speechSynthesis` läuft über eine eigene Session und blieb deshalb hörbar. Beim ersten Tap läuft jetzt eine stumme `assets/silence.wav` in Schleife, was die Seite in die Kategorie *playback* hebt (genau das tat die alte `<audio>`-Wiedergabe implizit); nach Rückkehr aus dem Hintergrund wird die Schleife wieder gestartet. Nur auf iOS aktiv.
+
+---
+
 ## [3.25.5] — 2026-07-19
 
 ### Behoben
