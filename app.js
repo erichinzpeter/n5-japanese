@@ -4,6 +4,7 @@
 const state = {
   direction: 'jp-de',
   mode: 'flashcard',  // 'flashcard' | 'mc'
+  form: 'dict',       // 'dict' | 'masu' — nur Verben-Deck: Wörterbuchform vs. ます-Form
   deck: null,
   session: [],
   sessionIdx: 0,
@@ -71,13 +72,24 @@ function loadModalPrefs() {
   catch { return {}; }
 }
 
-function saveModalPrefs(deck, mode, direction, count) {
+function saveModalPrefs(deck, mode, direction, count, form) {
   const prefs = loadModalPrefs();
-  prefs[deck] = { mode, direction, count };
+  prefs[deck] = { mode, direction, count, form };
   localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
 }
 
 let modalLastFocus = null;
+
+// Nur das Verben-Deck hat eine ます-Form, und der Konjugations-Drill fragt Formen schon
+// explizit ab — dort wäre der Toggle sinnlos. Überall sonst gilt zwingend 'dict'.
+function syncFormToggle(deck) {
+  const show = deck === 'verben' && state.mode !== 'conjugation';
+  document.getElementById('modal-form-wrap').classList.toggle('hidden', !show);
+  if (!show) state.form = 'dict';
+  document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.form === state.form)
+  );
+}
 
 function openStartModal(deck) {
   state.pendingDeck = deck;
@@ -86,10 +98,12 @@ function openStartModal(deck) {
   const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
   const initialDir = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : 'jp-de';
   const initialCount = ROUND_SIZES.includes(prefs.count) ? prefs.count : DEFAULT_ROUND;
+  const initialForm = (deck === 'verben' && prefs.form === 'masu') ? 'masu' : 'dict';
 
   state.mode = initialMode;
   state.direction = initialDir;
   state.roundSize = initialCount;
+  state.form = initialForm;
 
   document.getElementById('start-modal-title').textContent = DECK_TITLES[deck] || 'Üben';
 
@@ -104,9 +118,12 @@ function openStartModal(deck) {
       modeWrap.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.mode = m;
+      syncFormToggle(deck);
     });
     modeWrap.appendChild(btn);
   });
+
+  syncFormToggle(deck);
 
   document.querySelectorAll('#start-modal .dir-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.dir === initialDir);
@@ -180,7 +197,16 @@ function collectDeckCards(deck) {
         return c !== null && c.forms.length >= 2;
       });
     }
-    items.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+    if (deck === 'verben' && state.form === 'masu') {
+      // ます-Modus: die Karte zeigt die höfliche Form und bekommt eine eigene SRS-Identität —
+      // 食べます ist ein eigenes Abrufziel, nicht eine andere Ansicht von 食べる.
+      items.forEach(v => {
+        const display = masuForm(v);
+        if (display) cards.push({ item: v, type: 'vocab', dir, display, id: `${v.id}-${dir}-masu` });
+      });
+    } else {
+      items.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+    }
   }
 
   // Grammar is its own deck only — never part of "Alles".
@@ -702,9 +728,12 @@ function renderKanjiCard(card, front, back) {
   back.innerHTML = kanjiBackHtml(k);
 }
 
-function vocabBackHtml(v) {
-  const showReading = v.word !== v.reading;
-  const speakText = v.reading || v.word;
+// display: im ます-Modus die höfliche Form; null im Normalfall.
+function vocabBackHtml(v, display = null) {
+  const headWord = display ? display.word : v.word;
+  const headReading = display ? display.reading : v.reading;
+  const showReading = headWord !== headReading;
+  const speakText = headReading || headWord;
   const examplesHtml = v.examples && v.examples.length
     ? `<div class="dialogue-box">${v.examples.map(ex => `
         <div class="dialogue-line">
@@ -719,10 +748,11 @@ function vocabBackHtml(v) {
   return `
     <div class="back-head">
       <div class="back-head-main">
-        <span class="back-head-word">${v.word}</span>
+        <span class="back-head-word">${headWord}</span>
         ${speakBtn(speakText, 'btn-speak-word')}
       </div>
-      ${showReading ? `<div class="back-head-reading">${v.reading}</div>` : ''}
+      ${showReading ? `<div class="back-head-reading">${headReading}</div>` : ''}
+      ${display ? `<div class="back-head-dict">Wörterbuchform: ${v.word}</div>` : ''}
       <div class="back-head-gloss">${escHtml(v.meaning)}</div>
     </div>
     ${v.examples && v.examples.length ? `
@@ -735,20 +765,24 @@ function vocabBackHtml(v) {
 
 function renderVocabCard(card, front, back) {
   const v = card.item;
-  const showReading = v.word !== v.reading;
+  const display = card.display;   // ます-Modus: höfliche Form statt Wörterbuchform
+  const frontWord = display ? display.word : v.word;
+  const frontReading = display ? display.reading : v.reading;
+  const showReading = frontWord !== frontReading;
   if (card.dir === 'fwd') {
     // JP → DE: front = Japanese word + reading
     front.innerHTML = `
-      <div class="card-type-label">Vokabel</div>
-      <div class="card-word-main">${v.word}</div>
-      ${showReading ? `<div class="card-furigana">${v.reading}</div>` : ''}`;
+      <div class="card-type-label">${display ? 'Verb — ます-Form' : 'Vokabel'}</div>
+      <div class="card-word-main">${frontWord}</div>
+      ${showReading ? `<div class="card-furigana">${frontReading}</div>` : ''}`;
   } else {
-    // DE → JP: front = German meaning
+    // DE → JP: front = German meaning. Im ます-Modus sagt das Label, in welcher Form
+    // die Antwort erwartet wird — sonst ist die Karte nicht eindeutig lösbar.
     front.innerHTML = `
-      <div class="card-type-label">Vokabel — Deutsch</div>
+      <div class="card-type-label">${display ? 'Verb — Antwort in ます-Form' : 'Vokabel — Deutsch'}</div>
       <div class="card-german-main">${escHtml(v.meaning)}</div>`;
   }
-  back.innerHTML = vocabBackHtml(v);
+  back.innerHTML = vocabBackHtml(v, display);
 }
 
 function renderConjugationCard(card, front, back) {
@@ -834,6 +868,16 @@ function generateChoices(card) {
     if (dir === 'fwd') {
       correct = item.meaning;
       getLabel = v => v.meaning;
+    } else if (card.display) {
+      // ます-Modus DE→JP: die Optionen sind ます-Formen. Verben mit kollidierender
+      // ます-Form (降りる und 降る → 降ります) fliegen aus dem Distraktor-Pool, sonst
+      // hätte die Karte zwei richtige Buttons.
+      correct = card.display.word;
+      pool = vocabPool.filter(v => {
+        const m = masuForm(v);
+        return m && m.word !== correct;
+      });
+      getLabel = v => masuForm(v).word;
     } else {
       // DE→JP: show reading below word in choices so kanji are readable
       correct = item.word;
@@ -853,9 +897,13 @@ function generateChoices(card) {
   // For vocab/basics DE→JP: attach readings so MC buttons can show furigana
   let readings = null;
   if (type === 'vocab' && dir === 'rev') {
-    const allItems = [item, ...shuffled];
     const readingMap = {};
-    allItems.forEach(v => { readingMap[v.word] = v.reading !== v.word ? v.reading : ''; });
+    if (card.display) {
+      readingMap[card.display.word] = card.display.reading;
+      shuffled.forEach(v => { const m = masuForm(v); readingMap[m.word] = m.reading; });
+    } else {
+      [item, ...shuffled].forEach(v => { readingMap[v.word] = v.reading !== v.word ? v.reading : ''; });
+    }
     readings = choices.map(c => readingMap[c] || '');
   }
 
@@ -1103,6 +1151,7 @@ function getJapaneseText(card) {
   if (type === 'kanji')       return kanjiReading(item);
   if (type === 'grammar')     return item.text.replace('＿', item.answer);
   if (type === 'conjugation') return card.target.reading;
+  if (card.display)           return card.display.reading;   // ます-Modus
   return item.reading || item.word;   // vocab + basics
 }
 
@@ -1937,6 +1986,15 @@ function initEvents() {
     });
   });
 
+  // Start modal: form toggle (nur Verben — Wörterbuchform vs. ます-Form)
+  document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.form = btn.dataset.form;
+    });
+  });
+
   // Start modal: count toggle
   document.querySelectorAll('#start-modal .count-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1950,7 +2008,7 @@ function initEvents() {
   document.getElementById('modal-start-btn').addEventListener('click', () => {
     const deck = state.pendingDeck;
     if (!deck) return;
-    saveModalPrefs(deck, state.mode, state.direction, state.roundSize);
+    saveModalPrefs(deck, state.mode, state.direction, state.roundSize, state.form);
     closeStartModal();
     startSession(deck, state.direction);
   });

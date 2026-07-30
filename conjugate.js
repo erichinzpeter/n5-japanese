@@ -129,4 +129,15 @@ function conjugateNaAdjective(word, reading) {
   };
 }
 
-if (typeof module !== 'undefined' && module.exports) module.exports = conjugate;
+// Nur die ます-Form. Der ます-Modus des Verben-Decks zeigt Verben in der höflichen
+// Form statt in der Wörterbuchform und braucht genau diese eine Form.
+function masuForm(item) {
+  const c = conjugate(item.word, item.reading, item.pos);
+  if (!c || c.kind !== 'verb') return null;
+  return c.forms.find(f => f.label === 'ます-Form') || null;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = conjugate;
+  module.exports.masuForm = masuForm;   // bestehende `require('./conjugate.js')`-Call-Sites bleiben intakt
+}
