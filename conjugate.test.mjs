@@ -1,8 +1,8 @@
 // One-off test (no framework per project rules): the conjugation engine must
 // produce correct Japanese forms for each verb group and adjective class.
 import { readFileSync } from 'node:fs';
-const conjugate = new Function(
-  readFileSync(new URL('./conjugate.js', import.meta.url), 'utf8') + '; return conjugate;'
+const { conjugate, masuForm } = new Function(
+  readFileSync(new URL('./conjugate.js', import.meta.url), 'utf8') + '; return { conjugate, masuForm };'
 )();
 
 let failures = 0;
@@ -56,6 +56,20 @@ eq('oyogu ta', form(conjugate('泳ぐ','およぐ','Verb (Godan, ぐ)'),'た-For
 eq('benkyou masu', form(conjugate('勉強する','べんきょうする','Verb (する-Verb)'),'ます-Form'),'勉強します');
 eq('benkyou nai reading', formR(conjugate('勉強する','べんきょうする','Verb (する-Verb)'),'ない-Form'),'べんきょうしない');
 eq('kau masu reading', formR(conjugate('買う','かう','Verb (Godan, う)'),'ます-Form'),'かいます');
+
+// masuForm: der Helper, den der ます-Modus des Verben-Decks nutzt.
+const masu = (w, r, p) => masuForm({ word: w, reading: r, pos: p });
+eq('masuForm ichidan word',    masu('食べる', 'たべる', 'Verb (Ichidan)')?.word,          '食べます');
+eq('masuForm ichidan reading', masu('食べる', 'たべる', 'Verb (Ichidan)')?.reading,       'たべます');
+eq('masuForm godan u',         masu('買う', 'かう', 'Verb (Godan, う)')?.word,            '買います');
+eq('masuForm godan tsu',       masu('待つ', 'まつ', 'Verb (Godan, つ)')?.reading,         'まちます');
+eq('masuForm godan ku',        masu('書く', 'かく', 'Verb (Godan, く)')?.word,            '書きます');
+eq('masuForm suru-verb',       masu('勉強する', 'べんきょうする', 'Verb (する-Verb)')?.word, '勉強します');
+eq('masuForm kuru word',       masu('来る', 'くる', 'Verb (unregelmäßig)')?.word,          '来ます');
+eq('masuForm kuru reading',    masu('来る', 'くる', 'Verb (unregelmäßig)')?.reading,       'きます');
+if (masu('本', 'ほん', 'Nomen') !== null) { failures++; console.log('FAIL masuForm noun should be null'); }
+if (masu('大きい', 'おおきい', 'i-Adjektiv') !== null) { failures++; console.log('FAIL masuForm i-adj should be null'); }
+if (masu('静か', 'しずか', 'na-Adjektiv') !== null) { failures++; console.log('FAIL masuForm na-adj should be null'); }
 
 console.log(failures === 0 ? 'PASS conjugate' : `${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
