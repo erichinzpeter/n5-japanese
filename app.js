@@ -1151,6 +1151,7 @@ function getJapaneseText(card) {
   if (type === 'kanji')       return kanjiReading(item);
   if (type === 'grammar')     return item.text.replace('＿', item.answer);
   if (type === 'conjugation') return card.target.reading;
+  if (card.display)           return card.display.reading;   // ます-Modus
   return item.reading || item.word;   // vocab + basics
 }
 
