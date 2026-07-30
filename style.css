@@ -2325,6 +2325,10 @@ body {
   display: none;
 }
 
+#modal-form-wrap.hidden {
+  display: none;
+}
+
 .count-toggle {
   display: flex;
   gap: 4px;

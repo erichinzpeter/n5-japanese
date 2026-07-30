@@ -4,6 +4,7 @@
 const state = {
   direction: 'jp-de',
   mode: 'flashcard',  // 'flashcard' | 'mc'
+  form: 'dict',       // 'dict' | 'masu' — nur Verben-Deck: Wörterbuchform vs. ます-Form
   deck: null,
   session: [],
   sessionIdx: 0,
@@ -71,13 +72,24 @@ function loadModalPrefs() {
   catch { return {}; }
 }
 
-function saveModalPrefs(deck, mode, direction, count) {
+function saveModalPrefs(deck, mode, direction, count, form) {
   const prefs = loadModalPrefs();
-  prefs[deck] = { mode, direction, count };
+  prefs[deck] = { mode, direction, count, form };
   localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
 }
 
 let modalLastFocus = null;
+
+// Nur das Verben-Deck hat eine ます-Form, und der Konjugations-Drill fragt Formen schon
+// explizit ab — dort wäre der Toggle sinnlos. Überall sonst gilt zwingend 'dict'.
+function syncFormToggle(deck) {
+  const show = deck === 'verben' && state.mode !== 'conjugation';
+  document.getElementById('modal-form-wrap').classList.toggle('hidden', !show);
+  if (!show) state.form = 'dict';
+  document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.form === state.form)
+  );
+}
 
 function openStartModal(deck) {
   state.pendingDeck = deck;
@@ -86,10 +98,12 @@ function openStartModal(deck) {
   const initialMode = allowedModes.includes(prefs.mode) ? prefs.mode : allowedModes[0];
   const initialDir = ['jp-de', 'de-jp'].includes(prefs.direction) ? prefs.direction : 'jp-de';
   const initialCount = ROUND_SIZES.includes(prefs.count) ? prefs.count : DEFAULT_ROUND;
+  const initialForm = (deck === 'verben' && prefs.form === 'masu') ? 'masu' : 'dict';
 
   state.mode = initialMode;
   state.direction = initialDir;
   state.roundSize = initialCount;
+  state.form = initialForm;
 
   document.getElementById('start-modal-title').textContent = DECK_TITLES[deck] || 'Üben';
 
@@ -104,9 +118,12 @@ function openStartModal(deck) {
       modeWrap.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.mode = m;
+      syncFormToggle(deck);
     });
     modeWrap.appendChild(btn);
   });
+
+  syncFormToggle(deck);
 
   document.querySelectorAll('#start-modal .dir-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.dir === initialDir);
@@ -180,7 +197,16 @@ function collectDeckCards(deck) {
         return c !== null && c.forms.length >= 2;
       });
     }
-    items.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+    if (deck === 'verben' && state.form === 'masu') {
+      // ます-Modus: die Karte zeigt die höfliche Form und bekommt eine eigene SRS-Identität —
+      // 食べます ist ein eigenes Abrufziel, nicht eine andere Ansicht von 食べる.
+      items.forEach(v => {
+        const display = masuForm(v);
+        if (display) cards.push({ item: v, type: 'vocab', dir, display, id: `${v.id}-${dir}-masu` });
+      });
+    } else {
+      items.forEach(v => cards.push({ item: v, type: 'vocab', dir, id: `${v.id}-${dir}` }));
+    }
   }
 
   // Grammar is its own deck only — never part of "Alles".
@@ -1937,6 +1963,15 @@ function initEvents() {
     });
   });
 
+  // Start modal: form toggle (nur Verben — Wörterbuchform vs. ます-Form)
+  document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.form = btn.dataset.form;
+    });
+  });
+
   // Start modal: count toggle
   document.querySelectorAll('#start-modal .count-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1950,7 +1985,7 @@ function initEvents() {
   document.getElementById('modal-start-btn').addEventListener('click', () => {
     const deck = state.pendingDeck;
     if (!deck) return;
-    saveModalPrefs(deck, state.mode, state.direction, state.roundSize);
+    saveModalPrefs(deck, state.mode, state.direction, state.roundSize, state.form);
     closeStartModal();
     startSession(deck, state.direction);
   });
