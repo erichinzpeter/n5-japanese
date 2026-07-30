@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+---
+
+## [3.26.0] — 2026-07-30
+
+### Neu
+
+- **Verben lassen sich jetzt auch in der ます-Form lernen.** Im Start-Dialog des Verben-Decks steht neben Modus und Richtung ein neuer Toggle „Form: Wörterbuch | ます-Form". In der ます-Form erscheinen Karteikarten und Multiple Choice mit 食べます statt 食べる — inklusive Audio und, in DE→JP, mit ます-Formen als Antwortoptionen. Die Rückseite nennt weiterhin die Wörterbuchform und die vollständige Formentabelle. ます-Karten haben einen eigenen Wiederholungs-Fortschritt: 食べます wird unabhängig von 食べる abgefragt.
+
 ### Behoben
 
 - **Zurück-Pfeil saß auf Android sichtbar zu tief im runden Button.** Der Pfeil war das Textzeichen `←`; Outfit hat den Glyph nicht, also sprang Android auf einen Fallback-Font mit anderen vertikalen Metriken — Flex-Zentrierung zentriert die Zeilenbox, nicht den Glyph. Alle vier Back-Buttons nutzen jetzt ein Inline-SVG, das pixelgenau zentriert und fontunabhängig ist.
