@@ -728,9 +728,12 @@ function renderKanjiCard(card, front, back) {
   back.innerHTML = kanjiBackHtml(k);
 }
 
-function vocabBackHtml(v) {
-  const showReading = v.word !== v.reading;
-  const speakText = v.reading || v.word;
+// display: im ます-Modus die höfliche Form; null im Normalfall.
+function vocabBackHtml(v, display = null) {
+  const headWord = display ? display.word : v.word;
+  const headReading = display ? display.reading : v.reading;
+  const showReading = headWord !== headReading;
+  const speakText = headReading || headWord;
   const examplesHtml = v.examples && v.examples.length
     ? `<div class="dialogue-box">${v.examples.map(ex => `
         <div class="dialogue-line">
@@ -745,10 +748,11 @@ function vocabBackHtml(v) {
   return `
     <div class="back-head">
       <div class="back-head-main">
-        <span class="back-head-word">${v.word}</span>
+        <span class="back-head-word">${headWord}</span>
         ${speakBtn(speakText, 'btn-speak-word')}
       </div>
-      ${showReading ? `<div class="back-head-reading">${v.reading}</div>` : ''}
+      ${showReading ? `<div class="back-head-reading">${headReading}</div>` : ''}
+      ${display ? `<div class="back-head-dict">Wörterbuchform: ${v.word}</div>` : ''}
       <div class="back-head-gloss">${escHtml(v.meaning)}</div>
     </div>
     ${v.examples && v.examples.length ? `
@@ -761,20 +765,24 @@ function vocabBackHtml(v) {
 
 function renderVocabCard(card, front, back) {
   const v = card.item;
-  const showReading = v.word !== v.reading;
+  const display = card.display;   // ます-Modus: höfliche Form statt Wörterbuchform
+  const frontWord = display ? display.word : v.word;
+  const frontReading = display ? display.reading : v.reading;
+  const showReading = frontWord !== frontReading;
   if (card.dir === 'fwd') {
     // JP → DE: front = Japanese word + reading
     front.innerHTML = `
-      <div class="card-type-label">Vokabel</div>
-      <div class="card-word-main">${v.word}</div>
-      ${showReading ? `<div class="card-furigana">${v.reading}</div>` : ''}`;
+      <div class="card-type-label">${display ? 'Verb — ます-Form' : 'Vokabel'}</div>
+      <div class="card-word-main">${frontWord}</div>
+      ${showReading ? `<div class="card-furigana">${frontReading}</div>` : ''}`;
   } else {
-    // DE → JP: front = German meaning
+    // DE → JP: front = German meaning. Im ます-Modus sagt das Label, in welcher Form
+    // die Antwort erwartet wird — sonst ist die Karte nicht eindeutig lösbar.
     front.innerHTML = `
-      <div class="card-type-label">Vokabel — Deutsch</div>
+      <div class="card-type-label">${display ? 'Verb — Antwort in ます-Form' : 'Vokabel — Deutsch'}</div>
       <div class="card-german-main">${escHtml(v.meaning)}</div>`;
   }
-  back.innerHTML = vocabBackHtml(v);
+  back.innerHTML = vocabBackHtml(v, display);
 }
 
 function renderConjugationCard(card, front, back) {

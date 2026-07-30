@@ -1104,6 +1104,13 @@ body {
   margin-top: 6px;
 }
 
+.back-head-dict {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
 .back-head-gloss {
   font-family: var(--font-ui);
   font-size: 22px;
