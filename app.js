@@ -868,6 +868,16 @@ function generateChoices(card) {
     if (dir === 'fwd') {
       correct = item.meaning;
       getLabel = v => v.meaning;
+    } else if (card.display) {
+      // ます-Modus DE→JP: die Optionen sind ます-Formen. Verben mit kollidierender
+      // ます-Form (降りる und 降る → 降ります) fliegen aus dem Distraktor-Pool, sonst
+      // hätte die Karte zwei richtige Buttons.
+      correct = card.display.word;
+      pool = vocabPool.filter(v => {
+        const m = masuForm(v);
+        return m && m.word !== correct;
+      });
+      getLabel = v => masuForm(v).word;
     } else {
       // DE→JP: show reading below word in choices so kanji are readable
       correct = item.word;
@@ -887,9 +897,13 @@ function generateChoices(card) {
   // For vocab/basics DE→JP: attach readings so MC buttons can show furigana
   let readings = null;
   if (type === 'vocab' && dir === 'rev') {
-    const allItems = [item, ...shuffled];
     const readingMap = {};
-    allItems.forEach(v => { readingMap[v.word] = v.reading !== v.word ? v.reading : ''; });
+    if (card.display) {
+      readingMap[card.display.word] = card.display.reading;
+      shuffled.forEach(v => { const m = masuForm(v); readingMap[m.word] = m.reading; });
+    } else {
+      [item, ...shuffled].forEach(v => { readingMap[v.word] = v.reading !== v.word ? v.reading : ''; });
+    }
     readings = choices.map(c => readingMap[c] || '');
   }
 
