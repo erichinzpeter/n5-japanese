@@ -4,6 +4,14 @@
 
 ---
 
+## [3.27.0] — 2026-08-02
+
+### Neu
+
+- **Eine falsch beantwortete Karte kommt jetzt als Lückensatz zurück statt als dieselbe Karte.** Bisher war die Wiedervorlage innerhalb der Runde identisch zur ersten Begegnung — die Lösung lag noch im Kurzzeitgedächtnis, der Abruf kostete nichts, und am nächsten Tag war das Wort wieder weg. Jetzt fehlt das Wort in seinem eigenen Beispielsatz und die deutsche Übersetzung steht als Hinweis darunter: 「毎日新聞を＿。」 „Ich lese jeden Tag Zeitung." Man muss das Wort produzieren statt es wiederzuerkennen, und lernt es im Satzmuster statt isoliert. Gilt für Vokabel- und Kanji-Karten im Karteikarten-Modus; wo sich kein sauberer Lückensatz bauen lässt, erscheint wie bisher die normale Karte. Die Rückseite zeigt zusätzlich die Beispielsätze aufgeklappt.
+
+---
+
 ## [3.26.0] — 2026-07-30
 
 ### Neu
