@@ -20,9 +20,14 @@ test('surfaceForms enthält den ます-Stamm', () => {
   assert.ok(words.includes('読み'));
 });
 
-test('surfaceForms führt die längste Form zuerst', () => {
+test('surfaceForms führt die Wörterbuchform zuerst', () => {
   const words = cloze.surfaceForms(YOMU, 'vocab').map(f => f.word);
-  assert.equal(words[0].length, Math.max(...words.map(w => w.length)));
+  assert.equal(words[0], '読む');
+});
+
+test('surfaceForms sortiert die übrigen Formen längste zuerst', () => {
+  const rest = cloze.surfaceForms(YOMU, 'vocab').map(f => f.word).slice(1);
+  assert.equal(rest[0].length, Math.max(...rest.map(w => w.length)));
 });
 
 test('surfaceForms liefert zu jeder Form die Lesung', () => {
@@ -74,6 +79,17 @@ test('buildCloze trifft den ます-Stamm vor ました', () => {
   assert.equal(cloze.buildCloze(KARIRU, 'vocab').text, '図書館で本を＿ました。');
 });
 
+const KIREI = {
+  word: 'きれい', reading: 'きれい', meaning: 'schön', pos: 'na-Adjektiv',
+  examples: [{ jp: 'この花はきれいです。', reading: 'このはなはきれいです。', de: 'Diese Blume ist schön.' }],
+};
+
+// きれいで ist länger als きれい und passt zufällig in きれいです hinein — ohne
+// Wörterbuchform-Priorität würde die Flexionsform gewinnen und Unsinn ergeben.
+test('buildCloze gapt bei na-Adjektiven die Wörterbuchform, nicht eine längere Flexionsform', () => {
+  assert.equal(cloze.buildCloze(KIREI, 'vocab').text, 'この花は＿です。');
+});
+
 const NAI_READING = {
   word: '本', reading: 'ほん', meaning: 'Buch', pos: 'Nomen',
   examples: [{ jp: '机の上に本があります。', de: 'Auf dem Tisch liegt ein Buch.' }],
@@ -120,6 +136,14 @@ test('buildCloze ist null, wenn das Wort in keinem Satz vorkommt', () => {
   assert.equal(cloze.buildCloze(variant, 'vocab'), null);
 });
 
+test('buildCloze überspringt einen Satz, der bereits eine Lücke enthält', () => {
+  const alreadyGapped = {
+    word: '本', reading: 'ほん', meaning: 'Buch', pos: 'Nomen',
+    examples: [{ jp: '机の上に＿があります。', reading: 'つくえのうえにほんがあります。', de: 'Auf dem Tisch liegt ein Buch.' }],
+  };
+  assert.equal(cloze.buildCloze(alreadyGapped, 'vocab'), null);
+});
+
 const ICHI = {
   char: '一', meaning: ['eins'], speak: 'いち', on: ['いち'], kun: ['ひと'],
   sentences: [{ jp: 'りんごを一つください。', reading: 'りんごをひとつください。', de: 'Geben Sie mir bitte einen Apfel.' }],
@@ -160,6 +184,12 @@ const SECOND_HIT = {
 
 test('sauberes zweites Vorkommen schlägt den Compound-Treffer', () => {
   assert.equal(cloze.buildCloze(SECOND_HIT, 'kanji').text, '明日の天気が＿になります。');
+});
+
+// き kommt in der Lesungszeile zweimal vor (てんき und das freistehende き) — die
+// Position ist damit nicht mehr eindeutig, die Lesungszeile muss deshalb entfallen.
+test('reading bleibt null, wenn die Lesung mehrfach im Satz vorkommt', () => {
+  assert.equal(cloze.buildCloze(SECOND_HIT, 'kanji').reading, null);
 });
 
 const load = (file, name) => new Function(

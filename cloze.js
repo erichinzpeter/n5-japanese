@@ -36,7 +36,13 @@ function surfaceForms(item, type) {
     seen.add(candidate.word);
     unique.push(candidate);
   }
-  unique.sort((a, b) => b.word.length - a.word.length);
+  // Dictionary form first — sonst gewinnt bei na-Adjektiven oft eine zufällig
+  // längere Flexionsform (きれいで passt in きれいです hinein, meint aber etwas anderes).
+  unique.sort((a, b) => {
+    if (a.word === item.word) return -1;
+    if (b.word === item.word) return 1;
+    return b.word.length - a.word.length;
+  });
   return unique;
 }
 
@@ -45,12 +51,13 @@ function blankAt(text, index, length) {
 }
 
 // Die Lesungszeile stützt den Rest des Satzes; ungelückt würde sie die Antwort
-// verraten. Ist die Form dort nicht auffindbar, entfällt die Zeile ganz.
+// verraten. Kommt die Form mehrfach vor (天気/気 teilen sich das き), ist die
+// Position nicht mehr eindeutig — dann entfällt die Zeile ganz statt falsch zu lücken.
 function blankReading(readingLine, formReading) {
   if (!readingLine || !formReading) return null;
-  const at = readingLine.indexOf(formReading);
-  if (at < 0) return null;
-  return blankAt(readingLine, at, formReading.length);
+  const hits = findOccurrences(readingLine, formReading);
+  if (hits.length !== 1) return null;
+  return blankAt(readingLine, hits[0], formReading.length);
 }
 
 const KANJI_CHAR = /[㐀-鿿]/;
@@ -114,14 +121,20 @@ function kanjiReadingHit(readingLine, item) {
 // zerschnitten). Bei Kanji-Karten ist das Zeichen selbst die gefragte Einheit —
 // ein Compound-Treffer ist dort eine legitime Frage und dient als Rückfalloption.
 function buildCloze(item, type) {
-  const sentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
+  const rawSentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
+  // String.replace('＿', ...) in renderClozeText() resolves only the first gap —
+  // a sentence that already contains one would break the single-gap contract.
+  const sentences = rawSentences.filter(sentence => !sentence.jp.includes(GAP));
   const forms = surfaceForms(item, type);
   const hit = findCleanHit(sentences, forms) || (type === 'kanji' ? findAnyHit(sentences, forms) : null);
   if (!hit) return null;
 
   const { sentence, form, at } = hit;
+  // Kommt das Zeichen im Satz mehrfach vor (学 in 大学 UND in 学んでいます — mit
+  // zwei verschiedenen Lesungen), ist ohne Furigana-Zuordnung nicht entscheidbar,
+  // welche Lesung zur gelückten Stelle gehört. Dann lieber keine Lesungszeile.
   const formReading = type === 'kanji'
-    ? kanjiReadingHit(sentence.reading, item)
+    ? (findOccurrences(sentence.jp, form.word).length === 1 ? kanjiReadingHit(sentence.reading, item) : null)
     : form.reading;
   const reading = blankReading(sentence.reading, formReading);
   return {
