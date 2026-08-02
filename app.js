@@ -661,7 +661,7 @@ function renderCard() {
 
 // Shared back face for both directions — a header band (kanji + meaning) over
 // reading tiles, so the readings read as objects instead of stacked form rows.
-function kanjiBackHtml(k) {
+function kanjiBackHtml(k, openExamples = false) {
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
   const beispielwort = kanjiSpeakIsWord(k)
@@ -708,7 +708,7 @@ function kanjiBackHtml(k) {
     ${k.sentences && k.sentences.length ? `
     <div class="back-section">
       <span class="back-label">Sätze</span>
-      ${collapsibleDialogue('Sätze anzeigen', sentencesHtml)}
+      ${collapsibleDialogue('Sätze anzeigen', sentencesHtml, undefined, openExamples)}
     </div>` : ''}`;
 }
 
@@ -729,7 +729,7 @@ function renderKanjiCard(card, front, back) {
 }
 
 // display: im ます-Modus die höfliche Form; null im Normalfall.
-function vocabBackHtml(v, display = null) {
+function vocabBackHtml(v, display = null, openExamples = false) {
   const headWord = display ? display.word : v.word;
   const headReading = display ? display.reading : v.reading;
   const showReading = headWord !== headReading;
@@ -758,7 +758,7 @@ function vocabBackHtml(v, display = null) {
     ${v.examples && v.examples.length ? `
     <div class="back-section">
       <span class="back-label">Beispiele</span>
-      ${collapsibleDialogue('Beispiele anzeigen', examplesHtml)}
+      ${collapsibleDialogue('Beispiele anzeigen', examplesHtml, undefined, openExamples)}
     </div>` : ''}
     ${renderFormsTable(v)}`;
 }
@@ -1522,7 +1522,7 @@ function hideToast() {
   if (el) el.classList.remove('visible');
 }
 
-function collapsibleDialogue(label, innerHtml, speakText) {
+function collapsibleDialogue(label, innerHtml, speakText, isOpen = false) {
   const id = `dlg-${Math.random().toString(36).slice(2, 7)}`;
   const speakBtnHtml = speakText
     ? speakBtn(speakText, 'btn-speak-dialogue', '🔊 Anhören')
@@ -1535,12 +1535,12 @@ function collapsibleDialogue(label, innerHtml, speakText) {
         c.classList.toggle('expanded');
         a.style.transform = c.classList.contains('expanded') ? 'rotate(90deg)' : '';
       ">
-        <span class="dialogue-toggle-arrow">▶</span>
+        <span class="dialogue-toggle-arrow"${isOpen ? ' style="transform: rotate(90deg)"' : ''}>▶</span>
         ${escHtml(label)}
       </button>
       ${speakBtnHtml}
     </div>
-    <div class="dialogue-collapsible" id="${id}">
+    <div class="dialogue-collapsible${isOpen ? ' expanded' : ''}" id="${id}">
       ${innerHtml}
     </div>`;
 }
