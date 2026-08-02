@@ -89,3 +89,32 @@ test('answerReading ist die Lesung der entfernten Form', () => {
 test('reading ist null, wenn der Satz keine Lesung mitbringt', () => {
   assert.equal(cloze.buildCloze(NAI_READING, 'vocab').reading, null);
 });
+
+const KURUMA = {
+  word: '車', reading: 'くるま', meaning: 'Auto', pos: 'Nomen',
+  examples: [
+    { jp: '電車に乗ります。', reading: 'でんしゃにのります。', de: 'Ich steige in den Zug.' },
+    { jp: '車で買い物に行きます。', reading: 'くるまでかいものにいきます。', de: 'Ich fahre mit dem Auto einkaufen.' },
+  ],
+};
+
+const ONLY_COMPOUND = {
+  word: '車', reading: 'くるま', meaning: 'Auto', pos: 'Nomen',
+  examples: [{ jp: '電車に乗ります。', reading: 'でんしゃにのります。', de: 'Ich steige in den Zug.' }],
+};
+
+test('Ein-Zeichen-Treffer im Compound wird übersprungen, der saubere Satz gewinnt', () => {
+  assert.equal(cloze.buildCloze(KURUMA, 'vocab').text, '＿で買い物に行きます。');
+});
+
+test('buildCloze ist null, wenn nur ein Compound-Treffer existiert', () => {
+  assert.equal(cloze.buildCloze(ONLY_COMPOUND, 'vocab'), null);
+});
+
+test('buildCloze ist null, wenn das Wort in keinem Satz vorkommt', () => {
+  const variant = {
+    word: '美味しい', reading: 'おいしい', meaning: 'lecker', pos: 'i-Adjektiv',
+    examples: [{ jp: 'このラーメンはとてもおいしいです。', reading: 'このらーめんはとてもおいしいです。', de: 'Diese Ramen sind sehr lecker.' }],
+  };
+  assert.equal(cloze.buildCloze(variant, 'vocab'), null);
+});

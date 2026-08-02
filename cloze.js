@@ -53,6 +53,17 @@ function blankReading(readingLine, formReading) {
   return blankAt(readingLine, at, formReading.length);
 }
 
+const KANJI_CHAR = /[㐀-鿿]/;
+
+// Ein einzelnes Kanji steckt oft in einem längeren Wort (車 in 電車). Steht direkt
+// daneben ein weiteres Kanji, würde die Lücke ein anderes Wort zerschneiden.
+function isCleanHit(sentence, at, word) {
+  if (word.length > 1) return true;
+  const before = sentence[at - 1] || '';
+  const after = sentence[at + word.length] || '';
+  return !KANJI_CHAR.test(before) && !KANJI_CHAR.test(after);
+}
+
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
 function buildCloze(item, type) {
   const sentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
@@ -60,7 +71,7 @@ function buildCloze(item, type) {
   for (const sentence of sentences) {
     for (const form of forms) {
       const at = sentence.jp.indexOf(form.word);
-      if (at < 0) continue;
+      if (at < 0 || !isCleanHit(sentence.jp, at, form.word)) continue;
       const reading = blankReading(sentence.reading, form.reading);
       return {
         text: blankAt(sentence.jp, at, form.word.length),
