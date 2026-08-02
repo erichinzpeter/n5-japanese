@@ -64,6 +64,15 @@ function isCleanHit(sentence, at, word) {
   return !KANJI_CHAR.test(before) && !KANJI_CHAR.test(after);
 }
 
+// Kanji-Karten kennen keine Form-Lesung-Paarung. Nur bei genau einem Treffer ist
+// klar, welche Stelle der Lesungszeile zum Zeichen gehört.
+function kanjiReadingHit(readingLine, item) {
+  if (!readingLine) return null;
+  const readings = [...(item.on || []), ...(item.kun || [])];
+  const hits = readings.filter(reading => readingLine.includes(reading));
+  return hits.length === 1 ? hits[0] : null;
+}
+
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
 function buildCloze(item, type) {
   const sentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
@@ -72,12 +81,15 @@ function buildCloze(item, type) {
     for (const form of forms) {
       const at = sentence.jp.indexOf(form.word);
       if (at < 0 || !isCleanHit(sentence.jp, at, form.word)) continue;
-      const reading = blankReading(sentence.reading, form.reading);
+      const formReading = type === 'kanji'
+        ? kanjiReadingHit(sentence.reading, item)
+        : form.reading;
+      const reading = blankReading(sentence.reading, formReading);
       return {
         text: blankAt(sentence.jp, at, form.word.length),
         reading,
         answer: form.word,
-        answerReading: reading ? form.reading : null,
+        answerReading: reading ? formReading : null,
         de: sentence.de,
       };
     }

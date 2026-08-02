@@ -118,3 +118,27 @@ test('buildCloze ist null, wenn das Wort in keinem Satz vorkommt', () => {
   };
   assert.equal(cloze.buildCloze(variant, 'vocab'), null);
 });
+
+const ICHI = {
+  char: '一', meaning: ['eins'], speak: 'いち', on: ['いち'], kun: ['ひと'],
+  sentences: [{ jp: 'りんごを一つください。', reading: 'りんごをひとつください。', de: 'Geben Sie mir bitte einen Apfel.' }],
+};
+
+// ひと und ひとつ passen beide auf dieselbe Lesungszeile — welche Stelle zum
+// Zeichen gehört, ist damit nicht entscheidbar.
+const AMBIGUOUS = {
+  char: '一', meaning: ['eins'], speak: 'いち', on: ['いち'], kun: ['ひと', 'ひとつ'],
+  sentences: [{ jp: 'りんごを一つください。', reading: 'りんごをひとつください。', de: 'Geben Sie mir bitte einen Apfel.' }],
+};
+
+test('Kanji-Karte lückt das Zeichen im Satz', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji').text, 'りんごを＿つください。');
+});
+
+test('Kanji-Karte lückt die eindeutige Lesung', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji').reading, 'りんごを＿つください。');
+});
+
+test('Kanji-Lesung bleibt aus, wenn mehrere Lesungen passen', () => {
+  assert.equal(cloze.buildCloze(AMBIGUOUS, 'kanji').reading, null);
+});
