@@ -50,3 +50,25 @@ test('buildCloze gibt die entfernte Form als answer zurück', () => {
 test('buildCloze übernimmt die deutsche Übersetzung des Satzes', () => {
   assert.equal(cloze.buildCloze(HON, 'vocab').de, 'Auf dem Tisch liegt ein Buch.');
 });
+
+const YOMU_CARD = {
+  word: '読む', reading: 'よむ', meaning: 'lesen', pos: 'Verb (Godan, む)',
+  examples: [{ jp: '毎日新聞を読みます。', reading: 'まいにちしんぶんをよみます。', de: 'Ich lese jeden Tag Zeitung.' }],
+};
+
+const KARIRU = {
+  word: '借りる', reading: 'かりる', meaning: 'leihen', pos: 'Verb (Ichidan)',
+  examples: [{ jp: '図書館で本を借りました。', reading: 'としょかんでほんをかりました。', de: 'Ich habe in der Bibliothek ein Buch geliehen.' }],
+};
+
+test('buildCloze trifft die ます-Form im Satz', () => {
+  assert.equal(cloze.buildCloze(YOMU_CARD, 'vocab').text, '毎日新聞を＿。');
+});
+
+test('answer ist die Oberflächenform, nicht die Wörterbuchform', () => {
+  assert.equal(cloze.buildCloze(YOMU_CARD, 'vocab').answer, '読みます');
+});
+
+test('buildCloze trifft den ます-Stamm vor ました', () => {
+  assert.equal(cloze.buildCloze(KARIRU, 'vocab').text, '図書館で本を＿ました。');
+});
