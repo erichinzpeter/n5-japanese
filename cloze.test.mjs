@@ -72,3 +72,20 @@ test('answer ist die Oberflächenform, nicht die Wörterbuchform', () => {
 test('buildCloze trifft den ます-Stamm vor ました', () => {
   assert.equal(cloze.buildCloze(KARIRU, 'vocab').text, '図書館で本を＿ました。');
 });
+
+const NAI_READING = {
+  word: '本', reading: 'ほん', meaning: 'Buch', pos: 'Nomen',
+  examples: [{ jp: '机の上に本があります。', de: 'Auf dem Tisch liegt ein Buch.' }],
+};
+
+test('reading bekommt die Lücke an derselben Stelle', () => {
+  assert.equal(cloze.buildCloze(YOMU_CARD, 'vocab').reading, 'まいにちしんぶんを＿。');
+});
+
+test('answerReading ist die Lesung der entfernten Form', () => {
+  assert.equal(cloze.buildCloze(YOMU_CARD, 'vocab').answerReading, 'よみます');
+});
+
+test('reading ist null, wenn der Satz keine Lesung mitbringt', () => {
+  assert.equal(cloze.buildCloze(NAI_READING, 'vocab').reading, null);
+});

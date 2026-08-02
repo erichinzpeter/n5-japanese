@@ -44,6 +44,15 @@ function blankAt(text, index, length) {
   return text.slice(0, index) + GAP + text.slice(index + length);
 }
 
+// Die Lesungszeile stützt den Rest des Satzes; ungelückt würde sie die Antwort
+// verraten. Ist die Form dort nicht auffindbar, entfällt die Zeile ganz.
+function blankReading(readingLine, formReading) {
+  if (!readingLine || !formReading) return null;
+  const at = readingLine.indexOf(formReading);
+  if (at < 0) return null;
+  return blankAt(readingLine, at, formReading.length);
+}
+
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
 function buildCloze(item, type) {
   const sentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
@@ -52,11 +61,12 @@ function buildCloze(item, type) {
     for (const form of forms) {
       const at = sentence.jp.indexOf(form.word);
       if (at < 0) continue;
+      const reading = blankReading(sentence.reading, form.reading);
       return {
         text: blankAt(sentence.jp, at, form.word.length),
-        reading: null,
+        reading,
         answer: form.word,
-        answerReading: null,
+        answerReading: reading ? form.reading : null,
         de: sentence.de,
       };
     }
