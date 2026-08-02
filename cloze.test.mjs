@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import cloze from './cloze.js';
 
 const YOMU = { word: '読む', reading: 'よむ', meaning: 'lesen', pos: 'Verb (Godan, む)' };
@@ -159,4 +160,23 @@ const SECOND_HIT = {
 
 test('sauberes zweites Vorkommen schlägt den Compound-Treffer', () => {
   assert.equal(cloze.buildCloze(SECOND_HIT, 'kanji').text, '明日の天気が＿になります。');
+});
+
+const load = (file, name) => new Function(
+  readFileSync(new URL(file, import.meta.url), 'utf8') + `; return ${name};`
+)();
+
+const VOCAB = load('./data/vocab.js', 'VOCAB');
+const KANJI = load('./data/kanji.js', 'KANJI');
+
+function countWithCloze(items, type) {
+  return items.filter(item => cloze.buildCloze(item, type) !== null).length;
+}
+
+test('mindestens 1000 der Vokabeln liefern einen Lückensatz', () => {
+  assert.ok(countWithCloze(VOCAB, 'vocab') >= 1000);
+});
+
+test('alle Kanji liefern einen Lückensatz', () => {
+  assert.equal(countWithCloze(KANJI, 'kanji'), KANJI.length);
 });
