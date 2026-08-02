@@ -633,7 +633,10 @@ function renderCard() {
 
   // Render front & back
 
-  if (card.type === 'conjugation') {
+  const cloze = clozeForCard(card);
+  if (cloze) {
+    renderClozeCard(card, cloze, front, back);
+  } else if (card.type === 'conjugation') {
     renderConjugationCard(card, front, back);
   } else if (card.type === 'kanji') {
     renderKanjiCard(card, front, back);
@@ -840,6 +843,38 @@ function renderGrammarCard(card, front, back) {
       <span class="back-label">Erklärung</span>
       <div class="back-explanation">${escHtml(c.explanation)}</div>
     </div>`;
+}
+
+// Wiedervorlage nach einem Fehler: das Wort fehlt im Beispielsatz und muss
+// produziert werden, statt zum zweiten Mal in derselben Runde wiedererkannt.
+function clozeForCard(card) {
+  if (!card.isRequeue) return null;
+  if (card.type !== 'vocab' && card.type !== 'kanji') return null;
+  return buildCloze(card.item, card.type);
+}
+
+function renderClozeCard(card, cloze, front, back) {
+  const label = card.type === 'kanji' ? 'Kanji — was fehlt?' : 'Vokabel — was fehlt?';
+  const gappedReading = cloze.reading
+    ? `<div class="card-cloze-reading">${renderClozeText(cloze.reading, null)}</div>` : '';
+  front.innerHTML = `
+    <div class="card-type-label">${label}</div>
+    <div class="card-cloze-jp">${renderClozeText(cloze.text, null)}</div>
+    ${gappedReading}
+    <div class="card-cloze-de">${escHtml(cloze.de)}</div>`;
+
+  const solvedJp = cloze.text.replace('＿', cloze.answer);
+  const solvedReading = cloze.reading
+    ? `<div class="card-cloze-reading">${renderClozeText(cloze.reading, cloze.answerReading)}</div>` : '';
+  back.innerHTML = `
+    <div class="back-head">
+      <span class="back-label">Lösung</span>
+      <div class="card-cloze-jp">${renderClozeText(cloze.text, cloze.answer)}</div>
+      ${solvedReading}
+      ${speakBtn(solvedJp, 'btn-speak-example')}
+    </div>
+    <div class="back-divider"></div>
+    ${card.type === 'kanji' ? kanjiBackHtml(card.item, true) : vocabBackHtml(card.item, card.display, true)}`;
 }
 
 // ===== MULTIPLE CHOICE =====
