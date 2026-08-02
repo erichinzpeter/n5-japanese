@@ -64,6 +64,42 @@ function isCleanHit(sentence, at, word) {
   return !KANJI_CHAR.test(before) && !KANJI_CHAR.test(after);
 }
 
+// Alle Fundstellen von word in text — ein Satz kann dieselbe Form mehrfach
+// enthalten (天気 und alleinstehendes 気 im selben Satz), und nur eine davon
+// muss sauber sein.
+function findOccurrences(text, word) {
+  const indices = [];
+  let from = 0;
+  for (let at = text.indexOf(word, from); at >= 0; at = text.indexOf(word, from)) {
+    indices.push(at);
+    from = at + 1;
+  }
+  return indices;
+}
+
+// Erste saubere Fundstelle über alle Sätze und Formen hinweg.
+function findCleanHit(sentences, forms) {
+  for (const sentence of sentences) {
+    for (const form of forms) {
+      for (const at of findOccurrences(sentence.jp, form.word)) {
+        if (isCleanHit(sentence.jp, at, form.word)) return { sentence, form, at };
+      }
+    }
+  }
+  return null;
+}
+
+// Erste Fundstelle überhaupt, unabhängig von isCleanHit.
+function findAnyHit(sentences, forms) {
+  for (const sentence of sentences) {
+    for (const form of forms) {
+      const at = sentence.jp.indexOf(form.word);
+      if (at >= 0) return { sentence, form, at };
+    }
+  }
+  return null;
+}
+
 // Kanji-Karten kennen keine Form-Lesung-Paarung. Nur bei genau einem Treffer ist
 // klar, welche Stelle der Lesungszeile zum Zeichen gehört.
 function kanjiReadingHit(readingLine, item) {
@@ -74,27 +110,27 @@ function kanjiReadingHit(readingLine, item) {
 }
 
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
+// Bei Vokabeln muss die Lücke sauber sein (sonst würde ein anderes Wort im Satz
+// zerschnitten). Bei Kanji-Karten ist das Zeichen selbst die gefragte Einheit —
+// ein Compound-Treffer ist dort eine legitime Frage und dient als Rückfalloption.
 function buildCloze(item, type) {
   const sentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
   const forms = surfaceForms(item, type);
-  for (const sentence of sentences) {
-    for (const form of forms) {
-      const at = sentence.jp.indexOf(form.word);
-      if (at < 0 || !isCleanHit(sentence.jp, at, form.word)) continue;
-      const formReading = type === 'kanji'
-        ? kanjiReadingHit(sentence.reading, item)
-        : form.reading;
-      const reading = blankReading(sentence.reading, formReading);
-      return {
-        text: blankAt(sentence.jp, at, form.word.length),
-        reading,
-        answer: form.word,
-        answerReading: reading ? formReading : null,
-        de: sentence.de,
-      };
-    }
-  }
-  return null;
+  const hit = findCleanHit(sentences, forms) || (type === 'kanji' ? findAnyHit(sentences, forms) : null);
+  if (!hit) return null;
+
+  const { sentence, form, at } = hit;
+  const formReading = type === 'kanji'
+    ? kanjiReadingHit(sentence.reading, item)
+    : form.reading;
+  const reading = blankReading(sentence.reading, formReading);
+  return {
+    text: blankAt(sentence.jp, at, form.word.length),
+    reading,
+    answer: form.word,
+    answerReading: reading ? formReading : null,
+    de: sentence.de,
+  };
 }
 
 if (typeof module !== 'undefined' && module.exports) {

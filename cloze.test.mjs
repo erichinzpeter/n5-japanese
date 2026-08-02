@@ -142,3 +142,21 @@ test('Kanji-Karte lückt die eindeutige Lesung', () => {
 test('Kanji-Lesung bleibt aus, wenn mehrere Lesungen passen', () => {
   assert.equal(cloze.buildCloze(AMBIGUOUS, 'kanji').reading, null);
 });
+
+const COMPOUND_ONLY = {
+  char: '気', meaning: ['Geist'], speak: 'き', on: ['き'], kun: [],
+  sentences: [{ jp: '今日は元気ですか。', reading: 'きょうはげんきですか。', de: 'Geht es dir heute gut?' }],
+};
+
+test('Kanji-Karte lückt auch innerhalb eines Compounds', () => {
+  assert.equal(cloze.buildCloze(COMPOUND_ONLY, 'kanji').text, '今日は元＿ですか。');
+});
+
+const SECOND_HIT = {
+  char: '気', meaning: ['Geist'], speak: 'き', on: ['き'], kun: [],
+  sentences: [{ jp: '明日の天気が気になります。', reading: 'あしたのてんきがきになります。', de: 'Das Wetter von morgen beschäftigt mich.' }],
+};
+
+test('sauberes zweites Vorkommen schlägt den Compound-Treffer', () => {
+  assert.equal(cloze.buildCloze(SECOND_HIT, 'kanji').text, '明日の天気が＿になります。');
+});
