@@ -40,6 +40,30 @@ function surfaceForms(item, type) {
   return unique;
 }
 
+function blankAt(text, index, length) {
+  return text.slice(0, index) + GAP + text.slice(index + length);
+}
+
+// null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
+function buildCloze(item, type) {
+  const sentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
+  const forms = surfaceForms(item, type);
+  for (const sentence of sentences) {
+    for (const form of forms) {
+      const at = sentence.jp.indexOf(form.word);
+      if (at < 0) continue;
+      return {
+        text: blankAt(sentence.jp, at, form.word.length),
+        reading: null,
+        answer: form.word,
+        answerReading: null,
+        de: sentence.de,
+      };
+    }
+  }
+  return null;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { surfaceForms };
+  module.exports = { surfaceForms, buildCloze };
 }

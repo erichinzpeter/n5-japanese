@@ -33,3 +33,20 @@ test('surfaceForms für ein Nomen liefert nur die Wörterbuchform', () => {
   const noun = { word: '本', reading: 'ほん', pos: 'Nomen' };
   assert.deepEqual(cloze.surfaceForms(noun, 'vocab'), [{ word: '本', reading: 'ほん' }]);
 });
+
+const HON = {
+  word: '本', reading: 'ほん', meaning: 'Buch', pos: 'Nomen',
+  examples: [{ jp: '机の上に本があります。', reading: 'つくえのうえにほんがあります。', de: 'Auf dem Tisch liegt ein Buch.' }],
+};
+
+test('buildCloze ersetzt die Wörterbuchform durch die Lücke', () => {
+  assert.equal(cloze.buildCloze(HON, 'vocab').text, '机の上に＿があります。');
+});
+
+test('buildCloze gibt die entfernte Form als answer zurück', () => {
+  assert.equal(cloze.buildCloze(HON, 'vocab').answer, '本');
+});
+
+test('buildCloze übernimmt die deutsche Übersetzung des Satzes', () => {
+  assert.equal(cloze.buildCloze(HON, 'vocab').de, 'Auf dem Tisch liegt ein Buch.');
+});
