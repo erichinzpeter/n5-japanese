@@ -5,6 +5,11 @@
 // renderClozeText() in app.js unverändert damit arbeitet.
 // Loaded as a plain <script> (browser globals) and imported in cloze.test.mjs (Node).
 
+// `conjugateFn`, nicht `conjugate`: eine gleichnamige const würde sich beim Lesen
+// von `conjugate` unten selbst referenzieren (TDZ) statt das globale conjugate()
+// zu treffen. Im Browser-Zweig bindet das ans globale conjugate() aus
+// conjugate.js — <script src="cloze.js"> muss in index.html deshalb NACH
+// conjugate.js stehen; kein anderes pure Modul hat diese Kopplung.
 const conjugateFn = (typeof module !== 'undefined' && module.exports)
   ? require('./conjugate.js')
   : conjugate;
@@ -64,16 +69,15 @@ const KANJI_CHAR = /[㐀-鿿]/;
 
 // Ein einzelnes Kanji steckt oft in einem längeren Wort (車 in 電車). Steht direkt
 // daneben ein weiteres Kanji, würde die Lücke ein anderes Wort zerschneiden.
-function isCleanHit(sentence, at, word) {
+function isStandaloneHit(text, at, word) {
   if (word.length > 1) return true;
-  const before = sentence[at - 1] || '';
-  const after = sentence[at + word.length] || '';
+  const before = text[at - 1] || '';
+  const after = text[at + word.length] || '';
   return !KANJI_CHAR.test(before) && !KANJI_CHAR.test(after);
 }
 
-// Alle Fundstellen von word in text — ein Satz kann dieselbe Form mehrfach
-// enthalten (天気 und alleinstehendes 気 im selben Satz), und nur eine davon
-// muss sauber sein.
+// Ein Satz kann dieselbe Form mehrfach enthalten (天気 und alleinstehendes 気
+// im selben Satz), und nur eine davon muss sauber sein.
 function findOccurrences(text, word) {
   const indices = [];
   let from = 0;
@@ -84,19 +88,20 @@ function findOccurrences(text, word) {
   return indices;
 }
 
-// Erste saubere Fundstelle über alle Sätze und Formen hinweg.
 function findCleanHit(sentences, forms) {
   for (const sentence of sentences) {
     for (const form of forms) {
       for (const at of findOccurrences(sentence.jp, form.word)) {
-        if (isCleanHit(sentence.jp, at, form.word)) return { sentence, form, at };
+        if (isStandaloneHit(sentence.jp, at, form.word)) return { sentence, form, at };
       }
     }
   }
   return null;
 }
 
-// Erste Fundstelle überhaupt, unabhängig von isCleanHit.
+// Läuft nur, wenn findCleanHit nichts gefunden hat — dann ist keine Fundstelle im
+// ganzen Satz sauber, die Wahl unter ihnen also ohnehin beliebig. Ein simples
+// indexOf statt aller Fundstellen genügt deshalb.
 function findAnyHit(sentences, forms) {
   for (const sentence of sentences) {
     for (const form of forms) {
@@ -109,11 +114,11 @@ function findAnyHit(sentences, forms) {
 
 // Kanji-Karten kennen keine Form-Lesung-Paarung. Nur bei genau einem Treffer ist
 // klar, welche Stelle der Lesungszeile zum Zeichen gehört.
-function kanjiReadingHit(readingLine, item) {
+function findKanjiReading(readingLine, item) {
   if (!readingLine) return null;
   const readings = [...(item.on || []), ...(item.kun || [])];
-  const hits = readings.filter(reading => readingLine.includes(reading));
-  return hits.length === 1 ? hits[0] : null;
+  const matchingReadings = readings.filter(reading => readingLine.includes(reading));
+  return matchingReadings.length === 1 ? matchingReadings[0] : null;
 }
 
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
@@ -122,8 +127,8 @@ function kanjiReadingHit(readingLine, item) {
 // ein Compound-Treffer ist dort eine legitime Frage und dient als Rückfalloption.
 function buildCloze(item, type) {
   const rawSentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
-  // String.replace('＿', ...) in renderClozeText() resolves only the first gap —
-  // a sentence that already contains one would break the single-gap contract.
+  // String.replace('＿', ...) in renderClozeText() löst nur die erste Lücke auf —
+  // ein Satz, der bereits eine enthält, würde den Ein-Lücken-Vertrag brechen.
   const sentences = rawSentences.filter(sentence => !sentence.jp.includes(GAP));
   const forms = surfaceForms(item, type);
   const hit = findCleanHit(sentences, forms) || (type === 'kanji' ? findAnyHit(sentences, forms) : null);
@@ -134,7 +139,7 @@ function buildCloze(item, type) {
   // zwei verschiedenen Lesungen), ist ohne Furigana-Zuordnung nicht entscheidbar,
   // welche Lesung zur gelückten Stelle gehört. Dann lieber keine Lesungszeile.
   const formReading = type === 'kanji'
-    ? (findOccurrences(sentence.jp, form.word).length === 1 ? kanjiReadingHit(sentence.reading, item) : null)
+    ? (findOccurrences(sentence.jp, form.word).length === 1 ? findKanjiReading(sentence.reading, item) : null)
     : form.reading;
   const reading = blankReading(sentence.reading, formReading);
   return {

@@ -25,9 +25,15 @@ test('surfaceForms führt die Wörterbuchform zuerst', () => {
   assert.equal(words[0], '読む');
 });
 
-test('surfaceForms sortiert die übrigen Formen längste zuerst', () => {
-  const rest = cloze.surfaceForms(YOMU, 'vocab').map(f => f.word).slice(1);
-  assert.equal(rest[0].length, Math.max(...rest.map(w => w.length)));
+const HANASU = {
+  word: '話す', reading: 'はなす', meaning: 'sprechen', pos: 'Verb (Godan, す)',
+  examples: [{ jp: '日本語で話してください。', reading: 'にほんごではなしてください。', de: 'Bitte sprechen Sie Japanisch.' }],
+};
+
+// 話し (ます-Stamm) ist kürzer als 話して (て-Form) und würde ohne Längensortierung
+// vor ihr gewinnen — Karte '日本語で＿てください。' mit answer '話し' wäre falsch.
+test('buildCloze wählt unter mehreren passenden Formen die längste', () => {
+  assert.equal(cloze.buildCloze(HANASU, 'vocab').text, '日本語で＿ください。');
 });
 
 test('surfaceForms liefert zu jeder Form die Lesung', () => {
@@ -203,8 +209,11 @@ function countWithCloze(items, type) {
   return items.filter(item => cloze.buildCloze(item, type) !== null).length;
 }
 
+// Ist-Wert aktuell 1010 — die Schwelle liegt bewusst darunter, damit harmlose
+// Datenpflege an data/vocab.js den Test nicht bei jeder kleinen Änderung reißt.
 test('mindestens 1000 der Vokabeln liefern einen Lückensatz', () => {
-  assert.ok(countWithCloze(VOCAB, 'vocab') >= 1000);
+  const count = countWithCloze(VOCAB, 'vocab');
+  assert.ok(count >= 1000, `nur ${count} von ${VOCAB.length} Vokabeln`);
 });
 
 test('alle Kanji liefern einen Lückensatz', () => {
