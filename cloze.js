@@ -117,7 +117,7 @@ function buildWordCloze(item) {
   const { sentence, form, at } = hit;
   const reading = blankReading(sentence.reading, form.reading);
   return {
-    gap: 'word',
+    variant: 'word',
     text: blankAt(sentence.jp, at, form.word.length),
     reading,
     answer: form.word,
@@ -166,7 +166,7 @@ function buildReadingCloze(item) {
   candidates.sort((a, b) => b.score - a.score);
   const { sentence, span, answer } = candidates[0];
   return {
-    gap: 'reading',
+    variant: 'reading',
     text: sentence.jp,
     reading: blankAt(sentence.reading, span.at, span.length),
     answer,

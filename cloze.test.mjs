@@ -225,6 +225,10 @@ test('ohne Lesungszeile gibt es keine Kanji-Lücke', () => {
   assert.equal(cloze.buildCloze(NO_READING_LINE, 'kanji'), null);
 });
 
+test('Vokabel-Cloze meldet sich als variant word', () => {
+  assert.equal(cloze.buildCloze(HON, 'vocab').variant, 'word');
+});
+
 const load = (file, name) => new Function(
   readFileSync(new URL(file, import.meta.url), 'utf8') + `; return ${name};`
 )();

@@ -854,7 +854,7 @@ function clozeForCard(card) {
 }
 
 function renderClozeCard(card, cloze, front, back) {
-  if (cloze.gap === 'reading') renderReadingClozeCard(card, cloze, front, back);
+  if (cloze.variant === 'reading') renderReadingClozeCard(card, cloze, front, back);
   else renderWordClozeCard(card, cloze, front, back);
 }
 
