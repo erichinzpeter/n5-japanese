@@ -633,7 +633,10 @@ function renderCard() {
 
   // Render front & back
 
-  if (card.type === 'conjugation') {
+  const cloze = clozeForCard(card);
+  if (cloze) {
+    renderClozeCard(card, cloze, front, back);
+  } else if (card.type === 'conjugation') {
     renderConjugationCard(card, front, back);
   } else if (card.type === 'kanji') {
     renderKanjiCard(card, front, back);
@@ -661,7 +664,7 @@ function renderCard() {
 
 // Shared back face for both directions — a header band (kanji + meaning) over
 // reading tiles, so the readings read as objects instead of stacked form rows.
-function kanjiBackHtml(k) {
+function kanjiBackHtml(k, openExamples = false) {
   const onStr  = k.on.length  ? k.on.join('、')  : '—';
   const kunStr = k.kun.length ? k.kun.join('、') : '—';
   const beispielwort = kanjiSpeakIsWord(k)
@@ -708,7 +711,7 @@ function kanjiBackHtml(k) {
     ${k.sentences && k.sentences.length ? `
     <div class="back-section">
       <span class="back-label">Sätze</span>
-      ${collapsibleDialogue('Sätze anzeigen', sentencesHtml)}
+      ${collapsibleDialogue('Sätze anzeigen', sentencesHtml, undefined, openExamples)}
     </div>` : ''}`;
 }
 
@@ -729,7 +732,7 @@ function renderKanjiCard(card, front, back) {
 }
 
 // display: im ます-Modus die höfliche Form; null im Normalfall.
-function vocabBackHtml(v, display = null) {
+function vocabBackHtml(v, display = null, openExamples = false) {
   const headWord = display ? display.word : v.word;
   const headReading = display ? display.reading : v.reading;
   const showReading = headWord !== headReading;
@@ -758,7 +761,7 @@ function vocabBackHtml(v, display = null) {
     ${v.examples && v.examples.length ? `
     <div class="back-section">
       <span class="back-label">Beispiele</span>
-      ${collapsibleDialogue('Beispiele anzeigen', examplesHtml)}
+      ${collapsibleDialogue('Beispiele anzeigen', examplesHtml, undefined, openExamples)}
     </div>` : ''}
     ${renderFormsTable(v)}`;
 }
@@ -840,6 +843,62 @@ function renderGrammarCard(card, front, back) {
       <span class="back-label">Erklärung</span>
       <div class="back-explanation">${escHtml(c.explanation)}</div>
     </div>`;
+}
+
+// Wiedervorlage nach einem Fehler: ein Beispielsatz mit Lücke statt derselben Karte
+// zum zweiten Mal. Bei Vokabeln fehlt das Wort, bei Kanji dessen Lesung.
+function clozeForCard(card) {
+  if (!card.isRequeue) return null;
+  if (card.type !== 'vocab' && card.type !== 'kanji') return null;
+  return buildCloze(card.item, card.type);
+}
+
+function renderClozeCard(card, cloze, front, back) {
+  if (cloze.gap === 'reading') renderReadingClozeCard(card, cloze, front, back);
+  else renderWordClozeCard(card, cloze, front, back);
+}
+
+// Kanji-Wiedervorlage: der Satz bleibt stehen, gelückt ist die Lesung. Keine deutsche
+// Zeile und kein 🔊 auf der Vorderseite — beides würde die Antwort ausplaudern.
+function renderReadingClozeCard(card, cloze, front, back) {
+  front.innerHTML = `
+    <div class="card-type-label">Kanji - wie liest man das?</div>
+    <div class="card-cloze-jp">${escHtml(cloze.text)}</div>
+    <div class="card-cloze-reading">${renderClozeText(cloze.reading, null)}</div>`;
+
+  back.innerHTML = `
+    <div class="back-head">
+      <span class="back-label">Lösung</span>
+      <div class="card-cloze-jp">${escHtml(cloze.text)}</div>
+      <div class="card-cloze-reading">${renderClozeText(cloze.reading, cloze.answer)}</div>
+      <div class="card-cloze-de">${escHtml(cloze.de)}</div>
+      ${speakBtn(cloze.text, 'btn-speak-example')}
+    </div>
+    <div class="back-divider"></div>
+    ${kanjiBackHtml(card.item, true)}`;
+}
+
+function renderWordClozeCard(card, cloze, front, back) {
+  const gappedReading = cloze.reading
+    ? `<div class="card-cloze-reading">${renderClozeText(cloze.reading, null)}</div>` : '';
+  front.innerHTML = `
+    <div class="card-type-label">Vokabel — was fehlt?</div>
+    <div class="card-cloze-jp">${renderClozeText(cloze.text, null)}</div>
+    ${gappedReading}
+    <div class="card-cloze-de">${escHtml(cloze.de)}</div>`;
+
+  const solvedJp = cloze.text.replace('＿', cloze.answer);
+  const solvedReading = cloze.reading
+    ? `<div class="card-cloze-reading">${renderClozeText(cloze.reading, cloze.answerReading)}</div>` : '';
+  back.innerHTML = `
+    <div class="back-head">
+      <span class="back-label">Lösung</span>
+      <div class="card-cloze-jp">${renderClozeText(cloze.text, cloze.answer)}</div>
+      ${solvedReading}
+      ${speakBtn(solvedJp, 'btn-speak-example')}
+    </div>
+    <div class="back-divider"></div>
+    ${vocabBackHtml(card.item, card.display, true)}`;
 }
 
 // ===== MULTIPLE CHOICE =====
@@ -1522,7 +1581,7 @@ function hideToast() {
   if (el) el.classList.remove('visible');
 }
 
-function collapsibleDialogue(label, innerHtml, speakText) {
+function collapsibleDialogue(label, innerHtml, speakText, isOpen = false) {
   const id = `dlg-${Math.random().toString(36).slice(2, 7)}`;
   const speakBtnHtml = speakText
     ? speakBtn(speakText, 'btn-speak-dialogue', '🔊 Anhören')
@@ -1535,12 +1594,12 @@ function collapsibleDialogue(label, innerHtml, speakText) {
         c.classList.toggle('expanded');
         a.style.transform = c.classList.contains('expanded') ? 'rotate(90deg)' : '';
       ">
-        <span class="dialogue-toggle-arrow">▶</span>
+        <span class="dialogue-toggle-arrow"${isOpen ? ' style="transform: rotate(90deg)"' : ''}>▶</span>
         ${escHtml(label)}
       </button>
       ${speakBtnHtml}
     </div>
-    <div class="dialogue-collapsible" id="${id}">
+    <div class="dialogue-collapsible${isOpen ? ' expanded' : ''}" id="${id}">
       ${innerHtml}
     </div>`;
 }
