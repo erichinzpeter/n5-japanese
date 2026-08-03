@@ -4,6 +4,12 @@
 
 ---
 
+## [3.29.0] — 2026-08-03
+
+### Geändert
+
+- **Die Wiedervorlage einer falschen Kanji-Karte fragt jetzt das, woran man gescheitert ist.** Bisher kam nach jedem Fehler ein Satz, in dem die Lesung fehlte — die Kanji-Karte bewertet aber die Bedeutung, nicht die Lesung. Wer die Bedeutung nicht wusste, sollte also plötzlich etwas anderes können, und das ohne jede Stütze. Jetzt richtet sich die Wiedervorlage nach der Richtung: Nach „Zeichen → Bedeutung" steht der Beispielsatz vollständig da, das Zeichen ist hervorgehoben, gefragt ist seine Bedeutung. Nach „Bedeutung → Zeichen" fehlt das Zeichen im Satz und mit ihm seine Lesung, der deutsche Satz stützt — genau wie beim Vokabel-Lückensatz. 日 bekommt weiter die normale Karte: es steht in seinen Beispielsätzen mehrfach oder als 今日, da lässt sich keine eindeutige Lücke setzen.
+
 ## [3.28.0] — 2026-08-03
 
 ### Neu

@@ -155,16 +155,40 @@ const ICHI = {
   sentences: [{ jp: 'りんごを一つください。', reading: 'りんごをひとつください。', de: 'Geben Sie mir bitte einen Apfel.' }],
 };
 
-test('Kanji-Karte lässt den Satz vollständig', () => {
-  assert.equal(cloze.buildCloze(ICHI, 'kanji').text, 'りんごを一つください。');
+test('fwd lässt den Satz vollständig', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').text, 'りんごを一つください。');
 });
 
-test('Kanji-Karte lückt die Lesungszeile', () => {
-  assert.equal(cloze.buildCloze(ICHI, 'kanji').reading, 'りんごを＿つください。');
+test('fwd lässt die Lesungszeile vollständig', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').reading, 'りんごをひとつください。');
 });
 
-test('Kanji-Karte fragt nach der Lesung', () => {
-  assert.equal(cloze.buildCloze(ICHI, 'kanji').answer, 'ひと');
+test('fwd nennt das Zeichen, das markiert werden soll', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').char, '一');
+});
+
+test('fwd meldet sich als variant context', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').variant, 'context');
+});
+
+test('rev lückt das Zeichen im Satz', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'rev').text, 'りんごを＿つください。');
+});
+
+test('rev lückt die Lesung in der Kana-Zeile', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'rev').reading, 'りんごを＿つください。');
+});
+
+test('rev fragt nach dem Zeichen', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'rev').answer, '一');
+});
+
+test('rev liefert die Lesung der Lücke für die Rückseite', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'rev').answerReading, 'ひと');
+});
+
+test('rev meldet sich als variant char', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'rev').variant, 'char');
 });
 
 const COMPOUND_ONLY = {
@@ -172,8 +196,12 @@ const COMPOUND_ONLY = {
   sentences: [{ jp: '今日は元気ですか。', reading: 'きょうはげんきですか。', de: 'Geht es dir heute gut?' }],
 };
 
-test('Kanji-Karte lückt auch die Lesung innerhalb eines Compounds', () => {
-  assert.equal(cloze.buildCloze(COMPOUND_ONLY, 'kanji').reading, 'きょうはげん＿ですか。');
+test('rev lückt das Zeichen auch innerhalb eines Compounds', () => {
+  assert.equal(cloze.buildCloze(COMPOUND_ONLY, 'kanji', 'rev').text, '今日は元＿ですか。');
+});
+
+test('rev lückt die zum Zeichen gehörende Lesung im Compound', () => {
+  assert.equal(cloze.buildCloze(COMPOUND_ONLY, 'kanji', 'rev').reading, 'きょうはげん＿ですか。');
 });
 
 const TWO_SENTENCES = {
@@ -186,8 +214,8 @@ const TWO_SENTENCES = {
 
 // Im ersten Satz steht 気 zweimal — die ungelückte zweite Stelle würde die Antwort
 // in der Kana-Zeile verraten. Der Satz mit nur einem Vorkommen gewinnt deshalb.
-test('Satz mit einfachem Vorkommen schlägt den mit doppeltem', () => {
-  assert.equal(cloze.buildCloze(TWO_SENTENCES, 'kanji').text, '今日は元気ですか。');
+test('rev übergeht den Satz mit zwei Vorkommen des Zeichens', () => {
+  assert.equal(cloze.buildCloze(TWO_SENTENCES, 'kanji', 'rev').text, '今日は元＿ですか。');
 });
 
 // 者 steht in beiden Sätzen richtig, aber die Karte lehrt しゃ (医者, 学者) —
@@ -200,8 +228,8 @@ const TWO_READINGS = {
   ],
 };
 
-test('gefragt wird die Lesung, die die Karte lehrt', () => {
-  assert.equal(cloze.buildCloze(TWO_READINGS, 'kanji').answer, 'しゃ');
+test('rev bevorzugt den Satz mit der Kartenlesung', () => {
+  assert.equal(cloze.buildCloze(TWO_READINGS, 'kanji', 'rev').text, '彼は有名な学＿です。');
 });
 
 // Im Satz steht der Stamm (読みます), auf der Karte die Wörterbuchform (読む).
@@ -212,8 +240,8 @@ const STEM_ONLY = {
   ],
 };
 
-test('der Stamm im Satz zählt als Lesung der Karte', () => {
-  assert.equal(cloze.buildCloze(STEM_ONLY, 'kanji').answer, 'よ');
+test('rev akzeptiert den Stamm im Satz als Kartenlesung', () => {
+  assert.equal(cloze.buildCloze(STEM_ONLY, 'kanji', 'rev').answerReading, 'よ');
 });
 
 const NO_READING_LINE = {
@@ -221,8 +249,16 @@ const NO_READING_LINE = {
   sentences: [{ jp: 'りんごを一つください。', de: 'Geben Sie mir bitte einen Apfel.' }],
 };
 
-test('ohne Lesungszeile gibt es keine Kanji-Lücke', () => {
-  assert.equal(cloze.buildCloze(NO_READING_LINE, 'kanji'), null);
+test('fwd trägt auch ohne Lesungszeile', () => {
+  assert.equal(cloze.buildCloze(NO_READING_LINE, 'kanji', 'fwd').reading, null);
+});
+
+test('rev braucht eine Lesungszeile', () => {
+  assert.equal(cloze.buildCloze(NO_READING_LINE, 'kanji', 'rev'), null);
+});
+
+test('Vokabel-Cloze meldet sich als variant word', () => {
+  assert.equal(cloze.buildCloze(HON, 'vocab').variant, 'word');
 });
 
 const load = (file, name) => new Function(
@@ -232,8 +268,8 @@ const load = (file, name) => new Function(
 const VOCAB = load('./data/vocab.js', 'VOCAB');
 const KANJI = load('./data/kanji.js', 'KANJI');
 
-function countWithCloze(items, type) {
-  return items.filter(item => cloze.buildCloze(item, type) !== null).length;
+function countWithCloze(items, type, dir) {
+  return items.filter(item => cloze.buildCloze(item, type, dir) !== null).length;
 }
 
 // Ist-Wert aktuell 1010 — die Schwelle liegt bewusst darunter, damit harmlose
@@ -243,6 +279,12 @@ test('mindestens 1000 der Vokabeln liefern einen Lückensatz', () => {
   assert.ok(count >= 1000, `nur ${count} von ${VOCAB.length} Vokabeln`);
 });
 
-test('alle Kanji liefern einen Lückensatz', () => {
-  assert.equal(countWithCloze(KANJI, 'kanji'), KANJI.length);
+test('alle Kanji liefern eine fwd-Kontextkarte', () => {
+  assert.equal(countWithCloze(KANJI, 'kanji', 'fwd'), KANJI.length);
+});
+
+// 日 steht in jedem seiner Beispielsätze mehrfach oder als Jukujikun 今日 und
+// bekommt deshalb die normale Kanji-Karte.
+test('bis auf ein Kanji liefern alle eine rev-Zeichenlücke', () => {
+  assert.equal(countWithCloze(KANJI, 'kanji', 'rev'), KANJI.length - 1);
 });

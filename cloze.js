@@ -1,8 +1,9 @@
 'use strict';
 
-// Baut aus dem Beispielsatz einer Karte einen Lückensatz für die Wiedervorlage.
-// Das Ergebnis hat dieselbe Form wie ein GRAMMAR-Cloze-Item, damit
-// renderClozeText() in app.js unverändert damit arbeitet.
+// Baut aus dem Beispielsatz einer Karte die Wiedervorlage nach einem Fehler.
+// Drei Varianten, je nachdem was danebenging: 'word' (Vokabel, Wort fehlt),
+// 'char' (Kanji nach rev, Zeichen+Lesung fehlen) und 'context' (Kanji nach fwd,
+// Satz steht vollständig da, Zeichen ist nur markiert — keine Lücke, kein `answer`).
 // Loaded as a plain <script> (browser globals) and imported in cloze.test.mjs (Node).
 
 // `conjugateFn`, nicht `conjugate`: eine gleichnamige const würde sich beim Lesen
@@ -117,7 +118,7 @@ function buildWordCloze(item) {
   const { sentence, form, at } = hit;
   const reading = blankReading(sentence.reading, form.reading);
   return {
-    gap: 'word',
+    variant: 'word',
     text: blankAt(sentence.jp, at, form.word.length),
     reading,
     answer: form.word,
@@ -143,40 +144,57 @@ function matchesCardReading(reading, item) {
     .some(form => form.startsWith(reading) || reading.startsWith(form));
 }
 
-// Bei Kanji bleibt der Satz vollständig — wer das Zeichen nicht wusste, soll es
-// wiedersehen, nicht aus dem Nichts schreiben. Gefragt ist die Lesung im Kontext.
-// Ein zweites, ungelücktes Vorkommen des Zeichens würde die Antwort in der Kana-Zeile
-// stehen lassen, deshalb zählt auch das in die Wahl des Satzes hinein.
-function buildReadingCloze(item) {
+// rev: gelückt sind Zeichen und Lesung, der deutsche Satz stützt. Ein zweites Vorkommen
+// des Zeichens bliebe ungelückt und stünde als Antwort daneben — solche Sätze fallen raus.
+function buildCharCloze(item) {
   const candidates = [];
   for (const sentence of usableSentences(item.sentences)) {
-    if (!sentence.reading || !sentence.jp.includes(item.char)) continue;
+    if (!sentence.reading) continue;
+    if (findOccurrences(sentence.jp, item.char).length !== 1) continue;
     const span = furigana.readingSpan(sentence.jp, sentence.reading, item.char, item);
     if (!span) continue;
-    const answer = sentence.reading.slice(span.at, span.at + span.length);
-    const isSingle = findOccurrences(sentence.jp, item.char).length === 1;
+    const answerReading = sentence.reading.slice(span.at, span.at + span.length);
     candidates.push({
-      sentence, span, answer,
-      score: (matchesCardReading(answer, item) ? 2 : 0) + (isSingle ? 1 : 0),
+      sentence, span, answerReading,
+      score: matchesCardReading(answerReading, item) ? 1 : 0,
     });
   }
   if (!candidates.length) return null;
 
   // Stabile Sortierung: bei gleichem Rang gewinnt der erste Beispielsatz.
   candidates.sort((a, b) => b.score - a.score);
-  const { sentence, span, answer } = candidates[0];
+  const { sentence, span, answerReading } = candidates[0];
   return {
-    gap: 'reading',
-    text: sentence.jp,
+    variant: 'char',
+    text: blankAt(sentence.jp, sentence.jp.indexOf(item.char), item.char.length),
     reading: blankAt(sentence.reading, span.at, span.length),
-    answer,
+    answer: item.char,
+    answerReading,
     de: sentence.de,
   };
 }
 
+// fwd: der Satz steht vollständig da, markiert wird das Zeichen — gefragt ist die
+// Bedeutung, also darf nichts verdeckt sein. Die Kana-Zeile ist optional, sie stützt
+// nur das Lesen des Satzes.
+function buildContextSentence(item) {
+  const sentence = usableSentences(item.sentences).find(s => s.jp.includes(item.char));
+  if (!sentence) return null;
+  return {
+    variant: 'context',
+    text: sentence.jp,
+    reading: sentence.reading || null,
+    char: item.char,
+    de: sentence.de,
+  };
+}
+
+// Bei Kanji hängt die Wiedervorlage an der Richtung, in der die Karte danebenging.
+// Vokabeln kennen nur eine Variante und ignorieren `dir`.
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
-function buildCloze(item, type) {
-  return type === 'kanji' ? buildReadingCloze(item) : buildWordCloze(item);
+function buildCloze(item, type, dir) {
+  if (type !== 'kanji') return buildWordCloze(item);
+  return dir === 'rev' ? buildCharCloze(item) : buildContextSentence(item);
 }
 
 if (typeof module !== 'undefined' && module.exports) {
