@@ -850,8 +850,9 @@ function renderGrammarCard(card, front, back) {
     </div>`;
 }
 
-// Wiedervorlage nach einem Fehler: ein Beispielsatz mit Lücke statt derselben Karte
-// zum zweiten Mal. Bei Vokabeln fehlt das Wort, bei Kanji dessen Lesung.
+// Wiedervorlage nach einem Fehler: ein Beispielsatz statt derselben Karte zum zweiten
+// Mal. Bei Vokabeln fehlt das Wort, bei Kanji entscheidet die Richtung, in der die
+// Karte danebenging.
 function clozeForCard(card) {
   if (!card.isRequeue) return null;
   if (card.type !== 'vocab' && card.type !== 'kanji') return null;
