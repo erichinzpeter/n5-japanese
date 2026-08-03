@@ -190,6 +190,32 @@ test('Satz mit einfachem Vorkommen schlägt den mit doppeltem', () => {
   assert.equal(cloze.buildCloze(TWO_SENTENCES, 'kanji').text, '今日は元気ですか。');
 });
 
+// 者 steht in beiden Sätzen richtig, aber die Karte lehrt しゃ (医者, 学者) —
+// もの wäre eine Lesung, die auf der Karte gar nicht vorkommt.
+const TWO_READINGS = {
+  char: '者', meaning: ['Person'], speak: 'しゃ', on: ['しゃ'], kun: ['もの'],
+  sentences: [
+    { jp: '若い者がたくさん来ました。', reading: 'わかいものがたくさんきました。', de: 'Viele junge Leute sind gekommen.' },
+    { jp: '彼は有名な学者です。', reading: 'かれはゆうめいながくしゃです。', de: 'Er ist ein berühmter Wissenschaftler.' },
+  ],
+};
+
+test('gefragt wird die Lesung, die die Karte lehrt', () => {
+  assert.equal(cloze.buildCloze(TWO_READINGS, 'kanji').answer, 'しゃ');
+});
+
+// Im Satz steht der Stamm (読みます), auf der Karte die Wörterbuchform (読む).
+const STEM_ONLY = {
+  char: '読', meaning: ['lesen'], speak: 'よむ', on: ['どく'], kun: ['よむ'],
+  sentences: [
+    { jp: '毎日新聞を読みます。', reading: 'まいにちしんぶんをよみます。', de: 'Ich lese jeden Tag Zeitung.' },
+  ],
+};
+
+test('der Stamm im Satz zählt als Lesung der Karte', () => {
+  assert.equal(cloze.buildCloze(STEM_ONLY, 'kanji').answer, 'よ');
+});
+
 const NO_READING_LINE = {
   char: '一', meaning: ['eins'], speak: 'いち', on: ['いち'], kun: ['ひと'],
   sentences: [{ jp: 'りんごを一つください。', de: 'Geben Sie mir bitte einen Apfel.' }],

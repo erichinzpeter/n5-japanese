@@ -73,7 +73,7 @@ function alignments(segs, reading) {
 
 // Lautvarianten einer Wörterbuch-Lesung im Compound: 月 げつ → がつ (Rendaku),
 // 学 がく → がっ vor stimmlosem Anlaut (Gemination).
-function variants(reading) {
+function readingVariants(reading) {
   const forms = new Set([reading]);
   const first = reading[0];
   if (RENDAKU[first]) forms.add(RENDAKU[first] + reading.slice(1));
@@ -91,7 +91,7 @@ function splitCompound(blockText, blockReading, charIndex, readings) {
   const after = blockText.length - charIndex - 1;
   const spans = new Set();
   for (const base of readings) {
-    for (const form of variants(base)) {
+    for (const form of readingVariants(base)) {
       const lastStart = blockReading.length - after - form.length;
       for (let at = before; at <= lastStart; at++) {
         if (before === 0 && at !== 0) break;
@@ -131,5 +131,5 @@ function readingSpan(jp, reading, char, item) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { readingSpan };
+  module.exports = { readingSpan, readingVariants };
 }

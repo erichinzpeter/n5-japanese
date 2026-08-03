@@ -14,9 +14,9 @@ const conjugateFn = (typeof module !== 'undefined' && module.exports)
   ? require('./conjugate.js')
   : conjugate;
 
-const readingSpanFn = (typeof module !== 'undefined' && module.exports)
-  ? require('./furigana.js').readingSpan
-  : readingSpan;
+const furigana = (typeof module !== 'undefined' && module.exports)
+  ? require('./furigana.js')
+  : { readingSpan, readingVariants };
 
 const GAP = '＿';
 
@@ -126,28 +126,52 @@ function buildWordCloze(item) {
   };
 }
 
+// Spiegelt kanjiReading() in app.js: die Lesung, die die Karte vorspricht und auf
+// die hin sie gelernt wird.
+function cardReading(item) {
+  return item.speak || (item.kun || [])[0] || (item.on || [])[0] || '';
+}
+
+// 者 steht in 若い者 als もの und in 学者 als しゃ — beides richtig, aber gefragt
+// gehört die Lesung, die auf der Karte steht. Im Satz erscheint sie oft nur als Stamm
+// (読む → 読みます) oder lautlich angepasst (こと → 仕事 ごと), deshalb der Vergleich
+// über Lautvarianten und Wortanfang statt auf Gleichheit.
+function matchesCardReading(reading, item) {
+  const primary = cardReading(item);
+  if (!primary) return false;
+  return [...furigana.readingVariants(primary)]
+    .some(form => form.startsWith(reading) || reading.startsWith(form));
+}
+
 // Bei Kanji bleibt der Satz vollständig — wer das Zeichen nicht wusste, soll es
 // wiedersehen, nicht aus dem Nichts schreiben. Gefragt ist die Lesung im Kontext.
-// Sätze mit nur einem Vorkommen zuerst: ein zweites, ungelücktes Vorkommen würde
-// die Antwort in der Kana-Zeile stehen lassen.
+// Ein zweites, ungelücktes Vorkommen des Zeichens würde die Antwort in der Kana-Zeile
+// stehen lassen, deshalb zählt auch das in die Wahl des Satzes hinein.
 function buildReadingCloze(item) {
-  const sentences = usableSentences(item.sentences)
-    .filter(sentence => sentence.reading && sentence.jp.includes(item.char));
-  const single = sentences.filter(s => findOccurrences(s.jp, item.char).length === 1);
-  const ordered = [...single, ...sentences.filter(s => !single.includes(s))];
-
-  for (const sentence of ordered) {
-    const span = readingSpanFn(sentence.jp, sentence.reading, item.char, item);
+  const candidates = [];
+  for (const sentence of usableSentences(item.sentences)) {
+    if (!sentence.reading || !sentence.jp.includes(item.char)) continue;
+    const span = furigana.readingSpan(sentence.jp, sentence.reading, item.char, item);
     if (!span) continue;
-    return {
-      gap: 'reading',
-      text: sentence.jp,
-      reading: blankAt(sentence.reading, span.at, span.length),
-      answer: sentence.reading.slice(span.at, span.at + span.length),
-      de: sentence.de,
-    };
+    const answer = sentence.reading.slice(span.at, span.at + span.length);
+    const isSingle = findOccurrences(sentence.jp, item.char).length === 1;
+    candidates.push({
+      sentence, span, answer,
+      score: (matchesCardReading(answer, item) ? 2 : 0) + (isSingle ? 1 : 0),
+    });
   }
-  return null;
+  if (!candidates.length) return null;
+
+  // Stabile Sortierung: bei gleichem Rang gewinnt der erste Beispielsatz.
+  candidates.sort((a, b) => b.score - a.score);
+  const { sentence, span, answer } = candidates[0];
+  return {
+    gap: 'reading',
+    text: sentence.jp,
+    reading: blankAt(sentence.reading, span.at, span.length),
+    answer,
+    de: sentence.de,
+  };
 }
 
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.

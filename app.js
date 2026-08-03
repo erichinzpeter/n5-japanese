@@ -601,17 +601,10 @@ function makeDevPanel() {
 
 function renderCurrentCard() {
   const card = state.session[state.sessionIdx];
-  const isReview = !!(card && card.isReview);
-  document.getElementById('card-front').classList.toggle('card-front--review', isReview);
-  document.getElementById('flashcard').classList.toggle('card--review', isReview);
   const chip = document.getElementById('requeue-chip');
-  if (chip) {
-    chip.classList.toggle('hidden', !(card && (card.isRequeue || card.isReview)));
-    chip.textContent = card && card.isReview ? 'Nochmal ansehen' : '↻ Wiederholung';
-  }
-  // Die Wiedersehen-Karte fragt nichts ab und hat deshalb auch in MC keine Auswahl.
-  if (state.mode === 'mc' && card && !card.isReview) renderMCCard();
-  else renderCard(); // covers flashcard, conjugation and review
+  if (chip) chip.classList.toggle('hidden', !(card && card.isRequeue));
+  if (state.mode === 'mc' && card) renderMCCard();
+  else renderCard(); // covers flashcard and conjugation
 }
 
 // ===== CARD RENDERING =====
@@ -627,7 +620,6 @@ function renderCard() {
 
   // Animate card entry
   const flashcard = document.getElementById('flashcard');
-  flashcard.setAttribute('aria-label', card.isReview ? 'Karte zum Ansehen' : 'Karte umdrehen');
   flashcard.classList.remove('card-enter');
   void flashcard.offsetWidth; // reflow
   flashcard.classList.add('card-enter');
@@ -642,9 +634,7 @@ function renderCard() {
   // Render front & back
 
   const cloze = clozeForCard(card);
-  if (card.isReview) {
-    renderReviewCard(card, front, back);
-  } else if (cloze) {
+  if (cloze) {
     renderClozeCard(card, cloze, front, back);
   } else if (card.type === 'conjugation') {
     renderConjugationCard(card, front, back);
@@ -662,8 +652,7 @@ function renderCard() {
 
   // Show flip button, hide ratings and other mode elements
   document.getElementById('card-controls').style.display = '';
-  document.getElementById('flip-btn').style.display = card.isReview ? 'none' : '';
-  document.getElementById('continue-btn').style.display = card.isReview ? '' : 'none';
+  document.getElementById('flip-btn').style.display = '';
   document.getElementById('rating-wrap').style.display = 'none';
   const mcEl = document.getElementById('mc-choices');
   mcEl.style.display = 'none';
@@ -912,17 +901,6 @@ function renderWordClozeCard(card, cloze, front, back) {
     ${vocabBackHtml(card.item, card.display, true)}`;
 }
 
-// Wiedersehen nach einem Fehler: dieselbe Ansicht, die sonst die Rückseite zeigt,
-// nur ohne vorangehende Frage. Wer das Zeichen nicht wusste, soll es zuerst wieder
-// sehen — abgefragt wird erst ein paar Karten später.
-function renderReviewCard(card, front, back) {
-  front.innerHTML = card.type === 'kanji'
-    ? kanjiBackHtml(card.item, true)
-    : vocabBackHtml(card.item, card.display, true);
-  back.innerHTML = '';
-  if (!isAudioOff()) speakJapanese(getJapaneseText(card));
-}
-
 // ===== MULTIPLE CHOICE =====
 function generateChoices(card) {
   const { item, type, dir } = card;
@@ -1089,8 +1067,6 @@ function setMCContinueMode(isMC) {
 // ===== FLIP =====
 function flipCard() {
   if (state.flipped) return;
-  // Die Wiedersehen-Karte zeigt schon alles — sie hat keine Rückseite zum Aufdecken.
-  if (state.session[state.sessionIdx].isReview) return;
   state.flipped = true;
 
   document.getElementById('card-inner').classList.add('flipped');
@@ -1128,21 +1104,6 @@ function requeueCard(card) {
   const gap = REQUEUE_GAP_MIN + Math.floor(Math.random() * span);
   const pos = Math.min(state.sessionIdx + 1 + gap, state.session.length);
   state.session.splice(pos, 0, { ...card, isRequeue: true });
-
-  // Nur beim ersten Fehler: sonst wächst die Runde bei einer Karte, die mehrfach
-  // danebengeht, mit jedem Durchgang um zwei weitere Karten.
-  if (!card.isRequeue && (card.type === 'kanji' || card.type === 'vocab')) {
-    state.session.splice(state.sessionIdx + 1, 0, { ...card, isReview: true });
-  }
-}
-
-// Die Wiedersehen-Karte fragt nichts ab: sie bewertet nicht, lässt die Karte nicht
-// durchlaufen und stellt sie auch nicht erneut zurück — der Test folgt separat.
-function continueReview() {
-  cancelSpeech();
-  state.sessionIdx++;
-  if (state.sessionIdx >= state.session.length) renderDone();
-  else renderCurrentCard();
 }
 
 // SRS box + round stats reflect the FIRST attempt only (once per card id). A requeued
@@ -2113,7 +2074,6 @@ function initEvents() {
 
   // Flip button
   document.getElementById('flip-btn').addEventListener('click', flipCard);
-  document.getElementById('continue-btn').addEventListener('click', continueReview);
 
   // MC "Weiter" — advance after an answer is revealed
   document.getElementById('mc-continue-btn').addEventListener('click', advanceCard);
@@ -2242,15 +2202,6 @@ function initEvents() {
     if (!screen) return;
 
     if (screen.id === 'screen-session') {
-      const current = state.session[state.sessionIdx];
-      if (current && current.isReview) {
-        if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {
-          e.preventDefault();
-          continueReview();
-        }
-        if (e.key === 'Escape') renderHome();
-        return;
-      }
       if (state.mode === 'mc') {
         if (state.flipped) {
           if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {

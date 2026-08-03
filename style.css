@@ -897,13 +897,6 @@ body {
   height: clamp(280px, 44vh, 380px);
 }
 
-/* Die Wiedersehen-Karte trägt Zeichen, Lesungen, Wörter und einen Beispielsatz und
-   braucht keinen Platz für Bewertungsknöpfe — sie darf den freien Raum nutzen. */
-.card--review {
-  height: clamp(320px, 56vh, 470px);
-  cursor: default;
-}
-
 .card-inner {
   width: 100%;
   height: 100%;
@@ -942,15 +935,6 @@ body {
 
 .card-back {
   transform: rotateY(180deg);
-  text-align: left;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-/* Die Wiedersehen-Karte zeigt Rückseiten-Inhalt auf der Vorderseite. Zentriert
-   überliefe der oben aus der Karte hinaus, und weggescrollter Überhang am oberen
-   Rand ist nicht mehr erreichbar. */
-.card-front--review {
   text-align: left;
   align-items: flex-start;
   justify-content: flex-start;
