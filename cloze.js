@@ -143,33 +143,32 @@ function matchesCardReading(reading, item) {
     .some(form => form.startsWith(reading) || reading.startsWith(form));
 }
 
-// Bei Kanji bleibt der Satz vollständig — wer das Zeichen nicht wusste, soll es
-// wiedersehen, nicht aus dem Nichts schreiben. Gefragt ist die Lesung im Kontext.
-// Ein zweites, ungelücktes Vorkommen des Zeichens würde die Antwort in der Kana-Zeile
-// stehen lassen, deshalb zählt auch das in die Wahl des Satzes hinein.
-function buildReadingCloze(item) {
+// rev: gelückt sind Zeichen und Lesung, der deutsche Satz stützt. Ein zweites Vorkommen
+// des Zeichens bliebe ungelückt und stünde als Antwort daneben — solche Sätze fallen raus.
+function buildCharCloze(item) {
   const candidates = [];
   for (const sentence of usableSentences(item.sentences)) {
-    if (!sentence.reading || !sentence.jp.includes(item.char)) continue;
+    if (!sentence.reading) continue;
+    if (findOccurrences(sentence.jp, item.char).length !== 1) continue;
     const span = furigana.readingSpan(sentence.jp, sentence.reading, item.char, item);
     if (!span) continue;
-    const answer = sentence.reading.slice(span.at, span.at + span.length);
-    const isSingle = findOccurrences(sentence.jp, item.char).length === 1;
+    const answerReading = sentence.reading.slice(span.at, span.at + span.length);
     candidates.push({
-      sentence, span, answer,
-      score: (matchesCardReading(answer, item) ? 2 : 0) + (isSingle ? 1 : 0),
+      sentence, span, answerReading,
+      score: matchesCardReading(answerReading, item) ? 1 : 0,
     });
   }
   if (!candidates.length) return null;
 
   // Stabile Sortierung: bei gleichem Rang gewinnt der erste Beispielsatz.
   candidates.sort((a, b) => b.score - a.score);
-  const { sentence, span, answer } = candidates[0];
+  const { sentence, span, answerReading } = candidates[0];
   return {
-    variant: 'reading',
-    text: sentence.jp,
+    variant: 'char',
+    text: blankAt(sentence.jp, sentence.jp.indexOf(item.char), item.char.length),
     reading: blankAt(sentence.reading, span.at, span.length),
-    answer,
+    answer: item.char,
+    answerReading,
     de: sentence.de,
   };
 }
@@ -194,7 +193,7 @@ function buildContextSentence(item) {
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
 function buildCloze(item, type, dir) {
   if (type !== 'kanji') return buildWordCloze(item);
-  return dir === 'rev' ? buildReadingCloze(item) : buildContextSentence(item);
+  return dir === 'rev' ? buildCharCloze(item) : buildContextSentence(item);
 }
 
 if (typeof module !== 'undefined' && module.exports) {
