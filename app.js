@@ -817,6 +817,11 @@ function renderClozeText(text, fill) {
   return escHtml(text).replace('＿', slot);
 }
 
+// Hebt das gefragte Zeichen im Satz hervor — dieselbe Optik wie eine aufgelöste Lücke.
+function highlightChar(text, char) {
+  return escHtml(text).split(char).join(`<span class="cloze-fill">${char}</span>`);
+}
+
 function renderGrammarCard(card, front, back) {
   const c = card.item;  // { text, reading, answer, de, pattern, explanation, distractors }
   // Furigana aid for the sentence skeleton; always gapped since the answer may be
@@ -850,29 +855,55 @@ function renderGrammarCard(card, front, back) {
 function clozeForCard(card) {
   if (!card.isRequeue) return null;
   if (card.type !== 'vocab' && card.type !== 'kanji') return null;
-  return buildCloze(card.item, card.type);
+  return buildCloze(card.item, card.type, card.dir);
 }
 
 function renderClozeCard(card, cloze, front, back) {
-  if (cloze.variant === 'reading') renderReadingClozeCard(card, cloze, front, back);
+  if (cloze.variant === 'char') renderCharClozeCard(card, cloze, front, back);
+  else if (cloze.variant === 'context') renderKanjiContextCard(card, cloze, front, back);
   else renderWordClozeCard(card, cloze, front, back);
 }
 
-// Kanji-Wiedervorlage: der Satz bleibt stehen, gelückt ist die Lesung. Keine deutsche
-// Zeile und kein 🔊 auf der Vorderseite — beides würde die Antwort ausplaudern.
-function renderReadingClozeCard(card, cloze, front, back) {
+// Kanji-Wiedervorlage nach fwd: die Bedeutung ging daneben, also steht der Satz
+// vollständig da und das Zeichen ist markiert. 🔊 darf hier bleiben — gefragt ist
+// die Bedeutung, die gesprochene Lesung verrät sie nicht.
+function renderKanjiContextCard(card, cloze, front, back) {
+  const readingLine = cloze.reading
+    ? `<div class="card-cloze-reading">${escHtml(cloze.reading)}</div>` : '';
   front.innerHTML = `
-    <div class="card-type-label">Kanji - wie liest man das?</div>
-    <div class="card-cloze-jp">${escHtml(cloze.text)}</div>
-    <div class="card-cloze-reading">${renderClozeText(cloze.reading, null)}</div>`;
+    <div class="card-type-label">Kanji — was bedeutet das hier?</div>
+    <div class="card-cloze-jp">${highlightChar(cloze.text, cloze.char)}</div>
+    ${readingLine}
+    ${speakBtn(cloze.text, 'btn-speak-example')}`;
 
   back.innerHTML = `
     <div class="back-head">
       <span class="back-label">Lösung</span>
-      <div class="card-cloze-jp">${escHtml(cloze.text)}</div>
-      <div class="card-cloze-reading">${renderClozeText(cloze.reading, cloze.answer)}</div>
+      <div class="back-head-gloss">${escHtml(card.item.meaning.join(', '))}</div>
+      <div class="card-cloze-jp">${highlightChar(cloze.text, cloze.char)}</div>
       <div class="card-cloze-de">${escHtml(cloze.de)}</div>
-      ${speakBtn(cloze.text, 'btn-speak-example')}
+    </div>
+    <div class="back-divider"></div>
+    ${kanjiBackHtml(card.item, true)}`;
+}
+
+// Kanji-Wiedervorlage nach rev: das Zeichen ging daneben, es fehlt also im Satz —
+// samt seiner Lesung, die es sonst verriete. Kein 🔊 auf der Vorderseite, aus demselben
+// Grund. Der deutsche Satz stützt, genau wie beim Vokabel-Cloze.
+function renderCharClozeCard(card, cloze, front, back) {
+  front.innerHTML = `
+    <div class="card-type-label">Kanji — welches Zeichen fehlt?</div>
+    <div class="card-cloze-jp">${renderClozeText(cloze.text, null)}</div>
+    <div class="card-cloze-reading">${renderClozeText(cloze.reading, null)}</div>
+    <div class="card-cloze-de">${escHtml(cloze.de)}</div>`;
+
+  const solved = cloze.text.replace('＿', cloze.answer);
+  back.innerHTML = `
+    <div class="back-head">
+      <span class="back-label">Lösung</span>
+      <div class="card-cloze-jp">${renderClozeText(cloze.text, cloze.answer)}</div>
+      <div class="card-cloze-reading">${renderClozeText(cloze.reading, cloze.answerReading)}</div>
+      ${speakBtn(solved, 'btn-speak-example')}
     </div>
     <div class="back-divider"></div>
     ${kanjiBackHtml(card.item, true)}`;

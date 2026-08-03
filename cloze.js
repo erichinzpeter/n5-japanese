@@ -1,8 +1,9 @@
 'use strict';
 
-// Baut aus dem Beispielsatz einer Karte einen Lückensatz für die Wiedervorlage.
-// Das Ergebnis hat dieselbe Form wie ein GRAMMAR-Cloze-Item, damit
-// renderClozeText() in app.js unverändert damit arbeitet.
+// Baut aus dem Beispielsatz einer Karte die Wiedervorlage nach einem Fehler.
+// Drei Varianten, je nachdem was danebenging: 'word' (Vokabel, Wort fehlt),
+// 'char' (Kanji nach rev, Zeichen+Lesung fehlen) und 'context' (Kanji nach fwd,
+// Satz steht vollständig da, Zeichen ist nur markiert — keine Lücke, kein `answer`).
 // Loaded as a plain <script> (browser globals) and imported in cloze.test.mjs (Node).
 
 // `conjugateFn`, nicht `conjugate`: eine gleichnamige const würde sich beim Lesen
@@ -189,7 +190,7 @@ function buildContextSentence(item) {
 }
 
 // Bei Kanji hängt die Wiedervorlage an der Richtung, in der die Karte danebenging.
-// Vokabeln kennen nur eine Variante und ignorieren dir.
+// Vokabeln kennen nur eine Variante und ignorieren `dir`.
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
 function buildCloze(item, type, dir) {
   if (type !== 'kanji') return buildWordCloze(item);
