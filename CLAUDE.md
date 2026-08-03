@@ -21,7 +21,7 @@ git push origin main     # deployed automatisch via GitHub Pages
 - `cloze.js`     — Lückensatz für die Wiedervorlage nach einem Fehler (pure module, `node --test`)
 - `furigana.js`  — Lesung eines Kanji im Beispielsatz per Ausrichtung von Satz und Kana-Zeile (pure module, `node --test`)
 - `data/kanji.js`    — const KANJI (170 Einträge)
-- `data/vocab.js`    — const VOCAB (1024 Einträge: 430 easy / 594 adv)
+- `data/vocab.js`    — const VOCAB (1023 Einträge: 430 easy / 593 adv)
 - `data/grammar.js`  — const GRAMMAR (63 Einträge)
 - `data/basics.js`   — const BASICS (13 Einträge)
 - `data/concepts.js` — const CONCEPTS (60 Einträge)

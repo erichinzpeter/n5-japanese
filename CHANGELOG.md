@@ -4,6 +4,28 @@
 
 ---
 
+## [3.28.0] — 2026-08-03
+
+### Neu
+
+- **Wörter mit mehreren Bedeutungen haben jetzt zu jeder Bedeutung einen Beispielsatz.** Bisher hatte jede Vokabel genau zwei Beispiele — bei einem Wort wie 消す („ausschalten / löschen") zeigten aber beide dieselbe Bedeutung, und die zweite lernte man nie im Satz. 29 Einträge haben deshalb einen dritten Satz bekommen, der genau die fehlende Bedeutung trägt: 間違いを消しました。 für „löschen", 月が出ました。 für 出る im Sinn von „erscheinen", 姉に彼ができました。 für 彼 als „Freund" statt „er". Betroffen waren vor allem もう und まだ, bei denen beide Sätze dieselbe Polarität hatten — die Verneinungsbedeutung stand zwar in der Übersetzung, kam aber in keinem Satz vor.
+
+- **Fünf Wörter hatten eine Bedeutung, die in der Übersetzung gar nicht auftauchte.** 大きい kann auch „laut" heißen (声が大きい), 切る auch „auflegen" (電話を切る), 引く auch „nachschlagen" (辞書を引く), 円 auch „Kreis", 暗い auch „trübsinnig" bei Menschen — das Gegenstück 明るい führte „heiter" längst mit. Übersetzung und Beispielsatz sind jetzt bei allen fünf ergänzt.
+
+### Behoben
+
+- **風邪が早く直る** stand mit dem falschen Kanji im Beispielsatz zu 直る. Krankheiten heilen mit 治る, 直る repariert Dinge und korrigiert Fehler. Der Satz ist durch 間違いが直りました。 ersetzt, die Übersetzung des Eintrags entsprechend auf „repariert werden / korrigiert werden" korrigiert.
+
+- **水を一杯ください** war als Beispiel für いっぱい hinterlegt, zeigt aber 一杯 — das Zähleinheitswort, nicht das Adverb. Ersetzt durch かばんに本がいっぱい入っています。
+
+- **Drei Einträge trugen zwei Lesungen in einem Feld** (家 „いえ / うち", いい „いい / よい", 何 „なに / なん"). Das vorgenerierte Audio sprach daraufhin beide Lesungen samt Schrägstrich am Stück vor. Jeder Eintrag führt jetzt eine Lesung; うち und 良い haben ohnehin eigene Karten.
+
+- **日 gab es zweimal** — einmal als にち mit zwei Beispielsätzen, in denen die Lesung にち überhaupt nicht vorkam, einmal als ひ. Der kaputte Eintrag ist entfernt, der verbliebene trägt jetzt das Kanji 日 statt der Kana-Schreibung ひ. Die On-Lesung にち lehrt weiterhin die Kanji-Karte.
+
+- **映画** war mit „Film / Kino" übersetzt; Kino heißt 映画館 und hat einen eigenen Eintrag. Bedeutung auf „Film" korrigiert.
+
+---
+
 ## [3.27.0] — 2026-08-02
 
 ### Neu
