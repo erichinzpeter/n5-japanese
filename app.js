@@ -601,10 +601,17 @@ function makeDevPanel() {
 
 function renderCurrentCard() {
   const card = state.session[state.sessionIdx];
+  const isReview = !!(card && card.isReview);
+  document.getElementById('card-front').classList.toggle('card-front--review', isReview);
+  document.getElementById('flashcard').classList.toggle('card--review', isReview);
   const chip = document.getElementById('requeue-chip');
-  if (chip) chip.classList.toggle('hidden', !(card && card.isRequeue));
-  if (state.mode === 'mc' && card) renderMCCard();
-  else renderCard(); // covers flashcard and conjugation
+  if (chip) {
+    chip.classList.toggle('hidden', !(card && (card.isRequeue || card.isReview)));
+    chip.textContent = card && card.isReview ? 'Nochmal ansehen' : '↻ Wiederholung';
+  }
+  // Die Wiedersehen-Karte fragt nichts ab und hat deshalb auch in MC keine Auswahl.
+  if (state.mode === 'mc' && card && !card.isReview) renderMCCard();
+  else renderCard(); // covers flashcard, conjugation and review
 }
 
 // ===== CARD RENDERING =====
@@ -620,6 +627,7 @@ function renderCard() {
 
   // Animate card entry
   const flashcard = document.getElementById('flashcard');
+  flashcard.setAttribute('aria-label', card.isReview ? 'Karte zum Ansehen' : 'Karte umdrehen');
   flashcard.classList.remove('card-enter');
   void flashcard.offsetWidth; // reflow
   flashcard.classList.add('card-enter');
@@ -634,7 +642,9 @@ function renderCard() {
   // Render front & back
 
   const cloze = clozeForCard(card);
-  if (cloze) {
+  if (card.isReview) {
+    renderReviewCard(card, front, back);
+  } else if (cloze) {
     renderClozeCard(card, cloze, front, back);
   } else if (card.type === 'conjugation') {
     renderConjugationCard(card, front, back);
@@ -652,7 +662,8 @@ function renderCard() {
 
   // Show flip button, hide ratings and other mode elements
   document.getElementById('card-controls').style.display = '';
-  document.getElementById('flip-btn').style.display = '';
+  document.getElementById('flip-btn').style.display = card.isReview ? 'none' : '';
+  document.getElementById('continue-btn').style.display = card.isReview ? '' : 'none';
   document.getElementById('rating-wrap').style.display = 'none';
   const mcEl = document.getElementById('mc-choices');
   mcEl.style.display = 'none';
@@ -845,8 +856,8 @@ function renderGrammarCard(card, front, back) {
     </div>`;
 }
 
-// Wiedervorlage nach einem Fehler: das Wort fehlt im Beispielsatz und muss
-// produziert werden, statt zum zweiten Mal in derselben Runde wiedererkannt.
+// Wiedervorlage nach einem Fehler: ein Beispielsatz mit Lücke statt derselben Karte
+// zum zweiten Mal. Bei Vokabeln fehlt das Wort, bei Kanji dessen Lesung.
 function clozeForCard(card) {
   if (!card.isRequeue) return null;
   if (card.type !== 'vocab' && card.type !== 'kanji') return null;
@@ -854,11 +865,35 @@ function clozeForCard(card) {
 }
 
 function renderClozeCard(card, cloze, front, back) {
-  const label = card.type === 'kanji' ? 'Kanji — was fehlt?' : 'Vokabel — was fehlt?';
+  if (cloze.gap === 'reading') renderReadingClozeCard(card, cloze, front, back);
+  else renderWordClozeCard(card, cloze, front, back);
+}
+
+// Kanji-Wiedervorlage: der Satz bleibt stehen, gelückt ist die Lesung. Keine deutsche
+// Zeile und kein 🔊 auf der Vorderseite — beides würde die Antwort ausplaudern.
+function renderReadingClozeCard(card, cloze, front, back) {
+  front.innerHTML = `
+    <div class="card-type-label">Kanji - wie liest man das?</div>
+    <div class="card-cloze-jp">${escHtml(cloze.text)}</div>
+    <div class="card-cloze-reading">${renderClozeText(cloze.reading, null)}</div>`;
+
+  back.innerHTML = `
+    <div class="back-head">
+      <span class="back-label">Lösung</span>
+      <div class="card-cloze-jp">${escHtml(cloze.text)}</div>
+      <div class="card-cloze-reading">${renderClozeText(cloze.reading, cloze.answer)}</div>
+      <div class="card-cloze-de">${escHtml(cloze.de)}</div>
+      ${speakBtn(cloze.text, 'btn-speak-example')}
+    </div>
+    <div class="back-divider"></div>
+    ${kanjiBackHtml(card.item, true)}`;
+}
+
+function renderWordClozeCard(card, cloze, front, back) {
   const gappedReading = cloze.reading
     ? `<div class="card-cloze-reading">${renderClozeText(cloze.reading, null)}</div>` : '';
   front.innerHTML = `
-    <div class="card-type-label">${label}</div>
+    <div class="card-type-label">Vokabel — was fehlt?</div>
     <div class="card-cloze-jp">${renderClozeText(cloze.text, null)}</div>
     ${gappedReading}
     <div class="card-cloze-de">${escHtml(cloze.de)}</div>`;
@@ -874,7 +909,18 @@ function renderClozeCard(card, cloze, front, back) {
       ${speakBtn(solvedJp, 'btn-speak-example')}
     </div>
     <div class="back-divider"></div>
-    ${card.type === 'kanji' ? kanjiBackHtml(card.item, true) : vocabBackHtml(card.item, card.display, true)}`;
+    ${vocabBackHtml(card.item, card.display, true)}`;
+}
+
+// Wiedersehen nach einem Fehler: dieselbe Ansicht, die sonst die Rückseite zeigt,
+// nur ohne vorangehende Frage. Wer das Zeichen nicht wusste, soll es zuerst wieder
+// sehen — abgefragt wird erst ein paar Karten später.
+function renderReviewCard(card, front, back) {
+  front.innerHTML = card.type === 'kanji'
+    ? kanjiBackHtml(card.item, true)
+    : vocabBackHtml(card.item, card.display, true);
+  back.innerHTML = '';
+  if (!isAudioOff()) speakJapanese(getJapaneseText(card));
 }
 
 // ===== MULTIPLE CHOICE =====
@@ -1043,6 +1089,8 @@ function setMCContinueMode(isMC) {
 // ===== FLIP =====
 function flipCard() {
   if (state.flipped) return;
+  // Die Wiedersehen-Karte zeigt schon alles — sie hat keine Rückseite zum Aufdecken.
+  if (state.session[state.sessionIdx].isReview) return;
   state.flipped = true;
 
   document.getElementById('card-inner').classList.add('flipped');
@@ -1080,6 +1128,21 @@ function requeueCard(card) {
   const gap = REQUEUE_GAP_MIN + Math.floor(Math.random() * span);
   const pos = Math.min(state.sessionIdx + 1 + gap, state.session.length);
   state.session.splice(pos, 0, { ...card, isRequeue: true });
+
+  // Nur beim ersten Fehler: sonst wächst die Runde bei einer Karte, die mehrfach
+  // danebengeht, mit jedem Durchgang um zwei weitere Karten.
+  if (!card.isRequeue && (card.type === 'kanji' || card.type === 'vocab')) {
+    state.session.splice(state.sessionIdx + 1, 0, { ...card, isReview: true });
+  }
+}
+
+// Die Wiedersehen-Karte fragt nichts ab: sie bewertet nicht, lässt die Karte nicht
+// durchlaufen und stellt sie auch nicht erneut zurück — der Test folgt separat.
+function continueReview() {
+  cancelSpeech();
+  state.sessionIdx++;
+  if (state.sessionIdx >= state.session.length) renderDone();
+  else renderCurrentCard();
 }
 
 // SRS box + round stats reflect the FIRST attempt only (once per card id). A requeued
@@ -2050,6 +2113,7 @@ function initEvents() {
 
   // Flip button
   document.getElementById('flip-btn').addEventListener('click', flipCard);
+  document.getElementById('continue-btn').addEventListener('click', continueReview);
 
   // MC "Weiter" — advance after an answer is revealed
   document.getElementById('mc-continue-btn').addEventListener('click', advanceCard);
@@ -2178,6 +2242,15 @@ function initEvents() {
     if (!screen) return;
 
     if (screen.id === 'screen-session') {
+      const current = state.session[state.sessionIdx];
+      if (current && current.isReview) {
+        if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          continueReview();
+        }
+        if (e.key === 'Escape') renderHome();
+        return;
+      }
       if (state.mode === 'mc') {
         if (state.flipped) {
           if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {

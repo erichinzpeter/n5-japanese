@@ -861,8 +861,10 @@ body {
 .card-wrap {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   padding: 16px 20px 8px;
   perspective: 1200px;
   position: relative;
@@ -870,11 +872,6 @@ body {
 
 /* Marks a card that came back after a miss — tells the user why they see it again. */
 .requeue-chip {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -887,8 +884,10 @@ body {
   letter-spacing: 0.02em;
 }
 
+/* Bleibt im Layout stehen: sonst rutscht die Karte zwischen normalen und
+   wiedervorgelegten Karten um die Chip-Höhe nach oben und wieder zurück. */
 .requeue-chip.hidden {
-  display: none;
+  visibility: hidden;
 }
 
 .card {
@@ -896,6 +895,13 @@ body {
   max-width: 520px;
   cursor: pointer;
   height: clamp(280px, 44vh, 380px);
+}
+
+/* Die Wiedersehen-Karte trägt Zeichen, Lesungen, Wörter und einen Beispielsatz und
+   braucht keinen Platz für Bewertungsknöpfe — sie darf den freien Raum nutzen. */
+.card--review {
+  height: clamp(320px, 56vh, 470px);
+  cursor: default;
 }
 
 .card-inner {
@@ -936,6 +942,15 @@ body {
 
 .card-back {
   transform: rotateY(180deg);
+  text-align: left;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Die Wiedersehen-Karte zeigt Rückseiten-Inhalt auf der Vorderseite. Zentriert
+   überliefe der oben aus der Karte hinaus, und weggescrollter Überhang am oberen
+   Rand ist nicht mehr erreichbar. */
+.card-front--review {
   text-align: left;
   align-items: flex-start;
   justify-content: flex-start;

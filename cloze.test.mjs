@@ -155,23 +155,16 @@ const ICHI = {
   sentences: [{ jp: 'りんごを一つください。', reading: 'りんごをひとつください。', de: 'Geben Sie mir bitte einen Apfel.' }],
 };
 
-// ひと und ひとつ passen beide auf dieselbe Lesungszeile — welche Stelle zum
-// Zeichen gehört, ist damit nicht entscheidbar.
-const AMBIGUOUS = {
-  char: '一', meaning: ['eins'], speak: 'いち', on: ['いち'], kun: ['ひと', 'ひとつ'],
-  sentences: [{ jp: 'りんごを一つください。', reading: 'りんごをひとつください。', de: 'Geben Sie mir bitte einen Apfel.' }],
-};
-
-test('Kanji-Karte lückt das Zeichen im Satz', () => {
-  assert.equal(cloze.buildCloze(ICHI, 'kanji').text, 'りんごを＿つください。');
+test('Kanji-Karte lässt den Satz vollständig', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji').text, 'りんごを一つください。');
 });
 
-test('Kanji-Karte lückt die eindeutige Lesung', () => {
+test('Kanji-Karte lückt die Lesungszeile', () => {
   assert.equal(cloze.buildCloze(ICHI, 'kanji').reading, 'りんごを＿つください。');
 });
 
-test('Kanji-Lesung bleibt aus, wenn mehrere Lesungen passen', () => {
-  assert.equal(cloze.buildCloze(AMBIGUOUS, 'kanji').reading, null);
+test('Kanji-Karte fragt nach der Lesung', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji').answer, 'ひと');
 });
 
 const COMPOUND_ONLY = {
@@ -179,23 +172,31 @@ const COMPOUND_ONLY = {
   sentences: [{ jp: '今日は元気ですか。', reading: 'きょうはげんきですか。', de: 'Geht es dir heute gut?' }],
 };
 
-test('Kanji-Karte lückt auch innerhalb eines Compounds', () => {
-  assert.equal(cloze.buildCloze(COMPOUND_ONLY, 'kanji').text, '今日は元＿ですか。');
+test('Kanji-Karte lückt auch die Lesung innerhalb eines Compounds', () => {
+  assert.equal(cloze.buildCloze(COMPOUND_ONLY, 'kanji').reading, 'きょうはげん＿ですか。');
 });
 
-const SECOND_HIT = {
+const TWO_SENTENCES = {
   char: '気', meaning: ['Geist'], speak: 'き', on: ['き'], kun: [],
-  sentences: [{ jp: '明日の天気が気になります。', reading: 'あしたのてんきがきになります。', de: 'Das Wetter von morgen beschäftigt mich.' }],
+  sentences: [
+    { jp: '明日の天気が気になります。', reading: 'あしたのてんきがきになります。', de: 'Das Wetter von morgen beschäftigt mich.' },
+    { jp: '今日は元気ですか。', reading: 'きょうはげんきですか。', de: 'Geht es dir heute gut?' },
+  ],
 };
 
-test('sauberes zweites Vorkommen schlägt den Compound-Treffer', () => {
-  assert.equal(cloze.buildCloze(SECOND_HIT, 'kanji').text, '明日の天気が＿になります。');
+// Im ersten Satz steht 気 zweimal — die ungelückte zweite Stelle würde die Antwort
+// in der Kana-Zeile verraten. Der Satz mit nur einem Vorkommen gewinnt deshalb.
+test('Satz mit einfachem Vorkommen schlägt den mit doppeltem', () => {
+  assert.equal(cloze.buildCloze(TWO_SENTENCES, 'kanji').text, '今日は元気ですか。');
 });
 
-// き kommt in der Lesungszeile zweimal vor (てんき und das freistehende き) — die
-// Position ist damit nicht mehr eindeutig, die Lesungszeile muss deshalb entfallen.
-test('reading bleibt null, wenn die Lesung mehrfach im Satz vorkommt', () => {
-  assert.equal(cloze.buildCloze(SECOND_HIT, 'kanji').reading, null);
+const NO_READING_LINE = {
+  char: '一', meaning: ['eins'], speak: 'いち', on: ['いち'], kun: ['ひと'],
+  sentences: [{ jp: 'りんごを一つください。', de: 'Geben Sie mir bitte einen Apfel.' }],
+};
+
+test('ohne Lesungszeile gibt es keine Kanji-Lücke', () => {
+  assert.equal(cloze.buildCloze(NO_READING_LINE, 'kanji'), null);
 });
 
 const load = (file, name) => new Function(

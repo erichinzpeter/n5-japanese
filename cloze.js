@@ -14,13 +14,15 @@ const conjugateFn = (typeof module !== 'undefined' && module.exports)
   ? require('./conjugate.js')
   : conjugate;
 
+const readingSpanFn = (typeof module !== 'undefined' && module.exports)
+  ? require('./furigana.js').readingSpan
+  : readingSpan;
+
 const GAP = '＿';
 
 // Oberflächenformen, in denen das Wort im Satz stehen kann — längste zuerst,
 // damit 読みます vor 読み greift und die Lücke nicht mitten im Wort landet.
-function surfaceForms(item, type) {
-  if (type === 'kanji') return [{ word: item.char, reading: null }];
-
+function surfaceForms(item) {
   const candidates = [{ word: item.word, reading: item.reading }];
   const conjugated = conjugateFn(item.word, item.reading, item.pos);
   if (conjugated && conjugated.forms) {
@@ -99,56 +101,58 @@ function findCleanHit(sentences, forms) {
   return null;
 }
 
-// Läuft nur, wenn findCleanHit nichts gefunden hat — dann ist keine Fundstelle im
-// ganzen Satz sauber, die Wahl unter ihnen also ohnehin beliebig. Ein simples
-// indexOf statt aller Fundstellen genügt deshalb.
-function findAnyHit(sentences, forms) {
-  for (const sentence of sentences) {
-    for (const form of forms) {
-      const at = sentence.jp.indexOf(form.word);
-      if (at >= 0) return { sentence, form, at };
-    }
+// String.replace('＿', ...) in renderClozeText() löst nur die erste Lücke auf —
+// ein Satz, der bereits eine enthält, würde den Ein-Lücken-Vertrag brechen.
+function usableSentences(rawSentences) {
+  return (rawSentences || []).filter(sentence => !sentence.jp.includes(GAP));
+}
+
+// Bei Vokabeln fehlt das Wort und der deutsche Satz stützt die Antwort. Die Lücke muss
+// sauber sitzen, sonst würde sie ein anderes Wort im Satz zerschneiden.
+function buildWordCloze(item) {
+  const sentences = usableSentences(item.examples);
+  const hit = findCleanHit(sentences, surfaceForms(item));
+  if (!hit) return null;
+
+  const { sentence, form, at } = hit;
+  const reading = blankReading(sentence.reading, form.reading);
+  return {
+    gap: 'word',
+    text: blankAt(sentence.jp, at, form.word.length),
+    reading,
+    answer: form.word,
+    answerReading: reading ? form.reading : null,
+    de: sentence.de,
+  };
+}
+
+// Bei Kanji bleibt der Satz vollständig — wer das Zeichen nicht wusste, soll es
+// wiedersehen, nicht aus dem Nichts schreiben. Gefragt ist die Lesung im Kontext.
+// Sätze mit nur einem Vorkommen zuerst: ein zweites, ungelücktes Vorkommen würde
+// die Antwort in der Kana-Zeile stehen lassen.
+function buildReadingCloze(item) {
+  const sentences = usableSentences(item.sentences)
+    .filter(sentence => sentence.reading && sentence.jp.includes(item.char));
+  const single = sentences.filter(s => findOccurrences(s.jp, item.char).length === 1);
+  const ordered = [...single, ...sentences.filter(s => !single.includes(s))];
+
+  for (const sentence of ordered) {
+    const span = readingSpanFn(sentence.jp, sentence.reading, item.char, item);
+    if (!span) continue;
+    return {
+      gap: 'reading',
+      text: sentence.jp,
+      reading: blankAt(sentence.reading, span.at, span.length),
+      answer: sentence.reading.slice(span.at, span.at + span.length),
+      de: sentence.de,
+    };
   }
   return null;
 }
 
-// Kanji-Karten kennen keine Form-Lesung-Paarung. Nur bei genau einem Treffer ist
-// klar, welche Stelle der Lesungszeile zum Zeichen gehört.
-function findKanjiReading(readingLine, item) {
-  if (!readingLine) return null;
-  const readings = [...(item.on || []), ...(item.kun || [])];
-  const matchingReadings = readings.filter(reading => readingLine.includes(reading));
-  return matchingReadings.length === 1 ? matchingReadings[0] : null;
-}
-
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
-// Bei Vokabeln muss die Lücke sauber sein (sonst würde ein anderes Wort im Satz
-// zerschnitten). Bei Kanji-Karten ist das Zeichen selbst die gefragte Einheit —
-// ein Compound-Treffer ist dort eine legitime Frage und dient als Rückfalloption.
 function buildCloze(item, type) {
-  const rawSentences = type === 'kanji' ? (item.sentences || []) : (item.examples || []);
-  // String.replace('＿', ...) in renderClozeText() löst nur die erste Lücke auf —
-  // ein Satz, der bereits eine enthält, würde den Ein-Lücken-Vertrag brechen.
-  const sentences = rawSentences.filter(sentence => !sentence.jp.includes(GAP));
-  const forms = surfaceForms(item, type);
-  const hit = findCleanHit(sentences, forms) || (type === 'kanji' ? findAnyHit(sentences, forms) : null);
-  if (!hit) return null;
-
-  const { sentence, form, at } = hit;
-  // Kommt das Zeichen im Satz mehrfach vor (学 in 大学 UND in 学んでいます — mit
-  // zwei verschiedenen Lesungen), ist ohne Furigana-Zuordnung nicht entscheidbar,
-  // welche Lesung zur gelückten Stelle gehört. Dann lieber keine Lesungszeile.
-  const formReading = type === 'kanji'
-    ? (findOccurrences(sentence.jp, form.word).length === 1 ? findKanjiReading(sentence.reading, item) : null)
-    : form.reading;
-  const reading = blankReading(sentence.reading, formReading);
-  return {
-    text: blankAt(sentence.jp, at, form.word.length),
-    reading,
-    answer: form.word,
-    answerReading: reading ? formReading : null,
-    de: sentence.de,
-  };
+  return type === 'kanji' ? buildReadingCloze(item) : buildWordCloze(item);
 }
 
 if (typeof module !== 'undefined' && module.exports) {

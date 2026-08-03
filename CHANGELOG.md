@@ -8,7 +8,11 @@
 
 ### Neu
 
-- **Eine falsch beantwortete Karte kommt jetzt als Lückensatz zurück statt als dieselbe Karte.** Bisher war die Wiedervorlage innerhalb der Runde identisch zur ersten Begegnung — die Lösung lag noch im Kurzzeitgedächtnis, der Abruf kostete nichts, und am nächsten Tag war das Wort wieder weg. Jetzt fehlt das Wort in seinem eigenen Beispielsatz und die deutsche Übersetzung steht als Hinweis darunter: 「毎日新聞を＿。」 „Ich lese jeden Tag Zeitung." Man muss das Wort produzieren statt es wiederzuerkennen, und lernt es im Satzmuster statt isoliert. Gilt für Vokabel- und Kanji-Karten im Karteikarten-Modus; wo sich kein sauberer Lückensatz bauen lässt, erscheint wie bisher die normale Karte. Die Rückseite zeigt zusätzlich die Beispielsätze aufgeklappt.
+- **Eine falsch beantwortete Karte kommt jetzt als Lückensatz zurück statt als dieselbe Karte.** Bisher war die Wiedervorlage innerhalb der Runde identisch zur ersten Begegnung — die Lösung lag noch im Kurzzeitgedächtnis, der Abruf kostete nichts, und am nächsten Tag war das Wort wieder weg. Bei Vokabeln fehlt jetzt das Wort in seinem eigenen Beispielsatz, die deutsche Übersetzung steht als Hinweis darunter: 「毎日新聞を＿。」 „Ich lese jeden Tag Zeitung." Man muss das Wort produzieren statt es wiederzuerkennen, und lernt es im Satzmuster statt isoliert. Wo sich kein sauberer Lückensatz bauen lässt, erscheint wie bisher die normale Karte. Die Rückseite zeigt zusätzlich die Beispielsätze aufgeklappt.
+
+- **Bei Kanji fehlt nicht das Zeichen, sondern seine Lesung.** Ein Zeichen, das man gerade nicht wusste, lässt sich auch nicht in eine Lücke schreiben — und man sähe es dabei kein zweites Mal. Der Satz bleibt deshalb vollständig stehen, gelückt ist die Kana-Zeile darunter: 心から感謝します。 / ＿からかんしゃします。 Gefragt ist die Lesung im Kontext, das Zeichen prägt sich beim Lesen mit ein. Die deutsche Übersetzung steht erst auf der Rückseite — im vollständigen Satz ist der Sinn ohnehin zu erschließen.
+
+- **Nach einem Fehler kommt die Karte zuerst zum Ansehen zurück.** Direkt nach „Wusste ich nicht" erscheint dieselbe Karte einmal offen: Zeichen beziehungsweise Wort, Lesungen, Bedeutung und Beispielsatz auf einer Seite, nur mit „Weiter". Nichts wird bewertet, der Fortschritt ändert sich nicht. Erst ein paar Karten später folgt der Lückensatz. Wiedersehen vor Wiederholung — vorher wurde ein zweites Mal abgefragt, was man beim ersten Mal nicht wusste.
 
 ---
 
