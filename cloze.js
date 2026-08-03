@@ -174,9 +174,27 @@ function buildReadingCloze(item) {
   };
 }
 
+// fwd: der Satz steht vollständig da, markiert wird das Zeichen — gefragt ist die
+// Bedeutung, also darf nichts verdeckt sein. Die Kana-Zeile ist optional, sie stützt
+// nur das Lesen des Satzes.
+function buildContextSentence(item) {
+  const sentence = usableSentences(item.sentences).find(s => s.jp.includes(item.char));
+  if (!sentence) return null;
+  return {
+    variant: 'context',
+    text: sentence.jp,
+    reading: sentence.reading || null,
+    char: item.char,
+    de: sentence.de,
+  };
+}
+
+// Bei Kanji hängt die Wiedervorlage an der Richtung, in der die Karte danebenging.
+// Vokabeln kennen nur eine Variante und ignorieren dir.
 // null heißt: keine brauchbare Lücke — die Karte wird normal gerendert.
-function buildCloze(item, type) {
-  return type === 'kanji' ? buildReadingCloze(item) : buildWordCloze(item);
+function buildCloze(item, type, dir) {
+  if (type !== 'kanji') return buildWordCloze(item);
+  return dir === 'rev' ? buildReadingCloze(item) : buildContextSentence(item);
 }
 
 if (typeof module !== 'undefined' && module.exports) {

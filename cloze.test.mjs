@@ -167,6 +167,22 @@ test('Kanji-Karte fragt nach der Lesung', () => {
   assert.equal(cloze.buildCloze(ICHI, 'kanji').answer, 'ひと');
 });
 
+test('fwd lässt den Satz vollständig', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').text, 'りんごを一つください。');
+});
+
+test('fwd lässt die Lesungszeile vollständig', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').reading, 'りんごをひとつください。');
+});
+
+test('fwd nennt das Zeichen, das markiert werden soll', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').char, '一');
+});
+
+test('fwd meldet sich als variant context', () => {
+  assert.equal(cloze.buildCloze(ICHI, 'kanji', 'fwd').variant, 'context');
+});
+
 const COMPOUND_ONLY = {
   char: '気', meaning: ['Geist'], speak: 'き', on: ['き'], kun: [],
   sentences: [{ jp: '今日は元気ですか。', reading: 'きょうはげんきですか。', de: 'Geht es dir heute gut?' }],
@@ -221,8 +237,8 @@ const NO_READING_LINE = {
   sentences: [{ jp: 'りんごを一つください。', de: 'Geben Sie mir bitte einen Apfel.' }],
 };
 
-test('ohne Lesungszeile gibt es keine Kanji-Lücke', () => {
-  assert.equal(cloze.buildCloze(NO_READING_LINE, 'kanji'), null);
+test('fwd trägt auch ohne Lesungszeile', () => {
+  assert.equal(cloze.buildCloze(NO_READING_LINE, 'kanji', 'fwd').reading, null);
 });
 
 test('Vokabel-Cloze meldet sich als variant word', () => {
