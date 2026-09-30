@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>会話 — Sprechtraining (Prototyp)</title>
+  <meta name="theme-color" content="#1a1c22">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../icons/icon-192.png" type="image/png">
+  <style>
+    @font-face {
+      font-family: 'Outfit';
+      src: url('../fonts/outfit.woff2') format('woff2');
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    /* Farben aus style.css übernommen (Sumi-ink, ein Zinnober-Akzent) */
+    :root {
+      --bg:           oklch(0.17 0.012 260);
+      --surface:      oklch(0.215 0.015 260);
+      --surface-2:    oklch(0.265 0.018 258);
+      --border:       oklch(0.30 0.018 258);
+      --text:         oklch(0.96 0.006 260);
+      --text-muted:   oklch(0.75 0.016 258);
+      --text-dim:     oklch(0.635 0.018 258);
+      --accent:       oklch(0.68 0.19 35);
+      --on-accent:    oklch(0.20 0.015 260);
+      --good:         #5aa873;
+      --bad:          #c74b4b;
+
+      /* Kein eigener JP-Webfont: die App-Schrift ist auf den Kartenbestand
+         gesubsettet, KI-Antworten enthalten beliebige Zeichen. */
+      --font-jp: 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', system-ui, sans-serif;
+      --font-ui: 'Outfit', system-ui, sans-serif;
+      --radius: 16px;
+      --radius-sm: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.5 var(--font-ui);
+      -webkit-tap-highlight-color: transparent;
+    }
+    button, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+
+    .screen {
+      max-width: 560px;
+      margin: 0 auto;
+      min-height: 100%;
+      padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+    }
+
+    /* ---------- Setup ---------- */
+    .title { font-family: var(--font-jp); font-size: 2.2rem; font-weight: 700; letter-spacing: 0.05em; }
+    .subtitle { color: var(--text-muted); margin-bottom: 20px; }
+    .badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+      border-radius: 999px; padding: 1px 8px; vertical-align: middle; margin-left: 6px;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; margin-bottom: 14px;
+    }
+    .card h2 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+    .checks { list-style: none; display: grid; gap: 6px; }
+    .checks li { display: flex; gap: 10px; align-items: baseline; }
+    .checks .mark { width: 1.2em; flex: none; text-align: center; }
+    .checks .ok  { color: var(--good); }
+    .checks .no  { color: var(--bad); }
+    .checks small { color: var(--text-dim); display: block; }
+
+    label.field { display: block; margin-bottom: 12px; }
+    label.field span { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px; }
+    select {
+      width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 10px 12px;
+    }
+    .hint { font-size: 0.85rem; color: var(--text-dim); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border: 1px solid var(--border); background: var(--surface-2);
+      border-radius: 999px; padding: 10px 18px; font-weight: 600;
+    }
+    .btn:disabled { opacity: 0.45; cursor: default; }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+    .btn-block { width: 100%; padding: 14px; font-size: 1.05rem; }
+    .btn-link { background: none; border: none; color: var(--text-dim); text-decoration: underline; padding: 6px; font-size: 0.85rem; }
+
+    .progress { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin: 12px 0 6px; }
+    .progress > div { height: 100%; width: 0; background: var(--accent); transition: width 0.3s ease; }
+    .error { color: var(--bad); margin-top: 10px; font-size: 0.95rem; }
+
+    /* ---------- Chat ---------- */
+    #screen-chat { display: flex; flex-direction: column; height: 100%; min-height: 0; padding-bottom: 0; }
+    .chat-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .chat-head .count { color: var(--text-muted); font-size: 0.9rem; }
+    .engine-label { font-size: 0.75rem; color: var(--text-dim); }
+    #log { flex: 1; overflow-y: auto; padding: 16px 0; display: flex; flex-direction: column; gap: 12px; }
+
+    .bubble { max-width: 88%; border-radius: var(--radius); padding: 12px 14px; }
+    .bubble.tutor { background: var(--surface); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .bubble.user  { background: var(--surface-2); align-self: flex-end; border-bottom-right-radius: 4px; font-family: var(--font-jp); font-size: 1.15rem; }
+    .jp { font-family: var(--font-jp); font-size: 1.3rem; line-height: 1.5; }
+    .kana { font-family: var(--font-jp); color: var(--text-muted); font-size: 0.95rem; }
+    .tr { color: var(--text-dim); font-size: 0.9rem; margin-top: 4px; }
+    .tr.blur { filter: blur(5px); cursor: pointer; user-select: none; }
+    .row { display: flex; gap: 8px; align-items: flex-start; }
+    .row > div { flex: 1; min-width: 0; }
+    .speak {
+      flex: none; width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--surface-2); font-size: 1rem;
+    }
+
+    .feedback { align-self: stretch; border-radius: var(--radius); padding: 12px 14px; border: 1px solid; }
+    .feedback.good { border-color: color-mix(in oklch, var(--good) 60%, transparent); background: color-mix(in oklch, var(--good) 12%, transparent); }
+    .feedback.bad  { border-color: color-mix(in oklch, var(--bad) 60%, transparent);  background: color-mix(in oklch, var(--bad) 12%, transparent); }
+    .feedback .verdict { font-weight: 700; margin-bottom: 4px; }
+    .feedback.good .verdict { color: var(--good); }
+    .feedback.bad  .verdict { color: oklch(0.72 0.15 25); }
+    .feedback .why { margin-top: 6px; }
+    .thinking { align-self: flex-start; color: var(--text-dim); font-size: 0.9rem; }
+    .note { align-self: center; color: var(--text-dim); font-size: 0.85rem; text-align: center; }
+
+    .composer {
+      border-top: 1px solid var(--border);
+      padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+      display: grid; gap: 10px;
+    }
+    .composer textarea {
+      width: 100%; min-height: 54px; resize: none;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 10px 12px; font-family: var(--font-jp); font-size: 1.1rem;
+    }
+    .composer .actions { display: flex; gap: 10px; align-items: center; }
+    .mic {
+      flex: none; width: 64px; height: 64px; border-radius: 50%;
+      border: none; background: var(--accent); color: var(--on-accent); font-size: 1.6rem;
+    }
+    .mic:disabled { opacity: 0.45; }
+    .mic.listening { animation: pulse 1.2s ease-in-out infinite; background: var(--bad); color: #fff; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--bad) 60%, transparent); }
+      50%      { box-shadow: 0 0 0 12px transparent; }
+    }
+    .composer .send { flex: 1; }
+    .status { font-size: 0.85rem; color: var(--text-dim); min-height: 1.3em; }
+
+    /* ---------- Summary ---------- */
+    .score { font-size: 2.4rem; font-weight: 700; }
+    .sum-item { border-top: 1px solid var(--border); padding: 12px 0; }
+    .sum-item:first-child { border-top: none; }
+    .sum-item .q { color: var(--text-dim); font-size: 0.85rem; font-family: var(--font-jp); }
+    .sum-item .a { font-family: var(--font-jp); font-size: 1.1rem; }
+    .sum-item .a.bad { text-decoration: line-through; text-decoration-color: var(--bad); color: var(--text-muted); }
+    .sum-item .c { font-family: var(--font-jp); font-size: 1.1rem; color: var(--good); }
+    .stack { display: grid; gap: 10px; }
+  </style>
+</head>
+<body>
+
+  <!-- SETUP -->
+  <main id="screen-setup" class="screen">
+    <h1 class="title">会話<span class="badge">Prototyp</span></h1>
+    <p class="subtitle">Sprechtraining: Frage hören, auf Japanisch antworten, Korrektur bekommen.</p>
+
+    <section class="card">
+      <h2>Dieses Gerät</h2>
+      <ul class="checks" id="checks"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Einstellungen</h2>
+      <label class="field">
+        <span>KI (läuft komplett auf deinem Gerät)</span>
+        <select id="engine"></select>
+      </label>
+      <p class="hint" id="engine-hint"></p>
+      <label class="field" style="margin-top:12px">
+        <span>Erklärungen auf</span>
+        <select id="lang">
+          <option value="de">Deutsch</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Fragen pro Runde</span>
+        <select id="rounds">
+          <option value="3">3</option>
+          <option value="5">5</option>
+          <option value="8">8</option>
+        </select>
+      </label>
+    </section>
+
+    <button id="start" class="btn btn-primary btn-block">Starten</button>
+    <div id="load" class="hidden">
+      <div class="progress"><div id="load-bar"></div></div>
+      <p class="hint" id="load-text"></p>
+    </div>
+    <p class="error hidden" id="setup-error"></p>
+
+    <p style="text-align:center;margin-top:18px">
+      <button class="btn-link" id="clear-cache">Heruntergeladene KI-Modelle löschen</button>
+    </p>
+  </main>
+
+  <!-- CHAT -->
+  <main id="screen-chat" class="screen hidden">
+    <header class="chat-head">
+      <div>
+        <div class="count" id="count"></div>
+        <div class="engine-label" id="engine-label"></div>
+      </div>
+      <button class="btn" id="quit">Beenden</button>
+    </header>
+
+    <div id="log" aria-live="polite"></div>
+
+    <footer class="composer">
+      <textarea id="answer" rows="2" placeholder="🎤 antippen und sprechen — oder hier tippen" lang="ja"></textarea>
+      <div class="actions">
+        <button class="mic" id="mic" aria-label="Sprechen">🎤</button>
+        <button class="btn btn-primary send" id="send" disabled>Senden</button>
+      </div>
+      <div class="status" id="status"></div>
+      <button class="btn-link" id="skip" style="justify-self:center">Andere Frage</button>
+    </footer>
+  </main>
+
+  <!-- SUMMARY -->
+  <main id="screen-summary" class="screen hidden">
+    <h1 class="title">お疲れさま！</h1>
+    <p class="subtitle" id="sum-sub"></p>
+    <div class="score" id="score"></div>
+    <section class="card" id="sum-list" style="margin-top:14px"></section>
+    <div class="stack">
+      <button class="btn btn-primary btn-block" id="again">Neue Runde</button>
+      <button class="btn btn-block" id="to-setup">Einstellungen</button>
+    </div>
+  </main>
+
+  <script src="talk-core.js"></script>
+  <script src="talk.js"></script>
+</body>
+</html>
