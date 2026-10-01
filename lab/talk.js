@@ -12,6 +12,7 @@ const WEBLLM_URL = 'https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.85/+esm';
 // `base` + Quantisierung ergibt die WebLLM-model_id. q4f16 braucht die
 // WebGPU-Erweiterung shader-f16 (fehlt u. a. auf vielen Handys) — dann q4f32.
 const MODELS = [
+  { key: 'qwen08', base: 'Qwen3.5-0.8B',      label: 'Qwen 3.5 · 0.8B — Mini',       hint: 'Kleinster Download (ca. 0,5 GB), braucht am wenigsten Speicher. Für iPhones, auf denen 2B abstürzt. Korrigiert spürbar schwächer.' },
   { key: 'qwen2b', base: 'Qwen3.5-2B',        label: 'Qwen 3.5 · 2B — Handy',        hint: 'Einmaliger Download ca. 1–2 GB. Läuft auf aktuellen Handys, Korrekturen mittelmäßig.' },
   { key: 'qwen4b', base: 'Qwen3.5-4B',        label: 'Qwen 3.5 · 4B — Laptop',       hint: 'Einmaliger Download ca. 2–4 GB. Deutlich besser, braucht aber einen Laptop/Desktop mit guter Grafik.' },
   { key: 'gemma',  base: 'gemma-2-2b-jpn-it', label: 'Gemma 2 · 2B Japanisch',       hint: 'Einmaliger Download ca. 1,5–2 GB. Auf Japanisch trainiert — zum Vergleich mit Qwen.' },
@@ -20,6 +21,19 @@ const OTHER = [
   { key: 'chrome', label: 'Chrome-KI (Gemini Nano)', hint: 'In Chrome eingebaut, läuft lokal. Nur Chrome auf Desktop, und nur wenn Chrome sie für Webseiten freigibt.' },
   { key: 'none',   label: 'Ohne KI (nur Fragen & Sprechen)', hint: 'Kein Download. Du hörst Fragen und antwortest, bekommst aber keine Korrektur.' },
 ];
+
+// Prompt + Antwort brauchen ~1500 Tokens; die Voreinstellung (4096) reserviert
+// KV-Cache für mehr als doppelt so viel. Auf dem iPhone zählt jedes MB:
+// Safari beendet den Tab, sobald GPU-Puffer + Seite sein Limit überschreiten.
+// Diagnose: ?ctx=1024 kleiner, ?json=0 ohne JSON-Grammatik (spart deren Speicher).
+const PARAMS = new URLSearchParams(location.search);
+const CONTEXT_WINDOW = parseInt(PARAMS.get('ctx'), 10) || 2048;
+const USE_JSON_GRAMMAR = PARAMS.get('json') !== '0';
+
+// Absturz-Erkennung: Safari lädt einen Tab, der zu viel Speicher braucht, einfach
+// neu. Steht dieses Flag beim Start noch da, ist die Seite mitten in einer
+// KI-Antwort gestorben.
+const INFLIGHT_KEY = 'n5-talk-inflight';
 
 const state = {
   engine: null,       // { label, ask(messages) → Promise<string|object> } | null
@@ -137,6 +151,27 @@ if (window.speechSynthesis) {
   window.speechSynthesis.onvoiceschanged = () => { pickJaVoice(); renderChecks(); };
 }
 
+// iOS legt eine Seite ohne <audio> in die Audio-Kategorie „ambient", die der
+// Stumm-Modus stummschaltet — die Stimme „spricht" dann (start/end feuern),
+// aber man hört nichts. Eine stumme Schleife hebt die Seite in „playback",
+// genau wie in app.js. Muss im Tipp starten (Autoplay-Regeln).
+const IS_IOS = /iP(hone|ad|od)/.test(navigator.platform) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+let silentLoop = null;
+
+function unlockAudioSession() {
+  if (!IS_IOS) return;
+  if (!silentLoop) {
+    silentLoop = new Audio('../assets/silence.wav');
+    silentLoop.loop = true;
+  }
+  if (silentLoop.paused) {
+    silentLoop.play().then(
+      () => devLog('audio: Stumm-Schleife läuft (playback)'),
+      e => devLog(`audio: Stumm-Schleife blockiert (${e.name})`));
+  }
+}
+
 function stopSpeaking() {
   const synth = window.speechSynthesis;
   if (!synth) return;
@@ -200,6 +235,7 @@ function abortMic() {
 const MIC_START_TIMEOUT = 10000;  // bis audiostart; deckt die erste Berechtigungsfrage ab
 const MIC_MAX_LISTEN    = 20000;  // iOS beendet bei Stille nicht immer von selbst
 const MIC_STOP_TIMEOUT  = 2000;   // stop() ohne end → abort()
+const MIC_SILENCE       = 2500;   // so lange nichts Neues erkannt → fertig (iOS stoppt nie selbst)
 
 function toggleMic() {
   if (listening) {
@@ -216,6 +252,7 @@ function toggleMic() {
     return;
   }
   if (!Recognition || state.busy) return;
+  unlockAudioSession();
   const synth = window.speechSynthesis;
   if (synth && (synth.speaking || synth.pending)) stopSpeaking();
 
@@ -248,6 +285,14 @@ function toggleMic() {
     devLog(`mic: result "${heard}" final=${e.results[e.results.length - 1].isFinal}`);
     $('answer').value = before ? `${before} ${heard}` : heard;
     updateSend();
+    // Nach einer Sprechpause selbst beenden; ein neuer Tipp hängt Text an.
+    clearTimeout(recTimer);
+    recTimer = setTimeout(() => {
+      if (rec !== r) return;
+      devLog('mic: Pause → stop');
+      try { r.stop(); } catch (err) { /* schon beendet */ }
+      recTimer = setTimeout(() => { if (rec === r) { devLog('mic: stop ohne end → abort'); abortMic(); } }, MIC_STOP_TIMEOUT);
+    }, MIC_SILENCE);
   };
   r.onerror = e => {
     devLog(`mic: error ${e.error} ${e.message || ''}`);
@@ -258,7 +303,8 @@ function toggleMic() {
     devLog('mic: end');
     if (rec !== r) return;
     resetMic();
-    if ($('answer').value.trim()) setStatus('Passt das? Dann senden — oder 🎤 für einen neuen Versuch.');
+    unlockAudioSession();   // die Erkennung kann die Stumm-Schleife pausiert haben
+    if ($('answer').value.trim()) setStatus('Passt das? Dann senden — oder 🎤 zum Weitersprechen.');
   };
 
   try {
@@ -304,24 +350,42 @@ async function createWebLLM(model, onProgress) {
   onProgress(0, 'Lade KI-Bibliothek …');
   const webllm = await import(WEBLLM_URL);
   try { await navigator.storage?.persist?.(); } catch (e) { /* nur ein Wunsch an den Browser */ }
-  devLog(`ki: lade ${modelId}`);
+  devLog(`ki: lade ${modelId} · Kontext ${CONTEXT_WINDOW} · JSON-Grammatik ${USE_JSON_GRAMMAR ? 'an' : 'aus'}`);
   const engine = await loadEngine(webllm, modelId, onProgress);
   devLog('ki: geladen');
   // Qwen3.x denkt sonst erst hunderte Tokens lang nach, bevor es antwortet.
   const noThinking = /^Qwen3/.test(model.base) ? { extra_body: { enable_thinking: false } } : {};
   const schema = JSON.stringify(talkCore.FEEDBACK_SCHEMA);
+
+  // Gestreamt, damit man sieht, dass etwas passiert — und damit das Protokoll
+  // zeigt, ob ein Absturz vor dem ersten Token (Prefill) oder danach kommt.
+  async function generate(req, onToken) {
+    const stream = await engine.chat.completions.create({ ...req, stream: true });
+    let text = '';
+    let n = 0;
+    for await (const chunk of stream) {
+      const delta = chunk.choices[0] && chunk.choices[0].delta.content;
+      if (!delta) continue;
+      text += delta;
+      n++;
+      if (n === 1) devLog('ki: erstes Token');
+      onToken(n);
+    }
+    devLog(`ki: ${n} Tokens`);
+    return text;
+  }
+
   return {
     label: modelId,
-    async ask(messages) {
-      const req = { messages, temperature: 0.2, max_tokens: 600, ...noThinking };
+    async ask(messages, onToken = () => {}) {
+      const req = { messages, temperature: 0.2, max_tokens: 500, ...noThinking };
+      if (!USE_JSON_GRAMMAR) return generate(req, onToken);
       try {
-        const r = await engine.chat.completions.create({ ...req, response_format: { type: 'json_object', schema } });
-        return r.choices[0].message.content;
+        return await generate({ ...req, response_format: { type: 'json_object', schema } }, onToken);
       } catch (e) {
         // Grammatik-Zwang nicht verfügbar → frei generieren, extractJson fängt es auf.
-        console.warn('JSON-Modus fehlgeschlagen, ohne Schema:', e);
-        const r = await engine.chat.completions.create(req);
-        return r.choices[0].message.content;
+        devLog(`ki: JSON-Modus fehlgeschlagen (${e.message}) → ohne`);
+        return generate(req, onToken);
       }
     },
   };
@@ -339,12 +403,13 @@ async function loadEngine(webllm, modelId, onProgress) {
       if (pct !== lastPct) { lastPct = pct; devLog(`ki: ${r.text}`); }
     },
   };
+  const chatOpts = { context_window_size: CONTEXT_WINDOW };
   let worker;
   try {
     worker = new Worker(new URL('talk-worker.js', location.href), { type: 'module' });
   } catch (e) {
     devLog(`ki: kein Worker (${e.message}) → Main-Thread`);
-    return webllm.CreateMLCEngine(modelId, cfg);
+    return webllm.CreateMLCEngine(modelId, cfg, chatOpts);
   }
   let workerBroken = false;
   const broken = new Promise((_, reject) => worker.addEventListener('error', e => {
@@ -352,14 +417,14 @@ async function loadEngine(webllm, modelId, onProgress) {
     reject(new Error(e.message || 'Worker-Skript lädt nicht'));
   }, { once: true }));
   try {
-    const engine = await Promise.race([webllm.CreateWebWorkerMLCEngine(worker, modelId, cfg), broken]);
+    const engine = await Promise.race([webllm.CreateWebWorkerMLCEngine(worker, modelId, cfg, chatOpts), broken]);
     devLog('ki: läuft im Worker');
     return engine;
   } catch (e) {
     if (!workerBroken) throw e;
     devLog(`ki: Worker kaputt (${e.message}) → Main-Thread`);
     worker.terminate();
-    return webllm.CreateMLCEngine(modelId, cfg);
+    return webllm.CreateMLCEngine(modelId, cfg, chatOpts);
   }
 }
 
@@ -485,7 +550,8 @@ async function start() {
   saveSettings({ engine: key, lang: state.lang, rounds: state.rounds });
   setupError('');
 
-  // Innerhalb der Tipp-Geste: Stimme aufwärmen (Autoplay-Regeln, Android-Kaltstart).
+  // Innerhalb der Tipp-Geste: Audio-Session und Stimme aufwärmen (Autoplay-Regeln).
+  unlockAudioSession();
   if (window.speechSynthesis) {
     const warm = new SpeechSynthesisUtterance('');
     warm.volume = 0;
@@ -543,7 +609,7 @@ function el(tag, cls, text) {
 function speakBtn(texts) {
   const b = el('button', 'speak', '🔊');
   b.setAttribute('aria-label', 'Vorlesen');
-  b.onclick = () => speak(texts);
+  b.onclick = () => { unlockAudioSession(); speak(texts); };
   return b;
 }
 
@@ -656,16 +722,19 @@ async function send() {
   const round = state.round;
   const thinking = addToLog(el('div', 'thinking', 'denkt nach …'));
   const t0 = performance.now();
-  const timer = setInterval(() => {
-    thinking.textContent = `denkt nach … ${Math.round((performance.now() - t0) / 1000)} s`;
-  }, 1000);
+  let tokens = 0;
+  const tick = () => {
+    thinking.textContent = `denkt nach … ${Math.round((performance.now() - t0) / 1000)} s${tokens ? ` · ${tokens} Tokens` : ''}`;
+  };
+  const timer = setInterval(tick, 1000);
 
   let fb = null;
   let err = null;
   try {
     const messages = talkCore.buildMessages({ question, answer, history: state.history, lang: state.lang });
     devLog(`ki: frage "${answer}"`);
-    const out = await state.engine.ask(messages);
+    try { sessionStorage.setItem(INFLIGHT_KEY, state.engineKey); } catch (e) { /* egal */ }
+    const out = await state.engine.ask(messages, n => { tokens = n; });
     const raw = typeof out === 'string' ? out : JSON.stringify(out);
     devLog(`ki: ${((performance.now() - t0) / 1000).toFixed(1)} s → ${raw.slice(0, 400)}`);
     fb = talkCore.parseFeedback(out, answer);
@@ -675,6 +744,7 @@ async function send() {
     devLog(`ki: Fehler ${e.message}`);
     err = e;
   } finally {
+    try { sessionStorage.removeItem(INFLIGHT_KEY); } catch (e) { /* egal */ }
     clearInterval(timer);
     thinking.remove();
     setBusy(false);
@@ -756,8 +826,23 @@ function init() {
   if (saved.lang) $('lang').value = saved.lang;
   if (saved.rounds) $('rounds').value = String(saved.rounds);
   renderChecks();
+  let crashed = null;
+  try { crashed = sessionStorage.getItem(INFLIGHT_KEY); sessionStorage.removeItem(INFLIGHT_KEY); } catch (e) { /* egal */ }
+  if (crashed) {
+    devLog(`⚠ letzter Aufruf ist beim Antworten abgestürzt (${crashed})`);
+    const smaller = { qwen4b: 'qwen2b', gemma: 'qwen08', qwen2b: 'qwen08' }[crashed];
+    if (smaller) $('engine').value = smaller;
+    $('engine').onchange();
+    setupError(smaller
+      ? `Die Seite ist beim Antworten abgestürzt — vermutlich reicht der Speicher für dieses Modell nicht. Ich habe ein kleineres ausgewählt.`
+      : `Die Seite ist beim Antworten abgestürzt — vermutlich zu wenig Speicher. Probier „Ohne KI" oder ein anderes Gerät.`);
+  }
   webgpuInfo().then(info => { checkState.gpu = info; renderChecks(); });
 
+  // Aus dem Hintergrund zurück: iOS hat die Stumm-Schleife pausiert.
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && silentLoop) unlockAudioSession();
+  });
   $('start').onclick = start;
   $('clear-cache').onclick = deleteCachedModels;
   $('mic').onclick = toggleMic;
