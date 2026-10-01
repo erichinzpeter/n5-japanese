@@ -50,50 +50,28 @@ const FEEDBACK_SCHEMA = {
 
 const LANG_NAME = { de: 'German', en: 'English' };
 
-// Beispiel im System-Prompt: kleine Modelle (2–4B) kopieren Form und Tonfall
-// eines konkreten Beispiels viel besser, als sie eine abstrakte Regel umsetzen.
-const EXAMPLE = {
-  de: {
-    explanation: 'Es geht um gestern, also Vergangenheit: 見ます → 見ました.',
-    reply_translation: 'Schön! Was für einen Film hast du gesehen?',
-  },
-  en: {
-    explanation: 'You are talking about yesterday, so use the past tense: 見ます → 見ました.',
-    reply_translation: 'Nice! What kind of movie did you watch?',
-  },
-};
-
+// Bewusst ohne Beispielantwort: das 0.8B-Modell hat ein Beispiel im Prompt
+// wortwörtlich nachgeplappert (immer dieselbe Folgefrage, dieselbe Erklärung,
+// sogar die Lesung des Beispielsatzes). Das Format erzwingt ohnehin das Schema.
 function systemPrompt(lang) {
   const name = LANG_NAME[lang] || LANG_NAME.en;
-  const ex = EXAMPLE[lang] || EXAMPLE.en;
-  const example = JSON.stringify({
-    correct: false,
-    corrected: 'きのう友だちと映画を見ました。',
-    corrected_reading: 'きのうともだちとえいがをみました。',
-    explanation: ex.explanation,
-    reply: 'いいですね！どんな映画を見ましたか。',
-    reply_reading: 'いいですね！どんなえいがをみましたか。',
-    reply_translation: ex.reply_translation,
-  });
   return [
     'You are a friendly Japanese conversation partner and teacher for a beginner (JLPT N5).',
     'The learner answers your question by speaking; their answer was transcribed by speech recognition.',
     '',
     'Judge ONLY grammar, particles, verb/adjective forms, tense and word choice.',
     'Do NOT count as mistakes: missing punctuation, spaces, kanji vs. kana spelling, or casual vs. polite style.',
-    'Short answers are fine in Japanese (e.g. 「すしです。」 is a correct answer). Do not invent mistakes.',
+    'Short answers are fine in Japanese (e.g. 「すしです。」 is a correct answer). Most beginner answers are correct — do not invent mistakes.',
+    'NEVER change what the learner says: keep their facts, places, food, weather and opinions exactly. Only fix the grammar.',
     '',
-    'Reply with one JSON object and nothing else:',
+    'Reply with one JSON object:',
     '- correct: true if the answer has no real mistake.',
-    '- corrected: the learner\'s answer as natural, correct Japanese with the same meaning. Copy it unchanged if it is correct.',
+    '- corrected: the learner\'s answer with only the mistakes fixed, in Japanese script (never romaji). If correct, copy the answer unchanged.',
     '- corrected_reading: "corrected" written only in hiragana/katakana.',
-    `- explanation: if not correct, 1–2 short sentences in ${name} naming each mistake and the fix. Empty string if correct.`,
-    '- reply: your answer in very simple Japanese (JLPT N5, polite です/ます form): react to what they said in one short sentence, then ask ONE simple follow-up question about the same topic.',
+    `- explanation: if not correct, one short sentence in ${name} naming the mistake and the fix. Empty string if correct.`,
+    '- reply: your answer in very simple Japanese (JLPT N5, polite です/ます form) to what the learner actually said: react in one short sentence, then ask ONE simple follow-up question about the same topic.',
     '- reply_reading: "reply" written only in hiragana/katakana.',
     `- reply_translation: "reply" translated into ${name}.`,
-    '',
-    'Example — question: きのう何をしましたか。 answer: きのう友だちと映画を見ます',
-    example,
   ].join('\n');
 }
 
@@ -157,6 +135,28 @@ function extractJson(text) {
 
 const str = v => (typeof v === 'string' ? v.trim() : '');
 
+const KANA = /[\u3041-\u3096\u30a1-\u30fa\u30fc]/;
+const JAPANESE = /[\u3041-\u3096\u30a1-\u30fa\u30fc\u4e00-\u9fff\u3005]/;
+const KANJI = /[\u4e00-\u9fff\u3005]/;
+
+// Enthält der Text überhaupt japanische Schrift? (Romaji-Antworten → nein)
+function hasJapanese(s) {
+  return JAPANESE.test(String(s || ''));
+}
+
+// Kleine Modelle liefern oft Lesungen mit Kanji darin oder die Lesung eines
+// ganz anderen Satzes. Plausibel ist eine Lesung nur, wenn sie kanjifrei ist und
+// alle Kana des Satzes in derselben Reihenfolge enthält (Kanji-Stellen dürfen
+// beliebig gelesen werden).
+function plausibleReading(text, reading) {
+  const r = String(reading || '');
+  if (!r || KANJI.test(r) || !KANA.test(r)) return false;
+  const want = [...String(text || '')].filter(c => KANA.test(c));
+  let i = 0;
+  for (const c of r) if (i < want.length && c === want[i]) i++;
+  return i === want.length;
+}
+
 // Rohausgabe → einheitliches Feedback-Objekt, oder null wenn unbrauchbar.
 // `answer` ist die Eingabe des Lernenden; damit wird die Scheinkorrektur erkannt.
 function parseFeedback(text, answer) {
@@ -172,7 +172,10 @@ function parseFeedback(text, answer) {
     replyTranslation: str(raw.reply_translation),
   };
   if (!fb.reply && !fb.corrected) return null;
-  if (!fb.corrected) fb.corrected = str(answer);
+  if (!hasJapanese(fb.reply)) { fb.reply = ''; fb.replyReading = ''; fb.replyTranslation = ''; }
+  if (!fb.corrected || !hasJapanese(fb.corrected)) fb.corrected = str(answer);
+  if (!plausibleReading(fb.corrected, fb.correctedReading)) fb.correctedReading = '';
+  if (!plausibleReading(fb.reply, fb.replyReading)) fb.replyReading = '';
   // Modell sagt „falsch", liefert aber denselben Satz → richtig.
   if (!fb.correct && sameSentence(fb.corrected, answer)) fb.correct = true;
   // Bei „richtig" zählt die Eingabe. Eine abweichende `corrected` ist dann meist
@@ -188,7 +191,7 @@ function parseFeedback(text, answer) {
 // Ein Namensraum statt vieler Globals — talk.js greift über talkCore.* zu.
 const talkCore = {
   QUESTIONS, FEEDBACK_SCHEMA, pickQuestions, systemPrompt, buildMessages,
-  normalizeSentence, sameSentence, extractJson, parseFeedback,
+  normalizeSentence, sameSentence, extractJson, parseFeedback, hasJapanese, plausibleReading,
 };
 
 if (typeof module !== 'undefined' && module.exports) {

@@ -94,3 +94,36 @@ test('sameSentence ignoriert Satzzeichen und Leerzeichen, nicht aber ー', () =>
   assert.ok(core.sameSentence('はい、そうです。', 'はい そうです'));
   assert.ok(!core.sameSentence('コーヒー', 'コヒ'));
 });
+
+test('hasJapanese: Romaji zählen nicht', () => {
+  assert.ok(core.hasJapanese('すしです'));
+  assert.ok(core.hasJapanese('今日'));
+  assert.ok(!core.hasJapanese('Nishi ni'));
+});
+
+test('plausibleReading: Kanji in der Lesung oder fremder Satz → verworfen', () => {
+  assert.ok(core.plausibleReading('ベルリンに住んでいます', 'べるりんにすんでいます') === false, 'Katakana muss Katakana bleiben');
+  assert.ok(core.plausibleReading('ベルリンに住んでいます', 'ベルリンにすんでいます'));
+  assert.ok(!core.plausibleReading('今日は晴れて', 'きょうは晴れて'));
+  assert.ok(!core.plausibleReading('どんな場所に住んでいますか。', 'どんなえいがをみましたか。'));
+  assert.ok(core.plausibleReading('どんな場所に住んでいますか。', 'どんなばしょにすんでいますか。'));
+});
+
+test('parseFeedback: unplausible Lesungen und Romaji-Korrekturen werden entfernt', () => {
+  const fb = core.parseFeedback({
+    correct: false,
+    corrected: 'Nishi ni shi ni wa shimasu.',
+    corrected_reading: 'Nishi ni shi ni wa shimasu.',
+    explanation: 'x',
+    reply: 'いいですね！どんな場所に住んでいますか。',
+    reply_reading: 'いいですね！どんなえいがをみましたか。',
+    reply_translation: 'y',
+  }, 'にしに');
+  assert.equal(fb.corrected, 'にしに');
+  assert.equal(fb.correct, true);
+  assert.equal(fb.replyReading, '');
+});
+
+test('systemPrompt enthält keine Beispielantwort mehr (Nachplappern)', () => {
+  assert.doesNotMatch(core.systemPrompt('de'), /映画/);
+});

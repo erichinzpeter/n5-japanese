@@ -13,7 +13,7 @@ const WEBLLM_URL = 'https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.85/+esm';
 // WebGPU-Erweiterung shader-f16 (fehlt u. a. auf vielen Handys) — dann q4f32.
 const MODELS = [
   { key: 'qwen08', base: 'Qwen3.5-0.8B',      label: 'Qwen 3.5 · 0.8B — Mini',       hint: 'Kleinster Download (ca. 0,5 GB), braucht am wenigsten Speicher. Für iPhones, auf denen 2B abstürzt. Korrigiert spürbar schwächer.' },
-  { key: 'qwen2b', base: 'Qwen3.5-2B',        label: 'Qwen 3.5 · 2B — Handy',        hint: 'Einmaliger Download ca. 1–2 GB. Läuft auf aktuellen Handys, Korrekturen mittelmäßig.' },
+  { key: 'qwen2b', base: 'Qwen3.5-2B',        label: 'Qwen 3.5 · 2B — Handy',        hint: 'Einmaliger Download ca. 1 GB. Korrekturen mittelmäßig. Auf dem iPhone (Safari) stürzt die Seite damit beim Antworten ab — zu wenig Speicher.' },
   { key: 'qwen4b', base: 'Qwen3.5-4B',        label: 'Qwen 3.5 · 4B — Laptop',       hint: 'Einmaliger Download ca. 2–4 GB. Deutlich besser, braucht aber einen Laptop/Desktop mit guter Grafik.' },
   { key: 'gemma',  base: 'gemma-2-2b-jpn-it', label: 'Gemma 2 · 2B Japanisch',       hint: 'Einmaliger Download ca. 1,5–2 GB. Auf Japanisch trainiert — zum Vergleich mit Qwen.' },
 ];
@@ -137,18 +137,39 @@ function saveSettings(s) {
 
 // ---------- Sprachausgabe ----------
 
+// Stimme wählbar: iOS listet auch Stimmen, die nicht heruntergeladen sind —
+// die „sprechen" lautlos (start/end feuern trotzdem). Voreinstellung wie in
+// app.js: die erste japanische Stimme. „auto" setzt keine Stimme, nur lang.
+let jaVoices = [];
 let jaVoice = null;
+let voiceChoice = null;   // voiceURI | 'auto' | null (= erste)
+
 function pickJaVoice() {
   const synth = window.speechSynthesis;
   if (!synth) return null;
-  const voices = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith('ja'));
-  // Lokale Stimmen zuerst: Netzstimmen starten spürbar später.
-  jaVoice = voices.find(v => v.localService) || voices[0] || jaVoice;
+  jaVoices = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith('ja'));
+  jaVoice = voiceChoice === 'auto' ? null
+    : jaVoices.find(v => v.voiceURI === voiceChoice) || jaVoices[0] || null;
   return jaVoice;
 }
+
+function renderVoiceSelect() {
+  const sel = $('voice');
+  if (!sel) return;
+  const opts = jaVoices.map(v => new Option(`${v.name}${v.localService ? '' : ' (online)'}`, v.voiceURI));
+  opts.push(new Option('Automatisch (Browser entscheidet)', 'auto'));
+  sel.replaceChildren(...opts);
+  sel.value = voiceChoice === 'auto' ? 'auto' : (jaVoice ? jaVoice.voiceURI : 'auto');
+}
+
 if (window.speechSynthesis) {
   pickJaVoice();
-  window.speechSynthesis.onvoiceschanged = () => { pickJaVoice(); renderChecks(); };
+  window.speechSynthesis.onvoiceschanged = () => {
+    pickJaVoice();
+    renderVoiceSelect();
+    renderChecks();
+    devLog(`tts: Stimmen ${jaVoices.map(v => `${v.name}${v.localService ? '' : '☁'}${v.default ? '★' : ''}`).join(', ') || 'keine'}`);
+  };
 }
 
 // iOS legt eine Seite ohne <audio> in die Audio-Kategorie „ambient", die der
@@ -172,10 +193,20 @@ function unlockAudioSession() {
   }
 }
 
+let speakTimer = null;
+let ttsWatch = null;
+const pinnedUtts = new Set();   // Safari/Chrome sammeln Utterances sonst vor dem Ende ein
+
 function stopSpeaking() {
+  clearTimeout(speakTimer);
+  clearTimeout(ttsWatch);
+  speakTimer = ttsWatch = null;
   const synth = window.speechSynthesis;
   if (!synth) return;
-  synth.resume();   // Android: cancel() leert keine pausierte Queue (siehe app.js)
+  // Nur wenn wirklich etwas läuft: cancel() direkt vor speak() verschluckt auf
+  // manchen Geräten die nächste Ausgabe (siehe app.js).
+  if (!synth.speaking && !synth.pending && !synth.paused) return;
+  synth.resume();   // Android: cancel() leert keine pausierte Queue
   synth.cancel();
 }
 
@@ -183,16 +214,29 @@ function speak(texts) {
   const synth = window.speechSynthesis;
   if (!synth) return;
   stopSpeaking();
-  for (const text of [].concat(texts).filter(Boolean)) {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ja-JP';
-    if (jaVoice) u.voice = jaVoice;
-    u.rate = 0.9;
-    u.onstart = () => devLog(`tts: start "${text.slice(0, 20)}"`);
-    u.onend   = () => devLog('tts: end');
-    u.onerror = e => devLog(`tts: Fehler ${e.error}`);
-    synth.speak(u);
-  }
+  const list = [].concat(texts).filter(Boolean);
+  if (!list.length) return;
+  // Kurz nach cancel() sprechen, nicht im selben Tick (app.js: ttsdefer 60).
+  speakTimer = setTimeout(() => {
+    speakTimer = null;
+    list.forEach((text, i) => {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ja-JP';
+      if (jaVoice) u.voice = jaVoice;
+      u.rate = 0.9;
+      pinnedUtts.add(u);
+      u.onstart = () => devLog(`tts: start "${text.slice(0, 20)}" (${jaVoice ? jaVoice.name : 'auto'})`);
+      u.onend   = () => { pinnedUtts.delete(u); devLog('tts: end'); if (i === list.length - 1) clearTimeout(ttsWatch); };
+      u.onerror = e => { pinnedUtts.delete(u); devLog(`tts: Fehler ${e.error}`); };
+      synth.speak(u);
+    });
+    // Hängt die Ausgabe (iOS nach gestörter Audio-Session), blockiert sie sonst
+    // das Mikrofon. Großzügig: ~0,4 s pro Zeichen + 4 s.
+    const chars = list.join('').length;
+    ttsWatch = setTimeout(() => {
+      if (synth.speaking || synth.pending) { devLog('tts: hängt → cancel'); synth.cancel(); }
+    }, chars * 400 + 4000);
+  }, 60);
 }
 
 // ---------- Spracherkennung ----------
@@ -222,7 +266,22 @@ function resetMic() {
   updateSend();
 }
 
-// Sofort aus, ohne auf die Erkennung zu warten (Senden, Beenden, Hänger).
+// Ordentlich beenden und auf `end` warten. abort() mitten in der Erkennung
+// hinterlässt auf iOS eine kaputte Audio-Session: danach lief die Stimme
+// endlos ohne Ton und das Mikro hörte nichts mehr (?dev=1-Protokoll).
+function finishMic() {
+  if (!rec) return Promise.resolve();
+  const r = rec;
+  return new Promise(resolve => {
+    const done = () => { clearTimeout(t); resolve(); };
+    const t = setTimeout(() => { devLog('mic: end bleibt aus → abort'); if (rec === r) abortMic(); resolve(); }, 1500);
+    r.addEventListener('end', done, { once: true });
+    devLog('mic: stop (senden)');
+    try { r.stop(); } catch (e) { done(); }
+  });
+}
+
+// Sofort aus, ohne auf die Erkennung zu warten — nur als letzter Ausweg.
 function abortMic() {
   if (!rec) return;
   const r = rec;
@@ -253,8 +312,7 @@ function toggleMic() {
   }
   if (!Recognition || state.busy) return;
   unlockAudioSession();
-  const synth = window.speechSynthesis;
-  if (synth && (synth.speaking || synth.pending)) stopSpeaking();
+  stopSpeaking();   // räumt auch eine noch verzögerte Ausgabe weg
 
   const r = new Recognition();
   rec = r;
@@ -505,7 +563,7 @@ function renderChecks() {
   const hasChrome = !!self.LanguageModel;
   const items = [
     [!!Recognition, 'Spracherkennung', Recognition ? 'Japanisch per Mikrofon' : 'Fehlt — du kannst die Antwort aber tippen. Chrome oder Safari nutzen.'],
-    [!!jaVoice, 'Japanische Stimme', jaVoice ? jaVoice.name : (window.speechSynthesis ? 'Keine japanische Stimme installiert' : 'Keine Sprachausgabe')],
+    [jaVoices.length > 0, 'Japanische Stimme', jaVoices.length ? `${jaVoices.length} verfügbar · ${jaVoice ? jaVoice.name : 'automatisch'} — unten testen` : (window.speechSynthesis ? 'Keine japanische Stimme installiert' : 'Keine Sprachausgabe')],
     [checkState.gpu === null ? null : checkState.gpu.ok, 'WebGPU (für Qwen/Gemma)',
       checkState.gpu === null ? 'prüfe …' : checkState.gpu.ok ? (checkState.gpu.f16 ? 'vorhanden' : 'vorhanden (ohne f16, größerer Download)') : 'Fehlt — dann nur Chrome-KI oder ohne KI'],
     [hasChrome, 'Chrome-KI (Gemini Nano)', hasChrome ? 'API vorhanden' : 'nicht verfügbar'],
@@ -531,7 +589,9 @@ function renderEngineSelect(saved) {
   const opts = [...MODELS, ...OTHER];
   if (state.mock) opts.unshift({ key: 'mock', label: 'Mock (Test, kein Modell)', hint: 'Gestellte Antworten zum Testen der Oberfläche.' });
   sel.replaceChildren(...opts.map(o => new Option(o.label, o.key)));
-  sel.value = state.mock ? 'mock' : (opts.some(o => o.key === saved.engine) ? saved.engine : 'qwen2b');
+  sel.value = state.mock ? 'mock'
+    : opts.some(o => o.key === saved.engine) ? saved.engine
+    : IS_IOS ? 'qwen08' : 'qwen2b';
   const hint = () => { $('engine-hint').textContent = opts.find(o => o.key === sel.value).hint; };
   sel.onchange = hint;
   hint();
@@ -547,7 +607,7 @@ async function start() {
   const key = $('engine').value;
   state.lang = $('lang').value;
   state.rounds = parseInt($('rounds').value, 10);
-  saveSettings({ engine: key, lang: state.lang, rounds: state.rounds });
+  saveSettings({ engine: key, lang: state.lang, rounds: state.rounds, voice: voiceChoice });
   setupError('');
 
   // Innerhalb der Tipp-Geste: Audio-Session und Stimme aufwärmen (Autoplay-Regeln).
@@ -703,9 +763,18 @@ function startRound() {
 }
 
 async function send() {
+  if (state.busy) return;
+  if (rec) {
+    setBusy(true);
+    await finishMic();
+    setBusy(false);
+  }
   const answer = $('answer').value.trim();
-  if (!answer || state.busy) return;
-  abortMic();
+  if (!answer) return;
+  if (!talkCore.hasJapanese(answer)) {
+    setStatus('Bitte auf Japanisch antworten — per 🎤 oder mit der japanischen Tastatur.');
+    return;
+  }
   stopSpeaking();
   $('answer').value = '';
   addToLog(el('div', 'bubble user', answer));
@@ -823,6 +892,19 @@ function init() {
   initDev();
   const saved = loadSettings();
   renderEngineSelect(saved);
+  voiceChoice = saved.voice || null;
+  pickJaVoice();
+  renderVoiceSelect();
+  $('voice').onchange = () => {
+    voiceChoice = $('voice').value;
+    pickJaVoice();
+    saveSettings({ ...loadSettings(), voice: voiceChoice });
+    renderChecks();
+  };
+  $('voice-test').onclick = () => {
+    unlockAudioSession();
+    speak('こんにちは。今日はいい天気ですね。');
+  };
   if (saved.lang) $('lang').value = saved.lang;
   if (saved.rounds) $('rounds').value = String(saved.rounds);
   renderChecks();
@@ -852,8 +934,8 @@ function init() {
   $('answer').onkeydown = e => {
     if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); }
   };
-  $('quit').onclick = () => {
-    abortMic();
+  $('quit').onclick = async () => {
+    await finishMic();
     stopSpeaking();
     state.results.length ? renderSummary() : show('screen-setup');
   };
