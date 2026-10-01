@@ -34,6 +34,83 @@ const state = {
   mock: new URLSearchParams(location.search).get('engine') === 'mock',
 };
 
+// ---------- Debug (?dev=1) ----------
+// Handys haben keine Konsole: mit ?dev=1 steht ein Ereignisprotokoll auf dem
+// Bildschirm (Mikrofon, Sprachausgabe, KI, Hänger der Seite), das sich per
+// Knopf kopieren lässt. Es überlebt einen Neustart der Seite (sessionStorage) —
+// stürzt der Tab wegen Speichermangels ab, sieht man danach, was zuletzt lief.
+
+const DEV = new URLSearchParams(location.search).get('dev') === '1';
+const DEV_KEY = 'n5-talk-devlog';
+const devLines = [];
+const devT0 = performance.now();
+
+function devLog(msg) {
+  if (!DEV) return;
+  const t = ((performance.now() - devT0) / 1000).toFixed(2).padStart(7);
+  devLines.push(`${t}s ${msg}`);
+  if (devLines.length > 400) devLines.splice(0, devLines.length - 400);
+  try { sessionStorage.setItem(DEV_KEY, devLines.join('\n')); } catch (e) { /* voll/blockiert */ }
+  const pre = $('dev-text');
+  if (pre) { pre.textContent = devLines.join('\n'); pre.scrollTop = pre.scrollHeight; }
+}
+
+function initDev() {
+  if (!DEV) return;
+  let previous = '';
+  try { previous = sessionStorage.getItem(DEV_KEY) || ''; } catch (e) { /* egal */ }
+  if (previous) devLines.push('── vorheriger Seitenaufruf ──', ...previous.split('\n').slice(-60), '── neu geladen ──');
+
+  const box = document.createElement('div');
+  box.id = 'dev-box';
+  const bar = document.createElement('div');
+  bar.className = 'dev-bar';
+  const title = document.createElement('b');
+  title.textContent = 'Debug';
+  const copy = document.createElement('button');
+  copy.textContent = 'Kopieren';
+  copy.onclick = () => {
+    const text = devLines.join('\n');
+    const done = () => { copy.textContent = 'Kopiert ✓'; };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => selectLog());
+    else selectLog();
+  };
+  const clear = document.createElement('button');
+  clear.textContent = 'Leeren';
+  clear.onclick = () => { devLines.length = 0; devLog('geleert'); };
+  const hide = document.createElement('button');
+  hide.textContent = '▾';
+  hide.onclick = () => { box.classList.toggle('min'); hide.textContent = box.classList.contains('min') ? '▴' : '▾'; };
+  bar.append(title, copy, clear, hide);
+  const pre = document.createElement('pre');
+  pre.id = 'dev-text';
+  box.append(bar, pre);
+  document.body.append(box);
+  document.body.classList.add('dev');
+
+  devLog(`UA ${navigator.userAgent}`);
+  devLog(`RAM ${navigator.deviceMemory ?? '?'} GB · Kerne ${navigator.hardwareConcurrency ?? '?'} · standalone ${matchMedia('(display-mode: standalone)').matches}`);
+
+  // Wächter: feuert ein 250-ms-Intervall deutlich zu spät, war die Seite
+  // blockiert (lange Rechnung im Main-Thread, GPU-Sync, Speicherdruck).
+  let last = performance.now();
+  setInterval(() => {
+    const now = performance.now();
+    if (now - last > 1000 && !document.hidden) devLog(`⚠ Seite hing ${Math.round(now - last - 250)} ms`);
+    last = now;
+  }, 250);
+  addEventListener('error', e => devLog(`✖ JS-Fehler: ${e.message}`));
+  addEventListener('unhandledrejection', e => devLog(`✖ Promise: ${(e.reason && e.reason.message) || e.reason}`));
+  document.addEventListener('visibilitychange', () => devLog(`Seite ${document.visibilityState}`));
+}
+
+function selectLog() {
+  const range = document.createRange();
+  range.selectNodeContents($('dev-text'));
+  getSelection().removeAllRanges();
+  getSelection().addRange(range);
+}
+
 // ---------- Einstellungen (nur Komfort, darf fehlen) ----------
 
 const SETTINGS_KEY = 'n5-talk-settings';
@@ -76,6 +153,9 @@ function speak(texts) {
     u.lang = 'ja-JP';
     if (jaVoice) u.voice = jaVoice;
     u.rate = 0.9;
+    u.onstart = () => devLog(`tts: start "${text.slice(0, 20)}"`);
+    u.onend   = () => devLog('tts: end');
+    u.onerror = e => devLog(`tts: Fehler ${e.error}`);
     synth.speak(u);
   }
 }
@@ -95,41 +175,111 @@ const REC_ERRORS = {
   'language-not-supported': 'Japanische Spracherkennung wird hier nicht unterstützt.',
 };
 
+let recTimer = null;
+
+function resetMic() {
+  clearTimeout(recTimer);
+  recTimer = null;
+  rec = null;
+  listening = false;
+  $('mic').classList.remove('listening');
+  $('mic').setAttribute('aria-label', 'Sprechen');
+  updateSend();
+}
+
+// Sofort aus, ohne auf die Erkennung zu warten (Senden, Beenden, Hänger).
+function abortMic() {
+  if (!rec) return;
+  const r = rec;
+  resetMic();
+  try { r.abort(); } catch (e) { /* schon beendet */ }
+}
+
+// Die Erkennung darf den Knopf nie festhalten: kommt sie nicht in Gang, hört
+// sie nicht auf oder reagiert sie nicht auf Stopp, räumen Timer auf.
+const MIC_START_TIMEOUT = 10000;  // bis audiostart; deckt die erste Berechtigungsfrage ab
+const MIC_MAX_LISTEN    = 20000;  // iOS beendet bei Stille nicht immer von selbst
+const MIC_STOP_TIMEOUT  = 2000;   // stop() ohne end → abort()
+
 function toggleMic() {
-  if (listening) { rec && rec.stop(); return; }
+  if (listening) {
+    devLog('mic: stop (getippt)');
+    const r = rec;
+    try { r.stop(); } catch (e) { /* schon beendet */ }
+    clearTimeout(recTimer);
+    recTimer = setTimeout(() => {
+      if (rec !== r) return;
+      devLog('mic: stop ohne end → abort');
+      abortMic();
+      setStatus('Die Spracherkennung hing und wurde abgebrochen.');
+    }, MIC_STOP_TIMEOUT);
+    return;
+  }
   if (!Recognition || state.busy) return;
-  stopSpeaking();
-  rec = new Recognition();
-  rec.lang = 'ja-JP';
-  rec.interimResults = true;
-  rec.continuous = false;
-  rec.maxAlternatives = 1;
+  const synth = window.speechSynthesis;
+  if (synth && (synth.speaking || synth.pending)) stopSpeaking();
+
+  const r = new Recognition();
+  rec = r;
+  r.lang = 'ja-JP';
+  r.interimResults = true;
+  r.continuous = false;
+  r.maxAlternatives = 1;
+
+  for (const ev of ['start', 'soundstart', 'speechstart', 'speechend', 'soundend', 'audioend', 'nomatch']) {
+    r.addEventListener(ev, () => devLog(`mic: ${ev}`));
+  }
+  r.addEventListener('audiostart', () => {
+    devLog('mic: audiostart');
+    if (rec !== r) return;
+    setStatus('Ich höre zu … (nochmal antippen zum Beenden)');
+    clearTimeout(recTimer);
+    recTimer = setTimeout(() => {
+      if (rec !== r) return;
+      devLog('mic: Höchstdauer → stop');
+      try { r.stop(); } catch (e) { /* schon beendet */ }
+    }, MIC_MAX_LISTEN);
+  });
 
   const before = $('answer').value.trim();
-  rec.onresult = e => {
-    const heard = Array.from(e.results).map(r => r[0].transcript).join('');
+  r.onresult = e => {
+    if (rec !== r) return;
+    const heard = Array.from(e.results).map(x => x[0].transcript).join('');
+    devLog(`mic: result "${heard}" final=${e.results[e.results.length - 1].isFinal}`);
     $('answer').value = before ? `${before} ${heard}` : heard;
     updateSend();
   };
-  rec.onerror = e => setStatus(REC_ERRORS[e.error] || `Spracherkennung: ${e.error}`);
-  rec.onend = () => {
-    listening = false;
-    $('mic').classList.remove('listening');
-    $('mic').setAttribute('aria-label', 'Sprechen');
-    updateSend();
+  r.onerror = e => {
+    devLog(`mic: error ${e.error} ${e.message || ''}`);
+    if (rec !== r) return;
+    setStatus(REC_ERRORS[e.error] || `Spracherkennung: ${e.error}`);
+  };
+  r.onend = () => {
+    devLog('mic: end');
+    if (rec !== r) return;
+    resetMic();
     if ($('answer').value.trim()) setStatus('Passt das? Dann senden — oder 🎤 für einen neuen Versuch.');
   };
 
-  $('answer').value = before;
   try {
-    rec.start();
-    listening = true;
-    $('mic').classList.add('listening');
-    $('mic').setAttribute('aria-label', 'Aufnahme beenden');
-    setStatus('Ich höre zu …');
+    devLog('mic: start()');
+    r.start();
   } catch (e) {
+    devLog(`mic: start() warf ${e.message}`);
+    resetMic();
     setStatus(`Mikrofon startet nicht: ${e.message}`);
+    return;
   }
+  listening = true;
+  $('mic').classList.add('listening');
+  $('mic').setAttribute('aria-label', 'Aufnahme beenden');
+  setStatus('Starte Mikrofon …');
+  recTimer = setTimeout(() => {
+    if (rec !== r) return;
+    devLog('mic: kein audiostart → abort');
+    abortMic();
+    setStatus('Das Mikrofon startet nicht. Antwort bitte tippen — oder Seite neu laden.');
+  }, MIC_START_TIMEOUT);
 }
 
 // ---------- KI-Engines ----------
@@ -139,6 +289,8 @@ async function webgpuInfo() {
   try {
     const adapter = await navigator.gpu.requestAdapter();
     if (!adapter) return { ok: false };
+    const info = adapter.info || {};
+    devLog(`gpu: ${info.vendor || '?'} ${info.architecture || ''} f16=${adapter.features.has('shader-f16')} maxBuffer=${Math.round(adapter.limits.maxBufferSize / 2 ** 20)} MB`);
     return { ok: true, f16: adapter.features.has('shader-f16') };
   } catch (e) {
     return { ok: false };
@@ -152,9 +304,9 @@ async function createWebLLM(model, onProgress) {
   onProgress(0, 'Lade KI-Bibliothek …');
   const webllm = await import(WEBLLM_URL);
   try { await navigator.storage?.persist?.(); } catch (e) { /* nur ein Wunsch an den Browser */ }
-  const engine = await webllm.CreateMLCEngine(modelId, {
-    initProgressCallback: r => onProgress(r.progress, r.text),
-  });
+  devLog(`ki: lade ${modelId}`);
+  const engine = await loadEngine(webllm, modelId, onProgress);
+  devLog('ki: geladen');
   // Qwen3.x denkt sonst erst hunderte Tokens lang nach, bevor es antwortet.
   const noThinking = /^Qwen3/.test(model.base) ? { extra_body: { enable_thinking: false } } : {};
   const schema = JSON.stringify(talkCore.FEEDBACK_SCHEMA);
@@ -173,6 +325,42 @@ async function createWebLLM(model, onProgress) {
       }
     },
   };
+}
+
+// Im Worker rechnet die KI neben der Oberfläche statt auf ihr: Mikrofon, Knöpfe
+// und Sprachausgabe bleiben bedienbar, auch während das Modell lädt oder denkt.
+// Lässt sich der Worker gar nicht starten, läuft WebLLM im Main-Thread.
+async function loadEngine(webllm, modelId, onProgress) {
+  let lastPct = -1;
+  const cfg = {
+    initProgressCallback: r => {
+      onProgress(r.progress, r.text);
+      const pct = Math.floor((r.progress || 0) * 10);
+      if (pct !== lastPct) { lastPct = pct; devLog(`ki: ${r.text}`); }
+    },
+  };
+  let worker;
+  try {
+    worker = new Worker(new URL('talk-worker.js', location.href), { type: 'module' });
+  } catch (e) {
+    devLog(`ki: kein Worker (${e.message}) → Main-Thread`);
+    return webllm.CreateMLCEngine(modelId, cfg);
+  }
+  let workerBroken = false;
+  const broken = new Promise((_, reject) => worker.addEventListener('error', e => {
+    workerBroken = true;
+    reject(new Error(e.message || 'Worker-Skript lädt nicht'));
+  }, { once: true }));
+  try {
+    const engine = await Promise.race([webllm.CreateWebWorkerMLCEngine(worker, modelId, cfg), broken]);
+    devLog('ki: läuft im Worker');
+    return engine;
+  } catch (e) {
+    if (!workerBroken) throw e;
+    devLog(`ki: Worker kaputt (${e.message}) → Main-Thread`);
+    worker.terminate();
+    return webllm.CreateMLCEngine(modelId, cfg);
+  }
 }
 
 async function createChromeAI(lang, onProgress) {
@@ -327,7 +515,9 @@ async function start() {
       const msg = String(e && e.message || e);
       setupError(/memory|OOM|device.*lost|allocate/i.test(msg)
         ? `Nicht genug Speicher für dieses Modell. Probier ein kleineres. (${msg})`
-        : msg);
+        : /fetch|Cache|network/i.test(msg)
+          ? `Download fehlgeschlagen — Internetverbindung prüfen und nochmal starten. (${msg})`
+          : msg);
       return;
     } finally {
       $('start').disabled = false;
@@ -449,7 +639,7 @@ function startRound() {
 async function send() {
   const answer = $('answer').value.trim();
   if (!answer || state.busy) return;
-  if (listening) rec.stop();
+  abortMic();
   stopSpeaking();
   $('answer').value = '';
   addToLog(el('div', 'bubble user', answer));
@@ -474,11 +664,15 @@ async function send() {
   let err = null;
   try {
     const messages = talkCore.buildMessages({ question, answer, history: state.history, lang: state.lang });
+    devLog(`ki: frage "${answer}"`);
     const out = await state.engine.ask(messages);
+    const raw = typeof out === 'string' ? out : JSON.stringify(out);
+    devLog(`ki: ${((performance.now() - t0) / 1000).toFixed(1)} s → ${raw.slice(0, 400)}`);
     fb = talkCore.parseFeedback(out, answer);
     if (!fb) console.warn('Unbrauchbare KI-Ausgabe:', out);
   } catch (e) {
     console.error(e);
+    devLog(`ki: Fehler ${e.message}`);
     err = e;
   } finally {
     clearInterval(timer);
@@ -556,6 +750,7 @@ function renderSummary() {
 // ---------- Verdrahtung ----------
 
 function init() {
+  initDev();
   const saved = loadSettings();
   renderEngineSelect(saved);
   if (saved.lang) $('lang').value = saved.lang;
@@ -573,7 +768,7 @@ function init() {
     if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); }
   };
   $('quit').onclick = () => {
-    if (listening) rec.stop();
+    abortMic();
     stopSpeaking();
     state.results.length ? renderSummary() : show('screen-setup');
   };
