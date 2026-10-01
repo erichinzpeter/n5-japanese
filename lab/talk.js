@@ -10,13 +10,33 @@ const $ = id => document.getElementById(id);
 const WEBLLM_URL = 'https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.85/+esm';
 
 // `base` + Quantisierung ergibt die WebLLM-model_id. q4f16 braucht die
-// WebGPU-Erweiterung shader-f16 (fehlt u. a. auf vielen Handys) — dann q4f32.
+// WebGPU-Erweiterung shader-f16 (fehlt u. a. auf vielen Handys) — dann q4f32,
+// sofern es das Modell so gibt (`f16Only`: nein).
+// `mb` = WebLLM-Speicherbedarf bei 4096 Kontext; bei unseren 2048 etwas weniger.
+// Gemessen auf iPhone 17 Pro / Safari: 1629 MB läuft, 2245 MB stürzt ab — das
+// Limit liegt dazwischen. Alles dazwischen ist einen Versuch wert.
 const MODELS = [
-  { key: 'qwen08', base: 'Qwen3.5-0.8B',      label: 'Qwen 3.5 · 0.8B — Mini',       hint: 'Kleinster Download (ca. 0,5 GB), braucht am wenigsten Speicher. Für iPhones, auf denen 2B abstürzt. Korrigiert spürbar schwächer.' },
-  { key: 'qwen2b', base: 'Qwen3.5-2B',        label: 'Qwen 3.5 · 2B — Handy',        hint: 'Einmaliger Download ca. 1 GB. Korrekturen mittelmäßig. Auf dem iPhone (Safari) stürzt die Seite damit beim Antworten ab — zu wenig Speicher.' },
-  { key: 'qwen4b', base: 'Qwen3.5-4B',        label: 'Qwen 3.5 · 4B — Laptop',       hint: 'Einmaliger Download ca. 2–4 GB. Deutlich besser, braucht aber einen Laptop/Desktop mit guter Grafik.' },
-  { key: 'gemma',  base: 'gemma-2-2b-jpn-it', label: 'Gemma 2 · 2B Japanisch',       hint: 'Einmaliger Download ca. 1,5–2 GB. Auf Japanisch trainiert — zum Vergleich mit Qwen.' },
+  { key: 'gemma3',  base: 'gemma3-1b-it',          mb: 711,  f16Only: true, label: 'Gemma 3 · 1B',                hint: 'Ca. 0,7 GB. Klein, aber neuer als die anderen und gut mehrsprachig. Passt sicher aufs iPhone.' },
+  { key: 'qwen08',  base: 'Qwen3.5-0.8B',          mb: 1629, label: 'Qwen 3.5 · 0.8B — Mini',      hint: 'Ca. 0,4 GB Download. Läuft auf dem iPhone, korrigiert aber schwach.' },
+  { key: 'qwen15',  base: 'Qwen2.5-1.5B-Instruct', mb: 1630, label: 'Qwen 2.5 · 1.5B',             hint: 'Ca. 0,9 GB. Doppelt so groß wie Mini bei gleichem Speicherbedarf — sollte aufs iPhone passen.' },
+  { key: 'qwen17',  base: 'Qwen3-1.7B',            mb: 2037, label: 'Qwen 3 · 1.7B',               hint: 'Ca. 1 GB. Knapp an der iPhone-Grenze — ausprobieren.' },
+  { key: 'gemma',   base: 'gemma-2-2b-jpn-it',     mb: 1895, label: 'Gemma 2 · 2B Japanisch',      hint: 'Ca. 1,4 GB. Speziell auf Japanisch trainiert. Knapp an der iPhone-Grenze — ausprobieren.' },
+  { key: 'qwen2b',  base: 'Qwen3.5-2B',            mb: 2245, label: 'Qwen 3.5 · 2B',               hint: 'Ca. 1 GB. Stürzt auf dem iPhone (Safari) beim Antworten ab.' },
+  { key: 'qwen4b',  base: 'Qwen3.5-4B',            mb: 3868, label: 'Qwen 3.5 · 4B — Laptop',      hint: 'Ca. 2,5 GB. Deutlich besser, aber nur für Laptop/Desktop mit guter Grafik.' },
 ];
+
+// Modelle, bei denen der Tab auf diesem Gerät schon abgestürzt ist (dauerhaft
+// gemerkt, damit die Auswahl sie markiert).
+const CRASHED_KEY = 'n5-talk-crashed';
+function loadCrashed() {
+  try { return JSON.parse(localStorage.getItem(CRASHED_KEY)) || []; } catch (e) { return []; }
+}
+function rememberCrash(key) {
+  const list = loadCrashed();
+  if (!list.includes(key)) list.push(key);
+  try { localStorage.setItem(CRASHED_KEY, JSON.stringify(list)); } catch (e) { /* egal */ }
+}
+
 const OTHER = [
   { key: 'chrome', label: 'Chrome-KI (Gemini Nano)', hint: 'In Chrome eingebaut, läuft lokal. Nur Chrome auf Desktop, und nur wenn Chrome sie für Webseiten freigibt.' },
   { key: 'none',   label: 'Ohne KI (nur Fragen & Sprechen)', hint: 'Kein Download. Du hörst Fragen und antwortest, bekommst aber keine Korrektur.' },
@@ -404,6 +424,7 @@ async function webgpuInfo() {
 async function createWebLLM(model, onProgress) {
   const gpu = await webgpuInfo();
   if (!gpu.ok) throw new Error('Dieser Browser hat kein WebGPU. Probier Chrome (Desktop/Android) oder Safari ab iOS 26.');
+  if (model.f16Only && !gpu.f16) throw new Error('Dieses Modell gibt es nur für Grafikchips mit f16 — bitte ein anderes wählen.');
   const modelId = `${model.base}-${gpu.f16 ? 'q4f16_1' : 'q4f32_1'}-MLC`;
   onProgress(0, 'Lade KI-Bibliothek …');
   const webllm = await import(WEBLLM_URL);
@@ -588,7 +609,8 @@ function renderEngineSelect(saved) {
   const sel = $('engine');
   const opts = [...MODELS, ...OTHER];
   if (state.mock) opts.unshift({ key: 'mock', label: 'Mock (Test, kein Modell)', hint: 'Gestellte Antworten zum Testen der Oberfläche.' });
-  sel.replaceChildren(...opts.map(o => new Option(o.label, o.key)));
+  const crashed = loadCrashed();
+  sel.replaceChildren(...opts.map(o => new Option(crashed.includes(o.key) ? `${o.label} ✗ stürzt hier ab` : o.label, o.key)));
   sel.value = state.mock ? 'mock'
     : opts.some(o => o.key === saved.engine) ? saved.engine
     : IS_IOS ? 'qwen08' : 'qwen2b';
@@ -912,7 +934,15 @@ function init() {
   try { crashed = sessionStorage.getItem(INFLIGHT_KEY); sessionStorage.removeItem(INFLIGHT_KEY); } catch (e) { /* egal */ }
   if (crashed) {
     devLog(`⚠ letzter Aufruf ist beim Antworten abgestürzt (${crashed})`);
-    const smaller = { qwen4b: 'qwen2b', gemma: 'qwen08', qwen2b: 'qwen08' }[crashed];
+    rememberCrash(crashed);
+    // Das größte Modell, das kleiner ist als das abgestürzte und hier noch nicht abstürzte.
+    const failed = MODELS.find(m => m.key === crashed);
+    const bad = loadCrashed();
+    const smallerModel = failed && MODELS
+      .filter(m => m.mb < failed.mb && !bad.includes(m.key))
+      .sort((a, b) => b.mb - a.mb)[0];
+    const smaller = smallerModel && smallerModel.key;
+    renderEngineSelect(loadSettings());
     if (smaller) $('engine').value = smaller;
     $('engine').onchange();
     setupError(smaller
