@@ -71,5 +71,31 @@ if (masu('本', 'ほん', 'Nomen') !== null) { failures++; console.log('FAIL mas
 if (masu('大きい', 'おおきい', 'i-Adjektiv') !== null) { failures++; console.log('FAIL masuForm i-adj should be null'); }
 if (masu('静か', 'しずか', 'na-Adjektiv') !== null) { failures++; console.log('FAIL masuForm na-adj should be null'); }
 
+// ある verneint ohne Stamm.
+eq('aru nai', form(conjugate('ある', 'ある', 'Verb (Godan, る)*'), 'ない-Form'), 'ない');
+
+// 来る-Komposita: nur das くる am Ende wird konjugiert.
+r = conjugate('持ってくる', 'もってくる', 'Verb (unregelmäßig)');
+eq('mottekuru masu word',    form(r, 'ます-Form'), '持ってきます');
+eq('mottekuru masu reading', formR(r, 'ます-Form'), 'もってきます');
+eq('mottekuru nai reading',  formR(r, 'ない-Form'), 'もってこない');
+
+// na-Adjektiv, das mit な gespeichert ist.
+r = conjugate('安全な', 'あんぜんな', 'na-Adjektiv');
+eq('anzen grund', form(r, 'Grundform'), '安全');
+eq('anzen nai',   form(r, 'Verneinung'), '安全じゃない');
+
+// Alternative pos-Schreibweise aus data/basics.js.
+eq('yasashii nai', form(conjugate('優しい', 'やさしい', 'Adjektiv-i'), 'Verneinung'), '優しくない');
+eq('taisetsu nai', form(conjugate('大切', 'たいせつ', 'Adjektiv-na'), 'Verneinung'), '大切じゃない');
+
+// Zwei Schreibweisen in einem Eintrag.
+r = conjugate('速い／早い', 'はやい', 'Adjektiv-i');
+eq('hayai nai word',    form(r, 'Verneinung'), '速くない／早くない');
+eq('hayai nai reading', formR(r, 'Verneinung'), 'はやくない');
+r = conjugate('いい／良い', 'いい／よい', 'Adjektiv-i');
+eq('ii nai word',       form(r, 'Verneinung'), 'よくない');
+eq('ii grund reading',  formR(r, 'Grundform'), 'いい／よい');
+
 console.log(failures === 0 ? 'PASS conjugate' : `${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
