@@ -166,3 +166,47 @@ test('saveSRS round-trips through loadSRS', () => {
     assert.equal(srs.loadSRS().cards.x.box, 2);
   });
 });
+
+const drillCard = (id, keys) => ({ id, srsIds: keys.map(k => `${id}-drill-${k}`) });
+
+test('buildDrillQueue: Wort mit einer fälligen Form kommt vor neuen Wörtern', () => {
+  const state = { v: 1, cards: {
+    'v1-drill-te': { box: 3, seen: '2026-10-10', due: '2026-10-25' },
+    'v1-drill-ta': { box: 2, seen: '2026-10-10', due: '2026-10-19' },
+  } };
+  const q = srs.buildDrillQueue([drillCard('v2', ['te', 'ta']), drillCard('v1', ['te', 'ta'])], state, '2026-10-20', 2);
+  assert.deepEqual(q.map(c => c.id), ['v1', 'v2']);
+});
+
+test('buildDrillQueue: die schwächste fällige Form bestimmt die Reihenfolge', () => {
+  const state = { v: 1, cards: {
+    'v1-drill-te': { box: 3, seen: '2026-10-10', due: '2026-10-19' },
+    'v2-drill-te': { box: 1, seen: '2026-10-18', due: '2026-10-19' },
+  } };
+  const q = srs.buildDrillQueue([drillCard('v1', ['te']), drillCard('v2', ['te'])], state, '2026-10-20', 2);
+  assert.deepEqual(q.map(c => c.id), ['v2', 'v1']);
+});
+
+test('buildDrillQueue: nicht fälliges Wort füllt nur auf', () => {
+  const state = { v: 1, cards: {
+    'v1-drill-te': { box: 4, seen: '2026-10-15', due: '2026-10-22' },
+  } };
+  const q = srs.buildDrillQueue([drillCard('v1', ['te']), drillCard('v2', ['te'])], state, '2026-10-20', 2);
+  assert.deepEqual(q.map(c => c.id), ['v2', 'v1']);
+});
+
+test('buildDrillQueue: heute schon geübtes Wort wird nicht vorgezogen', () => {
+  const state = { v: 1, cards: {
+    'v1-drill-te': { box: 2, seen: '2026-10-20', due: '2026-10-22' },
+  } };
+  const q = srs.buildDrillQueue([drillCard('v1', ['te']), drillCard('v2', ['te'])], state, '2026-10-20', 2);
+  assert.deepEqual(q.map(c => c.id), ['v2']);
+});
+
+test('buildDrillQueue: Form ohne Eintrag neben bewerteten zählt als fällig', () => {
+  const state = { v: 1, cards: {
+    'v1-drill-te': { box: 4, seen: '2026-10-15', due: '2026-10-22' },
+  } };
+  const q = srs.buildDrillQueue([drillCard('v1', ['te', 'tai'])], state, '2026-10-20', 1);
+  assert.deepEqual(q.map(c => c.id), ['v1']);
+});
