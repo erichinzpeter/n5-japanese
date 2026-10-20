@@ -3,7 +3,7 @@
 // ===== STATE =====
 const state = {
   direction: 'jp-de',
-  mode: 'flashcard',  // 'flashcard' | 'mc'
+  mode: 'flashcard',  // 'flashcard' | 'mc' | 'conjugation' | 'drill'
   form: 'dict',       // 'dict' | 'masu' — nur Verben-Deck: Wörterbuchform vs. ます-Form
   deck: null,
   session: [],
@@ -39,8 +39,8 @@ function isAudioOff() {
 const DECK_MODES = {
   kanji:     ['flashcard', 'mc'],
   nomen:     ['flashcard', 'mc'],
-  verben:    ['flashcard', 'mc', 'conjugation'],
-  adjektive: ['flashcard', 'mc', 'conjugation'],
+  verben:    ['flashcard', 'mc', 'conjugation', 'drill'],
+  adjektive: ['flashcard', 'mc', 'conjugation', 'drill'],
   adverbien: ['flashcard', 'mc'],
   sonstiges: ['flashcard', 'mc'],
   grammar:   ['flashcard', 'mc'],
@@ -54,6 +54,7 @@ const MODE_LABELS = {
   flashcard:   'Karteikarten',
   mc:          'Multiple Choice',
   conjugation: 'Konjugation',
+  drill:       'Durchkonjugieren',
 };
 
 const DECK_TITLES = {
@@ -80,15 +81,17 @@ function saveModalPrefs(deck, mode, direction, count, form) {
 
 let modalLastFocus = null;
 
-// Nur das Verben-Deck hat eine ます-Form, und der Konjugations-Drill fragt Formen schon
+// Nur das Verben-Deck hat eine ます-Form, und die Konjugations-Drills fragen Formen schon
 // explizit ab — dort wäre der Toggle sinnlos. Überall sonst gilt zwingend 'dict'.
+// Die Richtung entfällt bei Grammatik und beim Durchkonjugieren (immer höfliche Form → Formen).
 function syncFormToggle(deck) {
-  const show = deck === 'verben' && state.mode !== 'conjugation';
+  const show = deck === 'verben' && state.mode !== 'conjugation' && state.mode !== 'drill';
   document.getElementById('modal-form-wrap').classList.toggle('hidden', !show);
   if (!show) state.form = 'dict';
   document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.form === state.form)
   );
+  document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar' || state.mode === 'drill');
 }
 
 function openStartModal(deck) {
@@ -133,7 +136,6 @@ function openStartModal(deck) {
     b.classList.toggle('active', parseInt(b.dataset.count) === initialCount);
   });
 
-  document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar');
   if (deck === 'grammar') state.direction = 'jp-de';
 
   const modal = document.getElementById('start-modal');
@@ -197,7 +199,16 @@ function collectDeckCards(deck) {
         return c !== null && c.forms.length >= 2;
       });
     }
-    if (deck === 'verben' && state.form === 'masu') {
+    if (state.mode === 'drill') {
+      // Eine Karte pro Wort; die SRS-Einträge hängen an den einzelnen Formen (srsIds).
+      items.forEach(v => {
+        const forms = drillForms(v);
+        if (forms) cards.push({
+          item: v, type: 'drill', dir: 'fwd', id: v.id, forms,
+          srsIds: forms.fields.map(f => drillSrsId(v, f.key)),
+        });
+      });
+    } else if (deck === 'verben' && state.form === 'masu') {
       // ます-Modus: die Karte zeigt die höfliche Form und bekommt eine eigene SRS-Identität —
       // 食べます ist ein eigenes Abrufziel, nicht eine andere Ansicht von 食べる.
       items.forEach(v => {
@@ -243,7 +254,8 @@ function makeConjugationCard(item, dir) {
 }
 
 // Kanji + Vocab cards have stable per-direction ids, so they get Leitner scheduling.
-// Grammar (cloze) and Conjugation drills keep the random-round behavior.
+// Grammar (cloze) and the old Conjugation drill keep the random-round behavior.
+// Durchkonjugieren läuft über SRS, eine Lernkurve pro Form.
 function usesSRS(deck, mode) {
   return mode !== 'conjugation' && deck !== 'grammar';
 }
@@ -251,7 +263,8 @@ function usesSRS(deck, mode) {
 function buildRound(deck, size) {
   const pool = collectDeckCards(deck);
   if (usesSRS(deck, state.mode)) {
-    return buildQueue(pool, loadSRS(), todayStr(), size);
+    const build = state.mode === 'drill' ? buildDrillQueue : buildQueue;
+    return build(pool, loadSRS(), todayStr(), size);
   }
   const shuffled = shuffle(pool).slice(0, size);
   if (state.mode === 'conjugation') {
@@ -1242,6 +1255,7 @@ function getJapaneseText(card) {
   if (type === 'kanji')       return kanjiReading(item);
   if (type === 'grammar')     return item.text.replace('＿', item.answer);
   if (type === 'conjugation') return card.target.reading;
+  if (type === 'drill')       return card.forms.given.reading.split('／')[0];
   if (card.display)           return card.display.reading;   // ます-Modus
   return item.reading || item.word;   // vocab + basics
 }
