@@ -19,6 +19,7 @@ git push origin main     # deployed automatisch via GitHub Pages
 - `conjugate.js` — Konjugationsformen für Verben/Adjektive (pure module, `node --test`)
 - `srs.js`       — Spaced-Repetition-Logik (pure module, `node --test`)
 - `cloze.js`     — Lückensatz für die Wiedervorlage nach einem Fehler (pure module, `node --test`)
+- `drill.js`     — Durchkonjugieren: Felder pro Verb/Adjektiv + Antwortprüfung (pure module, `node --test`)
 - `furigana.js`  — Lesung eines Kanji im Beispielsatz per Ausrichtung von Satz und Kana-Zeile (pure module, `node --test`)
 - `data/kanji.js`    — const KANJI (170 Einträge)
 - `data/vocab.js`    — const VOCAB (1023 Einträge: 430 easy / 593 adv)

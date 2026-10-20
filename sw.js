@@ -1,4 +1,4 @@
-const CACHE = 'n5-v108';
+const CACHE = 'n5-v109';
 const ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const ASSETS = [
   './conjugate.js',
   './furigana.js',
   './cloze.js',
+  './drill.js',
   './pos.js',
   './srs.js',
   './fonts/noto-sans-jp.woff2',
