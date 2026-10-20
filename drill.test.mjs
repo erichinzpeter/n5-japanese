@@ -105,6 +105,33 @@ test('checkDrillAnswer: Hiragana, Kanji, Katakana, Leerzeichen', () => {
   assert.equal(drill.checkDrillAnswer(' かって　', te), true);
 });
 
+test('checkDrillAnswer: Halbbreite und Satzzeichen', () => {
+  const te = field(KAU, 'te');
+  assert.equal(drill.checkDrillAnswer('ｶｯﾃ', te), true);
+  assert.equal(drill.checkDrillAnswer('かって、', te), true);
+  assert.equal(drill.checkDrillAnswer('かって！', te), true);
+  assert.equal(drill.checkDrillAnswer('しずかで.', field(SHIZUKA, 'te')), true);
+});
+
+test('checkDrillAnswer: andere Form wird abgelehnt', () => {
+  assert.equal(drill.checkDrillAnswer('静かだった', field(SHIZUKA, 'plain')), false);
+  assert.equal(drill.checkDrillAnswer('買った', field(KAU, 'te')), false);
+});
+
+test('i-Adjektiv: いい／良い', () => {
+  const ii = { id: 'x11', word: 'いい／良い', reading: 'いい／よい', pos: 'Adjektiv-i' };
+  assert.equal(drill.drillForms(ii).given.word, 'いいです／良いです');
+  assert.equal(field(ii, 'plain').word, 'いい／良い');
+  assert.equal(drill.checkDrillAnswer('いい', field(ii, 'plain')), true);
+  assert.equal(drill.checkDrillAnswer('良い', field(ii, 'plain')), true);
+});
+
+test('na-Adjektiv: pos Adjektiv-na', () => {
+  const t = { id: 'b055', word: '大切', reading: 'たいせつ', pos: 'Adjektiv-na' };
+  assert.equal(drill.drillForms(t).given.word, '大切です');
+  assert.equal(words(t).nai, '大切じゃない');
+});
+
 test('checkDrillAnswer: falsch und leer', () => {
   const te = field(KAU, 'te');
   assert.equal(drill.checkDrillAnswer('かいて', te), false);
@@ -131,6 +158,19 @@ test('drillSrsId', () => {
   assert.equal(drill.drillSrsId(KAU, 'te'), 'v174-drill-te');
 });
 
+// Endungen je Form, damit falsche, aber nicht leere Formen auffallen.
+const SHAPES = {
+  verb: {
+    masen: /ません$/, mashita: /ました$/, masendeshita: /ませんでした$/, tai: /たい$/,
+    mashou: /ましょう$/, nai: /ない$/, nakatta: /なかった$/, te: /[てで]$/, ta: /[ただ]$/,
+  },
+  'i-adj': {
+    nai: /くない$/, nakatta: /くなかった$/, ta: /かった$/, te: /くて$/, adverb: /く$/,
+    politeNeg: /です$/, politePast: /です$/, politeNegPast: /です$/,
+  },
+  'na-adj': { plain: /だ$/, na: /な$/, te: /で$/, politePast: /でした$/ },
+};
+
 test('jedes Verb und Adjektiv aus den Daten ergibt vollständige Felder', () => {
   const load = (file, name) =>
     new Function(readFileSync(new URL(file, import.meta.url), 'utf8') + `; return ${name};`)();
@@ -145,6 +185,8 @@ test('jedes Verb und Adjektiv aus den Daten ergibt vollständige Felder', () => 
     for (const fld of f.fields) {
       assert.ok(fld.word && fld.reading, `${v.word} ${fld.key}: leer`);
       assert.doesNotMatch(fld.word + fld.reading, /undefined/, `${v.word} ${fld.key}`);
+      const shape = SHAPES[f.kind]?.[fld.key];
+      if (shape) for (const r of fld.reading.split('／')) assert.match(r, shape, `${v.word} ${fld.key}: ${r}`);
       assert.ok(drill.checkDrillAnswer(fld.reading.split('／')[0], fld), `${v.word} ${fld.key}: eigene Lesung abgelehnt`);
     }
   }

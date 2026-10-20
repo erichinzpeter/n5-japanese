@@ -110,9 +110,11 @@ function drillForms(item) {
   return drillNaAdjective(c);
 }
 
-// Leerzeichen und 。 raus, Katakana → Hiragana: カッテ und かって sind dieselbe Antwort.
+// NFKC zuerst: faltet Halbbreite (ｶｯﾃ → カッテ) und Vollbreite (！ → !, Leerzeichen) auf
+// eine Form, wie sie Handy- und IME-Eingaben liefern. Dann Leerzeichen und Satzzeichen
+// raus und Katakana → Hiragana: カッテ, かって、 und かって sind dieselbe Antwort.
 function drillNormalize(text) {
-  return text.replace(/[\s。]/g, '')
+  return text.normalize('NFKC').replace(/[\s。、.,!?]/g, '')
     .replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
 }
 
