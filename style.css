@@ -2600,3 +2600,167 @@ body {
   white-space: nowrap;
 }
 .toast-action:active { transform: scale(0.97); }
+
+/* ===== Durchkonjugieren ===== */
+/* Vier Modi passen auf dem Handy nicht in eine Pille — dann 2×2. */
+.mode-toggle:has(> .mode-btn:nth-child(4)) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 18px;
+}
+
+.card.hidden,
+.drill-panel.hidden,
+.drill-solution.hidden { display: none; }
+
+/* Der Drill braucht mehr Höhe als die Karte: Panel scrollt, Kopf steht oben. */
+.card-wrap--drill { justify-content: flex-start; }
+
+.drill-panel {
+  width: 100%;
+  max-width: 520px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: linear-gradient(165deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px 18px;
+}
+
+.drill-head {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.drill-given {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.drill-given-word {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.drill-given-reading {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--accent);
+}
+
+.drill-meaning {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* Zwei Spalten (einfach | höflich); das Zeilen-Label steht über beiden. */
+.drill-table,
+.drill-extras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 8px;
+}
+
+.drill-extras {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.drill-col-head {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.drill-row-label {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.drill-extra .drill-row-label { margin-top: 0; margin-bottom: 4px; }
+
+.drill-input,
+.drill-given-cell {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 16px; /* < 16px zoomt iOS beim Fokus */
+}
+
+.drill-given-cell {
+  color: var(--text-muted);
+  border-style: dashed;
+}
+
+.drill-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.drill-input--ok    { border-color: var(--btn-gut);     color: var(--btn-gut); }
+.drill-input--wrong { border-color: var(--btn-nochmal); color: var(--btn-nochmal); }
+
+.drill-solution {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin-top: 3px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--text);
+}
+
+.drill-solution-reading {
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.drill-solution .btn-speak-word { font-size: 15px; padding: 0 2px; }
+
+.drill-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.drill-misses {
+  margin-top: 12px;
+  text-align: left;
+  min-width: 220px;
+}
+
+.drill-misses-title {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.drill-miss {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0;
+  color: var(--text-muted);
+}

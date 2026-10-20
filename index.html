@@ -123,9 +123,16 @@
           </div>
         </div>
       </div>
+      <div class="drill-panel hidden" id="drill-panel">
+        <!-- filled by JS in Durchkonjugieren mode -->
+      </div>
     </div>
 
     <div class="card-bottom" id="card-bottom">
+      <div class="drill-controls" id="drill-controls" style="display:none">
+        <div class="mc-result" id="drill-result" role="status" aria-live="polite"></div>
+        <button class="mc-continue-btn" id="drill-btn">Prüfen</button>
+      </div>
       <div class="card-controls" id="card-controls">
         <button class="flip-btn" id="flip-btn">Karte umdrehen</button>
       </div>
@@ -276,6 +283,7 @@
   <script src="conjugate.js"></script>
   <script src="furigana.js"></script>
   <script src="cloze.js"></script>
+  <script src="drill.js"></script>
   <script src="pos.js"></script>
   <script src="srs.js"></script>
   <script src="app.js"></script>
