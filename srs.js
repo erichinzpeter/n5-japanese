@@ -57,12 +57,14 @@ function shuffleQueue(arr) {
 // Due cards first (weakest-first), then new cards capped at NEW_PER_ROUND,
 // then not-yet-due reviews pulled forward, and finally extra new cards past the
 // cap — so the round reaches the size the user picked.
-function buildQueue(deckCards, srsState, today, roundSize) {
+// entryOf: liefert den SRS-Eintrag einer Karte (null = neu). Standard ist der Eintrag
+// unter card.id; der Drill fasst stattdessen mehrere Einträge pro Wort zusammen.
+function buildQueue(deckCards, srsState, today, roundSize, entryOf = card => srsState.cards[card.id]) {
   const due = [];
   const fresh = [];
   const later = [];
   for (const card of deckCards) {
-    const entry = srsState.cards[card.id];
+    const entry = entryOf(card);
     if (!entry) fresh.push(card);
     else if (isDueOn(entry, today)) due.push({ card, entry });
     else later.push({ card, entry });
@@ -99,6 +101,27 @@ function buildQueue(deckCards, srsState, today, roundSize) {
   return queue;
 }
 
+// Durchkonjugieren: ein Wort trägt einen SRS-Eintrag pro Form (card.srsIds). Für die
+// Auswahl wird daraus ein Eintrag: fällig, sobald eine Form fällig ist, mit der Box der
+// schwächsten fälligen Form. Eine Form ohne Eintrag neben bewerteten (später
+// hinzugekommenes Feld) zählt als fällig in Box 1.
+function drillEntry(card, srsState, today) {
+  const known = card.srsIds.map(id => srsState.cards[id]);
+  if (known.every(e => !e)) return null;
+  const entries = known.map(e => e || { box: 1, seen: '', due: today });
+  const due = entries.filter(e => isDueOn(e, today));
+  const pool = due.length ? due : entries;
+  return {
+    box: Math.min(...pool.map(e => e.box)),
+    due: pool.map(e => e.due).sort()[0],
+    seen: entries.map(e => e.seen).sort().pop(),
+  };
+}
+
+function buildDrillQueue(cards, srsState, today, roundSize) {
+  return buildQueue(cards, srsState, today, roundSize, card => drillEntry(card, srsState, today));
+}
+
 // ===== STORAGE (browser-only, never throws) =====
 function loadSRS() {
   try {
@@ -128,6 +151,6 @@ function saveSRS(state) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     SRS_KEY, BOX_DAYS, MAX_BOX, NEW_PER_ROUND,
-    todayStr, addDays, isDueOn, rate, buildQueue, loadSRS, saveSRS,
+    todayStr, addDays, isDueOn, rate, buildQueue, buildDrillQueue, loadSRS, saveSRS,
   };
 }

@@ -3,7 +3,7 @@
 // ===== STATE =====
 const state = {
   direction: 'jp-de',
-  mode: 'flashcard',  // 'flashcard' | 'mc'
+  mode: 'flashcard',  // 'flashcard' | 'mc' | 'conjugation' | 'drill'
   form: 'dict',       // 'dict' | 'masu' — nur Verben-Deck: Wörterbuchform vs. ます-Form
   deck: null,
   session: [],
@@ -39,8 +39,8 @@ function isAudioOff() {
 const DECK_MODES = {
   kanji:     ['flashcard', 'mc'],
   nomen:     ['flashcard', 'mc'],
-  verben:    ['flashcard', 'mc', 'conjugation'],
-  adjektive: ['flashcard', 'mc', 'conjugation'],
+  verben:    ['flashcard', 'mc', 'conjugation', 'drill'],
+  adjektive: ['flashcard', 'mc', 'conjugation', 'drill'],
   adverbien: ['flashcard', 'mc'],
   sonstiges: ['flashcard', 'mc'],
   grammar:   ['flashcard', 'mc'],
@@ -54,6 +54,7 @@ const MODE_LABELS = {
   flashcard:   'Karteikarten',
   mc:          'Multiple Choice',
   conjugation: 'Konjugation',
+  drill:       'Durchkonjugieren',
 };
 
 const DECK_TITLES = {
@@ -80,15 +81,17 @@ function saveModalPrefs(deck, mode, direction, count, form) {
 
 let modalLastFocus = null;
 
-// Nur das Verben-Deck hat eine ます-Form, und der Konjugations-Drill fragt Formen schon
+// Nur das Verben-Deck hat eine ます-Form, und die Konjugations-Drills fragen Formen schon
 // explizit ab — dort wäre der Toggle sinnlos. Überall sonst gilt zwingend 'dict'.
+// Die Richtung entfällt bei Grammatik und beim Durchkonjugieren (immer höfliche Form → Formen).
 function syncFormToggle(deck) {
-  const show = deck === 'verben' && state.mode !== 'conjugation';
+  const show = deck === 'verben' && state.mode !== 'conjugation' && state.mode !== 'drill';
   document.getElementById('modal-form-wrap').classList.toggle('hidden', !show);
   if (!show) state.form = 'dict';
   document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.form === state.form)
   );
+  document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar' || state.mode === 'drill');
 }
 
 function openStartModal(deck) {
@@ -133,7 +136,6 @@ function openStartModal(deck) {
     b.classList.toggle('active', parseInt(b.dataset.count) === initialCount);
   });
 
-  document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar');
   if (deck === 'grammar') state.direction = 'jp-de';
 
   const modal = document.getElementById('start-modal');
@@ -197,7 +199,16 @@ function collectDeckCards(deck) {
         return c !== null && c.forms.length >= 2;
       });
     }
-    if (deck === 'verben' && state.form === 'masu') {
+    if (state.mode === 'drill') {
+      // Eine Karte pro Wort; die SRS-Einträge hängen an den einzelnen Formen (srsIds).
+      items.forEach(v => {
+        const forms = drillForms(v);
+        if (forms) cards.push({
+          item: v, type: 'drill', dir: 'fwd', id: v.id, forms,
+          srsIds: forms.fields.map(f => drillSrsId(v, f.key)),
+        });
+      });
+    } else if (deck === 'verben' && state.form === 'masu') {
       // ます-Modus: die Karte zeigt die höfliche Form und bekommt eine eigene SRS-Identität —
       // 食べます ist ein eigenes Abrufziel, nicht eine andere Ansicht von 食べる.
       items.forEach(v => {
@@ -243,7 +254,8 @@ function makeConjugationCard(item, dir) {
 }
 
 // Kanji + Vocab cards have stable per-direction ids, so they get Leitner scheduling.
-// Grammar (cloze) and Conjugation drills keep the random-round behavior.
+// Grammar (cloze) and the old Conjugation drill keep the random-round behavior.
+// Durchkonjugieren läuft über SRS, eine Lernkurve pro Form.
 function usesSRS(deck, mode) {
   return mode !== 'conjugation' && deck !== 'grammar';
 }
@@ -251,7 +263,8 @@ function usesSRS(deck, mode) {
 function buildRound(deck, size) {
   const pool = collectDeckCards(deck);
   if (usesSRS(deck, state.mode)) {
-    return buildQueue(pool, loadSRS(), todayStr(), size);
+    const build = state.mode === 'drill' ? buildDrillQueue : buildQueue;
+    return build(pool, loadSRS(), todayStr(), size);
   }
   const shuffled = shuffle(pool).slice(0, size);
   if (state.mode === 'conjugation') {
@@ -364,6 +377,7 @@ function launchSession(deck, sessionCards, freePractice = false) {
   state.sessionIdx = 0;
   state.flipped = false;
   state.stats = { nochmal: 0, richtig: 0 };
+  state.drillMisses = {};   // Durchkonjugieren: Form-Label → Anzahl Fehler im ersten Versuch
   state.freePractice = freePractice;
   state.deck = deck;
   state.lastDeck = deck;
@@ -377,7 +391,9 @@ function launchSession(deck, sessionCards, freePractice = false) {
   if (hintEl) {
     hintEl.textContent = state.mode === 'mc'
       ? '1–4 = Antwort wählen  ·  Leertaste = weiter'
-      : 'Leertaste = umdrehen  ·  1 = Wusste ich nicht  ·  3 = Wusste ich';
+      : state.mode === 'drill'
+        ? 'Enter = nächstes Feld · Enter im letzten Feld = prüfen'
+        : 'Leertaste = umdrehen  ·  1 = Wusste ich nicht  ·  3 = Wusste ich';
   }
 
   showScreen('session');
@@ -599,11 +615,27 @@ function makeDevPanel() {
   document.body.appendChild(bar);
 }
 
+// Progress counts distinct cards answered correctly (graduated); a miss requeues the
+// card and only moves the bar once it returns and is answered right.
+function renderProgress() {
+  const distinctTotal = new Set(state.session.map(c => c.id)).size;
+  const erledigt = state.graduated.size;
+  document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
+  document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
+}
+
 function renderCurrentCard() {
   const card = state.session[state.sessionIdx];
   const chip = document.getElementById('requeue-chip');
   if (chip) chip.classList.toggle('hidden', !(card && card.isRequeue));
-  if (state.mode === 'mc' && card) renderMCCard();
+  // Der Drill hat ein eigenes Panel statt der Flip-Karte.
+  const isDrill = !!card && card.type === 'drill';
+  document.getElementById('flashcard').classList.toggle('hidden', isDrill);
+  document.getElementById('drill-panel').classList.toggle('hidden', !isDrill);
+  document.getElementById('card-wrap').classList.toggle('card-wrap--drill', isDrill);
+  document.getElementById('drill-controls').style.display = isDrill ? '' : 'none';
+  if (isDrill) renderDrillCard();
+  else if (state.mode === 'mc' && card) renderMCCard();
   else renderCard(); // covers flashcard and conjugation
 }
 
@@ -624,12 +656,7 @@ function renderCard() {
   void flashcard.offsetWidth; // reflow
   flashcard.classList.add('card-enter');
 
-  // Progress counts distinct cards that have been answered correctly (graduated);
-  // a missed card is requeued and only advances the bar once it comes back right.
-  const distinctTotal = new Set(state.session.map(c => c.id)).size;
-  const erledigt = state.graduated.size;
-  document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
-  document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
+  renderProgress();
 
   // Render front & back
 
@@ -807,6 +834,165 @@ function renderConjugationCard(card, front, back) {
       <div class="back-head-gloss">${escHtml(item.meaning)}</div>
     </div>
     ${renderFormsTable(item)}`;
+}
+
+// ===== DURCHKONJUGIEREN =====
+const DRILL_KIND_LABELS = { verb: 'Verb', 'i-adj': 'i-Adjektiv', 'na-adj': 'na-Adjektiv' };
+// Nach dem Prüfen wandert der Fokus auf den Button; ein gehaltenes Enter oder ein
+// Doppelklick würde sonst sofort "Weiter" auslösen, bevor man das Ergebnis sieht.
+const DRILL_ADVANCE_GUARD_MS = 400;
+
+function drillInputHtml(field, idx) {
+  return `
+    <div class="drill-cell">
+      <input class="drill-input" data-idx="${idx}" lang="ja" autocomplete="off" autocorrect="off"
+             autocapitalize="off" spellcheck="false" enterkeyhint="next" aria-label="${escHtml(field.label)}">
+      <div class="drill-solution hidden">
+        <span>${escHtml(field.word)}</span>
+        <span class="drill-solution-reading">${escHtml(field.reading)}</span>
+        ${speakBtn(field.reading.split('／')[0], 'btn-speak-word')}
+      </div>
+    </div>`;
+}
+
+function renderDrillCard() {
+  const card = state.session[state.sessionIdx];
+  const { item, forms } = card;
+  state.drillChecked = false;
+  state.drillAllOk = false;
+  renderProgress();
+
+  // Flip-Karten-Bedienelemente gehören nicht zum Drill.
+  document.getElementById('card-controls').style.display = 'none';
+  document.getElementById('rating-wrap').style.display = 'none';
+  document.getElementById('mc-choices').style.display = 'none';
+
+  const idx = new Map(forms.fields.map((f, i) => [f, i]));
+  const tableFields = forms.fields.filter(f => f.col);
+  const rows = [...new Set(tableFields.map(f => f.row))];
+  // Die höfliche Gegenwart hat kein Feld — dort steht die vorgegebene Form.
+  const cell = (row, col) => {
+    const f = tableFields.find(t => t.row === row && t.col === col);
+    return f ? drillInputHtml(f, idx.get(f))
+             : `<div class="drill-given-cell">${escHtml(forms.given.word)}</div>`;
+  };
+  const rowsHtml = rows.map(row => `
+    <div class="drill-row-label">${escHtml(row)}</div>
+    ${cell(row, 'einfach')}
+    ${cell(row, 'höflich')}`).join('');
+  const extrasHtml = forms.fields.filter(f => !f.col).map(f => `
+    <div class="drill-extra">
+      <div class="drill-row-label">${escHtml(f.row)}</div>
+      ${drillInputHtml(f, idx.get(f))}
+    </div>`).join('');
+
+  const kind = DRILL_KIND_LABELS[forms.kind] + (forms.group ? ` — Gruppe ${forms.group}` : '');
+  const panel = document.getElementById('drill-panel');
+  panel.innerHTML = `
+    <div class="drill-head">
+      <div class="card-type-label">${escHtml(kind)}</div>
+      <div class="drill-given">
+        <span class="drill-given-word">${escHtml(forms.given.word)}</span>
+        ${speakBtn(forms.given.reading.split('／')[0], 'btn-speak-word')}
+      </div>
+      <div class="drill-given-reading">${escHtml(forms.given.reading)}</div>
+      <div class="drill-meaning">${escHtml(item.meaning)}</div>
+    </div>
+    <div class="drill-table">
+      <div class="drill-col-head">einfach</div>
+      <div class="drill-col-head">höflich</div>
+      ${rowsHtml}
+    </div>
+    <div class="drill-extras">${extrasHtml}</div>`;
+  panel.scrollTop = 0;
+
+  const resultEl = document.getElementById('drill-result');
+  resultEl.textContent = '';
+  resultEl.classList.remove('correct', 'wrong');
+  document.getElementById('drill-btn').textContent = 'Prüfen';
+
+  const inputs = [...panel.querySelectorAll('.drill-input')];
+  // Fokus-Listener erst nach dem ersten Fokus anhängen: Der programmatische Start-Fokus
+  // soll nicht per scrollIntoView ruckeln.
+  inputs.forEach((input, i) => {
+    input.addEventListener('keydown', e => {
+      // Mit japanischer Tastatur bestätigt Enter erst die Umwandlung — das ist kein „weiter".
+      if (e.key !== 'Enter' || e.isComposing || e.keyCode === 229) return;
+      e.preventDefault();
+      e.stopPropagation();
+      // Auto-Repeat bei gehaltenem Enter würde sonst durch alle Felder rasen und prüfen.
+      if (e.repeat) return;
+      if (i < inputs.length - 1) inputs[i + 1].focus();
+      else checkDrill();
+    });
+  });
+  inputs[0].focus({ preventScroll: true });
+  inputs.forEach(input => {
+    input.addEventListener('focus', () => input.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
+  });
+}
+
+function checkDrill() {
+  if (state.drillChecked) return;
+  state.drillChecked = true;
+  state.drillCheckedAt = Date.now();
+  const card = state.session[state.sessionIdx];
+  const panel = document.getElementById('drill-panel');
+  const results = [...panel.querySelectorAll('.drill-input')].map(input => {
+    const field = card.forms.fields[Number(input.dataset.idx)];
+    const ok = checkDrillAnswer(input.value, field);
+    input.readOnly = true;
+    input.classList.add(ok ? 'drill-input--ok' : 'drill-input--wrong');
+    if (!ok) input.nextElementSibling.classList.remove('hidden');
+    return { field, ok };
+  });
+  recordDrillOutcome(card, results);
+
+  const right = results.filter(r => r.ok).length;
+  state.drillAllOk = right === results.length;
+  const resultEl = document.getElementById('drill-result');
+  resultEl.textContent = `${right} / ${results.length} richtig`;
+  resultEl.classList.add(state.drillAllOk ? 'correct' : 'wrong');
+  const btn = document.getElementById('drill-btn');
+  btn.textContent = 'Weiter';
+  btn.focus();
+}
+
+// Wie recordFirstOutcome, aber eine SRS-Bewertung pro Form. Nur der erste Versuch zählt;
+// die Wiederholung entscheidet nur, ob das Wort die Runde verlassen darf.
+function recordDrillOutcome(card, results) {
+  if (!state.scheduledThisRound || state.scheduledThisRound.has(card.id)) return;
+  if (!state.freePractice) {
+    const srs = loadSRS();
+    const today = todayStr();
+    results.forEach(r => rate(srs, drillSrsId(card.item, r.field.key), r.ok, today));
+    saveSRS(srs);
+  }
+  results.forEach(r => {
+    if (!r.ok) state.drillMisses[r.field.label] = (state.drillMisses[r.field.label] || 0) + 1;
+  });
+  if (results.every(r => r.ok)) state.stats.richtig++;
+  else state.stats.nochmal++;
+  state.scheduledThisRound.add(card.id);
+}
+
+function advanceDrill() {
+  cancelSpeech();
+  const card = state.session[state.sessionIdx];
+  if (state.drillAllOk) state.graduated.add(card.id);
+  else requeueCard(card);
+  state.sessionIdx++;
+  if (state.sessionIdx >= state.session.length) renderDone();
+  else renderCurrentCard();
+}
+
+function drillMissesHtml() {
+  const top = Object.entries(state.drillMisses || {}).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  if (!top.length) return '';
+  return `<div class="drill-misses">
+    <div class="drill-misses-title">Am häufigsten falsch</div>
+    ${top.map(([label, n]) => `<div class="drill-miss"><span>${escHtml(label)}</span><span>${n}×</span></div>`).join('')}
+  </div>`;
 }
 
 // ＿ → blank span (question) or highlighted answer (solution).
@@ -1018,12 +1204,7 @@ function renderMCCard() {
   void flashcard.offsetWidth;
   flashcard.classList.add('card-enter');
 
-  // Progress counts distinct cards answered correctly (graduated); a miss requeues the
-  // card and only moves the bar once it returns and is answered right.
-  const distinctTotal = new Set(state.session.map(c => c.id)).size;
-  const erledigt = state.graduated.size;
-  document.getElementById('session-progress').textContent = `${erledigt} / ${distinctTotal}`;
-  document.getElementById('progress-bar').style.width = `${(erledigt / distinctTotal) * 100}%`;
+  renderProgress();
 
   // Render question on front only (no flip)
   if (card.type === 'kanji') {
@@ -1209,15 +1390,15 @@ function renderDone() {
   statsEl.innerHTML = `
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-nochmal)">${s.nochmal}</span>
-    <span class="done-stat-label">Wusste ich nicht</span>
+    <span class="done-stat-label">${state.mode === 'drill' ? 'Fehler dabei' : 'Wusste ich nicht'}</span>
   </div>
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-gut)">${s.richtig}</span>
-    <span class="done-stat-label">Wusste ich</span>
+    <span class="done-stat-label">${state.mode === 'drill' ? 'Alles richtig' : 'Wusste ich'}</span>
   </div>`;
 
   const remainingEl = document.getElementById('done-remaining');
-  if (remainingEl) remainingEl.textContent = '';
+  if (remainingEl) remainingEl.innerHTML = state.mode === 'drill' ? drillMissesHtml() : '';
 
   showScreen('done');
 }
@@ -1242,6 +1423,7 @@ function getJapaneseText(card) {
   if (type === 'kanji')       return kanjiReading(item);
   if (type === 'grammar')     return item.text.replace('＿', item.answer);
   if (type === 'conjugation') return card.target.reading;
+  if (type === 'drill')       return card.forms.given.reading.split('／')[0];
   if (card.display)           return card.display.reading;   // ます-Modus
   return item.reading || item.word;   // vocab + basics
 }
@@ -2110,6 +2292,14 @@ function initEvents() {
   // MC "Weiter" — advance after an answer is revealed
   document.getElementById('mc-continue-btn').addEventListener('click', advanceCard);
 
+  // Durchkonjugieren: derselbe Button prüft erst und geht dann weiter.
+  document.getElementById('drill-btn').addEventListener('click', () => {
+    if (state.drillChecked) {
+      if (Date.now() - state.drillCheckedAt < DRILL_ADVANCE_GUARD_MS) return;
+      advanceDrill();
+    } else checkDrill();
+  });
+
   // Flashcard click / Enter to flip (MC flips itself after an answer)
   const flashcardEl = document.getElementById('flashcard');
   flashcardEl.addEventListener('click', () => {
@@ -2234,6 +2424,15 @@ function initEvents() {
     if (!screen) return;
 
     if (screen.id === 'screen-session') {
+      // Im Drill tippt man in Felder: Leertaste und Ziffern gehören dem Eingabefeld.
+      // Enter übernehmen die Felder bzw. der fokussierte Button selbst.
+      if (state.mode === 'drill') {
+        // Escape gehört im Eingabefeld der IME (Umwandlung abbrechen) bzw. dem Feld selbst;
+        // zum Verlassen gibt es den Zurück-Button.
+        if (e.key === 'Escape' && !e.isComposing && e.keyCode !== 229
+            && !(e.target.closest && e.target.closest('.drill-input'))) renderHome();
+        return;
+      }
       if (state.mode === 'mc') {
         if (state.flipped) {
           if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {

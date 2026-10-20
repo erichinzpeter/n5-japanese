@@ -17,12 +17,33 @@ const GODAN_TE = { 'う':'って', 'つ':'って', 'る':'って', 'む':'んで
 const GODAN_TA = { 'う':'った', 'つ':'った', 'る':'った', 'む':'んだ', 'ぶ':'んだ', 'ぬ':'んだ', 'く':'いた', 'ぐ':'いだ', 'す':'した' };
 
 function conjugate(word, reading, pos) {
+  // Zwei Schreibweisen in einem Eintrag (速い／早い, いい／良い): jede einzeln
+  // konjugieren und die Formen wieder mit ／ zusammensetzen.
+  if (word.includes('／')) return conjugateAlternatives(word, reading, pos);
   if (pos.includes('Verb')) return conjugateVerb(word, reading, pos);
   // na before i: "na-Adjektiv" must not be caught by an "Adjektiv" check, and
-  // "i-Adjektiv" is a distinct prefix.
-  if (pos.includes('na-Adjektiv')) return conjugateNaAdjective(word, reading);
-  if (pos.includes('i-Adjektiv')) return conjugateIAdjective(word, reading, pos);
+  // "i-Adjektiv" is a distinct prefix. data/basics.js schreibt "Adjektiv-na" / "Adjektiv-i".
+  if (pos.includes('na-Adjektiv') || pos.includes('Adjektiv-na')) return conjugateNaAdjective(word, reading);
+  if (pos.includes('i-Adjektiv') || pos.includes('Adjektiv-i')) return conjugateIAdjective(word, reading, pos);
   return null;
+}
+
+// Gleiche Formen werden zusammengelegt: いい／良い → よくない (nicht よくない／よくない).
+// Fehlt eine Lesung pro Schreibweise (速い／早い → はやい), gilt die erste für alle.
+function conjugateAlternatives(word, reading, pos) {
+  const words = word.split('／');
+  const readings = reading.split('／');
+  const parts = words.map((w, i) => conjugate(w, readings[i] || readings[0], pos));
+  if (parts.some(p => !p)) return null;
+  const join = list => [...new Set(list)].join('／');
+  return {
+    ...parts[0],
+    forms: parts[0].forms.map((f, i) => ({
+      label: f.label,
+      word: join(parts.map(p => p.forms[i].word)),
+      reading: join(parts.map(p => p.forms[i].reading)),
+    })),
+  };
 }
 
 function conjugateVerb(word, reading, pos) {
@@ -43,16 +64,21 @@ function conjugateVerb(word, reading, pos) {
     };
   }
 
-  // 来る: word keeps the 来 kanji, reading changes the stem vowel.
-  if (reading === 'くる') {
+  // 来る und Komposita (持ってくる): nur das くる am Ende wird konjugiert. Steht 来 als
+  // Kanji da, bleibt es stehen und nur die Lesung wechselt den Stammvokal.
+  if (reading.endsWith('くる') && (reading === 'くる' || pos.includes('unregelmäßig'))) {
+    const wPre = word.slice(0, -2), rPre = reading.slice(0, -2);
+    const kanji = word.endsWith('来る');
+    const f = (label, kanjiForm, kana) =>
+      ({ label, word: wPre + (kanji ? kanjiForm : kana), reading: rPre + kana });
     return {
       kind: 'verb', group: 3,
       forms: [
         dict,
-        { label: 'ます-Form', word: '来ます', reading: 'きます' },
-        { label: 'て-Form',   word: '来て',   reading: 'きて' },
-        { label: 'た-Form',   word: '来た',   reading: 'きた' },
-        { label: 'ない-Form', word: '来ない', reading: 'こない' },
+        f('ます-Form', '来ます', 'きます'),
+        f('て-Form',   '来て',   'きて'),
+        f('た-Form',   '来た',   'きた'),
+        f('ない-Form', '来ない', 'こない'),
       ],
     };
   }
@@ -81,6 +107,11 @@ function conjugateVerb(word, reading, pos) {
   const te = isIku ? 'って' : GODAN_TE[k];
   const ta = isIku ? 'った' : GODAN_TA[k];
 
+  // ある verneint ohne Stamm: ない, nicht あらない.
+  const nai = reading === 'ある'
+    ? { word: 'ない', reading: 'ない' }
+    : { word: wStem + GODAN_A[k] + 'ない', reading: rStem + GODAN_A[k] + 'ない' };
+
   return {
     kind: 'verb', group: 1,
     forms: [
@@ -88,7 +119,7 @@ function conjugateVerb(word, reading, pos) {
       { label: 'ます-Form', word: wStem + GODAN_I[k] + 'ます', reading: rStem + GODAN_I[k] + 'ます' },
       { label: 'て-Form',   word: wStem + te,                  reading: rStem + te },
       { label: 'た-Form',   word: wStem + ta,                  reading: rStem + ta },
-      { label: 'ない-Form', word: wStem + GODAN_A[k] + 'ない', reading: rStem + GODAN_A[k] + 'ない' },
+      { label: 'ない-Form', ...nai },
     ],
   };
 }
@@ -115,7 +146,12 @@ function conjugateIAdjective(word, reading, pos) {
 }
 
 function conjugateNaAdjective(word, reading) {
-  // na-Adjektiv entries store the stem without な; suffixes attach to the stem.
+  // na-Adjektiv entries store the stem without な — bis auf ein paar Einträge (安全な,
+  // 暇な, …). Das な gehört nicht zum Stamm und wird abgeschnitten.
+  if (word.endsWith('な') && reading.endsWith('な')) {
+    word = word.slice(0, -1);
+    reading = reading.slice(0, -1);
+  }
   const f = (label, suffix) => ({ label, word: word + suffix, reading: reading + suffix });
   return {
     kind: 'na-adj', group: null,

@@ -4,6 +4,18 @@
 
 ---
 
+## [3.30.0] — 2026-10-20
+
+### Neu
+
+- **Durchkonjugieren: Verben und Adjektive komplett selbst konjugieren.** Ein neuer Modus in den Decks Verben und Adjektive zeigt ein Wort in der höflichen Form (買います, 高いです, 静かです) — man tippt alle anderen Formen selbst ein: die einfache Form, Verneinung, Vergangenheit und verneinte Vergangenheit jeweils einfach und höflich, dazu て-Form und bei Verben たい und ましょう, bei Adjektiven Adverb bzw. な-Form. Antworten gehen in Hiragana oder mit Kanji; gleichwertige Varianten (じゃ/では, くないです/くありません) zählen auch. Jede Form hat ihre eigene Lernkurve, Wörter mit schwachen Formen kommen zuerst dran. Am Rundenende steht, welche Formen am häufigsten danebengingen. Der bisherige Modus „Konjugation“ bleibt zum schnellen Durchblättern erhalten.
+
+### Behoben
+
+- **Konjugationstabellen waren bei einigen Wörtern falsch.** ある hieß verneint あらない statt ない, 持ってくる wurde wie ein Gruppe-1-Verb konjugiert, elf na-Adjektive wie 安全な bekamen das な doppelt (安全なじゃない), und 優しい, かわいい, 大切, 速い／早い und いい／良い hatten gar keine Tabelle. Die Aussprache-Aufnahmen für die korrigierten Formen sind neu erzeugt.
+
+---
+
 ## [3.29.0] — 2026-08-03
 
 ### Geändert
