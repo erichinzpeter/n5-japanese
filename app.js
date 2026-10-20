@@ -838,6 +838,9 @@ function renderConjugationCard(card, front, back) {
 
 // ===== DURCHKONJUGIEREN =====
 const DRILL_KIND_LABELS = { verb: 'Verb', 'i-adj': 'i-Adjektiv', 'na-adj': 'na-Adjektiv' };
+// Nach dem Prüfen wandert der Fokus auf den Button; ein gehaltenes Enter oder ein
+// Doppelklick würde sonst sofort "Weiter" auslösen, bevor man das Ergebnis sieht.
+const DRILL_ADVANCE_GUARD_MS = 400;
 
 function drillInputHtml(field, idx) {
   return `
@@ -909,23 +912,30 @@ function renderDrillCard() {
   document.getElementById('drill-btn').textContent = 'Prüfen';
 
   const inputs = [...panel.querySelectorAll('.drill-input')];
+  // Fokus-Listener erst nach dem ersten Fokus anhängen: Der programmatische Start-Fokus
+  // soll nicht per scrollIntoView ruckeln.
   inputs.forEach((input, i) => {
     input.addEventListener('keydown', e => {
       // Mit japanischer Tastatur bestätigt Enter erst die Umwandlung — das ist kein „weiter".
       if (e.key !== 'Enter' || e.isComposing || e.keyCode === 229) return;
       e.preventDefault();
       e.stopPropagation();
+      // Auto-Repeat bei gehaltenem Enter würde sonst durch alle Felder rasen und prüfen.
+      if (e.repeat) return;
       if (i < inputs.length - 1) inputs[i + 1].focus();
       else checkDrill();
     });
+  });
+  inputs[0].focus({ preventScroll: true });
+  inputs.forEach(input => {
     input.addEventListener('focus', () => input.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
   });
-  inputs[0].focus();
 }
 
 function checkDrill() {
   if (state.drillChecked) return;
   state.drillChecked = true;
+  state.drillCheckedAt = Date.now();
   const card = state.session[state.sessionIdx];
   const panel = document.getElementById('drill-panel');
   const results = [...panel.querySelectorAll('.drill-input')].map(input => {
@@ -1380,11 +1390,11 @@ function renderDone() {
   statsEl.innerHTML = `
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-nochmal)">${s.nochmal}</span>
-    <span class="done-stat-label">Wusste ich nicht</span>
+    <span class="done-stat-label">${state.mode === 'drill' ? 'Fehler dabei' : 'Wusste ich nicht'}</span>
   </div>
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-gut)">${s.richtig}</span>
-    <span class="done-stat-label">Wusste ich</span>
+    <span class="done-stat-label">${state.mode === 'drill' ? 'Alles richtig' : 'Wusste ich'}</span>
   </div>`;
 
   const remainingEl = document.getElementById('done-remaining');
@@ -2284,8 +2294,10 @@ function initEvents() {
 
   // Durchkonjugieren: derselbe Button prüft erst und geht dann weiter.
   document.getElementById('drill-btn').addEventListener('click', () => {
-    if (state.drillChecked) advanceDrill();
-    else checkDrill();
+    if (state.drillChecked) {
+      if (Date.now() - state.drillCheckedAt < DRILL_ADVANCE_GUARD_MS) return;
+      advanceDrill();
+    } else checkDrill();
   });
 
   // Flashcard click / Enter to flip (MC flips itself after an answer)
@@ -2415,7 +2427,10 @@ function initEvents() {
       // Im Drill tippt man in Felder: Leertaste und Ziffern gehören dem Eingabefeld.
       // Enter übernehmen die Felder bzw. der fokussierte Button selbst.
       if (state.mode === 'drill') {
-        if (e.key === 'Escape') renderHome();
+        // Escape gehört im Eingabefeld der IME (Umwandlung abbrechen) bzw. dem Feld selbst;
+        // zum Verlassen gibt es den Zurück-Button.
+        if (e.key === 'Escape' && !e.isComposing && e.keyCode !== 229
+            && !(e.target.closest && e.target.closest('.drill-input'))) renderHome();
         return;
       }
       if (state.mode === 'mc') {
