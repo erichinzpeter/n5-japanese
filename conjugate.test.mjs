@@ -44,6 +44,9 @@ eq('ii-pair neg reading', formR(r,'Verneinung'),'よくない');
 r = conjugate('静か','しずか','na-Adjektiv');
 eq('shizuka neg', form(r,'Verneinung'),'静かじゃない');
 eq('shizuka te', form(r,'て-Form'),'静かで');
+eq('shizuka adverb', form(r,'Adverb'),'静かに');
+eq('shizuka adverb reading', r.forms.find(x => x.label === 'Adverb').reading,'しずかに');
+eq('anzen adverb', form(conjugate('安全な','あんぜんな','na-Adjektiv'),'Adverb'),'安全に');
 
 if (conjugate('本','ほん','Nomen') !== null) { failures++; console.log('FAIL noun should be null'); }
 
@@ -96,6 +99,16 @@ eq('hayai nai reading', formR(r, 'Verneinung'), 'はやくない');
 r = conjugate('いい／良い', 'いい／よい', 'Adjektiv-i');
 eq('ii nai word',       form(r, 'Verneinung'), 'よくない');
 eq('ii grund reading',  formR(r, 'Grundform'), 'いい／よい');
+
+// ています-Form (Verlaufsform): て-Form + います, auch bei 行く, 来る und する.
+eq('taberu teimasu',  form(conjugate('食べる','たべる','Verb (Ichidan)'),'ています-Form'),'食べています');
+eq('nomu teimasu',    form(conjugate('飲む','のむ','Verb (Godan, む)'),'ています-Form'),'飲んでいます');
+eq('iku teimasu',     form(conjugate('行く','いく','Verb (Godan, く)'),'ています-Form'),'行っています');
+eq('kuru teimasu',    formR(conjugate('来る','くる','Verb (unregelmäßig)'),'ています-Form'),'きています');
+eq('benkyou teimasu', form(conjugate('勉強する','べんきょうする','Verb (する-Verb)'),'ています-Form'),'勉強しています');
+// ある hat keine Verlaufsform (あっています heißt etwas anderes).
+eq('aru teimasu', form(conjugate('ある','ある','Verb (Godan, る)*'),'ています-Form'), undefined);
+eq('iru teimasu', form(conjugate('いる','いる','Verb (Ichidan)'),'ています-Form'), undefined);
 
 console.log(failures === 0 ? 'PASS conjugate' : `${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
