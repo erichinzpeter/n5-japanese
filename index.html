@@ -27,6 +27,20 @@
       };
       if (VP[q.get('vp')]) document.querySelector('meta[name=viewport]').setAttribute('content', VP[q.get('vp')]);
       if (q.get('nocss') === '1') document.querySelector('link[rel=stylesheet]').disabled = true;
+      // ?noapp=1: app.js startet nicht; ?nospeech=1: keine Stimmen-Abfrage; ?nosw=1: Service-Worker
+      // abmelden und nicht neu registrieren; ?feld=1: schlichtes Testfeld ganz oben.
+      window.N5_DIAG = { noapp: q.get('noapp') === '1', nospeech: q.get('nospeech') === '1', nosw: q.get('nosw') === '1' };
+      if (window.N5_DIAG.nosw && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); }).catch(function () {});
+      }
+      if (q.get('feld') === '1' || window.N5_DIAG.noapp) document.addEventListener('DOMContentLoaded', function () {
+        var f = document.createElement('input');
+        f.placeholder = 'Testfeld';
+        f.style.cssText = 'display:block;width:90%;margin:200px auto 20px;font-size:18px;padding:10px;position:relative;z-index:99998;';
+        document.body.insertBefore(f, document.body.firstChild);
+        var splash = document.getElementById('splash'); // ohne app.js entfernt ihn sonst niemand
+        if (window.N5_DIAG.noapp && splash) splash.remove();
+      });
       if (q.get('diag') !== '1') return;
       var lines = [], box = null, t0 = performance.now();
       function desc(el) {
@@ -42,7 +56,7 @@
           box.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99999;pointer-events:none;background:rgba(0,0,0,.85);color:#0f0;font:11px/1.35 monospace;padding:4px 6px;white-space:pre-wrap;';
           document.body.appendChild(box);
         }
-        if (box) box.textContent = 'DIAG vp=' + (q.get('vp') || '-') + ' css=' + (q.get('nocss') === '1' ? 'aus' : 'an') + '\n' + lines.join('\n');
+        if (box) box.textContent = 'DIAG ' + location.search + ' sw=' + (navigator.serviceWorker && navigator.serviceWorker.controller ? 'aktiv' : 'aus') + '\n' + lines.join('\n');
       }
       ['focusin', 'focusout'].forEach(function (n) {
         document.addEventListener(n, function (e) { log(n + ' ' + desc(e.target) + (e.relatedTarget ? ' → ' + desc(e.relatedTarget) : '')); }, true);
