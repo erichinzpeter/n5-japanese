@@ -12,9 +12,18 @@ const COMPARE_PATTERNS = {
   kute:    { label: '〜くて / 〜で',     hint: 'Verbinden: i-Adjektiv い → くて (いい → よくて), na-Adjektiv und Nomen + で.' },
   adverb:  { label: '〜く / 〜に',       hint: 'Vor einem Verb: i-Adjektiv い → く (いい → よく), na-Adjektiv + に.' },
   naru:    { label: '〜くなる / 〜になる', hint: 'Veränderung: i-Adjektiv い → くなる, na-Adjektiv und Nomen + になる.' },
+  hougaii: { label: '〜たほうがいい / 〜ないほうがいい', hint: 'Rat: た-Form + ほうがいい. Rat dagegen: ない-Form + ほうがいい (nicht なかった).', form: 'Verbform' },
+  koto:    { label: '〜たことがあります', hint: 'Erfahrung: た-Form + ことがあります. Noch nie: た-Form + ことがありません.', form: 'Verbform' },
+  tari:    { label: '〜たり〜たりします', hint: 'Beispielhafte Aufzählung: jede Handlung in der た-Form + り (飲んだり), am Ende します.', form: 'Verbform' },
+  bakari:  { label: '〜たばかりです', hint: 'Gerade eben: た-Form + ばかりです.', form: 'Verbform' },
+  order:   { label: '前に / てから / 後で', hint: 'Wörterbuchform + 前に („bevor“), て-Form + から („erst …, dann“), た-Form + 後で („nachdem“).', form: 'Verbform' },
+  teiru:   { label: '〜ています', hint: 'Gerade dabei oder Dauerzustand: て-Form + います (住んでいます, 働いています).', form: 'Verbform' },
+  temoii:  { label: '〜てもいい / 〜てはいけません', hint: 'Erlaubnis: て-Form + もいいです. Verbot: て-Form + はいけません.', form: 'Verbform' },
+  naide:   { label: '〜ないでください', hint: 'Bitte nicht: ない-Form + でください.', form: 'Verbform' },
+  kleidung: { label: '着る / はく / かぶる / かける', hint: 'Oberkörper (シャツ, セーター, コート): 着る. Hose, Rock, Schuhe, Socken: はく. Hut, Mütze: かぶる. Brille: かける. Ausziehen: 脱ぐ.', form: 'Kleidungsstück' },
 };
 
-// {…} = Muster-Lücke (beide Stufen), {{…}} = Adjektiv-Lücke (nur Stufe 2), | trennt
+// {…} = Muster-Lücke (beide Stufen), {{…}} = Form-Lücke (Adjektiv/Verb, nur Stufe 2), | trennt
 // gleichwertige Antworten — die erste ist die angezeigte Lösung. {{Stamm^Endung}} = Adjektiv-
 // Lücke, die in Stufe 1 nur die Endung abfragt (Deck „Adjektive im Satz“, ohne |-Varianten).
 const COMPARE_GAP = /\{\{([^}]+)\}\}|\{([^}]+)\}/g;
@@ -34,7 +43,7 @@ function parseCompareText(text) {
   return parts;
 }
 
-// Neu oder Box 1–2: nur die Vergleichswörter. Ab Box 3 fehlt auch das Adjektiv.
+// Neu oder Box 1–2: nur die Muster-Lücken. Ab Box 3 fehlt auch die Form (Adjektiv, Verb).
 function compareStage(srsEntry) {
   return srsEntry && srsEntry.box >= 3 ? 2 : 1;
 }
@@ -63,7 +72,7 @@ function compareCard(entry, stage) {
       if (alts[0].word === 'のほうが') alts.push({ word: 'の方が', reading: 'のほうが' });
       gaps.push({
         key: `g${gaps.length}`, kind: p.kind,
-        label: p.kind === 'adj' ? 'Adjektiv' : alts[0].word,
+        label: p.kind === 'adj' ? (COMPARE_PATTERNS[entry.pattern].form || 'Adjektiv') : alts[0].word,
         word: alts[0].word, reading: alts[0].reading, variants: alts.slice(1),
       });
       return [{ gap: gaps.length - 1 }];

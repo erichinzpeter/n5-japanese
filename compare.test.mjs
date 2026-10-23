@@ -123,9 +123,10 @@ test('Antwortprüfung bei Endungs-Lücken', () => {
 const load = (file, name) => new Function(readFileSync(new URL(file, import.meta.url), 'utf8') + `; return ${name};`)();
 const COMPARISONS = load('./data/comparisons.js', 'COMPARISONS');
 const ADJ_SENTENCES = load('./data/adjsentences.js', 'ADJ_SENTENCES');
+const VERB_SENTENCES = load('./data/verbsentences.js', 'VERB_SENTENCES');
 
 test('alle Lückensätze sind gültig (gemeinsame Regeln)', () => {
-  const all = [...COMPARISONS, ...ADJ_SENTENCES];
+  const all = [...COMPARISONS, ...ADJ_SENTENCES, ...VERB_SENTENCES];
   assert.equal(new Set(all.map(e => e.id)).size, all.length, 'doppelte IDs');
   const shape = text => cmp.parseCompareText(text).map(p =>
     p.text !== undefined ? 'text' : `${p.kind}${p.stem !== undefined ? '^' : ''}${p.answers.length}`);
@@ -158,4 +159,35 @@ test('ADJ_SENTENCES: 40 Einträge, je eine ^-Lücke, Zählung', () => {
   }
   const count = p => ADJ_SENTENCES.filter(e => e.pattern === p).length;
   assert.deepEqual([count('kute'), count('adverb'), count('naru')], [14, 13, 13]);
+});
+
+test('VERB_SENTENCES: 62 Einträge, Formlücken in beiden Stufen, Zählung', () => {
+  assert.equal(VERB_SENTENCES.length, 62);
+  for (const e of VERB_SENTENCES) {
+    assert.ok(cmp.compareCard(e, 1).gaps.length >= 1, `${e.id}: Stufe 1 ohne Lücke`);
+    assert.ok(cmp.compareCard(e, 2).gaps.some(g => g.kind === 'adj'), `${e.id}: Stufe 2 ohne Formlücke`);
+  }
+  const count = p => VERB_SENTENCES.filter(e => e.pattern === p).length;
+  assert.deepEqual(['hougaii', 'koto', 'tari', 'bakari', 'order', 'teiru', 'temoii', 'naide', 'kleidung'].map(count),
+    [10, 6, 5, 4, 6, 6, 7, 6, 12]);
+});
+
+test('Formlücken-Label: Verbform bei Verb-Mustern, Adjektiv bei Vergleichen', () => {
+  const hou = VERB_SENTENCES.find(e => e.pattern === 'hougaii' && e.lines.some(l => l.jp.includes('{{飲んだ}}')));
+  assert.ok(hou, 'hougaii-Eintrag mit {{飲んだ}}');
+  assert.equal(cmp.compareCard(hou, 2).gaps.find(g => g.word === '飲んだ').label, 'Verbform');
+  assert.equal(cmp.compareCard(YORI, 2).gaps[1].label, 'Adjektiv');
+  for (const k of ['hougaii', 'koto', 'tari', 'bakari', 'order', 'teiru', 'temoii', 'naide'])
+    assert.equal(cmp.COMPARE_PATTERNS[k].form, 'Verbform');
+});
+
+test('Kleidung: Stufe 1 fragt das Verb, Stufe 2 auch das Kleidungsstück', () => {
+  const e = VERB_SENTENCES.find(x => x.pattern === 'kleidung' && x.lines[0].jp.includes('{{帽子}}'));
+  assert.ok(e, 'kleidung-Eintrag mit {{帽子}}');
+  assert.deepEqual(cmp.compareCard(e, 1).gaps.map(g => g.kind), ['pattern']);
+  const [noun, verb] = cmp.compareCard(e, 2).gaps;
+  assert.equal(noun.label, 'Kleidungsstück');
+  assert.ok(drill.checkDrillAnswer('ぼうし', noun));
+  assert.ok(drill.checkDrillAnswer('かぶります', verb));
+  assert.ok(!drill.checkDrillAnswer('きます', verb));
 });

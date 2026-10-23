@@ -4175,5 +4175,29 @@ const VOCAB = [
   { id: "v1044", word: "どんどん", reading: "どんどん", meaning: "immer weiter / zügig / rasch", pos: "Adverb", level: "adv", examples: [
     { jp: "日本語がどんどん上手になります。", reading: "にほんごがどんどんじょうずになります。", de: "Mein Japanisch wird immer besser." },
     { jp: "どんどん食べてください。", reading: "どんどんたべてください。", de: "Greifen Sie kräftig zu." }
+  ]},
+  { id: "v1045", word: "はく", reading: "はく", meaning: "anziehen (Hose, Rock, Schuhe, Socken)", pos: "Verb (Godan, く)", level: "adv", examples: [
+    { jp: "新しい靴をはきます。", reading: "あたらしいくつをはきます。", de: "Ich ziehe die neuen Schuhe an." },
+    { jp: "妹は赤いスカートをはいています。", reading: "いもうとはあかいスカートをはいています。", de: "Meine jüngere Schwester trägt einen roten Rock." }
+  ]},
+  { id: "v1046", word: "かぶる", reading: "かぶる", meaning: "aufsetzen (Hut, Mütze)", pos: "Verb (Godan, る)", level: "adv", examples: [
+    { jp: "夏は帽子をかぶります。", reading: "なつはぼうしをかぶります。", de: "Im Sommer setze ich einen Hut auf." },
+    { jp: "帽子をかぶっている人は山田さんです。", reading: "ぼうしをかぶっているひとはやまださんです。", de: "Die Person mit dem Hut ist Frau Yamada." }
+  ]},
+  { id: "v1047", word: "脱ぐ", reading: "ぬぐ", meaning: "ausziehen (Kleidung, Schuhe)", pos: "Verb (Godan, ぐ)", level: "adv", examples: [
+    { jp: "家に入るときは、靴を脱ぎます。", reading: "いえにはいるときは、くつをぬぎます。", de: "Wenn man das Haus betritt, zieht man die Schuhe aus." },
+    { jp: "暑いので、コートを脱ぎました。", reading: "あついので、コートをぬぎました。", de: "Weil es heiß war, habe ich den Mantel ausgezogen." }
+  ]},
+  { id: "v1048", word: "帽子", reading: "ぼうし", meaning: "Hut, Mütze", pos: "Nomen", level: "easy", examples: [
+    { jp: "この帽子はいくらですか。", reading: "このぼうしはいくらですか。", de: "Wie viel kostet dieser Hut?" },
+    { jp: "子供が帽子をかぶっています。", reading: "こどもがぼうしをかぶっています。", de: "Das Kind trägt eine Mütze." }
+  ]},
+  { id: "v1049", word: "ズボン", reading: "ズボン", meaning: "Hose", pos: "Nomen", level: "easy", examples: [
+    { jp: "黒いズボンを買いました。", reading: "くろいズボンをかいました。", de: "Ich habe eine schwarze Hose gekauft." },
+    { jp: "このズボンは長いです。", reading: "このズボンはながいです。", de: "Diese Hose ist lang." }
+  ]},
+  { id: "v1050", word: "スカート", reading: "スカート", meaning: "Rock", pos: "Nomen", level: "easy", examples: [
+    { jp: "白いスカートをはきます。", reading: "しろいスカートをはきます。", de: "Ich ziehe einen weißen Rock an." },
+    { jp: "このスカートは短いです。", reading: "このスカートはみじかいです。", de: "Dieser Rock ist kurz." }
   ]}
 ];

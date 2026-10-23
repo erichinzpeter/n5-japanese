@@ -491,7 +491,9 @@ body {
 .deck-card[data-deck="grammar"]   { --deck-h: 78;  }  /* amber      */
 .deck-card[data-deck="vergleiche"] { --deck-h: 110; } /* lime       */
 .deck-card[data-deck="adjsatz"] { --deck-h: 55; } /* gold       */
+.deck-card[data-deck="verbsatz"] { --deck-h: 222; } /* sky        */
 .deck-card[data-deck="all"]       { --deck-h: 300; }  /* violet     */
+.deck-card--all { grid-column: 1 / -1; }
 
 /* Lit from above: top-edge highlight + tinted cast shadow lift each card off
    the near-black base so the grid reads as objects, not a flat document. */
@@ -2751,6 +2753,48 @@ body {
 }
 
 .drill-solution .btn-speak-word { font-size: 15px; padding: 0 2px; }
+
+/* Gruppen-Erklärung oben und Bildungsweg unter jedem Feld */
+.drill-group-note {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.drill-rule {
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--text-dim);
+}
+.drill-rule.hidden { display: none; }
+
+.drill-extras--solo { margin-top: 14px; padding-top: 0; border-top: none; }
+
+/* Kacheln „Welche Formen?“ im Startdialog */
+.drillforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.drillforms .drillform-btn {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+.drillforms .drillform-btn:hover:not(.active) { color: var(--text-dim); }
+.drillforms .drillform-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
 
 .drill-controls {
   display: flex;

@@ -92,19 +92,24 @@
         <div class="deck-name">Adjektive im Satz</div>
       </button>
 
+      <button class="deck-card" data-deck="verbsatz">
+        <div class="deck-kanji-preview">活</div>
+        <div class="deck-name">Verben im Satz</div>
+      </button>
+
       <button class="deck-card" data-deck="sonstiges">
         <div class="deck-kanji-preview">他</div>
         <div class="deck-name">Sonstiges</div>
       </button>
 
-      <button class="deck-card" data-deck="all">
+      <button class="deck-card deck-card--all" data-deck="all">
         <div class="deck-kanji-preview">全</div>
         <div class="deck-name">Zufall</div>
       </button>
     </div>
 
     <div class="home-footer">
-      <div class="app-version">v3.31.0</div>
+      <div class="app-version">v3.32.0</div>
     </div>
   </div>
 
@@ -246,6 +251,11 @@
         </div>
       </div>
 
+      <div class="modal-section hidden" id="modal-drillforms-wrap">
+        <div class="modal-label">Welche Formen?</div>
+        <div class="drillforms" id="modal-drillforms"></div>
+      </div>
+
       <div class="modal-section" id="modal-direction-wrap">
         <div class="modal-label">Richtung</div>
         <div class="direction-toggle">
@@ -296,6 +306,7 @@
   <script src="drill.js"></script>
   <script src="data/comparisons.js"></script>
   <script src="data/adjsentences.js"></script>
+  <script src="data/verbsentences.js"></script>
   <script src="compare.js"></script>
   <script src="pos.js"></script>
   <script src="srs.js"></script>

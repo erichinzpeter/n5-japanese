@@ -431,6 +431,29 @@ const CONCEPTS = [
     ],
   },
   {
+    id: "c-kleidung",
+    category: "Verbformen & Zeiten",
+    title: "Kleidung anziehen",
+    reading: "着る・はく・かぶる・かける",
+    summary: "Für „anziehen“ hat Japanisch mehrere Verben — welches, hängt vom Körperteil ab. 着る für alles, was man über den Oberkörper zieht; はく für alles, in das man mit den Beinen oder Füßen steigt; かぶる für den Kopf; かける für die Brille. Ausziehen ist fast immer 脱ぐ.",
+    usage: "Mit ています beschreibst du, was jemand gerade trägt: 赤いスカートをはいています = trägt einen roten Rock. Ohne ています ist es das Anziehen selbst: セーターを着ます = ich ziehe einen Pullover an.",
+    table: {
+      head: ["Verb", "wofür", "Beispiel"],
+      rows: [
+        ["着る (きる)", "Oberkörper / ganzer Körper", "シャツ・セーター・コートを着る"],
+        ["はく", "Beine und Füße", "ズボン・スカート・靴・靴下をはく"],
+        ["かぶる", "Kopf", "帽子をかぶる"],
+        ["かける", "Brille", "眼鏡をかける"],
+        ["脱ぐ (ぬぐ)", "ausziehen", "靴を脱ぐ"],
+      ],
+    },
+    pitfall: "Nicht alles mit 着る: Hose und Schuhe „zieht“ man mit はく an (ズボンをはく, nicht ズボンを着る). かぶる ist ein Godan-Verb: かぶって, nicht かぶて.",
+    examples: [
+      { jp: "父は眼鏡をかけています。", reading: "ちちはめがねをかけています。", de: "Mein Vater trägt eine Brille." },
+      { jp: "黒いズボンをはいて、青いシャツを着ています。", reading: "くろいズボンをはいて、あおいシャツをきています。", de: "Sie trägt eine schwarze Hose und ein blaues Hemd." },
+    ],
+  },
+  {
     id: "c-dictionary-form",
     category: "Verbformen & Zeiten",
     title: "Wörterbuchform",
