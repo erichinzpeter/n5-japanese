@@ -2541,18 +2541,12 @@ function initEvents() {
 }
 
 // ===== INIT =====
-// Diagnose-Schalter aus index.html (Gboard-Bug), sonst alle false.
-const DIAG = window.N5_DIAG || {};
-
 function init() {
-  if (DIAG.noapp) return; // Diagnose (index.html): App-Code komplett aus
   initEvents();
-  if (!DIAG.nospeech) {
-    initSpeech();
-    // Warm the TTS engine on the first user gesture (autoplay policy requires one).
-    window.addEventListener('pointerdown', warmSpeech, { once: true });
-    window.addEventListener('keydown', warmSpeech, { once: true });
-  }
+  initSpeech();
+  // Warm the TTS engine on the first user gesture (autoplay policy requires one).
+  window.addEventListener('pointerdown', warmSpeech, { once: true });
+  window.addEventListener('keydown', warmSpeech, { once: true });
   window.addEventListener('pointerdown', unlockAudioSession, { once: true });
   window.addEventListener('keydown', unlockAudioSession, { once: true });
   document.addEventListener('visibilitychange', resumeAudioSession);
@@ -2571,7 +2565,7 @@ function init() {
 
 init();
 
-if ('serviceWorker' in navigator && !DIAG.nosw) {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
       // updateViaCache 'none': never serve sw.js (or its imports) from the HTTP
