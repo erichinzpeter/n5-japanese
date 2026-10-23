@@ -46,7 +46,18 @@ function conjugateAlternatives(word, reading, pos) {
   };
 }
 
+// ています-Form (Verlaufsform): て-Form + います, direkt hinter der て-Form. ある und いる
+// bekommen keine: あっています heißt „stimmt / passt“, いています sagt niemand.
 function conjugateVerb(word, reading, pos) {
+  const c = conjugateVerbBase(word, reading, pos);
+  if (reading === 'ある' || reading === 'いる') return c;
+  const i = c.forms.findIndex(f => f.label === 'て-Form');
+  const te = c.forms[i];
+  c.forms.splice(i + 1, 0, { label: 'ています-Form', word: te.word + 'います', reading: te.reading + 'います' });
+  return c;
+}
+
+function conjugateVerbBase(word, reading, pos) {
   const dict = { label: 'Wörterbuchform', word, reading };
 
   // する and compound する-verbs (勉強する): conjugate the trailing する.
@@ -161,6 +172,7 @@ function conjugateNaAdjective(word, reading) {
       f('Vergangenheit',    'だった'),
       f('Verg.-Verneinung', 'じゃなかった'),
       f('て-Form',          'で'),
+      f('Adverb',           'に'),
     ],
   };
 }

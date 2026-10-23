@@ -50,9 +50,10 @@ function drillVerb(c, byLabel) {
       drillField('mashita',      'Vergangenheit',    'höflich', drillSwap(masu, 'ます', 'ました')),
       drillField('masendeshita', 'Verg.-Verneinung', 'höflich', drillSwap(masu, 'ます', 'ませんでした')),
       drillField('te',           'て-Form',          null,      byLabel('て-Form')),
+      byLabel('ています-Form') && drillField('teimasu', 'ています-Form', null, byLabel('ています-Form')),
       drillField('tai',          'たい-Form',        null,      drillSwap(masu, 'ます', 'たい')),
       drillField('mashou',       'ましょう-Form',    null,      drillSwap(masu, 'ます', 'ましょう')),
-    ],
+    ].filter(Boolean),   // ある und いる haben keine ています-Form
   };
 }
 
@@ -95,6 +96,7 @@ function drillNaAdjective(c) {
       drillField('politeNegPast', 'Verg.-Verneinung', 'höflich', p('じゃありませんでした'),
         [p('ではありませんでした'), p('じゃなかったです'), p('ではなかったです')]),
       drillField('te',            'て-Form',          null,      p('で')),
+      drillField('adverb',        'Adverb',           null,      p('に')),
       drillField('na',            'vor Nomen',        null,      p('な')),
     ],
   };

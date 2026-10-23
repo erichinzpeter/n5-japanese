@@ -23,11 +23,11 @@ test('Verb: vorgegeben ist die ます-Form', () => {
   assert.deepEqual(drill.drillForms(KAU).given, { word: '買います', reading: 'かいます' });
 });
 
-test('Verb: alle zehn Felder für 買う', () => {
+test('Verb: alle elf Felder für 買う', () => {
   assert.deepEqual(words(KAU), {
     plain: '買う', nai: '買わない', ta: '買った', nakatta: '買わなかった',
     masen: '買いません', mashita: '買いました', masendeshita: '買いませんでした',
-    te: '買って', tai: '買いたい', mashou: '買いましょう',
+    te: '買って', teimasu: '買っています', tai: '買いたい', mashou: '買いましょう',
   });
 });
 
@@ -55,6 +55,15 @@ test('Verb: 行く und ある', () => {
   assert.equal(words(ARU).nai, 'ない');
   assert.equal(words(ARU).nakatta, 'なかった');
   assert.equal(words(ARU).masen, 'ありません');
+  assert.equal(words(ARU).teimasu, undefined);
+});
+
+test('Verb: ています-Form', () => {
+  assert.equal(readings(KURU).teimasu, 'きています');
+  assert.equal(words(IKU).teimasu, '行っています');
+  assert.equal(words(BENKYOU).teimasu, '勉強しています');
+  assert.equal(field(KAU, 'teimasu').label, 'ています-Form');
+  assert.equal(field(KAU, 'teimasu').col, null);
 });
 
 test('Verb: Labels', () => {
@@ -79,13 +88,18 @@ test('i-Adjektiv: いい konjugiert auf よ', () => {
   assert.equal(words(II).politeNeg, 'よくないです');
 });
 
-test('na-Adjektiv: alle neun Felder für 静か', () => {
+test('na-Adjektiv: alle zehn Felder für 静か', () => {
   assert.deepEqual(drill.drillForms(SHIZUKA).given, { word: '静かです', reading: 'しずかです' });
   assert.deepEqual(words(SHIZUKA), {
     plain: '静かだ', nai: '静かじゃない', ta: '静かだった', nakatta: '静かじゃなかった',
     politeNeg: '静かじゃありません', politePast: '静かでした', politeNegPast: '静かじゃありませんでした',
-    te: '静かで', na: '静かな',
+    te: '静かで', adverb: '静かに', na: '静かな',
   });
+});
+
+test('na-Adjektiv: Adverb auf に', () => {
+  assert.equal(words(SHIZUKA).adverb, '静かに');
+  assert.equal(words(ANZEN).adverb, '安全に');
 });
 
 test('na-Adjektiv: mit な gespeichert', () => {
@@ -162,13 +176,13 @@ test('drillSrsId', () => {
 const SHAPES = {
   verb: {
     masen: /ません$/, mashita: /ました$/, masendeshita: /ませんでした$/, tai: /たい$/,
-    mashou: /ましょう$/, nai: /ない$/, nakatta: /なかった$/, te: /[てで]$/, ta: /[ただ]$/,
+    mashou: /ましょう$/, nai: /ない$/, nakatta: /なかった$/, te: /[てで]$/, teimasu: /[てで]います$/, ta: /[ただ]$/,
   },
   'i-adj': {
     nai: /くない$/, nakatta: /くなかった$/, ta: /かった$/, te: /くて$/, adverb: /く$/,
     politeNeg: /です$/, politePast: /です$/, politeNegPast: /です$/,
   },
-  'na-adj': { plain: /だ$/, na: /な$/, te: /で$/, politePast: /でした$/ },
+  'na-adj': { plain: /だ$/, na: /な$/, te: /で$/, adverb: /に$/, politePast: /でした$/ },
 };
 
 test('jedes Verb und Adjektiv aus den Daten ergibt vollständige Felder', () => {

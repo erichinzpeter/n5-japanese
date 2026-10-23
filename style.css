@@ -489,6 +489,8 @@ body {
 .deck-card[data-deck="adverbien"] { --deck-h: 275; }  /* indigo     */
 .deck-card[data-deck="sonstiges"] { --deck-h: 345; }  /* rose       */
 .deck-card[data-deck="grammar"]   { --deck-h: 78;  }  /* amber      */
+.deck-card[data-deck="vergleiche"] { --deck-h: 110; } /* lime       */
+.deck-card[data-deck="adjsatz"] { --deck-h: 55; } /* gold       */
 .deck-card[data-deck="all"]       { --deck-h: 300; }  /* violet     */
 
 /* Lit from above: top-edge highlight + tinted cast shadow lift each card off
@@ -2159,6 +2161,7 @@ body {
   font-size: 18px;
   font-weight: 600;
   color: var(--text);
+  overflow-wrap: anywhere;   /* 持ってきています passt sonst nicht in die halbe Breite */
 }
 
 .form-tile-reading {
@@ -2728,6 +2731,19 @@ body {
   font-size: 15px;
   color: var(--text);
 }
+
+/* Vergleiche: Lückensatz mit Inline-Feldern */
+.compare-de { margin-top: 6px; font-size: 18px; font-weight: 600; color: var(--text); }
+.compare-lines { display: flex; flex-direction: column; gap: 14px; margin-top: 20px;
+  font-family: var(--font-display); font-size: 20px; line-height: 2.2; color: var(--text); }
+.compare-gap { display: inline-flex; flex-direction: column; align-items: center; vertical-align: baseline;   /* Feldtext auf der Satz-Grundlinie */ margin: 0 2px; }
+.drill-input.compare-input { max-width: 100%; padding: 2px 6px; text-align: center; line-height: 1.4; }
+.compare-solution { font-size: 14px; line-height: 1.3; color: var(--btn-gut); }
+.compare-after { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
+.compare-full-main { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 17px; color: var(--text); }
+.compare-full-reading { font-size: 13px; color: var(--accent); }
+.compare-hint { padding-left: 10px; border-left: 2px solid var(--accent); font-size: 14px; color: var(--text-dim); }
+.compare-after.hidden, .compare-solution.hidden { display: none; }
 
 .drill-solution-reading {
   font-size: 12px;

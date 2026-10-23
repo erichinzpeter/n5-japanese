@@ -3,7 +3,7 @@
 // ===== STATE =====
 const state = {
   direction: 'jp-de',
-  mode: 'flashcard',  // 'flashcard' | 'mc' | 'conjugation' | 'drill'
+  mode: 'flashcard',  // 'flashcard' | 'mc' | 'conjugation' | 'drill' | 'compare'
   form: 'dict',       // 'dict' | 'masu' — nur Verben-Deck: Wörterbuchform vs. ます-Form
   deck: null,
   session: [],
@@ -36,6 +36,9 @@ function isAudioOff() {
   return localStorage.getItem(AUDIO_OFF_KEY) === '1';
 }
 
+// Tipp-Decks mit Lückensätzen: eine Karte und ein SRS-Eintrag pro Satz.
+const COMPARE_DECKS = { vergleiche: COMPARISONS, adjsatz: ADJ_SENTENCES };
+
 const DECK_MODES = {
   kanji:     ['flashcard', 'mc'],
   nomen:     ['flashcard', 'mc'],
@@ -44,6 +47,8 @@ const DECK_MODES = {
   adverbien: ['flashcard', 'mc'],
   sonstiges: ['flashcard', 'mc'],
   grammar:   ['flashcard', 'mc'],
+  vergleiche: ['compare'],
+  adjsatz:   ['compare'],
   all:       ['flashcard', 'mc'],
 };
 
@@ -55,7 +60,11 @@ const MODE_LABELS = {
   mc:          'Multiple Choice',
   conjugation: 'Konjugation',
   drill:       'Durchkonjugieren',
+  compare:     'Lückensatz',
 };
+
+// Modi mit Eingabefeldern im Drill-Panel statt Flip-Karte.
+const isTypingMode = mode => mode === 'drill' || mode === 'compare';
 
 const DECK_TITLES = {
   kanji: 'Kanji üben',
@@ -65,6 +74,8 @@ const DECK_TITLES = {
   adverbien: 'Adverbien üben',
   sonstiges: 'Sonstiges üben',
   grammar: 'Grammatik üben',
+  vergleiche: 'Vergleiche üben',
+  adjsatz: 'Adjektive im Satz üben',
   all: 'Zufall üben',
 };
 
@@ -91,7 +102,7 @@ function syncFormToggle(deck) {
   document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.form === state.form)
   );
-  document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar' || state.mode === 'drill');
+  document.getElementById('modal-direction-wrap').classList.toggle('hidden', deck === 'grammar' || COMPARE_DECKS[deck] || state.mode === 'drill');
 }
 
 function openStartModal(deck) {
@@ -230,6 +241,10 @@ function collectDeckCards(deck) {
         type: 'grammar', dir: 'fwd', id: `${g.id}-c${i}`,
       });
     }));
+  }
+
+  if (COMPARE_DECKS[deck]) {
+    COMPARE_DECKS[deck].forEach(e => cards.push({ item: e, type: 'compare', dir: 'fwd', id: e.id }));
   }
 
   return cards;
@@ -383,7 +398,7 @@ function launchSession(deck, sessionCards, freePractice = false) {
   state.lastDeck = deck;
   state.caughtUp = false;
 
-  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', adverbien: 'Adverbien', sonstiges: 'Sonstiges', grammar: 'Grammatik', all: 'Zufall' };
+  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', adverbien: 'Adverbien', sonstiges: 'Sonstiges', grammar: 'Grammatik', vergleiche: 'Vergleiche', adjsatz: 'Adjektive im Satz', all: 'Zufall' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   // Desktop-only hint (hidden on touch): MC uses number keys to pick an answer.
@@ -391,7 +406,7 @@ function launchSession(deck, sessionCards, freePractice = false) {
   if (hintEl) {
     hintEl.textContent = state.mode === 'mc'
       ? '1–4 = Antwort wählen  ·  Leertaste = weiter'
-      : state.mode === 'drill'
+      : isTypingMode(state.mode)
         ? 'Enter = nächstes Feld · Enter im letzten Feld = prüfen'
         : 'Leertaste = umdrehen  ·  1 = Wusste ich nicht  ·  3 = Wusste ich';
   }
@@ -629,12 +644,13 @@ function renderCurrentCard() {
   const chip = document.getElementById('requeue-chip');
   if (chip) chip.classList.toggle('hidden', !(card && card.isRequeue));
   // Der Drill hat ein eigenes Panel statt der Flip-Karte.
-  const isDrill = !!card && card.type === 'drill';
-  document.getElementById('flashcard').classList.toggle('hidden', isDrill);
-  document.getElementById('drill-panel').classList.toggle('hidden', !isDrill);
-  document.getElementById('card-wrap').classList.toggle('card-wrap--drill', isDrill);
-  document.getElementById('drill-controls').style.display = isDrill ? '' : 'none';
-  if (isDrill) renderDrillCard();
+  const isTyping = !!card && (card.type === 'drill' || card.type === 'compare');
+  document.getElementById('flashcard').classList.toggle('hidden', isTyping);
+  document.getElementById('drill-panel').classList.toggle('hidden', !isTyping);
+  document.getElementById('card-wrap').classList.toggle('card-wrap--drill', isTyping);
+  document.getElementById('drill-controls').style.display = isTyping ? '' : 'none';
+  if (card && card.type === 'compare') renderCompareCard();
+  else if (isTyping) renderDrillCard();
   else if (state.mode === 'mc' && card) renderMCCard();
   else renderCard(); // covers flashcard and conjugation
 }
@@ -858,14 +874,7 @@ function drillInputHtml(field, idx) {
 function renderDrillCard() {
   const card = state.session[state.sessionIdx];
   const { item, forms } = card;
-  state.drillChecked = false;
-  state.drillAllOk = false;
-  renderProgress();
-
-  // Flip-Karten-Bedienelemente gehören nicht zum Drill.
-  document.getElementById('card-controls').style.display = 'none';
-  document.getElementById('rating-wrap').style.display = 'none';
-  document.getElementById('mc-choices').style.display = 'none';
+  const panel = prepareTypingPanel();
 
   const idx = new Map(forms.fields.map((f, i) => [f, i]));
   const tableFields = forms.fields.filter(f => f.col);
@@ -887,7 +896,6 @@ function renderDrillCard() {
     </div>`).join('');
 
   const kind = DRILL_KIND_LABELS[forms.kind] + (forms.group ? ` — Gruppe ${forms.group}` : '');
-  const panel = document.getElementById('drill-panel');
   panel.innerHTML = `
     <div class="drill-head">
       <div class="card-type-label">${escHtml(kind)}</div>
@@ -904,6 +912,24 @@ function renderDrillCard() {
       ${rowsHtml}
     </div>
     <div class="drill-extras">${extrasHtml}</div>`;
+  finishTypingPanel(panel);
+}
+
+// Gemeinsamer Rahmen für Drill- und Vergleichskarten: Flip-Bedienung aus, Ergebnis leer.
+function prepareTypingPanel() {
+  state.drillChecked = false;
+  state.drillAllOk = false;
+  renderProgress();
+
+  // Flip-Karten-Bedienelemente gehören nicht zum Drill.
+  document.getElementById('card-controls').style.display = 'none';
+  document.getElementById('rating-wrap').style.display = 'none';
+  document.getElementById('mc-choices').style.display = 'none';
+  return document.getElementById('drill-panel');
+}
+
+// Nach dem Füllen: Ergebnis zurücksetzen, Enter-Navigation, Fokus aufs erste Feld.
+function finishTypingPanel(panel) {
   panel.scrollTop = 0;
 
   const resultEl = document.getElementById('drill-result');
@@ -932,20 +958,56 @@ function renderDrillCard() {
   });
 }
 
+// Inline-Lücke: Feld so breit wie die Lösung in Hiragana; die Lösung steht direkt dahinter
+// (checkDrill blendet nextElementSibling ein).
+function compareGapHtml(gap, idx) {
+  const width = Math.max(3, [...gap.reading].length + 1);
+  return `<span class="compare-gap"><input class="drill-input compare-input" data-idx="${idx}" style="width:${width}em"
+    lang="ja" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="next"
+    aria-label="Lücke ${idx + 1}: ${gap.kind === 'adj' ? 'Adjektiv' : gap.kind === 'ending' ? 'Endung' : 'Vergleichswort'}"><span class="compare-solution hidden">${escHtml(gap.word)}</span></span>`;
+}
+
+function renderCompareCard() {
+  const card = state.session[state.sessionIdx];
+  const panel = prepareTypingPanel();
+  // Die Stufe bleibt für die Runde fest: Die Wiedervorlage kopiert die Karte samt stage,
+  // auch wenn rate() die Box inzwischen verschoben hat.
+  if (!card.stage) card.stage = compareStage(loadSRS().cards[card.id]);
+  card.cmp = compareCard(card.item, card.stage);
+  const pattern = COMPARE_PATTERNS[card.cmp.pattern];
+  const linesHtml = card.cmp.lines.map(parts => `<div class="compare-line">${parts.map(p =>
+    p.gap === undefined ? escHtml(p.text) : compareGapHtml(card.cmp.gaps[p.gap], p.gap)).join('')}</div>`).join('');
+  const fullHtml = compareFull(card.item).map(l => `
+    <div class="compare-full">
+      <div class="compare-full-main"><span>${escHtml(l.word)}</span>${speakBtn(compareSpeech(l.reading), 'btn-speak-word')}</div>
+      <div class="compare-full-reading">${escHtml(l.reading)}</div>
+    </div>`).join('');
+  panel.innerHTML = `
+    <div class="drill-head">
+      <div class="card-type-label">${escHtml(pattern.label)} · Stufe ${card.cmp.stage}</div>
+      <div class="compare-de">${escHtml(card.cmp.de)}</div>
+    </div>
+    <div class="compare-lines">${linesHtml}</div>
+    <div class="compare-after hidden">${fullHtml}<div class="compare-hint">${escHtml(pattern.hint)}</div></div>`;
+  finishTypingPanel(panel);
+}
+
 function checkDrill() {
   if (state.drillChecked) return;
   state.drillChecked = true;
   state.drillCheckedAt = Date.now();
   const card = state.session[state.sessionIdx];
   const panel = document.getElementById('drill-panel');
+  const fields = card.type === 'compare' ? card.cmp.gaps : card.forms.fields;
   const results = [...panel.querySelectorAll('.drill-input')].map(input => {
-    const field = card.forms.fields[Number(input.dataset.idx)];
+    const field = fields[Number(input.dataset.idx)];
     const ok = checkDrillAnswer(input.value, field);
     input.readOnly = true;
     input.classList.add(ok ? 'drill-input--ok' : 'drill-input--wrong');
     if (!ok) input.nextElementSibling.classList.remove('hidden');
     return { field, ok };
   });
+  if (card.type === 'compare') panel.querySelector('.compare-after').classList.remove('hidden');
   recordDrillOutcome(card, results);
 
   const right = results.filter(r => r.ok).length;
@@ -965,7 +1027,15 @@ function recordDrillOutcome(card, results) {
   if (!state.freePractice) {
     const srs = loadSRS();
     const today = todayStr();
-    results.forEach(r => rate(srs, drillSrsId(card.item, r.field.key), r.ok, today));
+    // Vergleiche: ein SRS-Eintrag pro Satz — alle Lücken richtig zählt als gewusst.
+    if (card.type === 'compare') {
+      const ok = results.every(r => r.ok);
+      rate(srs, card.id, ok, today);
+      // Ein Fehler führt immer zurück auf Stufe 1 (Box ≤ 2) — rate() allein senkt nur um eine Box.
+      const entry = srs.cards[card.id];
+      if (!ok && entry.box > 2) srs.cards[card.id] = { ...entry, box: 2, due: addDays(today, BOX_DAYS[2]) };
+    }
+    else results.forEach(r => rate(srs, drillSrsId(card.item, r.field.key), r.ok, today));
     saveSRS(srs);
   }
   results.forEach(r => {
@@ -1390,15 +1460,15 @@ function renderDone() {
   statsEl.innerHTML = `
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-nochmal)">${s.nochmal}</span>
-    <span class="done-stat-label">${state.mode === 'drill' ? 'Fehler dabei' : 'Wusste ich nicht'}</span>
+    <span class="done-stat-label">${isTypingMode(state.mode) ? 'Fehler dabei' : 'Wusste ich nicht'}</span>
   </div>
   <div class="done-stat">
     <span class="done-stat-num" style="color:var(--btn-gut)">${s.richtig}</span>
-    <span class="done-stat-label">${state.mode === 'drill' ? 'Alles richtig' : 'Wusste ich'}</span>
+    <span class="done-stat-label">${isTypingMode(state.mode) ? 'Alles richtig' : 'Wusste ich'}</span>
   </div>`;
 
   const remainingEl = document.getElementById('done-remaining');
-  if (remainingEl) remainingEl.innerHTML = state.mode === 'drill' ? drillMissesHtml() : '';
+  if (remainingEl) remainingEl.innerHTML = isTypingMode(state.mode) ? drillMissesHtml() : '';
 
   showScreen('done');
 }
@@ -1418,12 +1488,16 @@ function kanjiSpeakIsWord(k) {
   return !!k.speak && ![...k.on, ...k.kun].includes(k.speak);
 }
 
+// Sprecherkennung „A: “ / „B: “ wird nicht mitgesprochen.
+const compareSpeech = reading => reading.replace(/^[AB]: /, '');
+
 function getJapaneseText(card) {
   const { item, type } = card;
   if (type === 'kanji')       return kanjiReading(item);
   if (type === 'grammar')     return item.text.replace('＿', item.answer);
   if (type === 'conjugation') return card.target.reading;
   if (type === 'drill')       return card.forms.given.reading.split('／')[0];
+  if (type === 'compare')     return compareSpeech(compareFull(item)[0].reading);
   if (card.display)           return card.display.reading;   // ます-Modus
   return item.reading || item.word;   // vocab + basics
 }
@@ -2426,7 +2500,7 @@ function initEvents() {
     if (screen.id === 'screen-session') {
       // Im Drill tippt man in Felder: Leertaste und Ziffern gehören dem Eingabefeld.
       // Enter übernehmen die Felder bzw. der fokussierte Button selbst.
-      if (state.mode === 'drill') {
+      if (isTypingMode(state.mode)) {
         // Escape gehört im Eingabefeld der IME (Umwandlung abbrechen) bzw. dem Feld selbst;
         // zum Verlassen gibt es den Zurück-Button.
         if (e.key === 'Escape' && !e.isComposing && e.keyCode !== 229

@@ -4,6 +4,18 @@
 
 ---
 
+## [3.31.0] — 2026-10-23
+
+### Neu
+
+- **Die ています-Form (Verlaufsform) ist jetzt bei jedem Verb dabei.** Die Konjugationstabelle auf der Kartenrückseite zeigt sie direkt hinter der て-Form (食べています, 飲んでいます, 来ています, 勉強しています), mit Aussprache. Beim Durchkonjugieren gibt es dafür ein eigenes Feld mit eigener Lernkurve, und auch der Modus „Konjugation“ fragt sie ab. ある und いる haben bewusst keine ています-Form: あっています bedeutet etwas anderes („stimmt / passt“), und いています sagt man nicht.
+
+- **Neues Deck „Vergleiche“ (比).** Lückensätze für より / のほうが, 一番 und die どちら-Frage — 40 Sätze und Dialoge. Man tippt die Vergleichswörter selbst; sitzt ein Satz (ab der dritten Box), fehlt zusätzlich das Adjektiv. Ein Fehler setzt ihn wieder auf die leichtere Stufe. Am Rundenende steht, welches Vergleichswort am häufigsten danebenging.
+
+- **Neues Deck „Adjektive im Satz“ (結).** 40 Lückensätze zu den drei Stellen, an denen sich Adjektive im Satz verändern: verbinden (安くて, 静かで), als Adverb vor einem Verb (早く, 静かに) und „werden“ (寒くなる, 元気になる). Erst tippt man nur die Endung, sitzt ein Satz, die ganze Form.
+
+- na-Adjektive haben jetzt auch die Adverb-Form auf に (静かに) — in der Konjugationstabelle und beim Durchkonjugieren.
+
 ## [3.30.0] — 2026-10-20
 
 ### Neu
