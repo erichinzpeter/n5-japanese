@@ -187,5 +187,6 @@ function masuForm(item) {
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = conjugate;
+  module.exports.GODAN = { I: GODAN_I, A: GODAN_A };
   module.exports.masuForm = masuForm;   // bestehende `require('./conjugate.js')`-Call-Sites bleiben intakt
 }

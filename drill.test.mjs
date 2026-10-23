@@ -205,3 +205,88 @@ test('jedes Verb und Adjektiv aus den Daten ergibt vollständige Felder', () => 
     }
   }
 });
+
+// ---- Formgruppen, Gruppen-Erklärung, Bildungsweg ----
+const IRU_ENTER = { id: 'x20', word: '入る', reading: 'はいる', pos: 'Verb (Godan, る)' };
+const NOMU      = { id: 'x21', word: '飲む', reading: 'のむ', pos: 'Verb (Godan, む)' };
+const KIREI     = { id: 'x22', word: 'きれい', reading: 'きれい', pos: 'na-Adjektiv' };
+const note = item => drill.drillForms(item).groupNote;
+const rule = (item, key) => field(item, key).rule;
+const keysOf = (item, ids) => drill.drillFormsFor(item, ids).fields.map(f => f.key);
+
+test('drillFormsFor: Verb-Gruppen', () => {
+  assert.deepEqual(keysOf(KAU, ['te']), ['te']);
+  assert.deepEqual(keysOf(KAU, ['polite']), ['masen', 'mashita', 'masendeshita']);
+  assert.equal(drill.drillFormsFor(KAU, ['te']).full, false);
+  assert.equal(keysOf(KAU, null).length, 11);
+  assert.equal(keysOf(KAU, []).length, 11);
+  assert.equal(drill.drillFormsFor(KAU, null).full, true);
+  assert.equal(drill.drillFormsFor(KAU, drill.DRILL_FORM_GROUPS.verb.map(g => g.id)).full, true);
+  assert.equal(drill.drillFormsFor(KAU, ['te']).given.word, '買います');
+});
+
+test('drillFormsFor: Adjektive und leere Pools', () => {
+  assert.equal(drill.drillFormsFor(TAKAI, ['na']), null);
+  assert.equal(drill.drillFormsFor(ARU, ['teimasu']), null);
+  assert.deepEqual(keysOf(SHIZUKA, ['na']), ['na']);
+  assert.equal(keysOf(TAKAI, null).length, 9);
+  assert.equal(drill.drillFormsFor(ARU, drill.DRILL_FORM_GROUPS.verb.map(g => g.id)).full, true);
+});
+
+test('groupNote', () => {
+  assert.match(note(IRU_ENTER), /Gruppe 1 \(Godan\) – Ausnahme/);
+  assert.match(note(TABERU), /Gruppe 2/);
+  assert.match(note(NOMU), /\(む\)/);
+  assert.match(note(BENKYOU), /Gruppe 3 \(unregelmäßig\): する/);
+  assert.match(note(KURU), /Gruppe 3 \(unregelmäßig\): 来る/);
+  assert.match(note(ARU), /あらない/);
+  assert.match(note(IKU), /行って/);
+  assert.match(note(TAKAI), /^i-Adjektiv: /);
+  assert.match(note(II), /よくない/);
+  assert.match(note(SHIZUKA), /^na-Adjektiv: /);
+  assert.match(note(KIREI), /Ausnahme/);
+  assert.doesNotMatch(note(SHIZUKA), /Ausnahme/);
+  assert.doesNotMatch(note(ANZEN), /Ausnahme/);
+});
+
+test('rule', () => {
+  assert.ok(rule(IRU_ENTER, 'te').includes('る → って · 入る → 入って'));
+  assert.ok(rule(NOMU, 'nai').includes('む → まない'));
+  assert.ok(rule(KAU, 'nai').includes('う → わない'));
+  assert.match(rule(IKU, 'te'), /Ausnahme/);
+  assert.ok(rule(TABERU, 'ta').includes('る weg + た'));
+  assert.ok(rule(KURU, 'nai').includes('こない'));
+  assert.ok(rule(TAKAI, 'te').includes('い → くて'));
+  assert.ok(rule(II, 'nai').includes('Ausnahme いい → よ'));
+  assert.ok(rule(SHIZUKA, 'adverb').includes('Stamm + に'));
+});
+
+test('rule: Grundform ist die Form, auf der die Regel arbeitet', () => {
+  assert.ok(rule(IRU_ENTER, 'plain').endsWith('入ります → 入る'));
+  assert.ok(rule(IRU_ENTER, 'masen').endsWith('入ります → 入りません'));
+  assert.ok(rule(IRU_ENTER, 'nakatta').endsWith('入らない → 入らなかった'));
+  assert.ok(rule(IRU_ENTER, 'teimasu').endsWith('入って → 入っています'));
+  assert.ok(rule(IRU_ENTER, 'nai').endsWith('入る → 入らない'));
+  assert.equal(rule(TAKAI, 'plain'), 'です weg · 高いです → 高い');
+  assert.ok(rule(TAKAI, 'politePast').endsWith('高かった → 高かったです'));
+  assert.ok(rule(TAKAI, 'politeNeg').endsWith('高くない → 高くないです'));
+  assert.ok(rule(TAKAI, 'politeNegPast').endsWith('高くなかった → 高くなかったです'));
+  assert.equal(rule(II, 'plain'), 'です weg · いいです → いい');
+  assert.ok(rule(II, 'nai').startsWith('Ausnahme いい → よ: '));
+  assert.equal(rule(SHIZUKA, 'plain'), 'です → だ · 静かです → 静かだ');
+  assert.ok(rule(SHIZUKA, 'politeNeg').endsWith('静か → 静かじゃありません'));
+});
+
+test('jedes Feld hat eine Regel und jedes Ergebnis eine Gruppen-Erklärung', () => {
+  const load = (file, name) =>
+    new Function(readFileSync(new URL(file, import.meta.url), 'utf8') + `; return ${name};`)();
+  const items = [...load('./data/vocab.js', 'VOCAB'), ...load('./data/basics.js', 'BASICS')];
+  for (const v of items.filter(v => /Verb|Adjektiv/.test(v.pos))) {
+    const f = drill.drillForms(v);
+    assert.ok(f.groupNote && !/undefined/.test(f.groupNote), `${v.word}: groupNote`);
+    for (const fld of f.fields) {
+      assert.ok(fld.rule && !/undefined/.test(fld.rule), `${v.word} ${fld.key}: rule`);
+      assert.ok(fld.rule.endsWith(' → ' + fld.word.split('／')[0]), `${v.word} ${fld.key}: ${fld.rule}`);
+    }
+  }
+});

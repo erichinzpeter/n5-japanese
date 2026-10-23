@@ -4,6 +4,14 @@
 
 ---
 
+## [3.32.0] — 2026-10-23
+
+### Neu
+
+- **Neues Deck „Verben im Satz“ (活).** 62 Lückensätze zu den Mustern, die auf einer Verbform aufbauen: Rat geben und abraten (飲んだほうがいい / 飲まないほうがいい), Erfahrung (行ったことがあります), Aufzählung (見たり、したり), gerade eben (起きたばかり), Reihenfolge (寝る前に / してから / 終わった後で), ています, Erlaubnis und Verbot (〜てもいい / 〜てはいけません) und 〜ないでください. Erst tippt man das Muster, sitzt ein Satz, auch die Verbform.
+- **Kleidung anziehen: 着る, はく, かぶる, かける.** 12 Sätze im Deck „Verben im Satz“ — erst das passende Verb tippen (帽子を[かぶります]), dann auch das Kleidungsstück. Dazu eine Konzeptkarte mit der Übersicht, welches Verb zu welchem Körperteil gehört, und neue Vokabelkarten für はく, かぶる, 脱ぐ, 帽子, ズボン und スカート.
+- **Durchkonjugieren: Formen wählen und Logik verstehen.** Im Startdialog wählt man per Kacheln, welche Formen abgefragt werden — z. B. nur die て-Form, oder て und た; „Alle“ ist die schwere Stufe mit allen Feldern. Oben auf der Karte steht jetzt die Gruppe mit Begründung (auch Ausnahmen wie 入る: sieht aus wie Gruppe 2, ist Gruppe 1), und nach dem Prüfen steht unter jedem Feld, wie die Form gebildet wird (入る → る → って → 入って).
+
 ## [3.31.0] — 2026-10-23
 
 ### Neu

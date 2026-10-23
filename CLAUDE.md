@@ -20,15 +20,16 @@ git push origin main     # deployed automatisch via GitHub Pages
 - `srs.js`       — Spaced-Repetition-Logik (pure module, `node --test`)
 - `cloze.js`     — Lückensatz für die Wiedervorlage nach einem Fehler (pure module, `node --test`)
 - `drill.js`     — Durchkonjugieren: Felder pro Verb/Adjektiv + Antwortprüfung (pure module, `node --test`)
-- `compare.js`   — Tipp-Decks Vergleiche + Adjektive im Satz: Lücken und Stufen (pure module, `node --test`)
+- `compare.js`   — Tipp-Decks Vergleiche + Adjektive im Satz + Verben im Satz: Lücken und Stufen (pure module, `node --test`)
 - `data/comparisons.js` — `const COMPARISONS` (40 Einträge)
 - `data/adjsentences.js` — `const ADJ_SENTENCES` (40 Einträge)
+- `data/verbsentences.js` — `const VERB_SENTENCES` (62 Einträge)
 - `furigana.js`  — Lesung eines Kanji im Beispielsatz per Ausrichtung von Satz und Kana-Zeile (pure module, `node --test`)
 - `data/kanji.js`    — const KANJI (170 Einträge)
-- `data/vocab.js`    — const VOCAB (1023 Einträge: 430 easy / 593 adv)
+- `data/vocab.js`    — const VOCAB (1029 Einträge: 433 easy / 596 adv)
 - `data/grammar.js`  — const GRAMMAR (63 Einträge)
 - `data/basics.js`   — const BASICS (13 Einträge)
-- `data/concepts.js` — const CONCEPTS (60 Einträge)
+- `data/concepts.js` — const CONCEPTS (61 Einträge)
 
 ## Architektur & Datenstrukturen
 

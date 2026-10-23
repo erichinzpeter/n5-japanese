@@ -5,6 +5,7 @@ const state = {
   direction: 'jp-de',
   mode: 'flashcard',  // 'flashcard' | 'mc' | 'conjugation' | 'drill' | 'compare'
   form: 'dict',       // 'dict' | 'masu' — nur Verben-Deck: Wörterbuchform vs. ます-Form
+  drillGroups: null,  // Durchkonjugieren (Verben/Adjektive): IDs der gewählten Formgruppen
   deck: null,
   session: [],
   sessionIdx: 0,
@@ -37,7 +38,7 @@ function isAudioOff() {
 }
 
 // Tipp-Decks mit Lückensätzen: eine Karte und ein SRS-Eintrag pro Satz.
-const COMPARE_DECKS = { vergleiche: COMPARISONS, adjsatz: ADJ_SENTENCES };
+const COMPARE_DECKS = { vergleiche: COMPARISONS, adjsatz: ADJ_SENTENCES, verbsatz: VERB_SENTENCES };
 
 const DECK_MODES = {
   kanji:     ['flashcard', 'mc'],
@@ -49,6 +50,7 @@ const DECK_MODES = {
   grammar:   ['flashcard', 'mc'],
   vergleiche: ['compare'],
   adjsatz:   ['compare'],
+  verbsatz:  ['compare'],
   all:       ['flashcard', 'mc'],
 };
 
@@ -76,6 +78,7 @@ const DECK_TITLES = {
   grammar: 'Grammatik üben',
   vergleiche: 'Vergleiche üben',
   adjsatz: 'Adjektive im Satz üben',
+  verbsatz: 'Verben im Satz üben',
   all: 'Zufall üben',
 };
 
@@ -84,9 +87,9 @@ function loadModalPrefs() {
   catch { return {}; }
 }
 
-function saveModalPrefs(deck, mode, direction, count, form) {
+function saveModalPrefs(deck, mode, direction, count, form, drillGroups) {
   const prefs = loadModalPrefs();
-  prefs[deck] = { mode, direction, count, form };
+  prefs[deck] = { mode, direction, count, form, drillGroups };
   localStorage.setItem(MODAL_PREFS_KEY, JSON.stringify(prefs));
 }
 
@@ -95,9 +98,56 @@ let modalLastFocus = null;
 // Nur das Verben-Deck hat eine ます-Form, und die Konjugations-Drills fragen Formen schon
 // explizit ab — dort wäre der Toggle sinnlos. Überall sonst gilt zwingend 'dict'.
 // Die Richtung entfällt bei Grammatik und beim Durchkonjugieren (immer höfliche Form → Formen).
+// Formgruppen des Durchkonjugierens: nur Verben- und Adjektive-Deck.
+function drillGroupsFor(deck) {
+  return deck === 'verben' ? DRILL_FORM_GROUPS.verb : deck === 'adjektive' ? DRILL_FORM_GROUPS.adj : null;
+}
+
+// Kacheln „Welche Formen?“: Mehrfachauswahl, mindestens eine bleibt gewählt.
+function renderDrillFormTiles(deck) {
+  const groups = drillGroupsFor(deck);
+  const wrap = document.getElementById('modal-drillforms');
+  wrap.innerHTML = '';
+  if (!groups) return;
+  const ids = groups.map(g => g.id);
+  const selected = new Set(state.drillGroups);
+  const sync = () => {
+    state.drillGroups = ids.filter(id => selected.has(id));
+    wrap.querySelectorAll('[data-group]').forEach(b => b.classList.toggle('active', selected.has(b.dataset.group)));
+    wrap.querySelector('[data-group-all]').classList.toggle('active', selected.size === ids.length);
+  };
+  groups.forEach(g => {
+    const btn = document.createElement('button');
+    btn.className = 'mode-btn drillform-btn';
+    btn.dataset.group = g.id;
+    btn.textContent = g.label;
+    btn.addEventListener('click', () => {
+      if (selected.has(g.id)) { if (selected.size > 1) selected.delete(g.id); }
+      else selected.add(g.id);
+      sync();
+    });
+    wrap.appendChild(btn);
+  });
+  const all = document.createElement('button');
+  all.className = 'mode-btn drillform-btn';
+  all.dataset.groupAll = '1';
+  all.textContent = 'Alle (schwer)';
+  all.addEventListener('click', () => {
+    const wasAll = selected.size === ids.length;
+    selected.clear();
+    (wasAll ? [ids[0]] : ids).forEach(id => selected.add(id));
+    sync();
+  });
+  wrap.appendChild(all);
+  sync();
+}
+
 function syncFormToggle(deck) {
   const show = deck === 'verben' && state.mode !== 'conjugation' && state.mode !== 'drill';
   document.getElementById('modal-form-wrap').classList.toggle('hidden', !show);
+  const showForms = state.mode === 'drill' && !!drillGroupsFor(deck);
+  document.getElementById('modal-drillforms-wrap').classList.toggle('hidden', !showForms);
+  if (showForms) renderDrillFormTiles(deck);
   if (!show) state.form = 'dict';
   document.querySelectorAll('#modal-form-toggle .mode-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.form === state.form)
@@ -118,6 +168,12 @@ function openStartModal(deck) {
   state.direction = initialDir;
   state.roundSize = initialCount;
   state.form = initialForm;
+  const groupDefs = drillGroupsFor(deck);
+  if (groupDefs) {
+    const known = groupDefs.map(g => g.id);
+    const saved = Array.isArray(prefs.drillGroups) ? prefs.drillGroups.filter(id => known.includes(id)) : [];
+    state.drillGroups = saved.length ? saved : known;
+  } else state.drillGroups = null;
 
   document.getElementById('start-modal-title').textContent = DECK_TITLES[deck] || 'Üben';
 
@@ -213,7 +269,7 @@ function collectDeckCards(deck) {
     if (state.mode === 'drill') {
       // Eine Karte pro Wort; die SRS-Einträge hängen an den einzelnen Formen (srsIds).
       items.forEach(v => {
-        const forms = drillForms(v);
+        const forms = drillFormsFor(v, state.drillGroups);
         if (forms) cards.push({
           item: v, type: 'drill', dir: 'fwd', id: v.id, forms,
           srsIds: forms.fields.map(f => drillSrsId(v, f.key)),
@@ -398,7 +454,7 @@ function launchSession(deck, sessionCards, freePractice = false) {
   state.lastDeck = deck;
   state.caughtUp = false;
 
-  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', adverbien: 'Adverbien', sonstiges: 'Sonstiges', grammar: 'Grammatik', vergleiche: 'Vergleiche', adjsatz: 'Adjektive im Satz', all: 'Zufall' };
+  const deckLabels = { kanji: 'Kanji', nomen: 'Nomen', verben: 'Verben', adjektive: 'Adjektive', adverbien: 'Adverbien', sonstiges: 'Sonstiges', grammar: 'Grammatik', vergleiche: 'Vergleiche', adjsatz: 'Adjektive im Satz', verbsatz: 'Verben im Satz', all: 'Zufall' };
   document.getElementById('session-deck-label').textContent = deckLabels[deck] || deck.toUpperCase();
 
   // Desktop-only hint (hidden on touch): MC uses number keys to pick an answer.
@@ -868,6 +924,7 @@ function drillInputHtml(field, idx) {
         <span class="drill-solution-reading">${escHtml(field.reading)}</span>
         ${speakBtn(field.reading.split('／')[0], 'btn-speak-word')}
       </div>
+      <div class="drill-rule hidden">${escHtml(field.rule)}</div>
     </div>`;
 }
 
@@ -877,7 +934,8 @@ function renderDrillCard() {
   const panel = prepareTypingPanel();
 
   const idx = new Map(forms.fields.map((f, i) => [f, i]));
-  const tableFields = forms.fields.filter(f => f.col);
+  // Nur mit allen Feldern gibt es die Tabelle; bei einer Auswahl stehen alle Felder einzeln darunter.
+  const tableFields = forms.full ? forms.fields.filter(f => f.col) : [];
   const rows = [...new Set(tableFields.map(f => f.row))];
   // Die höfliche Gegenwart hat kein Feld — dort steht die vorgegebene Form.
   const cell = (row, col) => {
@@ -889,9 +947,9 @@ function renderDrillCard() {
     <div class="drill-row-label">${escHtml(row)}</div>
     ${cell(row, 'einfach')}
     ${cell(row, 'höflich')}`).join('');
-  const extrasHtml = forms.fields.filter(f => !f.col).map(f => `
+  const extrasHtml = forms.fields.filter(f => !tableFields.includes(f)).map(f => `
     <div class="drill-extra">
-      <div class="drill-row-label">${escHtml(f.row)}</div>
+      <div class="drill-row-label">${escHtml(forms.full ? f.row : f.label)}</div>
       ${drillInputHtml(f, idx.get(f))}
     </div>`).join('');
 
@@ -899,6 +957,7 @@ function renderDrillCard() {
   panel.innerHTML = `
     <div class="drill-head">
       <div class="card-type-label">${escHtml(kind)}</div>
+      <div class="drill-group-note">${escHtml(forms.groupNote)}</div>
       <div class="drill-given">
         <span class="drill-given-word">${escHtml(forms.given.word)}</span>
         ${speakBtn(forms.given.reading.split('／')[0], 'btn-speak-word')}
@@ -906,12 +965,12 @@ function renderDrillCard() {
       <div class="drill-given-reading">${escHtml(forms.given.reading)}</div>
       <div class="drill-meaning">${escHtml(item.meaning)}</div>
     </div>
-    <div class="drill-table">
+    ${tableFields.length ? `<div class="drill-table">
       <div class="drill-col-head">einfach</div>
       <div class="drill-col-head">höflich</div>
       ${rowsHtml}
-    </div>
-    <div class="drill-extras">${extrasHtml}</div>`;
+    </div>` : ''}
+    <div class="drill-extras${tableFields.length ? '' : ' drill-extras--solo'}">${extrasHtml}</div>`;
   finishTypingPanel(panel);
 }
 
@@ -964,7 +1023,7 @@ function compareGapHtml(gap, idx) {
   const width = Math.max(3, [...gap.reading].length + 1);
   return `<span class="compare-gap"><input class="drill-input compare-input" data-idx="${idx}" style="width:${width}em"
     lang="ja" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="next"
-    aria-label="Lücke ${idx + 1}: ${gap.kind === 'adj' ? 'Adjektiv' : gap.kind === 'ending' ? 'Endung' : 'Vergleichswort'}"><span class="compare-solution hidden">${escHtml(gap.word)}</span></span>`;
+    aria-label="Lücke ${idx + 1}: ${gap.kind === 'adj' ? gap.label : gap.kind === 'ending' ? 'Endung' : 'Muster'}"><span class="compare-solution hidden">${escHtml(gap.word)}</span></span>`;
 }
 
 function renderCompareCard() {
@@ -1005,6 +1064,9 @@ function checkDrill() {
     input.readOnly = true;
     input.classList.add(ok ? 'drill-input--ok' : 'drill-input--wrong');
     if (!ok) input.nextElementSibling.classList.remove('hidden');
+    // Bildungsweg bei allen Feldern (nur Drill-Zellen haben einen; Lücken in Vergleichen nicht).
+    const rule = input.parentElement.querySelector('.drill-rule');
+    if (rule) rule.classList.remove('hidden');
     return { field, ok };
   });
   if (card.type === 'compare') panel.querySelector('.compare-after').classList.remove('hidden');
@@ -2355,7 +2417,7 @@ function initEvents() {
   document.getElementById('modal-start-btn').addEventListener('click', () => {
     const deck = state.pendingDeck;
     if (!deck) return;
-    saveModalPrefs(deck, state.mode, state.direction, state.roundSize, state.form);
+    saveModalPrefs(deck, state.mode, state.direction, state.roundSize, state.form, state.drillGroups);
     closeStartModal();
     startSession(deck, state.direction);
   });

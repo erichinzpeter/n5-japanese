@@ -1,4 +1,4 @@
-const CACHE = 'n5-v110';
+const CACHE = 'n5-v111';
 const ASSETS = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const ASSETS = [
   './compare.js',
   './data/comparisons.js',
   './data/adjsentences.js',
+  './data/verbsentences.js',
   './pos.js',
   './srs.js',
   './fonts/noto-sans-jp.woff2',
